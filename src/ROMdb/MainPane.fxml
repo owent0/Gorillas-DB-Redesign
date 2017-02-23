@@ -69,12 +69,12 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
+                        <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button id="button_estimationBase" fx:id="button_estimationBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#displayEstimationBase" prefHeight="27.0" prefWidth="136.0" text="Estimation Base" />
+                        <Button id="button_estimationBase" fx:id="button_estimationBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="27.0" prefWidth="136.0" text="Estimation Base" />
                         <Button fx:id="button_baseline" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Change Baseline">
                            <VBox.margin>
                               <Insets top="80.0" />
@@ -95,9 +95,9 @@
             </BorderPane>
          </left>
          <center>
-            <StackPane fx:id="stackPane_main" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <StackPane fx:id="stackPane_main" prefHeight="150.0" prefWidth="512.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane prefHeight="361.0" prefWidth="10.0">
+                  <Pane fx:id="pane_estimationBase" prefHeight="508.0" prefWidth="589.0">
                      <children>
                         <Label fx:id="label_baseline" layoutX="38.0" layoutY="18.0" text="Baseline" />
                         <Label fx:id="label_element" layoutX="38.0" layoutY="42.0" text="Element" />
@@ -108,7 +108,7 @@
                         <Label fx:id="label_cscPmo" layoutX="29.0" layoutY="241.0" text="CSC PMO%" />
                         <Label fx:id="label_elementAdmin" layoutX="23.0" layoutY="266.0" text="Element Admin%" />
                         <Label fx:id="label_elementTest" layoutX="29.0" layoutY="291.0" text="Element Test%" />
-                        <ComboBox fx:id="combo_baseline" layoutX="104.0" layoutY="14.0" prefWidth="150.0" />
+                        <ComboBox fx:id="combo_estimateBaseline" layoutX="104.0" layoutY="14.0" prefWidth="150.0" />
                         <ComboBox fx:id="combo_element" layoutX="104.0" layoutY="38.0" prefWidth="150.0" />
                         <TextField fx:id="field_staffDay" layoutX="152.0" layoutY="187.0" prefHeight="25.0" prefWidth="53.0" />
                         <TextField fx:id="field_seSupport" layoutX="152.0" layoutY="213.0" prefHeight="25.0" prefWidth="53.0" />
@@ -138,12 +138,12 @@
                         <TextField fx:id="field_codeWeight" layoutX="440.0" layoutY="213.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_defaultSlocs" layoutX="440.0" layoutY="162.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_designWeight" layoutX="440.0" layoutY="187.0" prefHeight="25.0" prefWidth="121.0" />
-                        <TextField fx:id="field_coddDocument" layoutX="440.0" layoutY="287.0" prefHeight="25.0" prefWidth="120.0" />
+                        <TextField fx:id="field_cpddDocument" layoutX="440.0" layoutY="287.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_cpddDate" layoutX="440.0" layoutY="312.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_budgetUpgrade" layoutX="440.0" layoutY="337.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_budgetMaint" layoutX="441.0" layoutY="363.0" prefHeight="25.0" prefWidth="120.0" />
                         <TextField fx:id="field_ddrCwtSlocs" layoutX="440.0" layoutY="388.0" prefHeight="25.0" prefWidth="120.0" />
-                        <Button fx:id="button_submit" layoutX="374.0" layoutY="425.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Submit" />
+                        <Button fx:id="button_esimateSubmit" layoutX="374.0" layoutY="425.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Submit" />
                      </children>
                   </Pane>
                   <TabPane id="pane_requirementsEntry" fx:id="tabPane_requirementsEntry" tabClosingPolicy="UNAVAILABLE" visible="false">
