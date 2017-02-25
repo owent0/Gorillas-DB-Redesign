@@ -7,10 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 
 public class EstimationController {
 
@@ -49,14 +47,66 @@ public class EstimationController {
 
     @FXML private Button button_esimateSubmit;
 
-
     public void test1() {
         System.out.println("Test");
     }
 
+    @FXML
+    public void errorChecking() {
+        String error = "";
+        try {
+            error = "SLOCs/Staff Month";
+            Double.parseDouble(field_staffMonth.getText());
+            error = "SLOCs/Staff-Day";
+            Double.parseDouble(field_staffDay.getText());
+            error = "DDR/CWT SLOCS";
+            Double.parseDouble(field_ddrCwtSlocs.getText());
+            error = "Integration Weight";
+            Double.parseDouble(field_intergrationWeight.getText());
+            error = "Unit Test Weight";
+            Double.parseDouble(field_unitTestingWeight.getText());
+            error = "Code Weight";
+            Double.parseDouble(field_codeWeight.getText());
+            error = "Default SLOCS";
+            Double.parseDouble(field_defaultSlocs.getText());
+            error = "Design Weight";
+            Double.parseDouble(field_designWeight.getText());
+            error = "Budget Upgrade";
+            Double.parseDouble(field_budgetUpgrade.getText());
+            error = "Budget Maintenance";
+            Double.parseDouble(field_budgetMaint.getText());
+        }
+        catch (Exception e) {
+            error = "You've entered the wrong input for: " + error;
+            JOptionPane.showMessageDialog(null, error);
+            return;
+        }
+
+
+        if(     (Double.parseDouble(field_designWeight.getText()) + Double.parseDouble(field_codeWeight.getText()) +
+                Double.parseDouble(field_intergrationWeight.getText()) + Double.parseDouble(field_unitTestingWeight.getText())) != 100  )
+        {
+            error = "Your weights do not add up to 100";
+            JOptionPane.showMessageDialog(null, error);
+        }
+
+        /** If they want empty text fields to be checked...
+         *
+        if(         field_budgetMaint.getText().equals("") || field_designWeight.getText().equals("") || field_designWeight.getText().equals("")
+                || field_designWeight.getText().equals("") || field_designWeight.getText().equals("") || field_designWeight.getText().equals("")
+                || field_designWeight.getText().equals("") || field_designWeight.getText().equals("") || field_designWeight.getText().equals("")) {
+
+        }
+        */
+    }
+
+    //          String s = "          Hello World                    ";
+    // ---->     s.trim()
+    // ---->     s = "Hello World"
     public void writeToDB() {
         try
         {
+
             //Connection conn = DriverManager.getConnection(
             //            "jdbc:ucanaccess://TestDatabase.accdb");
 
