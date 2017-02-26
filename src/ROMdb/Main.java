@@ -1,3 +1,4 @@
+package ROMdb;
 /**
  * @author Team Gorillas
  * 2-13-17
@@ -19,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("UserInterface.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/MainView.fxml"));
         primaryStage.setTitle("ROM Database");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
