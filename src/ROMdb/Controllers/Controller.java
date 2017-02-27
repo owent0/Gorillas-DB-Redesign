@@ -10,9 +10,8 @@ import javafx.scene.layout.StackPane;
 /**
  * Created by Team Gorillas on 2/19/2017.
  */
-public class Controller {
-
-
+public class Controller
+{
     @FXML private EstimationController estimationController;
     @FXML private RequirementsController requirementsController;
 
@@ -33,13 +32,15 @@ public class Controller {
 
 
     @FXML
-    public void viewEstimationBase() {
+    public void viewEstimationBase()
+    {
         anchor_estimation.setVisible(true);
         anchor_requirements.setVisible(false);
     }
 
     @FXML
-    public void viewRequirementsEntry() {
+    public void viewRequirementsEntry()
+    {
         anchor_estimation.setVisible(false);
         anchor_requirements.setVisible(true);
     }
