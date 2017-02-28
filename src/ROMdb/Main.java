@@ -24,12 +24,13 @@ public class Main extends Application
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Views/MainView.fxml"));
 
-        Controller controller = loader.<Controller>getController();
-        controller.setLoader(loader);
+        //Controller controller = loader.<Controller>getController();
+        //controller.setLoader(loader);
 
         Parent root = loader.load();
         primaryStage.setTitle("ROM Database");
-        primaryStage.setScene(new Scene(root, 1000, 800));
+        primaryStage.setScene(new Scene(root, 890, 555));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }
