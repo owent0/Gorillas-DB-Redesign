@@ -11,6 +11,11 @@ import javafx.scene.*;
 import javafx.stage.*;
 import ROMdb.Controllers.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Main extends Application
 {
 
@@ -32,5 +37,6 @@ public class Main extends Application
         primaryStage.setScene(new Scene(root, 890, 555));
         primaryStage.setResizable(false);
         primaryStage.show();
+
     }
 }
