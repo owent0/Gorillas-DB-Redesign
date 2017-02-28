@@ -11,90 +11,58 @@ import javafx.scene.layout.Pane;
 
 import javax.swing.*;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EstimationController {
 
-    private final static String path = "jdbc:ucanaccess://C://Users//Anthony Orio//Desktop//Rowan//Software Engineering//Project//Gorillas-DB-Redesign//src//ROMdb//rom_dcti Update 2012 Rev 1.mdb";
+    private final static String path =
+            "jdbc:ucanaccess://C://Users//Anthony Orio//Desktop//Rowan//Software Engineering//Project//Gorillas-DB-Redesign//src//ROMdb//rom_dcti Update 2012 Rev 1.mdb";
 
-    private double staffDay, staffMonth, cprs, integrationWeight,
-            unitTestingWeight, codeWeight, defaultSlocs,
-            designWeight, budgetUpgrade, budgetMaint, ddrCwtSlocs;
+    private double  staffDay, staffMonth, cprs, integrationWeight,
+                    unitTestingWeight, codeWeight, defaultSlocs,
+                    designWeight, budgetUpgrade, budgetMaint,
+                    ddrCwtSlocs;
+
+    private final double STAFF_MONTH_DIVISOR = 20.92;
 
     private Connection conn = null;
 
-    @FXML
-    private Pane estimationBase;
+    @FXML private Pane estimationBase;
 
-    @FXML
-    private Label label_baseline;
-    @FXML
-    private Label label_cprs;
-    @FXML
-    private Label label_staffMonth;
-    @FXML
-    private Label label_staffDay;
-    @FXML
-    private Label label_ddrCwtSlocs;
-    @FXML
-    private Label label_cpddDocument;
-    @FXML
-    private Label label_cpddDate;
-    @FXML
-    private Label label_budgetUpgrade;
-    @FXML
-    private Label label_budgetMaintenance;
-    @FXML
-    private Label label_designWeight;
-    @FXML
-    private Label label_codeWeight;
-    @FXML
-    private Label label_unitTestingWeight;
-    @FXML
-    private Label label_integrationWeight;
-    @FXML
-    private Label label_defaultSlocs;
+    @FXML private Label label_baseline;
+    @FXML private Label label_cprs;
+    @FXML private Label label_staffMonth;
+    @FXML private Label label_staffDay;
+    @FXML private Label label_ddrCwtSlocs;
+    @FXML private Label label_cpddDocument;
+    @FXML private Label label_cpddDate;
+    @FXML private Label label_budgetUpgrade;
+    @FXML private Label label_budgetMaintenance;
+    @FXML private Label label_designWeight;
+    @FXML private Label label_codeWeight;
+    @FXML private Label label_unitTestingWeight;
+    @FXML private Label label_integrationWeight;
+    @FXML private Label label_defaultSlocs;
 
-    @FXML
-    private ComboBox<String> combo_estimateBaseline;
+    @FXML private ComboBox<String> combo_estimateBaseline;
 
 
-    @FXML
-    private TextField field_staffDay;
-    @FXML
-    private TextField field_staffMonth;
-    @FXML
-    private TextField field_cprs;
-    @FXML
-    private TextField field_integrationWeight;
-    @FXML
-    private TextField field_unitTestingWeight;
-    @FXML
-    private TextField field_codeWeight;
-    @FXML
-    private TextField field_defaultSlocs;
-    @FXML
-    private TextField field_designWeight;
-    @FXML
-    private TextField field_cpddDocument;
-    @FXML
-    private TextField field_cpddDate;
-    @FXML
-    private TextField field_budgetUpgrade;
-    @FXML
-    private TextField field_budgetMaint;
-    @FXML
-    private TextField field_ddrCwtSlocs;
+    @FXML private TextField field_staffDay;
+    @FXML private TextField field_staffMonth;
+    @FXML private TextField field_cprs;
+    @FXML private TextField field_integrationWeight;
+    @FXML private TextField field_unitTestingWeight;
+    @FXML private TextField field_codeWeight;
+    @FXML private TextField field_defaultSlocs;
+    @FXML private TextField field_designWeight;
+    @FXML private TextField field_cpddDocument;
+    @FXML private TextField field_cpddDate;
+    @FXML private TextField field_budgetUpgrade;
+    @FXML private TextField field_budgetMaint;
+    @FXML private TextField field_ddrCwtSlocs;
 
-    @FXML
-    private Button button_estimateSubmit;
-
-    public void test1() {
-        System.out.println("Test");
-
-    }
+    @FXML private Button button_estimateSubmit;
 
 
     @FXML
@@ -201,10 +169,22 @@ public class EstimationController {
 
     }
 
+    @FXML
+    private void calculateStaffDay() {
 
-    //          String s = "          Hello World                    ";
-    // ---->     s.trim()
-    // ---->     s = "Hello World"
+        String result = "";
+        if (field_staffMonth.getText().equals("")) {
+            result = "0.0";
+        } else {
+            DecimalFormat df = new DecimalFormat("#.##");
+            staffDay
+                    = Double.parseDouble(field_staffMonth.getText()) / STAFF_MONTH_DIVISOR ;
+            result = df.format(staffDay);
+        }
+
+        field_staffDay.setText(result);
+    }
+
     public void writeTextfieldsToDB() {
 
         try
@@ -230,7 +210,7 @@ public class EstimationController {
             */
 
             String baseline = combo_estimateBaseline.getSelectionModel().getSelectedItem();
-            System.out.println(baseline);
+            //System.out.println(baseline);
             String insertQuery = "UPDATE basicrom SET [slocspermanday]=?, [slocspermanmonth]=?, [cprs]=?, [IntergrationWeight]=?, "
                 + "[UnitTestWeight]=?, [CodeWeight]=?, [DefaultSLOCS]=?, [DesignWeight]=?, [CPDDDocument]=?, [CPDDDate]=?, [Budget Upgrade]=?, "
                 + "[Budget Maintenance]=?, [DDR/CWT SLOCS]=? WHERE [baseline]=?";
@@ -240,11 +220,11 @@ public class EstimationController {
             st.setString(1, field_staffDay.getText());
             st.setString(2, field_staffMonth.getText());
             st.setString(3, field_cprs.getText());
-            st.setString(4, field_integrationWeight.getText());
-            st.setString(5, field_unitTestingWeight.getText());
-            st.setString(6, field_codeWeight.getText());
+            st.setString(4, Double.toString((Double.parseDouble(field_integrationWeight.getText()) / 100)));
+            st.setString(5, Double.toString((Double.parseDouble(field_unitTestingWeight.getText()) / 100)));
+            st.setString(6, Double.toString((Double.parseDouble(field_codeWeight.getText()) / 100)));
             st.setString(7, field_defaultSlocs.getText());
-            st.setString(8, field_designWeight.getText());
+            st.setString(8, Double.toString((Double.parseDouble(field_designWeight.getText()) / 100)));
             st.setString(9, field_cpddDocument.getText());
             st.setString(10, field_cpddDate.getText());
             st.setString(11, field_budgetUpgrade.getText());
@@ -336,12 +316,12 @@ public class EstimationController {
                     field_staffDay.setText(rs.getString("slocspermanday"));
                     field_staffMonth.setText(rs.getString("slocspermanmonth"));
                     field_cprs.setText(rs.getString("cprs"));
-                    field_integrationWeight.setText(rs.getString("IntergrationWeight"));
-                    field_unitTestingWeight.setText(rs.getString("UnitTestWeight"));
-                    field_codeWeight.setText(rs.getString("CodeWeight"));
+                    field_integrationWeight.setText(Double.toString(Double.parseDouble(rs.getString("IntergrationWeight")) * 100));
+                    field_unitTestingWeight.setText(Double.toString(Double.parseDouble(rs.getString("UnitTestWeight")) * 100));
+                    field_codeWeight.setText(Double.toString(Double.parseDouble(rs.getString("CodeWeight")) * 100));
 
                     field_defaultSlocs.setText(rs.getString("DefaultSLOCS"));
-                    field_designWeight.setText(rs.getString("DesignWeight"));
+                    field_designWeight.setText(Double.toString(Double.parseDouble(rs.getString("DesignWeight")) * 100));
                     field_cpddDocument.setText(rs.getString("CPDDDocument"));
                     field_cpddDate.setText(rs.getString("CPDDDate"));
                     field_budgetUpgrade.setText(rs.getString("Budget Upgrade"));

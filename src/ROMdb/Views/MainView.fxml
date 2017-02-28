@@ -7,27 +7,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.Controller">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.Controller">
    <children>
       <VBox layoutX="10.0" layoutY="36.0" prefHeight="487.0" prefWidth="136.0">
          <children>
-            <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="SC/ICR">
+            <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="SC/ICR" visible="false">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
+            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry" visible="false">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
             <Button id="button_estimationBase" fx:id="button_estimationBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="27.0" prefWidth="136.0" text="Estimation Base" />
-            <Button fx:id="button_baseline" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Change Baseline">
+            <Button fx:id="button_baseline" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Change Baseline" visible="false">
                <VBox.margin>
                   <Insets top="80.0" />
                </VBox.margin>
             </Button>
-            <TextField prefHeight="25.0" prefWidth="95.0">
+            <TextField prefHeight="25.0" prefWidth="95.0" visible="false">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin></TextField>

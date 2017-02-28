@@ -5,12 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 /**
  * Created by Team Gorillas on 2/19/2017.
  */
 public class Controller
 {
     public FXMLLoader loader;
+
+    private Connection conn = null;
 
     @FXML private EstimationController estimationController;
     @FXML private RequirementsController requirementsController;
@@ -32,7 +37,36 @@ public class Controller
     public void initialize()
     {
         System.out.println("Controller class initialized!");
+    }
 
+    @FXML
+    public void insertBaseline() {
+        /*String baseline = combo_estimateBaseline.getSelectionModel().getSelectedItem();
+        //System.out.println(baseline);
+        String insertQuery = "UPDATE basicrom SET [slocspermanday]=?, [slocspermanmonth]=?, [cprs]=?, [IntergrationWeight]=?, "
+                + "[UnitTestWeight]=?, [CodeWeight]=?, [DefaultSLOCS]=?, [DesignWeight]=?, [CPDDDocument]=?, [CPDDDate]=?, [Budget Upgrade]=?, "
+                + "[Budget Maintenance]=?, [DDR/CWT SLOCS]=? WHERE [baseline]=?";
+
+        PreparedStatement st = conn.prepareStatement(insertQuery);
+
+        st.setString(1, field_staffDay.getText());
+        st.setString(2, field_staffMonth.getText());
+        st.setString(3, field_cprs.getText());
+        st.setString(4, field_integrationWeight.getText());
+        st.setString(5, field_unitTestingWeight.getText());
+        st.setString(6, field_codeWeight.getText());
+        st.setString(7, field_defaultSlocs.getText());
+        st.setString(8, field_designWeight.getText());
+        st.setString(9, field_cpddDocument.getText());
+        st.setString(10, field_cpddDate.getText());
+        st.setString(11, field_budgetUpgrade.getText());
+        st.setString(12, field_budgetMaint.getText());
+        st.setString(13, field_ddrCwtSlocs.getText());
+        st.setString(14, baseline);
+
+        System.out.println(st.toString());
+
+        st.executeUpdate();*/
     }
 
     @FXML
