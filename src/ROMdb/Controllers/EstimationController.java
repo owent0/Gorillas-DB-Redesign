@@ -12,8 +12,6 @@ import java.sql.*;
 
 public class EstimationController {
 
-    private String dbPath = "jdbc:ucanaccess://C://Users//Anthony Orio//Desktop//Rowan//Software Engineering//Project//Gorillas-DB-Redesign//src//ROMdb//rom_dcti Update 2012 Rev 1.mdb";
-
     @FXML private Pane estimationBase;
 
     @FXML private Label label_baseline;
@@ -106,22 +104,14 @@ public class EstimationController {
     // ---->     s.trim()
     // ---->     s = "Hello World"
     public void writeToDB() {
-
-        errorChecking();
-
-        try {
-            Connection conn = DriverManager.getConnection(dbPath);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void readFromDB() {
         try
         {
-            Connection conn = DriverManager.getConnection(dbPath);
+
+            //Connection conn = DriverManager.getConnection(
+            //            "jdbc:ucanaccess://TestDatabase.accdb");
+
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:ucanaccess://C://Users//Anthony Orio//Desktop//Rowan//Software Engineering//Project//Gorillas-DB-Redesign//src//ROMdb//rom_dcti Update 2012 Rev 1.mdb");
 
             String query = "SELECT * FROM basicrom";
             Statement st = conn.createStatement();
@@ -135,6 +125,7 @@ public class EstimationController {
                 System.out.println(" , City : "+ rs.getString(4)); //3rd column of Table
 
             }
+            //s.close();
             conn.close();
         }
         catch (Exception e)
