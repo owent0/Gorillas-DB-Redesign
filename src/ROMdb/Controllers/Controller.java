@@ -1,17 +1,17 @@
 package ROMdb.Controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 /**
  * Created by Team Gorillas on 2/19/2017.
  */
 public class Controller
 {
+    public FXMLLoader loader;
+
     @FXML private EstimationController estimationController;
     @FXML private RequirementsController requirementsController;
 
@@ -28,8 +28,12 @@ public class Controller
     @FXML private Button button_exit;                 // Exit button.
     @FXML private Button button_baseline;             // Button to change base line
 
+    @FXML
+    public void initialize()
+    {
+        System.out.println("Controller class initialized!");
 
-
+    }
 
     @FXML
     public void viewEstimationBase()
@@ -43,5 +47,16 @@ public class Controller
     {
         anchor_estimation.setVisible(false);
         anchor_requirements.setVisible(true);
+    }
+
+    @FXML
+    public void exitProgram()
+    {
+        System.exit(0);
+    }
+
+    public void setLoader(FXMLLoader loader)
+    {
+        this.loader = loader;
     }
 }
