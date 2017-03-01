@@ -1,22 +1,31 @@
+/**
+ * This is the controller that will be used for any actions that are
+ * performed outside of each of the menus. It will decide which menus
+ * to display, handling exiting the program, the menu bar and any other
+ * external functions to each specific menu.
+ */
+
 package ROMdb.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 
 /**
  * Created by Team Gorillas on 2/19/2017.
  */
 public class Controller
 {
+    // The loader object for FXML.
     public FXMLLoader loader;
 
+    // Will be used as the global connection to database.
     private Connection conn = null;
 
+    /** References to other controllers go here. */
     @FXML private EstimationController estimationController;
     @FXML private RequirementsController requirementsController;
 
@@ -33,42 +42,11 @@ public class Controller
     @FXML private Button button_exit;                 // Exit button.
     @FXML private Button button_baseline;             // Button to change base line
 
-    @FXML
-    public void initialize()
-    {
-        System.out.println("Controller class initialized!");
-    }
 
-    @FXML
-    public void insertBaseline() {
-        /*String baseline = combo_estimateBaseline.getSelectionModel().getSelectedItem();
-        //System.out.println(baseline);
-        String insertQuery = "UPDATE basicrom SET [slocspermanday]=?, [slocspermanmonth]=?, [cprs]=?, [IntergrationWeight]=?, "
-                + "[UnitTestWeight]=?, [CodeWeight]=?, [DefaultSLOCS]=?, [DesignWeight]=?, [CPDDDocument]=?, [CPDDDate]=?, [Budget Upgrade]=?, "
-                + "[Budget Maintenance]=?, [DDR/CWT SLOCS]=? WHERE [baseline]=?";
-
-        PreparedStatement st = conn.prepareStatement(insertQuery);
-
-        st.setString(1, field_staffDay.getText());
-        st.setString(2, field_staffMonth.getText());
-        st.setString(3, field_cprs.getText());
-        st.setString(4, field_integrationWeight.getText());
-        st.setString(5, field_unitTestingWeight.getText());
-        st.setString(6, field_codeWeight.getText());
-        st.setString(7, field_defaultSlocs.getText());
-        st.setString(8, field_designWeight.getText());
-        st.setString(9, field_cpddDocument.getText());
-        st.setString(10, field_cpddDate.getText());
-        st.setString(11, field_budgetUpgrade.getText());
-        st.setString(12, field_budgetMaint.getText());
-        st.setString(13, field_ddrCwtSlocs.getText());
-        st.setString(14, baseline);
-
-        System.out.println(st.toString());
-
-        st.executeUpdate();*/
-    }
-
+    /**
+     * Set the estimation base pane to visible when button is hit.
+     * All others are set to invisible.
+     */
     @FXML
     public void viewEstimationBase()
     {
@@ -76,6 +54,11 @@ public class Controller
         anchor_requirements.setVisible(false);
     }
 
+
+    /**
+     * Set the requirements pane to visible when button is hit.
+     * All others are set to invisible.
+     */
     @FXML
     public void viewRequirementsEntry()
     {
@@ -83,12 +66,20 @@ public class Controller
         anchor_requirements.setVisible(true);
     }
 
+
+    /**
+     * Handles the action when the user selects exit button.
+     */
     @FXML
     public void exitProgram()
     {
         System.exit(0);
     }
 
+    /**
+     * Loader setter method.
+     * @param loader The FXML loader.
+     */
     public void setLoader(FXMLLoader loader)
     {
         this.loader = loader;

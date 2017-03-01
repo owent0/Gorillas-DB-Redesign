@@ -26,8 +26,8 @@
       <ComboBox fx:id="combo_estimateBaseline" layoutX="114.0" layoutY="24.0" onAction="#fillTextFieldsFromDB" prefWidth="150.0" />
 
       <TextField fx:id="field_cprs" layoutX="115.0" layoutY="94.0" />
-      <TextField fx:id="field_staffMonth" layoutX="162.0" layoutY="172.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="53.0" />
-      <TextField fx:id="field_staffDay" editable="false" layoutX="162.0" layoutY="197.0" prefHeight="25.0" prefWidth="53.0" />
+      <TextField fx:id="field_staffMonth" layoutX="162.0" layoutY="172.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_staffDay" editable="false" layoutX="162.0" layoutY="197.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_defaultSlocs" layoutX="450.0" layoutY="172.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_designWeight" layoutX="450.0" layoutY="197.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_codeWeight" layoutX="450.0" layoutY="222.0" prefHeight="25.0" prefWidth="120.0" />
@@ -39,6 +39,6 @@
       <TextField fx:id="field_budgetMaint" layoutX="450.0" layoutY="372.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_ddrCwtSlocs" layoutX="450.0" layoutY="397.0" prefHeight="25.0" prefWidth="120.0" />
 
-      <Button fx:id="button_estimateSubmit" layoutX="450.0" layoutY="433.0" mnemonicParsing="false" onAction="#writeTextfieldsToDB" prefHeight="25.0" prefWidth="120.0" text="Save" />
+      <Button fx:id="button_estimateSubmit" layoutX="450.0" layoutY="433.0" mnemonicParsing="false" onAction="#errorChecking" prefHeight="25.0" prefWidth="120.0" text="Save" />
    </children>
 </Pane>
