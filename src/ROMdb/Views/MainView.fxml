@@ -11,22 +11,17 @@
    <children>
       <VBox layoutX="10.0" layoutY="36.0" prefHeight="487.0" prefWidth="136.0">
          <children>
-            <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="SC/ICR" visible="false">
+            <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="27.0" prefWidth="136.0" text="SC/ICR">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry" visible="false">
+            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
             <Button id="button_estimationBase" fx:id="button_estimationBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="27.0" prefWidth="136.0" text="Estimation Base" />
-            <Button fx:id="button_baseline" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Change Baseline" visible="false">
-               <VBox.margin>
-                  <Insets top="80.0" />
-               </VBox.margin>
-            </Button>
             <TextField prefHeight="25.0" prefWidth="95.0" visible="false">
                <VBox.margin>
                   <Insets top="5.0" />
@@ -40,6 +35,11 @@
       </VBox>
       <Pane fx:id="pane_menu" layoutX="185.0" layoutY="36.0" prefHeight="513.0" prefWidth="600.0">
          <children>
+            <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <fx:include source="Main_SC:ICR.fxml" />
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="anchor_estimation" minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="600.0" visible="false">
                <children>
                   <fx:include source="EstimationBaseView.fxml" />

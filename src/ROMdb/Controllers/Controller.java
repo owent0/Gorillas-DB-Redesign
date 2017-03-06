@@ -28,6 +28,7 @@ public class Controller
     /** References to other controllers go here. */
     @FXML private EstimationController estimationController;
     @FXML private RequirementsController requirementsController;
+    @FXML private ScIcrController scIcrController;
 
     /** These all link into the Scene Builder ID field for the components.
      *  It is how we can reference them in the java code. */
@@ -35,6 +36,7 @@ public class Controller
 
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
+    @FXML private AnchorPane anchor_mainScIcr;
 
     @FXML private Button button_estimationBase;       // Button switch to estimation base pane.
     @FXML private Button button_SCICR;                // Button to switch to SC/ICR entry pane.
@@ -52,6 +54,7 @@ public class Controller
     {
         anchor_estimation.setVisible(true);
         anchor_requirements.setVisible(false);
+        anchor_mainScIcr.setVisible(false);
     }
 
 
@@ -64,6 +67,15 @@ public class Controller
     {
         anchor_estimation.setVisible(false);
         anchor_requirements.setVisible(true);
+        anchor_mainScIcr.setVisible(false);
+    }
+
+    @FXML
+    public void viewMainScIcr()
+    {
+        anchor_estimation.setVisible(false);
+        anchor_requirements.setVisible(false);
+        anchor_mainScIcr.setVisible(true);
     }
 
 
