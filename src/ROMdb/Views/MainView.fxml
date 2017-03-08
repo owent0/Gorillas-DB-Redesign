@@ -37,7 +37,7 @@
          <children>
             <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <fx:include source="Main_SC:ICR.fxml" />
+                  <fx:include source="Main_SCICR.fxml" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchor_estimation" minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="600.0" visible="false">
