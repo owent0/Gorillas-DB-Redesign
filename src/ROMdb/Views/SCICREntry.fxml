@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
+   <children>
+      <TableView fx:id="table_ScIcr" editable="true" layoutX="16.0" layoutY="96.0" prefHeight="391.0" prefWidth="598.0">
+        <columns>
+          <TableColumn fx:id="tableColumn_scicr" prefWidth="111.0" text="SC/ICR" />
+          <TableColumn fx:id="tableColumn_number" prefWidth="68.0" text="Number" />
+            <TableColumn fx:id="tableColumn_title" prefWidth="154.0" text="Title" />
+            <TableColumn fx:id="tableColumn_build" prefWidth="144.0" text="Build" />
+            <TableColumn fx:id="tableColumn_baseline" prefWidth="120.0" text="Baseline" />
+        </columns>
+      </TableView>
+      <ComboBox fx:id="combo_ScIcrBaseline" layoutX="14.0" layoutY="53.0" onAction="#buildTable" prefWidth="150.0" promptText="Baseline" />
+   </children>
+</Pane>
