@@ -7,6 +7,7 @@
 package ROMdb.Controllers;
 
 import ROMdb.Main;
+import ROMdb.ScicrRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -325,7 +326,7 @@ public class EstimationController {
     public void initialize()
     {
         try
-        {
+         {
             // Establish the connection.
             this.conn = DriverManager.getConnection(Main.dbPath);;
 
@@ -442,5 +443,8 @@ public class EstimationController {
 
         return bases;
     }
+
+
+
 }
 

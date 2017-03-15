@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.Controller">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <children>
       <VBox layoutX="10.0" layoutY="36.0" prefHeight="487.0" prefWidth="136.0">
          <children>
@@ -37,7 +37,7 @@
          <children>
             <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <fx:include source="Main_SCICR.fxml" />
+                  <fx:include source="SCICREntry.fxml" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchor_estimation" minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="600.0" visible="false">
