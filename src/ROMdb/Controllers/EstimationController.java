@@ -328,7 +328,7 @@ public class EstimationController {
         try
          {
             // Establish the connection.
-            this.conn = DriverManager.getConnection(Main.dbPath);;
+            this.conn = DriverManager.getConnection(Main.dbPath);
 
             // Fill the baseline drop down menu with current baselines.
             combo_estimateBaseline.setItems(fillBaselineFromDB());

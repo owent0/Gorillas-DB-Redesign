@@ -183,15 +183,13 @@ public class SCICRController {
 
     @FXML
     private void createNewSCICR() throws IOException {
-        //anchor_newScIcr.setVisible(true);
-        //anchor_newScIcr.toFront();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/SCICRCreation.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
 
-        stage.setTitle("ROM Database");
-        stage.setScene(new Scene(root, 400, 300));
+        stage.setTitle("New SC/ICR Creation");
+        stage.setScene(new Scene(root, 325, 255));
         stage.setResizable(false);
         stage.show();
     }
