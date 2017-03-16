@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <children>
       <VBox layoutX="10.0" layoutY="36.0" prefHeight="487.0" prefWidth="136.0">
          <children>
             <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="27.0" prefWidth="136.0" text="SC/ICR">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="15.0" />
                </VBox.margin>
             </Button>
             <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
@@ -28,7 +28,7 @@
                </VBox.margin></TextField>
             <Button fx:id="button_exit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="27.0" prefWidth="136.0" text="Exit Program">
                <VBox.margin>
-                  <Insets top="245.0" />
+                  <Insets top="325.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -50,6 +50,10 @@
                   <fx:include source="RequirementsEntryView.fxml" />
                </children>
             </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <fx:include source="SCICRCreation.fxml" />
+               </children></AnchorPane>
          </children>
       </Pane>
    </children>

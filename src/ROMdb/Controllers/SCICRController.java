@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -33,6 +34,10 @@ public class SCICRController {
     @FXML private TableColumn tableColumn_baseline;
     @FXML private TableColumn tableColumn_title;
     @FXML private TableColumn tableColumn_build;
+
+    @FXML private Button button_newSCICR;
+
+    @FXML private AnchorPane anchor_newScIcr;
 
     @FXML
     public void initialize()
@@ -169,5 +174,10 @@ public class SCICRController {
             JOptionPane.showMessageDialog(null, e);
         }
         return rows;
+    }
+
+    private void createNewSCICR() {
+        anchor_newScIcr.setVisible(true);
+        anchor_newScIcr.toFront();
     }
 }
