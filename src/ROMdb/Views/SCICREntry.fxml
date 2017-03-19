@@ -17,7 +17,7 @@
             <TableColumn fx:id="tableColumn_baseline" prefWidth="120.0" text="Baseline" />
         </columns>
       </TableView>
-      <ComboBox fx:id="combo_ScIcrBaseline" layoutX="14.0" layoutY="53.0" onAction="#buildTable" prefWidth="150.0" promptText="Baseline" />
+      <ComboBox fx:id="combo_ScIcrBaseline" layoutX="14.0" layoutY="53.0" onAction="#switchTableData" prefWidth="150.0" promptText="Baseline" />
       <Button fx:id="button_newSCICR" layoutX="512.0" layoutY="53.0" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR" />
    </children>
 </Pane>

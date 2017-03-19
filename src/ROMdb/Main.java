@@ -10,12 +10,16 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.stage.*;
 
-import java.io.File;
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 
 public class Main extends Application
 {
+    public static Connection conn = null;
     public static String dbPath = "jdbc:ucanaccess://";
+    public static FileHandler fileHandler = new FileHandler();
     /**
      * Main gateway.
      * @param args : command line arguments.
@@ -33,20 +37,13 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        // Create a file chooser object to select database.
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Database Resource File");
+        dbPath = dbPath + fileHandler.getFilePath();
 
-        // Filters out all other file types.
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Database Files", "*.mdb"));
-
-        // Return the file and then extract its path.
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        if (selectedFile != null) {
-            dbPath += selectedFile.getPath();
+        try {
+            this.conn = DriverManager.getConnection(Main.dbPath);
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Views/MainView.fxml"));
         Parent root = loader.load();

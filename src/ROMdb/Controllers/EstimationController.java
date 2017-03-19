@@ -7,7 +7,6 @@
 package ROMdb.Controllers;
 
 import ROMdb.Main;
-import ROMdb.ScicrRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,9 +21,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class EstimationController {
-
-    // Connection for database.
-    private Connection conn = null;
 
     // For calculating staff day.
     private final double STAFF_MONTH_DIVISOR = 20.92;
@@ -277,7 +273,7 @@ public class EstimationController {
                                  + "[Budget Maintenance]=?, [DDR/CWT SLOCS]=? WHERE [baseline]=?";
 
             // Create a new statement.
-            PreparedStatement st = conn.prepareStatement(insertQuery);
+            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
             /** Parse all of the information and stage for writing. */
             st.setString(1, field_staffDay.getText());
@@ -325,19 +321,7 @@ public class EstimationController {
     @FXML
     public void initialize()
     {
-        try
-         {
-            // Establish the connection.
-            this.conn = DriverManager.getConnection(Main.dbPath);
-
-            // Fill the baseline drop down menu with current baselines.
-            combo_estimateBaseline.setItems(fillBaselineFromDB());
-            //fillTextFieldsFromDB();
-        }
-        catch (Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        combo_estimateBaseline.setItems(fillBaselineFromDB());
     }
 
     /**
@@ -358,7 +342,7 @@ public class EstimationController {
             String query = "SELECT * FROM basicrom";
 
             // Create the statement to send.
-            Statement st = conn.createStatement();
+            Statement st = Main.conn.createStatement();
 
             // Return the result set from this query.
             ResultSet rs = st.executeQuery(query);
@@ -420,17 +404,17 @@ public class EstimationController {
         try
         {
             // Grab all the baselines.
-            String query = "SELECT * FROM basicrom";
+            String query = "SELECT * FROM baseline";
 
             // Create the statement.
-            Statement st = conn.createStatement();
+            Statement st = Main.conn.createStatement();
 
             // Get the result set from the query.
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) // Retrieve data from ResultSet
             {
-                baselines.add(rs.getString(3)); //4th column of Table
+                baselines.add(rs.getString("baseline")); //4th column of Table
             }
         }
         catch (Exception e)

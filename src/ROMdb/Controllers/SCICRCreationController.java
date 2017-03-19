@@ -1,10 +1,12 @@
 package ROMdb.Controllers;
 
 import ROMdb.Main;
+import ROMdb.ScicrRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.sql.*;
@@ -14,8 +16,6 @@ import java.util.ArrayList;
  * Created by chris on 3/15/2017.
  */
 public class SCICRCreationController {
-
-    private Connection conn = null;
 
     @FXML private Label label_scicr;
     @FXML private Label label_title;
@@ -39,15 +39,7 @@ public class SCICRCreationController {
     @FXML
     public void initialize()
     {
-        try {
-            // Establish the connection.
-            this.conn = DriverManager.getConnection(Main.dbPath);
-
-            combo_baseline.setItems(fillBaselineFromDB());
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        combo_baseline.setItems(fillBaselineFromDB());
     }
 
     /**
@@ -64,17 +56,17 @@ public class SCICRCreationController {
         try
         {
             // Grab all the baselines.
-            String query = "SELECT * FROM basicrom";
+            String query = "SELECT * FROM baseline";
 
             // Create the statement.
-            Statement st = conn.createStatement();
+            Statement st = Main.conn.createStatement();
 
             // Get the result set from the query.
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) // Retrieve data from ResultSet
             {
-                baselines.add(rs.getString(3)); //4th column of Table
+                baselines.add(rs.getString("baseline")); //4th column of Table
             }
         }
         catch (Exception e)
@@ -96,10 +88,22 @@ public class SCICRCreationController {
     @FXML
     public void saveSCICR()
     {
+        boolean valid = false;
+        ScicrRow newSCICR = null;
+
+        // The currently selected baseline from the drop down.
+        String baseline = combo_baseline.getSelectionModel().getSelectedItem();
+
         try
         {
-            // The currently selected baseline from the drop down.
-            String baseline = combo_baseline.getSelectionModel().getSelectedItem();
+            if( errorsExist() ) {
+                valid = false;
+                throw new Exception();
+            }
+
+            valid = true;
+
+
             String SCorICR = "";
 
             if(radio_icr.isSelected()){
@@ -108,13 +112,15 @@ public class SCICRCreationController {
                 SCorICR = radio_sc.getText();
             }
 
+
+            newSCICR = new ScicrRow(SCorICR, field_number.getText(), field_title.getText(), field_build.getText(), baseline);
             System.out.println(SCorICR);
 
             // The query to insert the data from the fields.
             String insertQuery =    "INSERT INTO scdata ([SC_ICR Number], [type], [title], [function], [SC Baseline]) VALUES (?, ?, ?, ?, ?)";
 
             // Create a new statement.
-            PreparedStatement st = conn.prepareStatement(insertQuery);
+            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
             /** Parse all of the information and stage for writing. */
             st.setString(1, field_number.getText());
@@ -128,11 +134,37 @@ public class SCICRCreationController {
         }
         catch (Exception e)
         {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "You must fill out all fields or cancel.");
         }
 
-        //button_newSCICR.getScene().getWindow().hide();
+        if( valid ) {
+            closeScene(button_save);
+            SCICRController.map.get(baseline).add(newSCICR);
+        }
     }
 
+    @FXML
+    private boolean errorsExist() {
 
+        if(field_title.getText() == null || field_title.getText().trim().equals("")) {
+            return true;
+        }
+        if(field_number.getText() == null || field_number.getText().trim().equals("")) {
+            return true;
+        }
+        if(field_build.getText() == null || field_build.getText().trim().equals("")) {
+            return true;
+        }
+        if(combo_baseline.getSelectionModel().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @FXML
+    private void closeScene(Button button) {
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+    }
 }

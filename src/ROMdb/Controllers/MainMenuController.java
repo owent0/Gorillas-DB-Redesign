@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import java.sql.Connection;
 
 
 /**
@@ -21,9 +20,6 @@ public class MainMenuController
 {
     // The loader object for FXML.
     public FXMLLoader loader;
-
-    // Will be used as the global connection to database.
-    private Connection conn = null;
 
     /** References to other controllers go here. */
     @FXML private EstimationController estimationController;

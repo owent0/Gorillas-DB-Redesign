@@ -17,18 +17,19 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Team Gorillas on 3/14/2017
  */
 public class SCICRController {
 
-    private Connection conn = null;
+    public static HashMap<String, ObservableList<ScicrRow>> map;
+
+    @FXML private SCICRCreationController scicrCreationController;
 
     @FXML private ComboBox<String> combo_ScIcrBaseline;
 
@@ -47,19 +48,12 @@ public class SCICRController {
     @FXML
     public void initialize()
     {
-        try {
-            // Establish the connection.
-            this.conn = DriverManager.getConnection(Main.dbPath);
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+        map = new HashMap<>();
 
         combo_ScIcrBaseline.setItems(fillBaselineFromDB());
 
         createFactories();
-
-
+        fillTable();
     }
 
     private void createFactories()
@@ -105,7 +99,7 @@ public class SCICRController {
             String query = "SELECT * FROM baseline";
 
             // Create the statement.
-            Statement st = conn.createStatement();
+            Statement st = Main.conn.createStatement();
 
             // Get the result set from the query.
             ResultSet rs = st.executeQuery(query);
@@ -128,59 +122,57 @@ public class SCICRController {
      * Puts all the items into the correct columns.
      */
     @FXML
-    public void buildTable()
+    public void switchTableData()
     {
-        ObservableList data = createRowObjects();
+        //ObservableList data = createRowObjects();
+        String selectedBaseline = combo_ScIcrBaseline.getSelectionModel().getSelectedItem();
+        ObservableList data = map.get(selectedBaseline);
         table_ScIcr.setItems(data);
     }
 
 
-    /**
-     * Creates the query and grabs the information from the database. It
-     * then creates objects for each row of the table and stores it into
-     * an ObservableList for use.
-     * @return The ObservableList of ScicrRow objects.
-     */
     @FXML
-    private ObservableList<ScicrRow> createRowObjects()
-    {
-        // Initialize rows list.
-        ObservableList rows = FXCollections.observableArrayList();
+    private void fillTable() {
+        ObservableList<String> baselines = fillBaselineFromDB();
 
-        try {
-            // Get selected baseline from combo.
-            String baseline = combo_ScIcrBaseline.getSelectionModel().getSelectedItem();
+        for( String baseline : baselines ) {
 
-            // Create query to grab all rows.
-            String query = "SELECT * FROM scdata";
+            // Initialize rows list.
+            ObservableList rows = FXCollections.observableArrayList();
 
-            // Create the statement to send.
-            Statement st = conn.createStatement();
+            try {
 
-            // Return the result set from this query.
-            ResultSet rs = st.executeQuery(query);
+                // Create query to grab all rows.
+                String query = "SELECT * FROM scdata";
 
-            while (rs.next()) { // Retrieve data from ResultSet
+                // Create the statement to send.
+                Statement st = Main.conn.createStatement();
 
-                // We need to add a "All" feature to show all baselines.
-                if( rs.getString("SC Baseline").equals(baseline) ) {
-                    ScicrRow temp = new ScicrRow(
-                            rs.getString("SC_ICR"),
-                            rs.getString("SC_ICR Number"),
-                            rs.getString("Title"),
-                            rs.getString("Function"),
-                            rs.getString("SC Baseline")
-                    );
-                    rows.add(temp);
+                // Return the result set from this query.
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) { // Retrieve data from ResultSet
+
+                    // We need to add a "All" feature to show all baselines.
+                    if( rs.getString("SC Baseline").equals(baseline) ) {
+                        ScicrRow temp = new ScicrRow(
+                                rs.getString("SC_ICR"),
+                                rs.getString("SC_ICR Number"),
+                                rs.getString("Title"),
+                                rs.getString("Function"),
+                                rs.getString("SC Baseline")
+                        );
+                        rows.add(temp);
+                    }
                 }
             }
-        }
-        catch(Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return rows;
-    }
+            catch(Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
 
+            this.map.put(baseline, rows);
+        }
+    }
     @FXML
     private void createNewSCICR() throws IOException {
 
