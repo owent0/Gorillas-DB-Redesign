@@ -7,10 +7,18 @@
 
 package ROMdb.Controllers;
 
+import ROMdb.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 
 /**
@@ -21,14 +29,50 @@ public class MainMenuController
     // The loader object for FXML.
     public FXMLLoader loader;
 
-    /** These all link into the Scene Builder ID field for the components.
-     *  It is how we can reference them in the java code. */
-    @FXML private Pane pane_menu;
+    public static ObservableList<String> baselines = fetchBaselinesFromDB();
 
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
 
+
+    /**
+     * This method will read all of the baselines currently stored within
+     * the baseline database table.
+     *
+     * @return ObservableList the list containing the baseline from the baselines table.
+     */
+    private static ObservableList<String> fetchBaselinesFromDB() {
+
+        // The list to store the baselines in temporarily.
+        ArrayList<String> baselines = new ArrayList<String>();
+
+        try
+        {
+            // Grab all the baselines.
+            String query = "SELECT * FROM baseline";
+
+            // Create the statement.
+            Statement st = Main.conn.createStatement();
+
+            // Get the result set from the query.
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) // Retrieve data from ResultSet
+            {
+                baselines.add(rs.getString("baseline")); //4th column of Table
+            }
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        // Convert to observable list for FXML purposes.
+        ObservableList bases = FXCollections.observableArrayList(baselines);
+
+        return bases;
+    }
 
     /**
      * Set the estimation base pane to visible when button is hit.

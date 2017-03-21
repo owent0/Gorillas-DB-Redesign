@@ -2,7 +2,6 @@ package ROMdb.Controllers;
 
 import ROMdb.Main;
 import ROMdb.ScicrRow;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -15,7 +14,6 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -23,7 +21,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 /**
@@ -49,7 +47,7 @@ public class SCICRController {
     {
         map = new HashMap<>();
 
-        combo_ScIcrBaseline.setItems(fillBaselineFromDB());
+        combo_ScIcrBaseline.setItems(MainMenuController.baselines);
 
         createFactories();
         fillTable();
@@ -132,44 +130,6 @@ public class SCICRController {
         );
     }
 
-
-    /**
-     * This method will read all of the baselines currently stored within
-     * the baseline database table.
-     *
-     * @return ObservableList the list containing the baseline from the baselines table.
-     */
-    @FXML
-    private ObservableList<String> fillBaselineFromDB()
-    {
-
-        // The list to store the baselines in temporarily.
-        ArrayList<String> baselines = new ArrayList<String>();
-
-        try {
-            // Grab all the baselines.
-            String query = "SELECT * FROM baseline";
-
-            // Create the statement.
-            Statement st = Main.conn.createStatement();
-
-            // Get the result set from the query.
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {// Retrieve data from ResultSet
-                baselines.add(rs.getString("baseline")); //1st column of Table
-            }
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-        // Convert to observable list for FXML purposes.
-        ObservableList bases = FXCollections.observableArrayList(baselines);
-
-        return bases;
-    }
-
     /**
      * Puts all the items into the correct columns.
      */
@@ -185,9 +145,9 @@ public class SCICRController {
 
     @FXML
     private void fillTable() {
-        ObservableList<String> baselines = fillBaselineFromDB();
+        ObservableList<String> baselines = MainMenuController.baselines;
 
-        for( String baseline : baselines ) {
+        for( String baseline : MainMenuController.baselines ) {
 
             // Initialize rows list.
             ObservableList rows = FXCollections.observableArrayList();
@@ -221,7 +181,7 @@ public class SCICRController {
                 }
             }
             catch(Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
             }
 
             this.map.put(baseline, rows);
@@ -275,7 +235,7 @@ public class SCICRController {
         }
         catch (Exception e)
         {
-            JOptionPane.showMessageDialog(null, e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not add entry.", ButtonType.OK);
         }
     }
 }

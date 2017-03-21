@@ -2,8 +2,6 @@ package ROMdb.Controllers;
 
 import ROMdb.Main;
 import ROMdb.ScicrRow;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +12,6 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
 
 /**
  * Created by chris on 3/15/2017.
@@ -36,45 +33,7 @@ public class SCICRCreationController {
     @FXML
     public void initialize()
     {
-        combo_baseline.setItems(fillBaselineFromDB());
-    }
-
-    /**
-     * This method will read all of the baselines currently stored within
-     * the baseline database table.
-     *
-     * @return ObservableList the list containing the baseline from the baselines table.
-     */
-    private ObservableList<String> fillBaselineFromDB() {
-
-        // The list to store the baselines in temporarily.
-        ArrayList<String> baselines = new ArrayList<String>();
-
-        try
-        {
-            // Grab all the baselines.
-            String query = "SELECT * FROM baseline";
-
-            // Create the statement.
-            Statement st = Main.conn.createStatement();
-
-            // Get the result set from the query.
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) // Retrieve data from ResultSet
-            {
-                baselines.add(rs.getString("baseline")); //4th column of Table
-            }
-        }
-        catch (Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-        // Convert to observable list for FXML purposes.
-        ObservableList bases = FXCollections.observableArrayList(baselines);
-
-        return bases;
+        combo_baseline.setItems(MainMenuController.baselines);
     }
 
     /**
@@ -110,7 +69,6 @@ public class SCICRCreationController {
             }
 
             newSCICR = new ScicrRow(SCorICR, field_number.getText(), field_title.getText(), field_build.getText(), baseline);
-            System.out.println(SCorICR);
 
             // The query to insert the data from the fields.
             String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
@@ -130,7 +88,8 @@ public class SCICRCreationController {
         }
         catch (Exception e)
         {
-            JOptionPane.showMessageDialog(null, "You must fill out all fields or cancel.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You must fill out all fields.\n" + e, ButtonType.OK);
+            alert.showAndWait();
         }
 
         if( valid ) {
@@ -166,10 +125,11 @@ public class SCICRCreationController {
         Stage stage = new Stage();
 
         stage.setTitle("Baseline Creation");
-        stage.setScene(new Scene(root, 325, 255));
+        stage.setScene(new Scene(root, 375, 255));
         stage.setResizable(false);
         stage.show();
     }
+
 
     @FXML
     private void closeScene(Button button) {
