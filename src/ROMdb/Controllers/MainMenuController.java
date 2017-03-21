@@ -21,12 +21,6 @@ public class MainMenuController
     // The loader object for FXML.
     public FXMLLoader loader;
 
-    /** References to other controllers go here. */
-    @FXML private EstimationController estimationController;
-    @FXML private RequirementsController requirementsController;
-    @FXML private SCICRController SCICRController;
-    @FXML private SCICRCreationController SCICRCreationController;
-
     /** These all link into the Scene Builder ID field for the components.
      *  It is how we can reference them in the java code. */
     @FXML private Pane pane_menu;
@@ -34,13 +28,6 @@ public class MainMenuController
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
-
-
-    @FXML private Button button_estimationBase;       // Button switch to estimation base pane.
-    @FXML private Button button_SCICR;                // Button to switch to SC/ICR entry pane.
-    @FXML private Button button_requirementsEntry;    // Button to switch to requirements entry pane.
-    @FXML private Button button_exit;                 // Exit button.
-    @FXML private Button button_baseline;             // Button to change base line
 
 
     /**

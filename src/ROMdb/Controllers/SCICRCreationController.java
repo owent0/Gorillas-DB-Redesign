@@ -5,10 +5,14 @@ import ROMdb.ScicrRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,12 +20,6 @@ import java.util.ArrayList;
  * Created by chris on 3/15/2017.
  */
 public class SCICRCreationController {
-
-    @FXML private Label label_scicr;
-    @FXML private Label label_title;
-    @FXML private Label label_number;
-    @FXML private Label label_build;
-    @FXML private Label label_baseline;
 
     @FXML private TextField field_title;
     @FXML private TextField field_number;
@@ -33,7 +31,6 @@ public class SCICRCreationController {
     @FXML private ComboBox<String> combo_baseline;
 
     @FXML private Button button_save;
-    @FXML private Button button_newBaseline;
 
 
     @FXML
@@ -112,12 +109,11 @@ public class SCICRCreationController {
                 SCorICR = radio_sc.getText();
             }
 
-
             newSCICR = new ScicrRow(SCorICR, field_number.getText(), field_title.getText(), field_build.getText(), baseline);
             System.out.println(SCorICR);
 
             // The query to insert the data from the fields.
-            String insertQuery =    "INSERT INTO scdata ([SC_ICR Number], [type], [title], [function], [SC Baseline]) VALUES (?, ?, ?, ?, ?)";
+            String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
 
             // Create a new statement.
             PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -160,6 +156,19 @@ public class SCICRCreationController {
         }
 
         return false;
+    }
+
+    @FXML
+    private void createNewBaseline() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        stage.setTitle("Baseline Creation");
+        stage.setScene(new Scene(root, 325, 255));
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML

@@ -7,13 +7,14 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class ScicrRow {
 
+    private int id;
     private SimpleStringProperty type;
     private SimpleStringProperty number;
     private SimpleStringProperty title;
     private SimpleStringProperty build;
     private SimpleStringProperty baseline;
 
-    public ScicrRow(String type, String number, String title, String build, String baseline) {
+    public ScicrRow( String type, String number, String title, String build, String baseline) {
         this.type       = new SimpleStringProperty(type);
         this.number     = new SimpleStringProperty(number);
         this.title      = new SimpleStringProperty(title);
@@ -21,6 +22,31 @@ public class ScicrRow {
         this.baseline   = new SimpleStringProperty(baseline);
     }
 
+    public void setID(int id) {
+        this.id         = id;
+    }
+
+    public void setType(String type) {
+        this.type.set(type);
+    }
+
+    public void setNumber(String number) {
+        this.number.set(number);
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
+    public void setBuild(String build) {
+        this.build.set(build);
+    }
+
+    public void setBaseline(String baseline) {
+        this.baseline.set(baseline);
+    }
+
+    public int getId()  { return this.id; }
     public String getBaseline() {
         return baseline.get();
     }

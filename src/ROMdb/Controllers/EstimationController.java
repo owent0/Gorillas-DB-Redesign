@@ -25,24 +25,6 @@ public class EstimationController {
     // For calculating staff day.
     private final double STAFF_MONTH_DIVISOR = 20.92;
 
-    /** The components on the GUI                           */
-    @FXML private Pane estimationBase;
-
-    @FXML private Label label_baseline;
-    @FXML private Label label_cprs;
-    @FXML private Label label_staffMonth;
-    @FXML private Label label_staffDay;
-    @FXML private Label label_ddrCwtSlocs;
-    @FXML private Label label_cpddDocument;
-    @FXML private Label label_cpddDate;
-    @FXML private Label label_budgetUpgrade;
-    @FXML private Label label_budgetMaintenance;
-    @FXML private Label label_designWeight;
-    @FXML private Label label_codeWeight;
-    @FXML private Label label_unitTestingWeight;
-    @FXML private Label label_integrationWeight;
-    @FXML private Label label_defaultSlocs;
-
     @FXML private ComboBox<String> combo_estimateBaseline;
 
     @FXML private TextField field_staffDay;
@@ -59,7 +41,6 @@ public class EstimationController {
     @FXML private TextField field_budgetMaint;
     @FXML private TextField field_ddrCwtSlocs;
 
-    @FXML private Button button_estimateSubmit;
     /** End GUI components                                          */
 
 

@@ -25,6 +25,6 @@
          </toggleGroup></RadioButton>
       <RadioButton fx:id="radio_icr" layoutX="209.0" layoutY="31.0" mnemonicParsing="false" text="ICR" toggleGroup="$group" />
       <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="159.0" onAction="#initialize" prefHeight="25.0" prefWidth="185.0" />
-      <Button fx:id="button_newBaseline" layoutX="104.0" layoutY="201.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="New Baseline" />
+      <Button fx:id="button_newBaseline" layoutX="104.0" layoutY="201.0" mnemonicParsing="false" onAction="#createNewBaseline" prefHeight="25.0" prefWidth="116.0" text="New Baseline" />
    </children>
 </AnchorPane>
