@@ -36,11 +36,28 @@ public class FileHandler {
         }
     }
 
+    public void writeNewPath(String path) throws IOException, URISyntaxException {
+        String savePath = FileHandler.class
+                        .getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                        .toURI()
+                        .getPath();
+
+        File file = new File(savePath + "path.dat");
+
+        BufferedWriter bw = new BufferedWriter( new FileWriter(file) );
+
+        bw.write(path);
+        bw.flush();
+        bw.close();
+    }
+
     public File retrieveFile() throws URISyntaxException, IOException {
         String path = FileHandler.class
                         .getProtectionDomain()
                         .getCodeSource()
-                        .getLocation()          // oh dear
+                        .getLocation()
                         .toURI()
                         .getPath();
 

@@ -117,7 +117,6 @@ public class SCICRCreationController {
 
     @FXML
     private void createNewBaseline() throws IOException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
