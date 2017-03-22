@@ -1,7 +1,6 @@
 package ROMdb.Controllers;
 
-import ROMdb.Main;
-import ROMdb.ScicrRow;
+import ROMdb.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -27,6 +26,8 @@ import java.util.HashMap;
  */
 public class SCICRController {
 
+    // This map keeps track of the baselines and the SC/ICR objects
+    // associated with that baseline.
     public static HashMap<String, ObservableList<ScicrRow>> map;
 
     @FXML private ComboBox<String> combo_ScIcrBaseline;
@@ -40,17 +41,31 @@ public class SCICRController {
     @FXML private TableColumn tableColumn_build;
 
 
+    /**
+     * Initialize this view.
+     */
     @FXML
     public void initialize()
     {
         map = new HashMap<>();
 
+        // File the combo with the baselines list.
         combo_ScIcrBaseline.setItems(MainMenuController.baselines);
 
+        // Call to create the factories.
         createFactories();
+
+        // Call to fill the table view with the SC/ICR
+        // entries in the database.
         fillTable();
     }
 
+    /**
+     * This method creates the factories for the specified components.
+     * The factories set certain properties for the component, such as
+     * making specific cells correlate to fields or combo box within
+     * the table view.
+     */
     private void createFactories()
     {
         /** This allows for the data for each row object to be stored in the cells.
@@ -70,14 +85,15 @@ public class SCICRController {
 
     /** This allows for the cells to be editable like text fields by clicking. **/
         tableColumn_build.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_baseline.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        // tableColumn_baseline.setCellFactory(TextFieldTableCell.<String>forTableColumn()); // WE DON'T WANT TO BE ABLE TO EDIT BASELINES
         tableColumn_title.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         tableColumn_number.setCellFactory(TextFieldTableCell.<String>forTableColumn());
 
 
         tableColumn_scicr.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                     @Override
-                    public void handle(CellEditEvent<ScicrRow, String> t) {
+                    public void handle(CellEditEvent<ScicrRow, String> t)
+                    {
                         ((ScicrRow) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                         ).setType(t.getNewValue());
@@ -87,44 +103,98 @@ public class SCICRController {
         );
         tableColumn_build.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                     @Override
-                    public void handle(CellEditEvent<ScicrRow, String> t) {
-                        ((ScicrRow) t.getTableView().getItems().get(
-                               t.getTablePosition().getRow())
-                        ).setBuild(t.getNewValue());
-                        saveCellChange();
+                    public void handle(CellEditEvent<ScicrRow, String> t)
+                    {
+                        try
+                        {
+                            InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
+
+                            ((ScicrRow) t.getTableView().getItems().get(
+                                   t.getTablePosition().getRow())
+                            ).setBuild(t.getNewValue());
+                            saveCellChange();
+                        }
+                        catch(InputFormatException ife)
+                        {
+                            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Build.", ButtonType.OK);
+                            alert.showAndWait();
+
+                            table_ScIcr.refresh();
+                        }
                     }
                 }
         );
+        /*
         tableColumn_baseline.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                  @Override
-                 public void handle(CellEditEvent<ScicrRow, String> t) {
-                      ((ScicrRow) t.getTableView().getItems().get(
-                              t.getTablePosition().getRow())
-                      ).setBaseline(t.getNewValue());
-                       saveCellChange();
+                 public void handle(CellEditEvent<ScicrRow, String> t)
+                 {
+                     try
+                     {
+                         InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
+
+                          ((ScicrRow) t.getTableView().getItems().get(
+                                  t.getTablePosition().getRow())
+                          ).setBaseline(t.getNewValue());
+                           saveCellChange();
+                     }
+                     catch(InputFormatException ife)
+                     {
+                         Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Baseline.", ButtonType.OK);
+                         alert.showAndWait();
+                     }
+
                  }
             }
         );
+        */
         tableColumn_title.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                 @Override
-                public void handle(CellEditEvent<ScicrRow, String> t) {
-                     ((ScicrRow) t.getTableView().getItems().get(
-                             t.getTablePosition().getRow())
-                     ).setTitle(t.getNewValue());
-                     saveCellChange();
-                 }
+                public void handle(CellEditEvent<ScicrRow, String> t)
+                {
+                    try
+                    {
+                        InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
+
+                        ((ScicrRow) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setTitle(t.getNewValue());
+                        saveCellChange();
+
+                    }
+                    catch(InputFormatException ife)
+                    {
+
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Title.", ButtonType.OK);
+                        alert.showAndWait();
+
+                        table_ScIcr.refresh();
+                    }
+                }
             }
         );
 
         tableColumn_number.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                 @Override
                 public void handle(CellEditEvent<ScicrRow, String> t) {
+                    try
+                    {
+                        InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
+
                         ((ScicrRow) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                         ).setNumber(t.getNewValue());
                         saveCellChange();
                     }
-               }
+                    catch (InputFormatException ife)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Number.", ButtonType.OK);
+                        alert.showAndWait();
+
+                        table_ScIcr.refresh();
+                    }
+                }
+            }
         );
     }
 

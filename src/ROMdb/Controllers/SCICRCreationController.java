@@ -1,7 +1,6 @@
 package ROMdb.Controllers;
 
-import ROMdb.Main;
-import ROMdb.ScicrRow;
+import ROMdb.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -57,7 +56,6 @@ public class SCICRCreationController {
 
             valid = true;
 
-
             String SCorICR = "";
 
             if(radio_icr.isSelected()){
@@ -83,6 +81,7 @@ public class SCICRCreationController {
 
             // Perform the update inside of the table of the database.
             st.executeUpdate();
+
         }
         catch (Exception e)
         {
@@ -91,24 +90,39 @@ public class SCICRCreationController {
         }
 
         if( valid ) {
+
             closeScene(button_save);
             SCICRController.map.get(baseline).add(newSCICR);
         }
     }
 
-    @FXML
-    private boolean errorsExist() {
+    private boolean isValidInput(String inputString) throws InputFormatException
+    {
+        InputValidator.checkPatternMatch(inputString, InputType.ALPHA);
+        InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
+        return true;
+    }
 
-        if(field_title.getText() == null || field_title.getText().trim().equals("")) {
-            return true;
+    @FXML
+    private boolean errorsExist()
+    {
+        try
+        {
+            if(!isValidInput(field_title.getText())
+                    || !isValidInput(field_number.getText())
+                    || !isValidInput(field_build.getText()))
+            {
+                return true;
+            }
         }
-        if(field_number.getText() == null || field_number.getText().trim().equals("")) {
-            return true;
+        catch(InputFormatException ife)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input in one of the fields.", ButtonType.OK);
+            alert.showAndWait();
         }
-        if(field_build.getText() == null || field_build.getText().trim().equals("")) {
-            return true;
-        }
-        if(combo_baseline.getSelectionModel().isEmpty()) {
+
+        if(combo_baseline.getSelectionModel().isEmpty())
+        {
             return true;
         }
 

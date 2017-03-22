@@ -107,6 +107,10 @@ public class MainMenuController
         anchor_mainScIcr.setVisible(false);
     }
 
+    /**
+     * Set the SC/ICR entry pane to visible when button is hit.
+     * All others are set to invisible.
+     */
     @FXML
     public void viewMainScIcr()
     {
@@ -116,17 +120,28 @@ public class MainMenuController
     }
 
 
+    /**
+     * Changes the path string located in the file path.dat to a new path
+     * that the user gets with a file chooser.
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws SQLException
+     */
     @FXML
     public void changeDatabasePath() throws IOException, URISyntaxException, SQLException {
 
+        // Return the file chosen with the chooser.
         File tempFile = Main.fileHandler.useFileChooser();
 
+        // If file is null or user hits cancel.
         if(tempFile == null) {
             return;
         }
 
+        // Call to write the new path into the file.
         Main.fileHandler.writeNewPath( tempFile.getPath() );
 
+        // Alert to restart the program.
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
                  "You must restart the application for changes to take affect.\n" +
                             "Want to restart?", ButtonType.YES, ButtonType.CANCEL);
@@ -138,6 +153,10 @@ public class MainMenuController
     }
 
 
+    /**
+     * If the user chooses to add or edit a baseline from the menu bar feature.
+     * @throws IOException
+     */
     @FXML
     public void addBaselineFromMenuBar() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
