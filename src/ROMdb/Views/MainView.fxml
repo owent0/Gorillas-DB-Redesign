@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="796.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <children>
       <VBox layoutX="10.0" layoutY="36.0" prefHeight="487.0" prefWidth="136.0">
          <children>
@@ -31,12 +31,12 @@
                </VBox.margin></TextField>
             <Button fx:id="button_exit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="27.0" prefWidth="136.0" text="Exit Program">
                <VBox.margin>
-                  <Insets top="325.0" />
+                  <Insets top="345.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
-      <Pane fx:id="pane_menu" layoutX="185.0" layoutY="36.0" prefHeight="513.0" prefWidth="600.0">
+      <Pane fx:id="pane_menu" layoutX="160.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0">
          <children>
             <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -59,13 +59,13 @@
                </children></AnchorPane>
          </children>
       </Pane>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="796.0">
+      <MenuBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="810.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Create New Baseline" />
-                  <MenuItem mnemonicParsing="false" text="Change Database Path" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem fx:id="menuItem_CreateBaseline" mnemonicParsing="false" text="Create New Baseline" />
+                  <MenuItem fx:id="menuItem_ChangeDataPath" mnemonicParsing="false" text="Change Database Path" />
+                  <MenuItem fx:id="menuItem_ExitProgram" mnemonicParsing="false" text="Exit" />
             </items>
           </Menu>
         </menus>
