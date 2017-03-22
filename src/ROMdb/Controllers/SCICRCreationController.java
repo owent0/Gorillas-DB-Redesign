@@ -96,6 +96,13 @@ public class SCICRCreationController {
         }
     }
 
+    /**
+     * Makes sure that the user inputted correct input that matches the patterns
+     * specified by the programmer.
+     * @param inputString the string to check validity for.
+     * @return true if the string is valid.
+     * @throws InputFormatException
+     */
     private boolean isValidInput(String inputString) throws InputFormatException
     {
         InputValidator.checkPatternMatch(inputString, InputType.ALPHA);
@@ -103,6 +110,11 @@ public class SCICRCreationController {
         return true;
     }
 
+    /**
+     * Checks to see if any errors exist, such as non alpha-numeric
+     * characters.
+     * @return true if there exists an error in the input.
+     */
     @FXML
     private boolean errorsExist()
     {
@@ -129,6 +141,10 @@ public class SCICRCreationController {
         return false;
     }
 
+    /**
+     * Creates the scene for adding a new baseline.
+     * @throws IOException
+     */
     @FXML
     private void createNewBaseline() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
@@ -142,6 +158,10 @@ public class SCICRCreationController {
     }
 
 
+    /**
+     * Closes the scene for adding a new SC/ICR entry.
+     * @param button the button to grab the current scene from.
+     */
     @FXML
     private void closeScene(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();

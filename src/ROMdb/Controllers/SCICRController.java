@@ -124,30 +124,7 @@ public class SCICRController {
                     }
                 }
         );
-        /*
-        tableColumn_baseline.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
-                 @Override
-                 public void handle(CellEditEvent<ScicrRow, String> t)
-                 {
-                     try
-                     {
-                         InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
 
-                          ((ScicrRow) t.getTableView().getItems().get(
-                                  t.getTablePosition().getRow())
-                          ).setBaseline(t.getNewValue());
-                           saveCellChange();
-                     }
-                     catch(InputFormatException ife)
-                     {
-                         Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Baseline.", ButtonType.OK);
-                         alert.showAndWait();
-                     }
-
-                 }
-            }
-        );
-        */
         tableColumn_title.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
                 @Override
                 public void handle(CellEditEvent<ScicrRow, String> t)
@@ -211,6 +188,9 @@ public class SCICRController {
     }
 
 
+    /**
+     * Fills the table with the data from the database.
+     */
     @FXML
     private void fillTable() {
         ObservableList<String> baselines = MainMenuController.baselines;
@@ -257,6 +237,10 @@ public class SCICRController {
     }
 
 
+    /**
+     * Creates the scene for inputting a new SC/ICR item.
+     * @throws IOException
+     */
     @FXML
     private void createNewSCICR() throws IOException {
 
@@ -270,6 +254,9 @@ public class SCICRController {
         stage.show();
     }
 
+    /**
+     * Saves any changes to a specific cell within the table view.
+     */
     @FXML
     private void saveCellChange()
     {
@@ -280,6 +267,10 @@ public class SCICRController {
         updateChanges(temp);
     }
 
+    /**
+     * Updates the database with any of the changes made.
+     * @param rowToUpdate
+     */
     private void updateChanges(ScicrRow rowToUpdate) {
         try
         {

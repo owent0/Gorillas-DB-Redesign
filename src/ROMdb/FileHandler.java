@@ -1,9 +1,6 @@
 package ROMdb;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
-
 import java.io.*;
 import java.net.URISyntaxException;
 
@@ -12,8 +9,17 @@ import java.net.URISyntaxException;
  */
 public class FileHandler {
 
+    /**
+     * Default constructor.
+     */
     public FileHandler() {  }
 
+    /**
+     * Retrieves the path of the file for loading the database.
+     * @return the string representation of the file path.
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public String getFilePath() throws IOException, URISyntaxException {
         String path = "";
 
@@ -38,6 +44,12 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Writes a path to the file called path.dat.
+     * @param path the path to write into the file.
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void writeNewPath(String path) throws IOException, URISyntaxException {
         String savePath = FileHandler.class
                         .getProtectionDomain()
@@ -55,6 +67,12 @@ public class FileHandler {
         bw.close();
     }
 
+    /**
+     * Retrieves the file to look at and creates it if it doesn't exist yet.
+     * @return the file that contains the path to the database.
+     * @throws URISyntaxException
+     * @throws IOException
+     */
     public File retrieveFile() throws URISyntaxException, IOException {
         String path = FileHandler.class
                         .getProtectionDomain()
@@ -69,6 +87,10 @@ public class FileHandler {
         return file;
     }
 
+    /**
+     * Uses a file chooser so that user can find the file manually.
+     * @return the file that was chosen by the user.
+     */
     public File useFileChooser() {
         // Create a file chooser object to select database.
         FileChooser fileChooser = new FileChooser();

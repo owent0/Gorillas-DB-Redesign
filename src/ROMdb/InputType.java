@@ -17,17 +17,30 @@ public enum InputType
     private String pattern;
     private String patternName;
 
+    /**
+     * Checks for the validity on the string using the specified pattern.
+     * @param pattern the pattern to use.
+     * @param patternName the pattern name.
+     */
     InputType(String pattern, String patternName)
     {
         this.pattern = pattern;
         this.patternName = patternName;
     }
 
+    /**
+     * Gets the pattern.
+     * @return the pattern.
+     */
     public String getPattern()
     {
         return this.pattern;
     }
 
+    /**
+     * Gets the pattern name.
+     * @return the pattern name.
+     */
     public String getPatternName()
     {
         return this.patternName;
