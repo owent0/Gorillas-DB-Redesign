@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-style: solid; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-style: solid; -fx-border-color: grey;" visible="false" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <TabPane id="pane_requirementsEntry" fx:id="requirementsEntryView" layoutX="2.0" layoutY="1.0" prefHeight="515.0" prefWidth="625.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
