@@ -8,37 +8,37 @@
 
 <Pane fx:id="estimationBaseView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.EstimationController">
    <children>
-      <Label fx:id="label_baseline" layoutX="58.0" layoutY="45.0" text="Baseline" />
-      <Label fx:id="label_cprs" layoutX="57.0" layoutY="115.0" text="CPRS#" />
-      <Label fx:id="label_staffMonth" layoutX="45.0" layoutY="193.0" text="SLOCs/Staff-Month" />
-      <Label fx:id="label_staffDay" layoutX="45.0" layoutY="218.0" text="SLOCs/Staff-Day" />
-      <Label fx:id="label_ddrCwtSlocs" layoutX="45.0" layoutY="390.0" text="DDR/CWT SLOCS" />
-      <Label fx:id="label_cpddDocument" layoutX="45.0" layoutY="289.0" text="CPDD Document" />
-      <Label fx:id="label_cpddDate" layoutX="45.0" layoutY="314.0" text="CPDD Date" />
-      <Label fx:id="label_budgetUpgrade" layoutX="45.0" layoutY="339.0" text="Budget Upgrade" />
-      <Label fx:id="label_budgetMaintenance" layoutX="45.0" layoutY="365.0" text="Budget Maintenance" />
-      <Label fx:id="label_designWeight" layoutX="340.0" layoutY="193.0" text="Design Weight" />
-      <Label fx:id="label_codeWeight" layoutX="340.0" layoutY="219.0" text="Code Weight" />
-      <Label fx:id="label_unitTestingWeight" layoutX="340.0" layoutY="243.0" text="Unit Test Weight" />
-      <Label fx:id="label_integrationWeight" layoutX="340.0" layoutY="268.0" text="Integration Weight" />
-      <Label fx:id="label_defaultSlocs" layoutX="45.0" layoutY="244.0" text="Default SLOCS" />
+      <Label fx:id="label_baseline" layoutX="71.0" layoutY="60.0" text="Baseline" />
+      <Label fx:id="label_cprs" layoutX="338.0" layoutY="60.0" text="CPRS#" />
+      <Label fx:id="label_staffMonth" layoutX="45.0" layoutY="155.0" text="SLOCs/Staff-Month" />
+      <Label fx:id="label_staffDay" layoutX="45.0" layoutY="187.0" text="SLOCs/Staff-Day" />
+      <Label fx:id="label_ddrCwtSlocs" layoutX="45.0" layoutY="379.0" text="DDR/CWT SLOCS" />
+      <Label fx:id="label_cpddDocument" layoutX="45.0" layoutY="250.0" text="CPDD Document" />
+      <Label fx:id="label_cpddDate" layoutX="45.0" layoutY="282.0" text="CPDD Date" />
+      <Label fx:id="label_budgetUpgrade" layoutX="45.0" layoutY="313.0" text="Budget Upgrade" />
+      <Label fx:id="label_budgetMaintenance" layoutX="45.0" layoutY="346.0" text="Budget Maintenance" />
+      <Label fx:id="label_designWeight" layoutX="349.0" layoutY="157.0" text="Design Weight" />
+      <Label fx:id="label_codeWeight" layoutX="349.0" layoutY="189.0" text="Code Weight" />
+      <Label fx:id="label_unitTestingWeight" layoutX="349.0" layoutY="221.0" text="Unit Test Weight" />
+      <Label fx:id="label_integrationWeight" layoutX="350.0" layoutY="252.0" text="Integration Weight" />
+      <Label fx:id="label_defaultSlocs" layoutX="45.0" layoutY="219.0" text="Default SLOCS" />
 
-      <ComboBox fx:id="combo_estimateBaseline" layoutX="124.0" layoutY="41.0" onAction="#fillTextFieldsFromDB" prefWidth="150.0" />
+      <ComboBox fx:id="combo_estimateBaseline" layoutX="137.0" layoutY="56.0" onAction="#fillTextFieldsFromDB" prefWidth="150.0" />
 
-      <TextField fx:id="field_cprs" layoutX="125.0" layoutY="111.0" />
-      <TextField fx:id="field_staffMonth" layoutX="172.0" layoutY="189.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_staffDay" editable="false" layoutX="172.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_defaultSlocs" layoutX="172.0" layoutY="239.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_designWeight" layoutX="461.0" layoutY="189.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_codeWeight" layoutX="461.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_unitTestingWeight" layoutX="461.0" layoutY="239.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_integrationWeight" layoutX="461.0" layoutY="264.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_cpddDocument" layoutX="172.0" layoutY="285.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_cpddDate" layoutX="172.0" layoutY="310.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_budgetUpgrade" layoutX="172.0" layoutY="335.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_budgetMaint" layoutX="172.0" layoutY="360.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_ddrCwtSlocs" layoutX="172.0" layoutY="385.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_cprs" layoutX="406.0" layoutY="56.0" />
+      <TextField fx:id="field_staffMonth" layoutX="172.0" layoutY="151.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_staffDay" editable="false" layoutX="172.0" layoutY="183.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_defaultSlocs" layoutX="172.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_designWeight" layoutX="461.0" layoutY="151.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_codeWeight" layoutX="461.0" layoutY="183.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_unitTestingWeight" layoutX="461.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_integrationWeight" layoutX="461.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_cpddDocument" layoutX="172.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_cpddDate" layoutX="172.0" layoutY="278.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_budgetUpgrade" layoutX="172.0" layoutY="309.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_budgetMaint" layoutX="172.0" layoutY="341.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_ddrCwtSlocs" layoutX="172.0" layoutY="374.0" prefHeight="25.0" prefWidth="120.0" />
 
-      <Button fx:id="button_estimateSubmit" layoutX="461.0" layoutY="450.0" mnemonicParsing="false" onAction="#errorChecking" prefHeight="25.0" prefWidth="120.0" text="Save" />
+      <Button fx:id="button_estimateSubmit" layoutX="461.0" layoutY="434.0" mnemonicParsing="false" onAction="#errorChecking" prefHeight="25.0" prefWidth="120.0" text="Save" />
    </children>
 </Pane>

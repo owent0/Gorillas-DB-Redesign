@@ -10,21 +10,21 @@
 
 <AnchorPane fx:id="anchor_newScIcr" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRCreationController">
    <children>
-      <Label fx:id="label_scicr" layoutX="36.0" layoutY="31.0" prefHeight="18.0" prefWidth="52.0" text="SC/ICR:" />
-      <Label fx:id="label_title" layoutX="36.0" layoutY="65.0" prefHeight="17.0" prefWidth="52.0" text="Title:" />
-      <Label fx:id="label_number" layoutX="36.0" layoutY="95.0" prefHeight="17.0" prefWidth="52.0" text="Number:" />
-      <Label fx:id="label_build" layoutX="36.0" layoutY="127.0" prefHeight="17.0" prefWidth="52.0" text="Build:" />
-      <Label fx:id="label_baseline" layoutX="36.0" layoutY="163.0" prefHeight="17.0" prefWidth="52.0" text="Baseline:" />
-      <TextField fx:id="field_title" layoutX="103.0" layoutY="61.0" prefHeight="25.0" prefWidth="185.0" promptText="Type Title Here" />
-      <TextField fx:id="field_number" layoutX="103.0" layoutY="91.0" prefHeight="25.0" prefWidth="185.0" promptText="Type Number Here" />
-      <TextField fx:id="field_build" layoutX="103.0" layoutY="123.0" prefHeight="25.0" prefWidth="185.0" promptText="Type Build Here" />
-      <Button fx:id="button_save" layoutX="229.0" layoutY="201.0" mnemonicParsing="false" onAction="#saveSCICR" prefHeight="25.0" prefWidth="60.0" text="Save" />
-      <RadioButton fx:id="radio_sc" layoutX="103.0" layoutY="31.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="52.0" selected="true" text="SC">
+      <Label fx:id="label_scicr" layoutX="36.0" layoutY="29.0" prefHeight="17.0" prefWidth="52.0" text="Type:" />
+      <Label fx:id="label_title" layoutX="36.0" layoutY="64.0" prefHeight="17.0" prefWidth="52.0" text="Title:" />
+      <Label fx:id="label_number" layoutX="36.0" layoutY="99.0" prefHeight="17.0" prefWidth="52.0" text="Number:" />
+      <Label fx:id="label_build" layoutX="36.0" layoutY="134.0" prefHeight="17.0" prefWidth="52.0" text="Build:" />
+      <Label fx:id="label_baseline" layoutX="36.0" layoutY="169.0" prefHeight="17.0" prefWidth="52.0" text="Baseline:" />
+      <TextField fx:id="field_title" layoutX="103.0" layoutY="60.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Title" />
+      <TextField fx:id="field_number" layoutX="103.0" layoutY="95.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Number" />
+      <TextField fx:id="field_build" layoutX="103.0" layoutY="130.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Build" />
+      <Button fx:id="button_save" layoutX="229.0" layoutY="207.0" mnemonicParsing="false" onAction="#saveSCICR" prefHeight="25.0" prefWidth="60.0" text="Save" />
+      <RadioButton fx:id="radio_sc" layoutX="123.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" selected="true" text="SC">
          <toggleGroup>
             <ToggleGroup fx:id="group" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="radio_icr" layoutX="209.0" layoutY="31.0" mnemonicParsing="false" text="ICR" toggleGroup="$group" />
-      <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="159.0" onAction="#initialize" prefHeight="25.0" prefWidth="185.0" />
-      <Button fx:id="button_newBaseline" layoutX="104.0" layoutY="201.0" mnemonicParsing="false" onAction="#createNewBaseline" prefHeight="25.0" prefWidth="116.0" text="New Baseline" />
+      <RadioButton fx:id="radio_icr" layoutX="229.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="ICR" toggleGroup="$group" />
+      <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="165.0" onAction="#initialize" prefHeight="25.0" prefWidth="185.0" promptText="Select Baseline" />
+      <Button fx:id="button_newBaseline" layoutX="104.0" layoutY="207.0" mnemonicParsing="false" onAction="#createNewBaseline" prefHeight="25.0" prefWidth="116.0" text="New Baseline" />
    </children>
 </AnchorPane>

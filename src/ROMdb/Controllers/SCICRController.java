@@ -194,7 +194,7 @@ public class SCICRController {
         Parent root = loader.load();
         Stage stage = new Stage();
 
-        stage.setTitle("New SC/ICR Creation");
+        stage.setTitle("SC/ICR Creation");
         stage.setScene(new Scene(root, 325, 255));
         stage.setResizable(false);
         stage.show();
