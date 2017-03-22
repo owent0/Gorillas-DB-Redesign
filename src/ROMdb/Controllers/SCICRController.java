@@ -15,8 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

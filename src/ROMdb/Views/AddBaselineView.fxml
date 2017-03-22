@@ -9,7 +9,7 @@
    <children>
       <TextField fx:id="field_addBaseline" layoutX="21.0" layoutY="223.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter baseline" />
       <Button fx:id="button_cancelNewBaseline" layoutX="285.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="76.0" text="Cancel" />
-      <Button fx:id="button_addNewBaseline" layoutX="201.0" layoutY="223.0" mnemonicParsing="false" onAction="#writeBaseline" prefHeight="25.0" prefWidth="76.0" text="Add/Edit" />
+      <Button fx:id="button_addNewBaseline" layoutX="201.0" layoutY="223.0" mnemonicParsing="false" onAction="#writeBaseline" prefHeight="25.0" prefWidth="76.0" text="Add" />
       <ListView fx:id="list_baselineList" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="356.0" />
    </children>
 </AnchorPane>
