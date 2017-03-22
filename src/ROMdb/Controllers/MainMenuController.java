@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -117,7 +118,14 @@ public class MainMenuController
 
     @FXML
     public void changeDatabasePath() throws IOException, URISyntaxException, SQLException {
-        Main.fileHandler.writeNewPath( Main.fileHandler.useFileChooser().getPath() );
+
+        File tempFile = Main.fileHandler.useFileChooser();
+
+        if(tempFile == null) {
+            return;
+        }
+
+        Main.fileHandler.writeNewPath( tempFile.getPath() );
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
                  "You must restart the application for changes to take affect.\n" +

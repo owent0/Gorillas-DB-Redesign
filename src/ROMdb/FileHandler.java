@@ -1,5 +1,7 @@
 package ROMdb;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -79,6 +81,6 @@ public class FileHandler {
         // Return the file and then extract its path.
         File selectedFile = fileChooser.showOpenDialog(null);
 
-        return selectedFile;
+        return (selectedFile == null) ? null : selectedFile;
     }
 }
