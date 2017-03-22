@@ -32,7 +32,7 @@ public class Main extends Application
     /**
      * Starts the FXML GUI created in scene builder.
      * @param primaryStage : the current GUI stage.
-     * @throws Exception
+     * @throws Exception If scene cannot start.
      */
     @Override
     public void start(Stage primaryStage) throws Exception

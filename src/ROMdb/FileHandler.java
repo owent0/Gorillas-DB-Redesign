@@ -17,8 +17,8 @@ public class FileHandler {
     /**
      * Retrieves the path of the file for loading the database.
      * @return the string representation of the file path.
-     * @throws IOException
-     * @throws URISyntaxException
+     * @throws IOException If I/O error occurs.
+     * @throws URISyntaxException If path cannot be found for jar file.
      */
     public String getFilePath() throws IOException, URISyntaxException {
         String path = "";
@@ -47,8 +47,8 @@ public class FileHandler {
     /**
      * Writes a path to the file called path.dat.
      * @param path the path to write into the file.
-     * @throws IOException
-     * @throws URISyntaxException
+     * @throws IOException If I/O error occurs.
+     * @throws URISyntaxException If jar path cannot be found.
      */
     public void writeNewPath(String path) throws IOException, URISyntaxException {
         String savePath = FileHandler.class
@@ -70,8 +70,8 @@ public class FileHandler {
     /**
      * Retrieves the file to look at and creates it if it doesn't exist yet.
      * @return the file that contains the path to the database.
-     * @throws URISyntaxException
-     * @throws IOException
+     * @throws URISyntaxException If jar path cannot be found.
+     * @throws IOException If I/O error occurs.
      */
     public File retrieveFile() throws URISyntaxException, IOException {
         String path = FileHandler.class

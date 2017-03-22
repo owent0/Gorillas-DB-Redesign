@@ -239,7 +239,7 @@ public class SCICRController {
 
     /**
      * Creates the scene for inputting a new SC/ICR item.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
     @FXML
     private void createNewSCICR() throws IOException {

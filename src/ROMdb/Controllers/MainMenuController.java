@@ -123,9 +123,9 @@ public class MainMenuController
     /**
      * Changes the path string located in the file path.dat to a new path
      * that the user gets with a file chooser.
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws SQLException
+     * @throws IOException If I/O error occurs.
+     * @throws URISyntaxException If path cannot be found.
+     * @throws SQLException If connection cannot be found.
      */
     @FXML
     public void changeDatabasePath() throws IOException, URISyntaxException, SQLException {
@@ -155,7 +155,7 @@ public class MainMenuController
 
     /**
      * If the user chooses to add or edit a baseline from the menu bar feature.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
     @FXML
     public void addBaselineFromMenuBar() throws IOException {

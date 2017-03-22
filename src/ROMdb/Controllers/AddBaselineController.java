@@ -79,9 +79,10 @@ public class AddBaselineController {
 
     /**
      * Updating a baseline that is already in the baseline table in MS Access
+     * Precondition: newBaseline is validated already
      * @param oldBaseline the current baseline in the baseline table
      * @param newBaseline the new value for the baseline in the baseline table
-     * Precondition: newBaseline is validated already
+     *
      */
     @FXML
     public void writeBaselineEditToDB(String oldBaseline, String newBaseline) {
@@ -113,7 +114,7 @@ public class AddBaselineController {
 
     /**
      * Writing the baseline to the baseline table in MS Access
-     * @throws Exception
+     * @throws Exception If it fails.
      */
     @FXML
     public void writeBaseline() throws Exception {

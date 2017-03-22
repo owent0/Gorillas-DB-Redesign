@@ -9,7 +9,7 @@ public class InputValidator
      * Checks to see if the pattern is a match.
      * @param inputString the string to check the pattern against.
      * @param it the input type.
-     * @throws InputFormatException
+     * @throws InputFormatException If input is not correct.
      */
     public static void checkPatternMatch(String inputString, InputType it) throws InputFormatException
     {
@@ -23,7 +23,7 @@ public class InputValidator
      * Checks to see if the pattern does not match.
      * @param inputString the string to check for validity.
      * @param it the input type.
-     * @throws InputFormatException
+     * @throws InputFormatException If input is not correct
      */
     public static void checkPatternDoesNotMatch(String inputString, InputType it) throws InputFormatException
     {

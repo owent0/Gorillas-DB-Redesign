@@ -101,13 +101,18 @@ public class SCICRCreationController {
      * specified by the programmer.
      * @param inputString the string to check validity for.
      * @return true if the string is valid.
-     * @throws InputFormatException
+     * @throws InputFormatException If input is not correct.
      */
     private boolean isValidInput(String inputString) throws InputFormatException
     {
-        InputValidator.checkPatternMatch(inputString, InputType.ALPHA);
-        InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
-        return true;
+        try{
+            InputValidator.checkPatternMatch(inputString, InputType.ALPHA_NUMERIC);
+            InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -143,7 +148,7 @@ public class SCICRCreationController {
 
     /**
      * Creates the scene for adding a new baseline.
-     * @throws IOException
+     * @throws IOException If I/O error occurs.
      */
     @FXML
     private void createNewBaseline() throws IOException {
