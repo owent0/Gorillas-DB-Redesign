@@ -29,15 +29,15 @@
       <TextField fx:id="field_staffMonth" layoutX="172.0" layoutY="151.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_staffDay" editable="false" layoutX="172.0" layoutY="183.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_defaultSlocs" layoutX="172.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_designWeight" layoutX="461.0" layoutY="151.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_codeWeight" layoutX="461.0" layoutY="183.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_unitTestingWeight" layoutX="461.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
-      <TextField fx:id="field_integrationWeight" layoutX="461.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_cpddDocument" layoutX="172.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_cpddDate" layoutX="172.0" layoutY="278.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_budgetUpgrade" layoutX="172.0" layoutY="309.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_budgetMaint" layoutX="172.0" layoutY="341.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_ddrCwtSlocs" layoutX="172.0" layoutY="374.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_designWeight" layoutX="461.0" layoutY="151.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_codeWeight" layoutX="461.0" layoutY="183.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_unitTestingWeight" layoutX="461.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
+      <TextField fx:id="field_integrationWeight" layoutX="461.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
 
       <Button fx:id="button_estimateSubmit" layoutX="461.0" layoutY="434.0" mnemonicParsing="false" onAction="#errorChecking" prefHeight="25.0" prefWidth="120.0" text="Save" />
    </children>

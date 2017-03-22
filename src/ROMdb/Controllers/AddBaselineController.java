@@ -18,6 +18,7 @@ public class AddBaselineController {
     @FXML private TextField field_addBaseline;
     @FXML private Button button_cancelNewBaseline;
     @FXML private ListView<String> list_baselineList;
+    final private Tooltip listViewTooltip = new Tooltip("To edit an item, double click.\nHit 'Enter' when done.");
 
     public AddBaselineController() {  }
 
@@ -25,6 +26,7 @@ public class AddBaselineController {
     public void initialize() {
         ObservableList list = MainMenuController.baselines;
         list_baselineList.setItems(list);
+        list_baselineList.setTooltip(listViewTooltip);
 
         list_baselineList.setEditable(true);
         list_baselineList.setCellFactory(TextFieldListCell.forListView());
