@@ -269,7 +269,7 @@ public class SCICRController {
 
     /**
      * Updates the database with any of the changes made.
-     * @param rowToUpdate
+     * @param rowToUpdate the row to update.
      */
     private void updateChanges(ScicrRow rowToUpdate) {
         try
