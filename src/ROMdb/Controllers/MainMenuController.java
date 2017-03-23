@@ -37,6 +37,8 @@ public class MainMenuController
     // The loader object for FXML.
     public FXMLLoader loader;
 
+    public static String selectedBaseline;
+
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
 
     @FXML private AnchorPane anchor_estimation;

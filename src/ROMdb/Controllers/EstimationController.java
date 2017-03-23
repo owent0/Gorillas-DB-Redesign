@@ -163,7 +163,8 @@ public class EstimationController {
             error = "You've entered the wrong input for: \n" + error;
 
             // Display box containing the error message.
-            JOptionPane.showMessageDialog(null, error);
+            Alert alert = new Alert(Alert.AlertType.ERROR, error, ButtonType.OK);
+            alert.showAndWait();
 
             return;     // Do not continue
         }
@@ -180,7 +181,8 @@ public class EstimationController {
             String weightError = "Your weights do not add up to 100";
 
             // Display box containing the error message.
-            JOptionPane.showMessageDialog(null, weightError);
+            Alert alert = new Alert(Alert.AlertType.ERROR, weightError, ButtonType.OK);
+            alert.showAndWait();
 
             return;     // Do not continue
         }
@@ -365,10 +367,5 @@ public class EstimationController {
             alert.showAndWait();
         }
     }
-
-
-
-
-
 }
 

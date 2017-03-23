@@ -23,13 +23,22 @@ public class FileHandler {
     public String getFilePath() throws IOException, URISyntaxException {
         String path = "";
 
+        // Retrieve the file to get the path from.
         File file = retrieveFile();
+
+        // Prepare buffer reader to read the file.
         BufferedReader br = new BufferedReader( new FileReader(file) );
+
+        // Read the file/
         path = br.readLine();
 
+        // This should only run if its the first time running
+        // or the path file was deleted somehow. Otherwise else
+        // should mainly run.
         if( path == null ) {
             BufferedWriter bw = new BufferedWriter( new FileWriter(file) );
 
+            // Use the file chooser to select the file.
             path = useFileChooser().getPath();
             bw.write(path);
             bw.flush();
@@ -51,6 +60,10 @@ public class FileHandler {
      * @throws URISyntaxException If jar path cannot be found.
      */
     public void writeNewPath(String path) throws IOException, URISyntaxException {
+
+        // This is the path of the jar file. We use this
+        // to create the file right next to the jar file
+        // even if the jar is moved to a different directory.
         String savePath = FileHandler.class
                         .getProtectionDomain()
                         .getCodeSource()
@@ -58,6 +71,7 @@ public class FileHandler {
                         .toURI()
                         .getPath();
 
+        // Get the new file.
         File file = new File(savePath + "path.dat");
 
         BufferedWriter bw = new BufferedWriter( new FileWriter(file) );
@@ -74,6 +88,10 @@ public class FileHandler {
      * @throws IOException If I/O error occurs.
      */
     public File retrieveFile() throws URISyntaxException, IOException {
+
+        // This is the path of the jar file. We use this
+        // to create the file right next to the jar file
+        // even if the jar is moved to a different directory.
         String path = FileHandler.class
                         .getProtectionDomain()
                         .getCodeSource()

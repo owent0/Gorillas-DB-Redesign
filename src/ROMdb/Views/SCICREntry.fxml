@@ -6,10 +6,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
+<Pane fx:id="removeRow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
    <children>
        <ComboBox fx:id="combo_ScIcrBaseline" layoutX="13.0" layoutY="11.0" onAction="#switchTableData" prefWidth="150.0" promptText="Baseline" />
-       <Button fx:id="button_newSCICR" layoutX="531.0" layoutY="11.0" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR" />
+       <Button fx:id="button_newSCICR" layoutX="444.0" layoutY="12.0" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR" />
       <TableView fx:id="table_ScIcr" editable="true" layoutX="14.0" layoutY="48.0" prefHeight="456.0" prefWidth="598.0">
         <columns>
           <TableColumn fx:id="tableColumn_scicr" prefWidth="64.0" text="SC/ICR" />
@@ -19,5 +19,6 @@
             <TableColumn fx:id="tableColumn_baseline" prefWidth="102.0" text="Baseline" />
         </columns>
       </TableView>
+      <Button fx:id="button_deleteRow" layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onAction="#removeRow" prefHeight="25.0" prefWidth="79.0" text="Delete" />
    </children>
 </Pane>

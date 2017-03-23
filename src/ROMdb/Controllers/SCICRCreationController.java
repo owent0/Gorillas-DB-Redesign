@@ -31,6 +31,7 @@ public class SCICRCreationController {
     public void initialize()
     {
         combo_baseline.setItems(MainMenuController.baselines);
+        combo_baseline.getSelectionModel().select(MainMenuController.selectedBaseline);
     }
 
     /**
@@ -49,22 +50,30 @@ public class SCICRCreationController {
 
         try
         {
+            // If there are errors.
             if( errorsExist() ) {
+
+                // It is not valid then.
                 valid = false;
+
+                // Throw the exception to leave.
                 throw new Exception();
             }
 
+            // It is valid if it got this far.
             valid = true;
-
             String SCorICR = "";
 
+            // Get either SC or ICR as a string value
+            // based on the combo box selection.
             if(radio_icr.isSelected()){
                 SCorICR = radio_icr.getText();
             }else{
                 SCorICR = radio_sc.getText();
             }
 
-            newSCICR = new ScicrRow(SCorICR, field_number.getText(), field_title.getText(), field_build.getText(), baseline);
+            // Prepare a new ScicrRow object to put into the list for the selected baseline.
+            newSCICR = new ScicrRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), field_build.getText().trim(), baseline);
 
             // The query to insert the data from the fields.
             String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
@@ -85,13 +94,17 @@ public class SCICRCreationController {
         }
         catch (Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "You must fill out all fields.\n" + e, ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "The input is incorrect.\n" + e, ButtonType.OK);
             alert.showAndWait();
         }
 
+        // If the input is valid.
         if( valid ) {
 
+            // Close the scene.
             closeScene(button_save);
+
+            // Add it to the list of ScicrRow objects for that baseline.
             SCICRController.map.get(baseline).add(newSCICR);
         }
     }
@@ -106,11 +119,16 @@ public class SCICRCreationController {
     private boolean isValidInput(String inputString) throws InputFormatException
     {
         try{
-            InputValidator.checkPatternMatch(inputString, InputType.ALPHA_NUMERIC);
+            // The value is alpha numeric only with no spaces.
+            InputValidator.checkPatternMatch(inputString, InputType.ALPHA_NUMERIC_SPACE);
+
+            // The value contains no white space.
             InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
             return true;
         }
         catch(Exception e) {
+
+            // If it failed.
             return false;
         }
     }
@@ -125,6 +143,7 @@ public class SCICRCreationController {
     {
         try
         {
+            // Check that each field is valid to insert.
             if(!isValidInput(field_title.getText())
                     || !isValidInput(field_number.getText())
                     || !isValidInput(field_build.getText()))

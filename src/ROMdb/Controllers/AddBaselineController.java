@@ -58,11 +58,13 @@ public class AddBaselineController {
                     // validate newBaseline text
                     InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
 
+                    InputValidator.checkPatternDoesNotMatch(t.getNewValue(), InputType.WHITE_SPACE);
+
                     // Set the new string value.
                     list_baselineList.getItems().set(t.getIndex(), t.getNewValue());
 
                     // Grab the new string value.
-                    String newBaseline = list_baselineList.getSelectionModel().getSelectedItem();
+                    String newBaseline = list_baselineList.getSelectionModel().getSelectedItem().trim();
 
                     // Call to write this new string the the database.
                     writeBaselineEditToDB(oldBaseline, newBaseline);
