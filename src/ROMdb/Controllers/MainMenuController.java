@@ -83,7 +83,6 @@ public class MainMenuController
 
         return bases;
     }
-
     /**
      * Set the estimation base pane to visible when button is hit.
      * All others are set to invisible.

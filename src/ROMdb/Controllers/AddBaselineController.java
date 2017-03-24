@@ -170,6 +170,32 @@ public class AddBaselineController {
 
             ObservableList<ScicrRow> temp = FXCollections.observableArrayList();
             SCICRController.map.put(baselineToAdd, temp);
+
+            // The query to insert the data from the fields.
+            insertQuery =    "INSERT INTO basicrom ([slocspermanday], [slocspermanmonth], [cprs], [IntergrationWeight],"
+                    + "[UnitTestWeight], [CodeWeight], [DefaultSLOCS], [DesignWeight], [CPDDDocument], [CPDDDate], [Budget Upgrade], "
+                    + "[Budget Maintenance], [DDR/CWT SLOCS], [baseline]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            st = Main.conn.prepareStatement(insertQuery);
+
+            st.setString(1, "0.0");
+            st.setString(2, "0.0");
+            st.setString(3, "0.0");
+            st.setString(4, "0.0");
+            st.setString(5, "0.0");
+            st.setString(6, "0.0");
+            st.setString(7, "0.0");
+            st.setString(8, "0.0");
+            st.setString(9, "0.0");
+            st.setString(10, "0.0");
+            st.setString(11, "0.0");
+            st.setString(12, "0.0");
+            st.setString(13, "0.0");
+            st.setString(14, baselineToAdd);
+
+            // Perform the update inside of the table of the database.
+            st.executeUpdate();
+
         }
         catch (Exception e)
         {
