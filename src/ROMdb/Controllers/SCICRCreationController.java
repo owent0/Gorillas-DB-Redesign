@@ -1,6 +1,8 @@
 package ROMdb.Controllers;
 
 import ROMdb.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chris on 3/15/2017.
@@ -47,7 +51,7 @@ public class SCICRCreationController {
 
         // The currently selected baseline from the drop down.
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();
-
+        System.out.println(baseline);
         try
         {
             // If there are errors.
@@ -103,9 +107,10 @@ public class SCICRCreationController {
 
             // Close the scene.
             closeScene(button_save);
-
             // Add it to the list of ScicrRow objects for that baseline.
+            //System.out.println(SCICRController.map.get(baseline).toString());
             SCICRController.map.get(baseline).add(newSCICR);
+
         }
     }
 

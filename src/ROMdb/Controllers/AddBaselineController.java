@@ -1,9 +1,7 @@
 package ROMdb.Controllers;
 
-import ROMdb.InputFormatException;
-import ROMdb.InputType;
-import ROMdb.InputValidator;
-import ROMdb.Main;
+import ROMdb.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,7 +39,7 @@ public class AddBaselineController {
         list_baselineList.setTooltip(listViewTooltip);
 
         // Allow the list to be editable.
-        list_baselineList.setEditable(true);
+        list_baselineList.setEditable(false);
 
         // Make each list row an editable field.
         list_baselineList.setCellFactory(TextFieldListCell.forListView());
@@ -169,6 +167,9 @@ public class AddBaselineController {
 
             // Perform the update inside of the table of the database.
             st.executeUpdate();
+
+            ObservableList<ScicrRow> temp = FXCollections.observableArrayList();
+            SCICRController.map.put(baselineToAdd, temp);
         }
         catch (Exception e)
         {
