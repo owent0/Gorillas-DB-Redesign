@@ -3,8 +3,8 @@ package ROMdb.Controllers;
 import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
-import ROMdb.Helpers.ScicrRow;
-import ROMdb.Models.NewSCICRModel;
+import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.AddSCICRModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by chris on 3/15/2017.
  */
-public class SCICRCreationController {
+public class AddSCICRController {
 
     @FXML private TextField field_title;
     @FXML private TextField field_number;
@@ -46,7 +46,7 @@ public class SCICRCreationController {
     public void saveSCICR()
     {
         boolean valid = false;
-        ScicrRow newSCICR = null;
+        SCICRRow newSCICR = null;
 
         // The currently selected baseline from the drop down.
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();
@@ -75,22 +75,22 @@ public class SCICRCreationController {
                 SCorICR = radio_sc.getText();
             }
             System.out.println("Start Number testing");
-            if(NewSCICRModel.isNumberUnique(field_number.getText(), baseline)) {
+            if(AddSCICRModel.isNumberUnique(field_number.getText(), baseline)) {
                 System.out.println("Number is in baseline");
                 throw new Exception();
             }
 
-            NewSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), field_build.getText());
+            AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), field_build.getText());
 
-            // Prepare a new ScicrRow object to put into the list for the selected baseline.
-            newSCICR = new ScicrRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), field_build.getText().trim(), baseline);
+            // Prepare a new SCICRRow object to put into the list for the selected baseline.
+            newSCICR = new SCICRRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), field_build.getText().trim(), baseline);
 
             // If the input is valid.
             if( valid ) {
 
                 // Close the scene.
                 closeScene(button_save);
-                // Add it to the list of ScicrRow objects for that baseline.
+                // Add it to the list of SCICRRow objects for that baseline.
                 //System.out.println(SCICRController.map.get(baseline).toString());
                 SCICRController.map.get(baseline).add(newSCICR);
 
@@ -167,7 +167,7 @@ public class SCICRCreationController {
      */
     @FXML
     private void createNewBaseline() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
 

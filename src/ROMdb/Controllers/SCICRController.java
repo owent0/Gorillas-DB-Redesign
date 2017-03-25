@@ -4,7 +4,7 @@ import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
-import ROMdb.Helpers.ScicrRow;
+import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -33,7 +33,7 @@ public class SCICRController {
 
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
-    public static HashMap<String, ObservableList<ScicrRow>> map;
+    public static HashMap<String, ObservableList<SCICRRow>> map;
 
 
 
@@ -77,7 +77,7 @@ public class SCICRController {
     {
         /** This allows for the data for each row object to be stored in the cells.
          *  The String parameter of PropertyValueFactory is a reference to the
-         *  SimpleStringProperty located inside of the class ScicrRow. This is how it
+         *  SimpleStringProperty located inside of the class SCICRRow. This is how it
          *  "knows" the correct cells to place them into.
          **/
         tableColumn_scicr.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -100,12 +100,12 @@ public class SCICRController {
          * view. In this case it handles the combo box located in the column SC/ICR and writes
          * the changes to the database by calling the method saveCellChange.
          */
-        tableColumn_scicr.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
+        tableColumn_scicr.setOnEditCommit( new EventHandler<CellEditEvent<SCICRRow, String>>() {
                     @Override
-                    public void handle(CellEditEvent<ScicrRow, String> t)
+                    public void handle(CellEditEvent<SCICRRow, String> t)
                     {
                         // Grab the new value enter into the cell.
-                        ((ScicrRow) t.getTableView().getItems().get(
+                        ((SCICRRow) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                         ).setType(t.getNewValue());
 
@@ -120,16 +120,16 @@ public class SCICRController {
          * view. In this case it handles the cells located in the column Build and writes
          * the changes to the database by calling the method saveCellChange.
          */
-        tableColumn_build.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
+        tableColumn_build.setOnEditCommit( new EventHandler<CellEditEvent<SCICRRow, String>>() {
                     @Override
-                    public void handle(CellEditEvent<ScicrRow, String> t)
+                    public void handle(CellEditEvent<SCICRRow, String> t)
                     {
                         try
                         {
                             InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                             // Grab the new value enter into the cell.
-                            ((ScicrRow) t.getTableView().getItems().get(
+                            ((SCICRRow) t.getTableView().getItems().get(
                                    t.getTablePosition().getRow())
                             ).setBuild(t.getNewValue().trim());
 
@@ -153,16 +153,16 @@ public class SCICRController {
          * view. In this case it handles the cells located in the column Title and writes
          * the changes to the database by calling the method saveCellChange.
          */
-        tableColumn_title.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
+        tableColumn_title.setOnEditCommit( new EventHandler<CellEditEvent<SCICRRow, String>>() {
                 @Override
-                public void handle(CellEditEvent<ScicrRow, String> t)
+                public void handle(CellEditEvent<SCICRRow, String> t)
                 {
                     try
                     {
                         InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                         // Grab the new value enter into the cell.
-                        ((ScicrRow) t.getTableView().getItems().get(
+                        ((SCICRRow) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                         ).setTitle(t.getNewValue().trim());
 
@@ -188,15 +188,15 @@ public class SCICRController {
          * view. In this case it handles the cells located in the column Number and writes
          * the changes to the database by calling the method saveCellChange.
          */
-        tableColumn_number.setOnEditCommit( new EventHandler<CellEditEvent<ScicrRow, String>>() {
+        tableColumn_number.setOnEditCommit( new EventHandler<CellEditEvent<SCICRRow, String>>() {
                 @Override
-                public void handle(CellEditEvent<ScicrRow, String> t) {
+                public void handle(CellEditEvent<SCICRRow, String> t) {
                     try
                     {
                         InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                         // Grab the new value enter into the cell.
-                        ((ScicrRow) t.getTableView().getItems().get(
+                        ((SCICRRow) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                         ).setNumber(t.getNewValue().trim());
 
@@ -258,7 +258,7 @@ public class SCICRController {
 
                     // We need to add a "All" feature to show all baselines.
                     if( rs.getString("Baseline").equals(baseline) ) {
-                        ScicrRow temp = new ScicrRow(
+                        SCICRRow temp = new SCICRRow(
                                 rs.getString("Type"),
                                 rs.getString("Number"),
                                 rs.getString("Title"),
@@ -288,7 +288,7 @@ public class SCICRController {
     @FXML
     private void createNewSCICR() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/SCICRCreation.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddSCICRWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
 
@@ -312,8 +312,8 @@ public class SCICRController {
         // Get the current row number.
         int currentRow = selectedCell.getRow();
 
-        // Get the ScicrRow object associated with that row number.
-        ScicrRow temp = (ScicrRow) table_ScIcr.getItems().get(currentRow);
+        // Get the SCICRRow object associated with that row number.
+        SCICRRow temp = (SCICRRow) table_ScIcr.getItems().get(currentRow);
 
         // Update the database.
         updateChanges(temp);
@@ -334,8 +334,8 @@ public class SCICRController {
             // Get the row number of that cell.
             int currentRow = selectedCell.getRow();
 
-            // Get the ScicrRow object that is the candidate to delete.
-            ScicrRow rowToDelete = (ScicrRow) table_ScIcr.getItems().get(currentRow);
+            // Get the SCICRRow object that is the candidate to delete.
+            SCICRRow rowToDelete = (SCICRRow) table_ScIcr.getItems().get(currentRow);
 
             // Get the baseline from rowToDelete to use as a key in the hash map.
             String baseline = rowToDelete.getBaseline();
@@ -377,7 +377,7 @@ public class SCICRController {
      * Updates the database with any of the changes made.
      * @param rowToUpdate the row to update.
      */
-    private void updateChanges(ScicrRow rowToUpdate) {
+    private void updateChanges(SCICRRow rowToUpdate) {
         try
         {
             // The query to insert the data from the fields.

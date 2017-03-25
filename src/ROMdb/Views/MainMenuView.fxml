@@ -40,7 +40,7 @@
          <children>
             <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <fx:include source="SCICREntry.fxml" />
+                  <fx:include source="SCICRView.fxml" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="anchor_estimation" minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="600.0" visible="false">
@@ -55,7 +55,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <fx:include source="SCICRCreation.fxml" />
+                  <fx:include source="AddSCICRWindow.fxml" />
                </children></AnchorPane>
          </children>
       </Pane>

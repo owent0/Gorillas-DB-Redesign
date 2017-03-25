@@ -4,7 +4,7 @@ import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
-import ROMdb.Helpers.ScicrRow;
+import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -172,7 +172,7 @@ public class AddBaselineController {
             // Perform the update inside of the table of the database.
             st.executeUpdate();
 
-            ObservableList<ScicrRow> temp = FXCollections.observableArrayList();
+            ObservableList<SCICRRow> temp = FXCollections.observableArrayList();
             SCICRController.map.put(baselineToAdd, temp);
 
             // The query to insert the data from the fields.

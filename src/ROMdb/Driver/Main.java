@@ -48,8 +48,8 @@ public class Main extends Application
         {
             JOptionPane.showMessageDialog(null, e);
         }
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/MainView.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/MainMenuView.fxml"));
         Parent root = loader.load();
 
 

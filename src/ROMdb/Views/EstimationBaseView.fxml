@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="estimationBaseView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.EstimationController">
+<Pane fx:id="estimationBaseView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.EstimationBaseController">
    <children>
       <Label fx:id="label_baseline" layoutX="71.0" layoutY="60.0" text="Baseline" />
       <Label fx:id="label_cprs" layoutX="338.0" layoutY="60.0" text="CPRS#" />

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchor_newScIcr" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRCreationController">
+<AnchorPane fx:id="anchor_newScIcr" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddSCICRController">
    <children>
       <Label fx:id="label_scicr" layoutX="36.0" layoutY="29.0" prefHeight="17.0" prefWidth="52.0" text="Type:" />
       <Label fx:id="label_title" layoutX="36.0" layoutY="64.0" prefHeight="17.0" prefWidth="52.0" text="Title:" />

@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 import java.sql.*;
 import java.text.DecimalFormat;
 
-public class EstimationController {
+public class EstimationBaseController {
 
     // For calculating staff day.
     private final double STAFF_MONTH_DIVISOR = 20.92;

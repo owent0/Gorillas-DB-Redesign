@@ -160,7 +160,7 @@ public class MainMenuController
      */
     @FXML
     public void addBaselineFromMenuBar() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddBaselineWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
 

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Created by Anthony Orio on 3/14/2017.
  */
-public class ScicrRow {
+public class SCICRRow {
 
     private int id;
     private SimpleStringProperty type;
@@ -22,7 +22,7 @@ public class ScicrRow {
      * @param build the build.
      * @param baseline the baseline.
      */
-    public ScicrRow( String type, String number, String title, String build, String baseline) {
+    public SCICRRow(String type, String number, String title, String build, String baseline) {
         this.type       = new SimpleStringProperty(type);
         this.number     = new SimpleStringProperty(number);
         this.title      = new SimpleStringProperty(title);

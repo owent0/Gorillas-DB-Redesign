@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Created by Tom on 3/24/2017.
  */
-public class NewSCICRModel {
+public class AddSCICRModel {
     public static void saveSCICR(String baseline, String type, String number, String title, String build) throws Exception {
         // The query to insert the data from the fields.
         String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
