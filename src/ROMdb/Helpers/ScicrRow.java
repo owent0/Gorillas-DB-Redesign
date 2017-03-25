@@ -1,4 +1,4 @@
-package ROMdb;
+package ROMdb.Helpers;
 
 import javafx.beans.property.SimpleStringProperty;
 

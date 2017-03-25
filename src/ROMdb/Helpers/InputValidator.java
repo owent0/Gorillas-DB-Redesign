@@ -1,4 +1,7 @@
-package ROMdb;
+package ROMdb.Helpers;
+
+import ROMdb.Exceptions.InputFormatException;
+import ROMdb.Helpers.InputType;
 
 /**
  * Created by Derek Gaffney on 3/21/2017.

@@ -3,8 +3,9 @@
  * application and is the root of all functionality.
  */
 
-package ROMdb;
+package ROMdb.Driver;
 
+import ROMdb.Helpers.FileHandler;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -39,9 +40,12 @@ public class Main extends Application
     {
         dbPath = dbPath + fileHandler.getFilePath();
 
-        try {
+        try
+        {
             this.conn = DriverManager.getConnection(Main.dbPath);
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             JOptionPane.showMessageDialog(null, e);
         }
 

@@ -1,8 +1,6 @@
 package ROMdb.Models;
 
-import ROMdb.Controllers.SCICRController;
-import ROMdb.Main;
-import ROMdb.ScicrRow;
+import ROMdb.Driver.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

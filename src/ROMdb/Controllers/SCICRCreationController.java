@@ -1,9 +1,10 @@
 package ROMdb.Controllers;
 
-import ROMdb.*;
+import ROMdb.Exceptions.InputFormatException;
+import ROMdb.Helpers.InputType;
+import ROMdb.Helpers.InputValidator;
+import ROMdb.Helpers.ScicrRow;
 import ROMdb.Models.NewSCICRModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,9 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by chris on 3/15/2017.

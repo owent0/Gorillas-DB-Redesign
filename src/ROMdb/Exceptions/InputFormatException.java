@@ -1,4 +1,4 @@
-package ROMdb;
+package ROMdb.Exceptions;
 
 /**
  * Created by Anthony Orio on 3/21/2017.
