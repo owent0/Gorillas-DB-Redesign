@@ -1,6 +1,7 @@
 package ROMdb.Controllers;
 
 import ROMdb.*;
+import ROMdb.Models.NewSCICRModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -75,26 +76,27 @@ public class SCICRCreationController {
             }else{
                 SCorICR = radio_sc.getText();
             }
+            System.out.println("Start Number testing");
+            if(NewSCICRModel.isNumberUnique(field_number.getText(), baseline)) {
+                System.out.println("Number is in baseline");
+                throw new Exception();
+            }
+
+            NewSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), field_build.getText());
 
             // Prepare a new ScicrRow object to put into the list for the selected baseline.
             newSCICR = new ScicrRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), field_build.getText().trim(), baseline);
 
-            // The query to insert the data from the fields.
-            String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
+            // If the input is valid.
+            if( valid ) {
 
-            // Create a new statement.
-            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+                // Close the scene.
+                closeScene(button_save);
+                // Add it to the list of ScicrRow objects for that baseline.
+                //System.out.println(SCICRController.map.get(baseline).toString());
+                SCICRController.map.get(baseline).add(newSCICR);
 
-            /** Parse all of the information and stage for writing. */
-            st.setString(1, field_number.getText());
-            st.setString(2, SCorICR);
-            st.setString(3, field_title.getText());
-            st.setString(4, field_build.getText());
-            st.setString(5, baseline);
-
-            // Perform the update inside of the table of the database.
-            st.executeUpdate();
-
+            }
         }
         catch (Exception e)
         {
@@ -102,16 +104,7 @@ public class SCICRCreationController {
             alert.showAndWait();
         }
 
-        // If the input is valid.
-        if( valid ) {
 
-            // Close the scene.
-            closeScene(button_save);
-            // Add it to the list of ScicrRow objects for that baseline.
-            //System.out.println(SCICRController.map.get(baseline).toString());
-            SCICRController.map.get(baseline).add(newSCICR);
-
-        }
     }
 
     /**
