@@ -5,7 +5,7 @@
 
 package ROMdb.Driver;
 
-import ROMdb.Helpers.FileHandler;
+import ROMdb.Helpers.*;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -48,8 +48,8 @@ public class Main extends Application
         {
             JOptionPane.showMessageDialog(null, e);
         }
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Views/MainView.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/MainView.fxml"));
         Parent root = loader.load();
 
 
