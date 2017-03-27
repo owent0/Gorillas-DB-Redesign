@@ -310,6 +310,7 @@ public class EstimationBaseController {
     @FXML
     private void fillTextFieldsFromDB()
     {
+
         try
         {
             // Grab the current selected baseline from drop down.
