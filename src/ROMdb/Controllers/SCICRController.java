@@ -5,6 +5,8 @@ import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.MainMenuModel;
+import ROMdb.Models.SCICRModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -33,7 +35,7 @@ public class SCICRController {
 
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
-    public static HashMap<String, ObservableList<SCICRRow>> map;
+    //public static HashMap<String, ObservableList<SCICRRow>> map;
 
 
 
@@ -54,10 +56,10 @@ public class SCICRController {
     @FXML
     public void initialize()
     {
-        map = new HashMap<>();
+        //map = new HashMap<>();
 
         // File the combo with the baselines list.
-        combo_ScIcrBaseline.setItems(MainMenuController.baselines);
+        combo_ScIcrBaseline.setItems(MainMenuModel.getBaselines());
 
         // Call to create the factories.
         createFactories();
@@ -222,11 +224,13 @@ public class SCICRController {
     @FXML
     public void switchTableData()
     {
+        updateCurrentBaseline();
+
         //ObservableList data = createRowObjects();
-        MainMenuController.selectedBaseline = combo_ScIcrBaseline.getSelectionModel().getSelectedItem();
+        //MainMenuController.selectedBaseline = combo_ScIcrBaseline.getSelectionModel().getSelectedItem();
 
         // Gets the list associated with that baseline.
-        ObservableList data = map.get(MainMenuController.selectedBaseline);
+        ObservableList data = SCICRModel.getMap().get(MainMenuModel.getSelectedBaseline());
 
         // Puts data into the table view.
         table_ScIcr.setItems(data);
@@ -238,8 +242,17 @@ public class SCICRController {
      */
     @FXML
     private void fillTable() {
+
+        try {
+            SCICRModel.fillTable();
+
+        } catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
+            alert.showAndWait();
+        }
         // For each baseline.
-        for( String baseline : MainMenuController.baselines ) {
+       /* ObservableList<String> baselines = MainMenuModel.getBaselines();
+        for( String baseline : baselines) {
 
             // Initialize rows list.
             ObservableList rows = FXCollections.observableArrayList();
@@ -277,7 +290,7 @@ public class SCICRController {
             }
 
             this.map.put(baseline, rows);
-        }
+        }*/
     }
 
 
@@ -341,7 +354,7 @@ public class SCICRController {
             String baseline = rowToDelete.getBaseline();
 
             // Remove the row from the observable list keyed by the baseline.
-            map.get(baseline).remove(rowToDelete);
+            SCICRModel.getMap().get(baseline).remove(rowToDelete);
 
             // Method call to delete from database.
             deleteRowFromDatabase(rowToDelete.getNumber());
@@ -358,14 +371,16 @@ public class SCICRController {
     private void deleteRowFromDatabase(String rowKey) {
         try {
 
-            // Set up statement for deleting from database.
+
+            SCICRModel.deleteRowFromDatabase(rowKey);
+            /*// Set up statement for deleting from database.
             PreparedStatement st = Main.conn.prepareStatement("DELETE FROM SCICRData WHERE Number = ?");
 
             // Uses the primary key to locate in table.
             st.setString(1,rowKey);
 
             // Perform the query.
-            st.executeUpdate();
+            st.executeUpdate();*/
 
         } catch(SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not delete entry from database.", ButtonType.OK);
@@ -378,9 +393,12 @@ public class SCICRController {
      * @param rowToUpdate the row to update.
      */
     private void updateChanges(SCICRRow rowToUpdate) {
+
         try
         {
-            // The query to insert the data from the fields.
+            SCICRModel.updateChanges(rowToUpdate);
+
+            /*// The query to insert the data from the fields.
             String insertQuery = "UPDATE SCICRData SET [Type]=?, [Number]=?, [Title]=?, [Build]=?, [Baseline]=? WHERE [id]=?";
 
             // Create a new statement.
@@ -388,7 +406,7 @@ public class SCICRController {
 
             st.setInt(6, rowToUpdate.getId());
 
-            /** Parse all of the information and stage for writing. */
+            *//** Parse all of the information and stage for writing. *//*
             st.setString(1, rowToUpdate.getType().trim());
             st.setString(2, rowToUpdate.getNumber().trim());
             st.setString(3, rowToUpdate.getTitle().trim());
@@ -396,11 +414,19 @@ public class SCICRController {
             st.setString(5, rowToUpdate.getBaseline().trim());
 
             // Perform the update inside of the table of the database.
-            st.executeUpdate();
+            st.executeUpdate();*/
         }
         catch (Exception e)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not add entry.", ButtonType.OK);
+            alert.showAndWait();
         }
+    }
+
+    @FXML
+    public void updateCurrentBaseline() {
+        String baseline = combo_ScIcrBaseline.getSelectionModel().getSelectedItem();
+        MainMenuModel.setSelectedBaseline(baseline);
+        combo_ScIcrBaseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
     }
 }

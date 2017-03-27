@@ -38,8 +38,10 @@ public class MainMenuController
     public FXMLLoader loader;
 
     public static String selectedBaseline;
+    @FXML private EstimationBaseController estimationBaseController;
+    @FXML private SCICRController sCICRController;
 
-    public static ObservableList<String> baselines = fetchBaselinesFromDB();
+    //public static ObservableList<String> baselines = fetchBaselinesFromDB();
 
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
@@ -91,8 +93,11 @@ public class MainMenuController
     public void viewEstimationBase()
     {
         anchor_estimation.setVisible(true);
+//        estimationBaseController.updateEstimationBaseline();
+//        sCICRController.updateCurrentBaseline();
         anchor_requirements.setVisible(false);
         anchor_mainScIcr.setVisible(false);
+        System.out.println(anchor_estimation.getChildren().get(0));
     }
 
 

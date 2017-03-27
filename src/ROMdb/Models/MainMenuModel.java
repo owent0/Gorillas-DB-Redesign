@@ -1,6 +1,8 @@
 package ROMdb.Models;
 
 import ROMdb.Driver.Main;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,9 +16,27 @@ import java.util.ArrayList;
  */
 public class MainMenuModel {
 
-    public static String selectedBaseline;
+    public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
+    //public static String selectedBaseline = "Baseline";
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
     // public static ObservableList<String> baselines = FXCollections.observableArraylist
+
+
+    public static ObservableList<String> getBaselines() {
+        return baselines;
+    }
+
+    public static void setBaselines(ObservableList<String> baselines) {
+        MainMenuModel.baselines = baselines;
+    }
+
+    public static String getSelectedBaseline() {
+        return selectedBaseline.getValue();
+    }
+
+    public static void setSelectedBaseline(String selectedBaseline) {
+        MainMenuModel.selectedBaseline = new SimpleStringProperty(selectedBaseline);
+    }
 
     /**
      * This method will read all of the baselines currently stored within

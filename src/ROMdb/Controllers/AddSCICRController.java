@@ -6,6 +6,7 @@ import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
 import ROMdb.Models.AddSCICRModel;
 import ROMdb.Models.MainMenuModel;
+import ROMdb.Models.SCICRModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,8 +37,9 @@ public class AddSCICRController {
     @FXML
     public void initialize()
     {
-        combo_baseline.setItems(MainMenuController.baselines);
-        combo_baseline.getSelectionModel().select(MainMenuController.selectedBaseline);
+
+        combo_baseline.setItems(MainMenuModel.getBaselines());
+        combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
     }
 
     /**
@@ -78,7 +80,7 @@ public class AddSCICRController {
             closeScene();
             // Add it to the list of SCICRRow objects for that baseline.
             //System.out.println(SCICRController.map.get(baseline).toString());
-            SCICRController.map.get(baseline).add(newSCICR);
+            SCICRModel.getMap().get(baseline).add(newSCICR);
 
         }
         catch (Exception e)
@@ -95,6 +97,14 @@ public class AddSCICRController {
     private void closeScene() {
         Stage stage = (Stage) button_save.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void updateCurrentBaseline() {
+        String baseline = combo_baseline.getSelectionModel().getSelectedItem();
+        MainMenuModel.setSelectedBaseline(baseline);
+        combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+
     }
 
 }

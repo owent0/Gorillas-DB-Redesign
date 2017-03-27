@@ -5,6 +5,8 @@ import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.MainMenuModel;
+import ROMdb.Models.SCICRModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -34,7 +36,7 @@ public class AddBaselineController {
     public void initialize() {
 
         // Grab the list of baselines.
-        ObservableList list = MainMenuController.baselines;
+        ObservableList list = MainMenuModel.getBaselines();
 
         // Place the baselines inside of the list.
         list_baselineList.setItems(list);
@@ -126,7 +128,7 @@ public class AddBaselineController {
         String baselineToAdd = field_addBaseline.getText().trim();
 
         // If baseline is already in existence.
-        if(SCICRController.map.containsKey(baselineToAdd)) {
+        if(SCICRModel.getMap().containsKey(baselineToAdd)) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Baseline already exists", ButtonType.OK);
             alert.showAndWait();
             return;
@@ -157,7 +159,7 @@ public class AddBaselineController {
         }
 
         // Add the new baseline to the map.
-        MainMenuController.baselines.add(baselineToAdd);
+        MainMenuModel.getBaselines().add(baselineToAdd);
 
         try {
             // The query to insert the data from the fields.
@@ -173,7 +175,7 @@ public class AddBaselineController {
             st.executeUpdate();
 
             ObservableList<SCICRRow> temp = FXCollections.observableArrayList();
-            SCICRController.map.put(baselineToAdd, temp);
+            SCICRModel.getMap().put(baselineToAdd, temp);
 
             // The query to insert the data from the fields.
             insertQuery =    "INSERT INTO basicrom ([slocspermanday], [slocspermanmonth], [cprs], [IntergrationWeight],"

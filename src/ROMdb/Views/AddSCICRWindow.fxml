@@ -23,7 +23,7 @@
       <TextField fx:id="field_title" layoutX="103.0" layoutY="60.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Title" />
       <TextField fx:id="field_number" layoutX="103.0" layoutY="95.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Number" />
       <TextField fx:id="field_build" layoutX="103.0" layoutY="130.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Build" />
-      <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="165.0" prefHeight="25.0" prefWidth="185.0" promptText="Select Baseline" />
+      <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="165.0" onAction="#updateCurrentBaseline" prefHeight="25.0" prefWidth="185.0" promptText="Select Baseline" />
       <Button fx:id="button_save" layoutX="229.0" layoutY="208.0" mnemonicParsing="false" onAction="#saveSCICR" prefHeight="25.0" prefWidth="60.0" text="Save" />
       <Button fx:id="button_cancel" layoutX="163.0" layoutY="208.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="60.0" text="Cancel" />
    </children>
