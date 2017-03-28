@@ -8,7 +8,7 @@
 
 <Pane fx:id="estimationBaseView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.EstimationBaseController">
    <children>
-      <Label fx:id="label_baseline" layoutX="71.0" layoutY="60.0" text="Baseline" />
+      <Label fx:id="label_baseline" layoutX="71.0" layoutY="60.0" text="Baseline" visible="false" />
       <Label fx:id="label_cprs" layoutX="338.0" layoutY="60.0" text="CPRS#" />
       <Label fx:id="label_staffMonth" layoutX="45.0" layoutY="155.0" text="SLOCs/Staff-Month" />
       <Label fx:id="label_staffDay" layoutX="45.0" layoutY="187.0" text="SLOCs/Staff-Day" />
@@ -23,7 +23,7 @@
       <Label fx:id="label_integrationWeight" layoutX="350.0" layoutY="252.0" text="Integration Weight" />
       <Label fx:id="label_defaultSlocs" layoutX="45.0" layoutY="219.0" text="Default SLOCS" />
 
-      <ComboBox fx:id="combo_estimateBaseline" layoutX="137.0" layoutY="56.0" onAction="#fillTextFieldsFromDB" prefWidth="150.0" />
+      <ComboBox fx:id="combo_estimateBaseline" layoutX="137.0" layoutY="56.0" prefWidth="150.0" visible="false" />
 
       <TextField fx:id="field_cprs" layoutX="406.0" layoutY="56.0" />
       <TextField fx:id="field_staffMonth" layoutX="172.0" layoutY="151.0" onKeyReleased="#calculateStaffDay" prefHeight="25.0" prefWidth="120.0" />

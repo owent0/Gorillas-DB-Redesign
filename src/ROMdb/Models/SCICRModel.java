@@ -4,11 +4,6 @@ import ROMdb.Driver.Main;
 import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +18,6 @@ public class SCICRModel {
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
-
 
     public static HashMap<String, ObservableList<SCICRRow>> getMap() {
         return map;

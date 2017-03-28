@@ -1,19 +1,12 @@
 package ROMdb.Controllers;
 
-import ROMdb.Exceptions.InputFormatException;
-import ROMdb.Helpers.InputType;
-import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
 import ROMdb.Models.AddSCICRModel;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.SCICRModel;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import java.io.IOException;
 
 /**
  * Created by chris on 3/15/2017.

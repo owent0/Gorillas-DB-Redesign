@@ -4,10 +4,6 @@ import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

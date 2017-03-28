@@ -1,5 +1,7 @@
 package ROMdb.Models;
 
+import ROMdb.Controllers.EstimationBaseController;
+import ROMdb.Controllers.SCICRController;
 import ROMdb.Driver.Main;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
@@ -15,6 +17,9 @@ import java.util.ArrayList;
  * Created by derek on 3/25/2017.
  */
 public class MainMenuModel {
+
+    public static EstimationBaseController estimationBaseController;
+    public static SCICRController sCICRController;
 
     public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
     //public static String selectedBaseline = "Baseline";
@@ -37,6 +42,8 @@ public class MainMenuModel {
     public static void setSelectedBaseline(String selectedBaseline) {
         MainMenuModel.selectedBaseline = new SimpleStringProperty(selectedBaseline);
     }
+
+
 
     /**
      * This method will read all of the baselines currently stored within

@@ -1,5 +1,6 @@
 package ROMdb.Models;
 
+import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Driver.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -17,23 +18,9 @@ import java.util.ArrayList;
  */
 public class EstimationBaseModel {
 
+
     // For calculating staff day.
     private static final double STAFF_MONTH_DIVISOR = 20.92;
-
-/*    *//** Write all of the information into the correct text field. *//*
-                    field_staffDay.setText(rs.getString     ("slocspermanday"));
-                    field_staffMonth.setText(rs.getString   ("slocspermanmonth"));
-                    field_cprs.setText(rs.getString         ("cprs"));
-                    field_defaultSlocs.setText(rs.getString ("DefaultSLOCS"));
-                    field_cpddDocument.setText(rs.getString ("CPDDDocument"));
-                    field_cpddDate.setText(rs.getString     ("CPDDDate"));
-                    field_budgetUpgrade.setText(rs.getString("Budget Upgrade"));
-                    field_budgetMaint.setText(rs.getString  ("Budget Maintenance"));
-                    field_ddrCwtSlocs.setText(rs.getString  ("DDR/CWT SLOCS"));
-                    field_integrationWeight.setText(Double.toString(
-                    field_unitTestingWeight.setText(Double.toString
-                    field_codeWeight.setText(Double.toString(
-                    field_designWeight.setText(Double.toString(*/
 
     /**
      * This method will evaluate each text field and ensure that

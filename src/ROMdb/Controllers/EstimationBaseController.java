@@ -6,14 +6,11 @@
 
 package ROMdb.Controllers;
 
-import ROMdb.Driver.Main;
 import ROMdb.Models.EstimationBaseModel;
 import ROMdb.Models.MainMenuModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.sql.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class EstimationBaseController {
@@ -36,6 +33,19 @@ public class EstimationBaseController {
 
     /** End GUI components                                          */
 
+
+    /**
+     * This method will automatically run as soon as the program
+     * is started. It will establish a database connection and
+     * set the baseline drop down menu with the values from the
+     * baseline table in the database.
+     */
+    @FXML
+    public void initialize()
+    {
+        combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
+        MainMenuModel.estimationBaseController = this;
+    }
 
     /**
      * This method will evaluate each text field and ensure that
@@ -73,16 +83,31 @@ public class EstimationBaseController {
     }
 
 
-    /**
-     * This method will automatically run as soon as the program
-     * is started. It will establish a database connection and
-     * set the baseline drop down menu with the values from the
-     * baseline table in the database.
-     */
-    @FXML
-    public void initialize()
-    {
-        combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
+    public void fillTextFieldsFromDB() {
+        try
+        {
+            ArrayList<String> values = EstimationBaseModel.fillTextFieldsFromDB(MainMenuModel.getSelectedBaseline());
+
+            field_staffDay.setText(values.get(0));
+            field_staffMonth.setText(values.get(1));
+            field_cprs.setText(values.get(2));
+            field_defaultSlocs.setText(values.get(3));
+            field_cpddDocument.setText(values.get(4));
+            field_cpddDate.setText(values.get(5));
+            field_budgetUpgrade.setText(values.get(6));
+            field_budgetMaint.setText(values.get(7));
+            field_ddrCwtSlocs.setText(values.get(8));
+            field_integrationWeight.setText(values.get(9));
+            field_unitTestingWeight.setText(values.get(10));
+            field_codeWeight.setText(values.get(11));
+            field_designWeight.setText(values.get(12));
+
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -91,7 +116,7 @@ public class EstimationBaseController {
      * the user chooses the baseline from the drop down menu. This information
      * can then be updated if desired.
      */
-    @FXML
+    /*@FXML
     private void fillTextFieldsFromDB()
     {
 
@@ -119,19 +144,6 @@ public class EstimationBaseController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.", ButtonType.OK);
             alert.showAndWait();
         }
-    }
-
-    public void updateEstimationBaseline() {
-        String baseline = combo_estimateBaseline.getSelectionModel().getSelectedItem();
-        MainMenuModel.setSelectedBaseline(baseline);
-        combo_estimateBaseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
-    }
-
-    @FXML
-    private void updateCurrentBaseline() {
-        String baseline = combo_estimateBaseline.getSelectionModel().getSelectedItem();
-        MainMenuModel.setSelectedBaseline(baseline);
-        combo_estimateBaseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
-    }
+    }*/
 }
 

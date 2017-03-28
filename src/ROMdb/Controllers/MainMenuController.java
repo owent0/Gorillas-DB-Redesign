@@ -8,6 +8,7 @@
 package ROMdb.Controllers;
 
 import ROMdb.Driver.Main;
+import ROMdb.Models.MainMenuModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,9 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,12 @@ public class MainMenuController
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
 
+    @FXML private ComboBox<String> combo_baseline;
+
+    @FXML
+    public void initialize() {
+        this.combo_baseline.setItems(fetchBaselinesFromDB());
+    }
 
     /**
      * This method will read all of the baselines currently stored within
@@ -85,6 +92,14 @@ public class MainMenuController
 
         return bases;
     }
+
+    @FXML
+    public void changeSelectedBaseline() {
+        MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
+        MainMenuModel.estimationBaseController.fillTextFieldsFromDB();
+        MainMenuModel.sCICRController.switchTableData();
+    }
+
     /**
      * Set the estimation base pane to visible when button is hit.
      * All others are set to invisible.
