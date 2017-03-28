@@ -19,7 +19,7 @@
                   <Insets bottom="5.0" top="15.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry" visible="false">
+            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

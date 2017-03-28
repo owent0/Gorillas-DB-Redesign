@@ -55,7 +55,7 @@ public class Main extends Application
 
         primaryStage.setTitle("ROM Database");
         primaryStage.setScene(new Scene(root, 800, 560));
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
         primaryStage.show();
 
     }
