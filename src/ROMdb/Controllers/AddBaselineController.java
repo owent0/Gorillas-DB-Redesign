@@ -5,6 +5,7 @@ import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.AddBaselineModel;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.SCICRModel;
 import javafx.collections.FXCollections;
@@ -83,6 +84,7 @@ public class AddBaselineController {
         });
     }
 
+
     /**
      * Updating a baseline that is already in the baseline table in MS Access
      * Precondition: newBaseline is validated already
@@ -90,7 +92,29 @@ public class AddBaselineController {
      * @param newBaseline the new value for the baseline in the baseline table
      *
      */
-    @FXML
+    public void writeBaselineEditToDB(String oldBaseline, String newBaseline) {
+
+        try
+        {
+            AddBaselineModel.writeBaselineEditToDB(oldBaseline, newBaseline);
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.\n" + e, ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+
+
+    /**
+     * Updating a baseline that is already in the baseline table in MS Access
+     * Precondition: newBaseline is validated already
+     * @param oldBaseline the current baseline in the baseline table
+     * @param newBaseline the new value for the baseline in the baseline table
+     *
+     */
+    /*@FXML
     public void writeBaselineEditToDB(String oldBaseline, String newBaseline) {
 
         try
@@ -116,12 +140,62 @@ public class AddBaselineController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.\n" + e, ButtonType.OK);
             alert.showAndWait();
         }
-    }
+    }*/
 
     /**
      * Writing the baseline to the baseline table in MS Access
      * @throws Exception If it fails.
      */
+    @FXML
+    public void writeBaseline() throws Exception {
+
+        String baselineToAdd = field_addBaseline.getText().trim();
+
+        // If baseline is already in existence.
+        if(SCICRModel.getMap().containsKey(baselineToAdd)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Baseline already exists", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        // If entry field is blank.
+        try
+        {
+            InputValidator.checkPatternDoesNotMatch(baselineToAdd, InputType.WHITE_SPACE);
+        }
+        catch(InputFormatException ife)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No baseline entered.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        // If not alpha-numeric.
+        try
+        {
+            InputValidator.checkPatternMatch(baselineToAdd, InputType.ALPHA_NUMERIC);
+        }
+        catch(InputFormatException ife)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            AddBaselineModel.writeBaseline(baselineToAdd);
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add baseline to database.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Writing the baseline to the baseline table in MS Access
+     * @throws Exception If it fails.
+     *//*
     @FXML
     public void writeBaseline() throws Exception {
 
@@ -168,7 +242,7 @@ public class AddBaselineController {
             // Create a new statement.
             PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
-            /** Parse all of the information and stage for writing. */
+            *//** Parse all of the information and stage for writing. *//*
             st.setString(1, baselineToAdd);
 
             // Perform the update inside of the table of the database.
@@ -208,8 +282,7 @@ public class AddBaselineController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add baseline to database.", ButtonType.OK);
             alert.showAndWait();
         }
-
-    }
+    }*/
 
     /**
      * Closes the adding a baseline view

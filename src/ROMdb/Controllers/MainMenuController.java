@@ -38,12 +38,6 @@ public class MainMenuController
     // The loader object for FXML.
     public FXMLLoader loader;
 
-    public static String selectedBaseline;
-    @FXML private EstimationBaseController estimationBaseController;
-    @FXML private SCICRController sCICRController;
-
-    //public static ObservableList<String> baselines = fetchBaselinesFromDB();
-
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
@@ -52,45 +46,7 @@ public class MainMenuController
 
     @FXML
     public void initialize() {
-        this.combo_baseline.setItems(fetchBaselinesFromDB());
-    }
-
-    /**
-     * This method will read all of the baselines currently stored within
-     * the baseline database table.
-     *
-     * @return ObservableList the list containing the baseline from the baselines table.
-     */
-    private static ObservableList<String> fetchBaselinesFromDB() {
-
-        // The list to store the baselines in temporarily.
-        ArrayList<String> baselines = new ArrayList<String>();
-
-        try
-        {
-            // Grab all the baselines.
-            String query = "SELECT * FROM baseline";
-
-            // Create the statement.
-            Statement st = Main.conn.createStatement();
-
-            // Get the result set from the query.
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) // Retrieve data from ResultSet
-            {
-                baselines.add(rs.getString("baseline")); //4th column of Table
-            }
-        }
-        catch (Exception e)
-        {
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-        // Convert to observable list for FXML purposes.
-        ObservableList bases = FXCollections.observableArrayList(baselines);
-
-        return bases;
+        this.combo_baseline.setItems(MainMenuModel.getBaselines());
     }
 
     @FXML
@@ -108,8 +64,6 @@ public class MainMenuController
     public void viewEstimationBase()
     {
         anchor_estimation.setVisible(true);
-//        estimationBaseController.updateEstimationBaseline();
-//        sCICRController.updateCurrentBaseline();
         anchor_requirements.setVisible(false);
         anchor_mainScIcr.setVisible(false);
         System.out.println(anchor_estimation.getChildren().get(0));
@@ -197,14 +151,5 @@ public class MainMenuController
     public void exitProgram() throws SQLException {
         Main.conn.close();
         System.exit(0);
-    }
-
-    /**
-     * Loader setter method.
-     * @param loader The FXML loader.
-     */
-    public void setLoader(FXMLLoader loader)
-    {
-        this.loader = loader;
     }
 }

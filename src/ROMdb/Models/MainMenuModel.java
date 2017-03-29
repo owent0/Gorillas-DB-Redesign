@@ -22,9 +22,7 @@ public class MainMenuModel {
     public static SCICRController sCICRController;
 
     public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
-    //public static String selectedBaseline = "Baseline";
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
-    // public static ObservableList<String> baselines = FXCollections.observableArraylist
 
 
     public static ObservableList<String> getBaselines() {
@@ -42,8 +40,6 @@ public class MainMenuModel {
     public static void setSelectedBaseline(String selectedBaseline) {
         MainMenuModel.selectedBaseline = new SimpleStringProperty(selectedBaseline);
     }
-
-
 
     /**
      * This method will read all of the baselines currently stored within
