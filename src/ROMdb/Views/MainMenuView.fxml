@@ -6,71 +6,83 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
-   <children>
-      <VBox layoutX="14.0" layoutY="14.0" prefHeight="515.0" prefWidth="136.0">
+<BorderPane minHeight="560.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+   <left>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin>
          <children>
-            <Button fx:id="button_SCICR" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="27.0" prefWidth="136.0" text="SC/ICR">
-               <VBox.margin>
-                  <Insets bottom="5.0" top="15.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="27.0" prefWidth="136.0" text="Requirements Entry">
-               <VBox.margin>
-                  <Insets bottom="5.0" />
-               </VBox.margin>
-            </Button>
-            <Button id="button_estimationBase" fx:id="button_estimationBase" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="27.0" prefWidth="136.0" text="Estimation Base" />
-            <TextField prefHeight="25.0" prefWidth="95.0" visible="false">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin></TextField>
-            <ComboBox fx:id="combo_baseline" onAction="#changeSelectedBaseline" prefHeight="25.0" prefWidth="138.0" />
-            <Button fx:id="button_exit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="27.0" prefWidth="136.0" text="Exit Program">
-               <VBox.margin>
-                  <Insets top="345.0" />
-               </VBox.margin>
-            </Button>
+            <VBox alignment="TOP_CENTER" layoutX="11.0" layoutY="37.0" prefHeight="501.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="button_SCICR" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="25.0" prefWidth="135.0" text="Requirements Entry">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="button_estimationBase" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Region minHeight="0.0" prefHeight="204.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
+                  <ComboBox fx:id="combo_baseline" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline" />
+                  <Region minHeight="1.0" prefHeight="345.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
+                  <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
-      <Pane fx:id="pane_menu" layoutX="160.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="625.0">
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
          <children>
-            <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <fx:include source="SCICRView.fxml" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="anchor_estimation" minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="600.0" visible="false">
-               <children>
-                  <fx:include source="EstimationBaseView.fxml" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="anchor_requirements" prefHeight="513.0" prefWidth="600.0" visible="false">
+               </children></AnchorPane>
+            <AnchorPane fx:id="anchor_requirements" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <fx:include source="RequirementsEntryView.fxml" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="anchor_estimation" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <fx:include source="AddSCICRWindow.fxml" />
+                  <fx:include source="EstimationBaseView.fxml" />
                </children></AnchorPane>
-         </children>
-      </Pane>
-      <MenuBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="810.0">
+         </children></AnchorPane>
+   </center>
+   <right>
+      <Pane prefWidth="15.0" BorderPane.alignment="CENTER" />
+   </right>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="menuItem_CreateBaseline" mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create New Baseline" />
-                  <MenuItem fx:id="menuItem_ChangeDataPath" mnemonicParsing="false" onAction="#changeDatabasePath" text="Change Database Path" />
-                  <MenuItem fx:id="menuItem_ExitProgram" mnemonicParsing="false" onAction="#exitProgram" text="Exit" />
+                  <MenuItem mnemonicParsing="false" text="Create Baseline" />
+                  <MenuItem mnemonicParsing="false" text="Change FIle Path" />
+              <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-   </children>
-</AnchorPane>
+   </top>
+   <bottom>
+      <Pane prefHeight="15.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
