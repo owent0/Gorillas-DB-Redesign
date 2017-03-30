@@ -14,7 +14,7 @@
 
 <StackPane prefHeight="515.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.EstimationBaseController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
          <center>
             <StackPane BorderPane.alignment="CENTER">
                <children>
@@ -128,46 +128,53 @@
                                                             <ComboBox fx:id="combo_estimateBaseline" prefWidth="150.0" visible="false" />
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                              <VBox prefHeight="285.0" prefWidth="231.0" style="-fx-border-color: grey;">
                                  <children>
-                                    <Label fx:id="label_designWeight" minWidth="101.0" prefWidth="101.0" text="Design Weight" HBox.hgrow="NEVER">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="field_designWeight" minWidth="120.0" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label fx:id="label_designWeight" minWidth="101.0" prefWidth="101.0" text="Design Weight" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="field_designWeight" minWidth="120.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label fx:id="label_codeWeight" minWidth="101.0" prefWidth="101.0" text="Code Weight" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="field_codeWeight" minWidth="120.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label fx:id="label_unitTestingWeight" minWidth="101.0" prefWidth="101.0" text="Unit Test Weight" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="field_unitTestingWeight" minWidth="120.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label fx:id="label_integrationWeight" minWidth="101.0" text="Integration Weight" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="field_integrationWeight" minWidth="120.0" HBox.hgrow="NEVER" />
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label fx:id="label_codeWeight" minWidth="101.0" prefWidth="101.0" text="Code Weight" HBox.hgrow="NEVER">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="field_codeWeight" minWidth="120.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label fx:id="label_unitTestingWeight" minWidth="101.0" prefWidth="101.0" text="Unit Test Weight" HBox.hgrow="NEVER">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="field_unitTestingWeight" minWidth="120.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label fx:id="label_integrationWeight" minWidth="101.0" text="Integration Weight" HBox.hgrow="NEVER">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="field_integrationWeight" minWidth="120.0" HBox.hgrow="NEVER" />
-                                 </children>
-                              </HBox>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                               
