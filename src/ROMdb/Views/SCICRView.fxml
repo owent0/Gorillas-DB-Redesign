@@ -1,25 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<Pane fx:id="pane_mainScIcr" prefHeight="515.0" prefWidth="625.0" style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
    <children>
-       <ComboBox fx:id="combo_ScIcrBaseline" layoutX="13.0" layoutY="11.0" prefWidth="150.0" promptText="Baseline" visible="false" />
-       <Button fx:id="button_newSCICR" layoutX="444.0" layoutY="12.0" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR" />
-      <TableView fx:id="table_ScIcr" editable="true" layoutX="14.0" layoutY="48.0" prefHeight="456.0" prefWidth="598.0">
-        <columns>
-          <TableColumn fx:id="tableColumn_scicr" prefWidth="64.0" text="SC/ICR" />
-          <TableColumn fx:id="tableColumn_number" prefWidth="114.0" text="Number" />
-            <TableColumn fx:id="tableColumn_title" prefWidth="181.0" text="Title" />
-            <TableColumn fx:id="tableColumn_build" prefWidth="136.0" text="Build" />
-            <TableColumn fx:id="tableColumn_baseline" prefWidth="102.0" text="Baseline" />
-        </columns>
-      </TableView>
-      <Button fx:id="button_deleteRow" layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onAction="#removeRow" prefHeight="25.0" prefWidth="79.0" text="Delete" />
+      <BorderPane>
+         <center>
+            <VBox>
+               <children>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                         <ComboBox fx:id="combo_ScIcrBaseline" prefWidth="150.0" promptText="Baseline" visible="false" />
+                         <Button fx:id="button_newSCICR" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="button_deleteRow" mnemonicParsing="false" onAction="#removeRow" prefHeight="25.0" prefWidth="79.0" text="Delete" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView fx:id="table_ScIcr" editable="true" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn fx:id="tableColumn_scicr" prefWidth="64.0" text="SC/ICR" />
+                      <TableColumn fx:id="tableColumn_number" prefWidth="114.0" text="Number" />
+                        <TableColumn fx:id="tableColumn_title" prefWidth="181.0" text="Title" />
+                        <TableColumn fx:id="tableColumn_build" prefWidth="136.0" text="Build" />
+                        <TableColumn fx:id="tableColumn_baseline" prefWidth="105.0" text="Baseline" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
+         <top>
+            <Pane prefHeight="15.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+         <left>
+            <Pane prefHeight="200.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <Pane prefHeight="15.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
    </children>
-</Pane>
+</StackPane>

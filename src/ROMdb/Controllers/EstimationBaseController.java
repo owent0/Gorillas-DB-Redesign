@@ -43,7 +43,7 @@ public class EstimationBaseController {
     @FXML
     public void initialize()
     {
-        combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
+        //combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
         MainMenuModel.estimationBaseController = this;
     }
 
@@ -58,7 +58,7 @@ public class EstimationBaseController {
     @FXML
     public void saveChanges() {
         try {
-            EstimationBaseModel.errorChecking(combo_estimateBaseline.getSelectionModel().getSelectedItem(), field_staffDay.getText(), field_staffMonth.getText(), field_integrationWeight.getText(),
+            EstimationBaseModel.errorChecking(MainMenuModel.getSelectedBaseline(), field_staffDay.getText(), field_staffMonth.getText(), field_integrationWeight.getText(),
                     field_unitTestingWeight.getText(), field_codeWeight.getText(),
                     field_defaultSlocs.getText(), field_designWeight.getText(), field_budgetUpgrade.getText(), field_budgetMaint.getText(),
                     field_ddrCwtSlocs.getText(), field_cpddDocument.getText(), field_cpddDate.getText(), field_cprs.getText());

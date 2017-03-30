@@ -83,4 +83,7 @@
          </children>
       </StackPane>
    </center>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>
