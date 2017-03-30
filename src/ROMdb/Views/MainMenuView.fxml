@@ -10,9 +10,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane minHeight="560.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<BorderPane minHeight="0.0" minWidth="1150.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <left>
       <AnchorPane BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -45,38 +46,14 @@
          </children>
       </AnchorPane>
    </left>
-   <center>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <children>
-            <AnchorPane fx:id="anchor_mainScIcr" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <fx:include source="SCICRView.fxml" />
-               </children></AnchorPane>
-            <AnchorPane fx:id="anchor_requirements" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <fx:include source="RequirementsEntryView.fxml" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="anchor_estimation" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <fx:include source="EstimationBaseView.fxml" />
-               </children></AnchorPane>
-         </children></AnchorPane>
-   </center>
-   <right>
-      <Pane prefWidth="15.0" BorderPane.alignment="CENTER" />
-   </right>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Create Baseline" />
-                  <MenuItem mnemonicParsing="false" text="Change FIle Path" />
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create Baseline" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeDatabasePath" text="Change File Path" />
+              <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Close" />
             </items>
           </Menu>
         </menus>
@@ -85,4 +62,25 @@
    <bottom>
       <Pane prefHeight="15.0" BorderPane.alignment="CENTER" />
    </bottom>
+   <center>
+      <StackPane fx:id="requirementsStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <StackPane fx:id="scicrStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
+               <children>
+                  <fx:include source="SCICRView.fxml" />
+               </children>
+            </StackPane>
+            <StackPane fx:id="requirementsStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" StackPane.alignment="CENTER_LEFT">
+               <children>
+                  <fx:include source="RequirementsEntryView.fxml" />
+               </children>
+            </StackPane>
+            <StackPane fx:id="estimationStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
+               <children>
+                  <fx:include source="EstimationBaseView.fxml" />
+               </children>
+            </StackPane>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>

@@ -42,6 +42,11 @@ public class MainMenuController
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
 
+    @FXML private StackPane mainStackPane;
+    @FXML private StackPane estimationStackPane;
+    @FXML private StackPane scicrStackPane;
+    @FXML private StackPane requirementsStackPane;
+
     @FXML private ComboBox<String> combo_baseline;
 
     @FXML
@@ -63,10 +68,10 @@ public class MainMenuController
     @FXML
     public void viewEstimationBase()
     {
-        anchor_estimation.setVisible(true);
-        anchor_requirements.setVisible(false);
-        anchor_mainScIcr.setVisible(false);
-        System.out.println(anchor_estimation.getChildren().get(0));
+        estimationStackPane.setVisible(true);
+        requirementsStackPane.setVisible(false);
+        scicrStackPane.setVisible(false);
+        //System.out.println(anchor_estimation.getChildren().get(0));
     }
 
 
@@ -77,9 +82,9 @@ public class MainMenuController
     @FXML
     public void viewRequirementsEntry()
     {
-        anchor_estimation.setVisible(false);
-        anchor_requirements.setVisible(true);
-        anchor_mainScIcr.setVisible(false);
+        estimationStackPane.setVisible(false);
+        requirementsStackPane.setVisible(true);
+        scicrStackPane.setVisible(false);
     }
 
     /**
@@ -89,9 +94,9 @@ public class MainMenuController
     @FXML
     public void viewMainScIcr()
     {
-        anchor_estimation.setVisible(false);
-        anchor_requirements.setVisible(false);
-        anchor_mainScIcr.setVisible(true);
+        estimationStackPane.setVisible(false);
+        requirementsStackPane.setVisible(false);
+        scicrStackPane.setVisible(true);
     }
 
 
@@ -118,7 +123,7 @@ public class MainMenuController
 
         // Alert to restart the program.
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                 "You must restart the application for changes to take affect.\n" +
+                 "You must restart the application for changes to take effect.\n" +
                             "Want to restart?", ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
 

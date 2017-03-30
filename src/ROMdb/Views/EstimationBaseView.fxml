@@ -39,6 +39,6 @@
       <TextField fx:id="field_unitTestingWeight" layoutX="461.0" layoutY="214.0" prefHeight="25.0" prefWidth="120.0" />
       <TextField fx:id="field_integrationWeight" layoutX="461.0" layoutY="246.0" prefHeight="25.0" prefWidth="120.0" />
 
-      <Button fx:id="button_estimateSubmit" layoutX="461.0" layoutY="434.0" mnemonicParsing="false" onAction="#errorChecking" prefHeight="25.0" prefWidth="120.0" text="Save" />
+      <Button fx:id="button_estimateSubmit" layoutX="461.0" layoutY="434.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="25.0" prefWidth="120.0" text="Save" />
    </children>
 </Pane>

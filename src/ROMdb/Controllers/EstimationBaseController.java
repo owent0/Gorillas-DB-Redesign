@@ -56,7 +56,7 @@ public class EstimationBaseController {
      * weight fields will be evaluated to ensure they add up to 100.
      */
     @FXML
-    public void errorChecking() {
+    public void saveChanges() {
         try {
             EstimationBaseModel.errorChecking(combo_estimateBaseline.getSelectionModel().getSelectedItem(), field_staffDay.getText(), field_staffMonth.getText(), field_integrationWeight.getText(),
                     field_unitTestingWeight.getText(), field_codeWeight.getText(),
