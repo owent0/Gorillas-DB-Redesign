@@ -54,7 +54,7 @@ public class SCICRModel {
                             rs.getString("Baseline")
 
                     );
-                    temp.setID(rs.getInt("id"));
+                    temp.setID(rs.getInt("SCICR_ID"));
                     rows.add(temp);
                 }
             }

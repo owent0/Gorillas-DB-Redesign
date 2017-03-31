@@ -52,11 +52,11 @@ public class SCICRController {
         combo_ScIcrBaseline.setItems(MainMenuModel.getBaselines());
 
         // Call to create the factories.
-        createFactories();
+        this.createFactories();
 
         // Call to fill the table view with the SC/ICR
         // entries in the database.
-        fillTable();
+        this.fillTable();
     }
 
     /**

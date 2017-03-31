@@ -26,25 +26,44 @@ public class RequirementsRow {
     private SimpleStringProperty program;
     private SimpleStringProperty build;
 
-    public RequirementsRow(SimpleStringProperty csc, SimpleStringProperty csu, SimpleStringProperty doorsID, SimpleStringProperty paragraph, SimpleStringProperty baseline, SimpleStringProperty scicr, SimpleStringProperty capability, SimpleStringProperty add, SimpleStringProperty change, SimpleStringProperty delete, SimpleStringProperty designWeight, SimpleStringProperty codeWeight, SimpleStringProperty unitTestWeight, SimpleStringProperty integrationWeight, SimpleStringProperty ri, SimpleStringProperty rommer, SimpleStringProperty program, SimpleStringProperty build) {
-        this.csc = csc;
-        this.csu = csu;
-        this.doorsID = doorsID;
-        this.paragraph = paragraph;
-        this.baseline = baseline;
-        this.scicr = scicr;
-        this.capability = capability;
-        this.add = add;
-        this.change = change;
-        this.delete = delete;
-        this.designWeight = designWeight;
-        this.codeWeight = codeWeight;
-        this.unitTestWeight = unitTestWeight;
-        this.integrationWeight = integrationWeight;
-        this.ri = ri;
-        this.rommer = rommer;
-        this.program = program;
-        this.build = build;
+    public RequirementsRow(String csc,
+                           String csu,
+                           String doorsID,
+                           String paragraph,
+                           String baseline,
+                           String scicr,
+                           String capability,
+                           String add,
+                           String change,
+                           String delete,
+                           String designWeight,
+                           String codeWeight,
+                           String unitTestWeight,
+                           String integrationWeight,
+                           String ri,
+                           String rommer,
+                           String program,
+                           String build)
+    {
+
+        this.csc = new SimpleStringProperty(csc);
+        this.csu =  new SimpleStringProperty(csu);
+        this.doorsID =  new SimpleStringProperty(doorsID);
+        this.paragraph =  new SimpleStringProperty(paragraph);
+        this.baseline =  new SimpleStringProperty(baseline);
+        this.scicr =  new SimpleStringProperty(scicr);
+        this.capability =  new SimpleStringProperty(capability);
+        this.add =  new SimpleStringProperty(add);
+        this.change =  new SimpleStringProperty(change);
+        this.delete = new SimpleStringProperty(delete);
+        this.designWeight =  new SimpleStringProperty(designWeight);
+        this.codeWeight =  new SimpleStringProperty(codeWeight);
+        this.unitTestWeight =  new SimpleStringProperty(unitTestWeight);
+        this.integrationWeight =  new SimpleStringProperty(integrationWeight);
+        this.ri =  new SimpleStringProperty(ri);
+        this.rommer =  new SimpleStringProperty(rommer);
+        this.program =  new SimpleStringProperty(program);
+        this.build =  new SimpleStringProperty(build);
     }
 
     public String getCsc() {

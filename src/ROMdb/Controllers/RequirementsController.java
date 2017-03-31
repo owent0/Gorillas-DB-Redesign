@@ -1,11 +1,13 @@
 package ROMdb.Controllers;
 
 import ROMdb.Helpers.RequirementsRow;
+import ROMdb.Models.RequirementsModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class RequirementsController
 {
@@ -25,6 +27,7 @@ public class RequirementsController
     @FXML private TextField field_foors;
 
     @FXML private Button button_clear;
+    @FXML private Button button_save;
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
@@ -54,11 +57,30 @@ public class RequirementsController
         // when table is empty.
         //table_requirements.getItems().add(null);
 
-        createFactories();
+        this.createFactories();
+        this.fillTable();
+    }
+
+    private void fillTable() {
+        try {
+            RequirementsModel.fillTable();
+            table_requirements.setItems(RequirementsModel.map.get("Skeleton Key"));
+        } catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
+            alert.showAndWait();
+        }
+
+        table_requirements.getItems().add(null);
     }
 
     private void createFactories()
     {
+        /**
+         * These factories link the column to the RequirementsRow object. The string
+         * property parameter is a reference to the SimpleStringProperty object found
+         * inside of the RequirementsRow class. This allows us to reference rows of the
+         * table view as these objects.
+         */
         tableColumn_csc.setCellValueFactory(new PropertyValueFactory<>("csc"));
         tableColumn_csu.setCellValueFactory(new PropertyValueFactory<>("csu"));
         tableColumn_doorsID.setCellValueFactory(new PropertyValueFactory<>("doorsID"));
@@ -79,25 +101,114 @@ public class RequirementsController
         tableColumn_build.setCellValueFactory(new PropertyValueFactory<>("build"));
 
 
-        tableColumn_csc.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_csu.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_doorsID.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_paragraph.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_baseline.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_scicr.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_capability.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_add.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_change.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_delete.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_designWeight.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_codeWeight.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_unitTestWeight.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_integrationWeight.setCellValueFactory(TextFieldTableCell.<String>forTableColumn());
-        tableColumn_ri.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_rommer.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_program.setCellValueFactory(ComboBoxTableCell.forTableColumn());
-        tableColumn_build.setCellValueFactory(ComboBoxTableCell.forTableColumn());
+        /**
+         * These factories will set the referenced column to a specific component
+         * such as a text field or combo box in this case.
+         */
+        tableColumn_csc.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_csu.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_baseline.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_scicr.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_capability.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_ri.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_rommer.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_program.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_build.setCellFactory(col -> {
+                ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+                cell.setComboBoxEditable(true);
+                return cell;
+            }
+        );
+
+        tableColumn_doorsID.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_paragraph.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_add.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_change.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_delete.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_designWeight.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_codeWeight.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_unitTestWeight.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        tableColumn_integrationWeight.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+    }
+
+    @FXML
+    private void pressSave() {
+
+        /*String csc =
+        String csu
+        String doors
+        String paragraph
+        String baseline
+        String scicr
+        String capability
+        String add
+        String change
+        String delete
+        String design
+        String code
+        String unitTest
+        String integration
+        String ri
+        String rommer
+        String program
+        String build*/
 
 
+
+
+        try {
+            //RequirementsModel.insertIntoTable();
+        } catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not save entry", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 }
