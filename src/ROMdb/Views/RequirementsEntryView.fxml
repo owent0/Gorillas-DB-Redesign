@@ -210,12 +210,17 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="85.0">
+                                    <HBox alignment="CENTER" layoutY="95.0" maxHeight="-Infinity" prefHeight="48.0" prefWidth="984.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="95.0">
                                        <children>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="400.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="47.0" prefWidth="76.0">
+                                             <children>
+                                                <Button fx:id="button_newRow" mnemonicParsing="false" onAction="#newRow" prefHeight="32.0" prefWidth="67.0" text="New Row" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="360.0">
                                              <children>
                                                 <Label text="Sort By:" />
-                                                <ComboBox fx:id="combo_sort" prefWidth="400.0" />
+                                                <ComboBox fx:id="combo_sort" prefHeight="25.0" prefWidth="356.0" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
@@ -404,26 +409,26 @@
             </TabPane>
          </top>
          <center>
-            <TableView fx:id="table_requirements" editable="true" prefHeight="381.0" prefWidth="800.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+            <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="944.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="tableColumn_csc" prefWidth="72.0" text="CSC" />
-                <TableColumn fx:id="tableColumn_csu" prefWidth="93.0" text="CSU" />
-                  <TableColumn fx:id="tableColumn_doorsID" prefWidth="154.240234375" text="Doors ID" />
-                  <TableColumn fx:id="tableColumn_paragraph" prefWidth="95.0" text="Paragraph/Figure" />
-                  <TableColumn fx:id="tableColumn_baseline" prefWidth="91.0" text="Baseline" />
-                  <TableColumn fx:id="tableColumn_scicr" prefWidth="83.0" text="SC/ICR" />
-                  <TableColumn fx:id="tableColumn_capability" prefWidth="92.0" text="Capability" />
-                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" prefWidth="101.0" text="Add" />
-                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" prefWidth="84.0" text="Change" />
-                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" prefWidth="109.240234375" text="Delete" />
-                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" prefWidth="74.0" text="Design" />
-                  <TableColumn fx:id="tableColumn_codeWeight" prefWidth="117.0" text="Code" />
-                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" prefWidth="49.0" text="Unit Test" />
-                  <TableColumn fx:id="tableColumn_integrationWeight" prefWidth="157.0" text="Integration" />
-                  <TableColumn fx:id="tableColumn_ri" prefWidth="120.0" text="RI" />
-                  <TableColumn fx:id="tableColumn_rommer" prefWidth="120.0" text="Rommer" />
-                  <TableColumn fx:id="tableColumn_program" prefWidth="120.0" text="Program" />
-                  <TableColumn fx:id="tableColumn_build" prefWidth="120.0" text="Build" />
+                <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveChanges" prefWidth="72.0" text="CSC" />
+                <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveChanges" prefWidth="93.0" text="CSU" />
+                  <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveChanges" prefWidth="154.240234375" text="Doors ID" />
+                  <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveChanges" prefWidth="95.0" text="Paragraph/Figure" />
+                  <TableColumn fx:id="tableColumn_baseline" onEditCommit="#saveChanges" prefWidth="91.0" text="Baseline" />
+                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveChanges" prefWidth="83.0" text="SC/ICR" />
+                  <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveChanges" prefWidth="93.0" text="Capability" />
+                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="100.0" text="Add" />
+                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="84.0" text="Change" />
+                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="109.240234375" text="Delete" />
+                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="74.0" text="Design" />
+                  <TableColumn fx:id="tableColumn_codeWeight" onEditCommit="#saveChanges" prefWidth="117.0" text="Code" />
+                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="49.0" text="Unit Test" />
+                  <TableColumn fx:id="tableColumn_integrationWeight" onEditCommit="#saveChanges" prefWidth="157.0" text="Integration" />
+                  <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveChanges" prefWidth="120.0" text="RI" />
+                  <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveChanges" prefWidth="120.0" text="Rommer" />
+                  <TableColumn fx:id="tableColumn_program" onEditCommit="#saveChanges" prefWidth="120.0" text="Program" />
+                  <TableColumn fx:id="tableColumn_build" onEditCommit="#saveChanges" prefWidth="120.0" text="Build" />
               </columns>
             </TableView>
          </center>

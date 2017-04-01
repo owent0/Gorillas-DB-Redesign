@@ -1,11 +1,16 @@
 package ROMdb.Helpers;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Created by Anthony Orio on 3/28/2017.
  */
 public class RequirementsRow {
+
+    private int id;
+
+
 
     private SimpleStringProperty csc;
     private SimpleStringProperty csu;
@@ -14,13 +19,13 @@ public class RequirementsRow {
     private SimpleStringProperty baseline;
     private SimpleStringProperty scicr;
     private SimpleStringProperty capability;
-    private SimpleStringProperty add;
-    private SimpleStringProperty change;
-    private SimpleStringProperty delete;
-    private SimpleStringProperty designWeight;
-    private SimpleStringProperty codeWeight;
-    private SimpleStringProperty unitTestWeight;
-    private SimpleStringProperty integrationWeight;
+    private SimpleDoubleProperty add;
+    private SimpleDoubleProperty change;
+    private SimpleDoubleProperty delete;
+    private SimpleDoubleProperty designWeight;
+    private SimpleDoubleProperty codeWeight;
+    private SimpleDoubleProperty unitTestWeight;
+    private SimpleDoubleProperty integrationWeight;
     private SimpleStringProperty ri;
     private SimpleStringProperty rommer;
     private SimpleStringProperty program;
@@ -33,13 +38,13 @@ public class RequirementsRow {
                            String baseline,
                            String scicr,
                            String capability,
-                           String add,
-                           String change,
-                           String delete,
-                           String designWeight,
-                           String codeWeight,
-                           String unitTestWeight,
-                           String integrationWeight,
+                           Double add,
+                           Double change,
+                           Double delete,
+                           Double designWeight,
+                           Double codeWeight,
+                           Double unitTestWeight,
+                           Double integrationWeight,
                            String ri,
                            String rommer,
                            String program,
@@ -53,232 +58,84 @@ public class RequirementsRow {
         this.baseline =  new SimpleStringProperty(baseline);
         this.scicr =  new SimpleStringProperty(scicr);
         this.capability =  new SimpleStringProperty(capability);
-        this.add =  new SimpleStringProperty(add);
-        this.change =  new SimpleStringProperty(change);
-        this.delete = new SimpleStringProperty(delete);
-        this.designWeight =  new SimpleStringProperty(designWeight);
-        this.codeWeight =  new SimpleStringProperty(codeWeight);
-        this.unitTestWeight =  new SimpleStringProperty(unitTestWeight);
-        this.integrationWeight =  new SimpleStringProperty(integrationWeight);
+        this.add =  new SimpleDoubleProperty(add);
+        this.change =  new SimpleDoubleProperty(change);
+        this.delete = new SimpleDoubleProperty(delete);
+        this.designWeight =  new SimpleDoubleProperty(designWeight);
+        this.codeWeight =  new SimpleDoubleProperty(codeWeight);
+        this.unitTestWeight =  new SimpleDoubleProperty(unitTestWeight);
+        this.integrationWeight =  new SimpleDoubleProperty(integrationWeight);
         this.ri =  new SimpleStringProperty(ri);
         this.rommer =  new SimpleStringProperty(rommer);
         this.program =  new SimpleStringProperty(program);
         this.build =  new SimpleStringProperty(build);
     }
 
-    public String getCsc() {
-        return csc.get();
+
+    public int getId() {
+        return id;
     }
 
-    public SimpleStringProperty cscProperty() {
-        return csc;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCsc(String csc) {
-        this.csc.set(csc);
-    }
+    public SimpleStringProperty cscProperty() {return csc;}
+    public SimpleStringProperty csuProperty() {return csu;}
+    public SimpleStringProperty doorsIDProperty() {return doorsID;}
+    public SimpleStringProperty paragraphProperty() {return paragraph;}
+    public SimpleStringProperty baselineProperty() {return baseline;}
+    public SimpleStringProperty scicrProperty() {return scicr;}
+    public SimpleStringProperty capabilityProperty() {return capability;}
+    public SimpleStringProperty riProperty() {return ri;}
+    public SimpleStringProperty rommerProperty() {return rommer;}
+    public SimpleStringProperty programProperty() {return program;}
+    public SimpleStringProperty buildProperty() {return build;}
 
-    public String getCsu() {
-        return csu.get();
-    }
+    public SimpleDoubleProperty changeProperty() {return change;}
+    public SimpleDoubleProperty deleteProperty() {return delete;}
+    public SimpleDoubleProperty addProperty() {return add;}
+    public SimpleDoubleProperty designWeightProperty() {return designWeight;}
+    public SimpleDoubleProperty codeWeightProperty() {return codeWeight;}
+    public SimpleDoubleProperty unitTestWeightProperty() {return unitTestWeight;}
+    public SimpleDoubleProperty integrationWeightProperty() {return integrationWeight;}
 
-    public SimpleStringProperty csuProperty() {
-        return csu;
-    }
+    public String getCsc() {return csc.get();}
+    public String getCsu() {return csu.get();}
+    public String getDoorsID() {return doorsID.get();}
+    public String getParagraph() {return paragraph.get();}
+    public String getBaseline() {return baseline.get();}
+    public String getScicr() {return scicr.get();}
+    public String getCapability() {return capability.get();}
+    public String getRi() {return ri.get();}
+    public String getRommer() {return rommer.get();}
+    public String getProgram() {return program.get();}
+    public String getBuild() {return build.get();}
 
-    public void setCsu(String csu) {
-        this.csu.set(csu);
-    }
+    public double getAdd() {return add.get();}
+    public double getChange() {return change.get();}
+    public double getDelete() {return delete.get();}
+    public double getDesignWeight() {return designWeight.get();}
+    public double getCodeWeight() {return codeWeight.get();}
+    public double getUnitTestWeight() {return unitTestWeight.get();}
+    public double getIntegrationWeight() {return integrationWeight.get();}
 
-    public String getDoorsID() {
-        return doorsID.get();
-    }
-
-    public SimpleStringProperty doorsIDProperty() {
-        return doorsID;
-    }
-
-    public void setDoorsID(String doorsID) {
-        this.doorsID.set(doorsID);
-    }
-
-    public String getParagraph() {
-        return paragraph.get();
-    }
-
-    public SimpleStringProperty paragraphProperty() {
-        return paragraph;
-    }
-
-    public void setParagraph(String paragraph) {
-        this.paragraph.set(paragraph);
-    }
-
-    public String getBaseline() {
-        return baseline.get();
-    }
-
-    public SimpleStringProperty baselineProperty() {
-        return baseline;
-    }
-
-    public void setBaseline(String baseline) {
-        this.baseline.set(baseline);
-    }
-
-    public String getScicr() {
-        return scicr.get();
-    }
-
-    public SimpleStringProperty scicrProperty() {
-        return scicr;
-    }
-
-    public void setScicr(String scicr) {
-        this.scicr.set(scicr);
-    }
-
-    public String getCapability() {
-        return capability.get();
-    }
-
-    public SimpleStringProperty capabilityProperty() {
-        return capability;
-    }
-
-    public void setCapability(String capability) {
-        this.capability.set(capability);
-    }
-
-    public String getAdd() {
-        return add.get();
-    }
-
-    public SimpleStringProperty addProperty() {
-        return add;
-    }
-
-    public void setAdd(String add) {
-        this.add.set(add);
-    }
-
-    public String getChange() {
-        return change.get();
-    }
-
-    public SimpleStringProperty changeProperty() {
-        return change;
-    }
-
-    public void setChange(String change) {
-        this.change.set(change);
-    }
-
-    public String getDelete() {
-        return delete.get();
-    }
-
-    public SimpleStringProperty deleteProperty() {
-        return delete;
-    }
-
-    public void setDelete(String delete) {
-        this.delete.set(delete);
-    }
-
-    public String getDesignWeight() {
-        return designWeight.get();
-    }
-
-    public SimpleStringProperty designWeightProperty() {
-        return designWeight;
-    }
-
-    public void setDesignWeight(String designWeight) {
-        this.designWeight.set(designWeight);
-    }
-
-    public String getCodeWeight() {
-        return codeWeight.get();
-    }
-
-    public SimpleStringProperty codeWeightProperty() {
-        return codeWeight;
-    }
-
-    public void setCodeWeight(String codeWeight) {
-        this.codeWeight.set(codeWeight);
-    }
-
-    public String getUnitTestWeight() {
-        return unitTestWeight.get();
-    }
-
-    public SimpleStringProperty unitTestWeightProperty() {
-        return unitTestWeight;
-    }
-
-    public void setUnitTestWeight(String unitTestWeight) {
-        this.unitTestWeight.set(unitTestWeight);
-    }
-
-    public String getIntegrationWeight() {
-        return integrationWeight.get();
-    }
-
-    public SimpleStringProperty integrationWeightProperty() {
-        return integrationWeight;
-    }
-
-    public void setIntegrationWeight(String integrationWeight) {
-        this.integrationWeight.set(integrationWeight);
-    }
-
-    public String getRi() {
-        return ri.get();
-    }
-
-    public SimpleStringProperty riProperty() {
-        return ri;
-    }
-
-    public void setRi(String ri) {
-        this.ri.set(ri);
-    }
-
-    public String getRommer() {
-        return rommer.get();
-    }
-
-    public SimpleStringProperty rommerProperty() {
-        return rommer;
-    }
-
-    public void setRommer(String rommer) {
-        this.rommer.set(rommer);
-    }
-
-    public String getProgram() {
-        return program.get();
-    }
-
-    public SimpleStringProperty programProperty() {
-        return program;
-    }
-
-    public void setProgram(String program) {
-        this.program.set(program);
-    }
-
-    public String getBuild() {
-        return build.get();
-    }
-
-    public SimpleStringProperty buildProperty() {
-        return build;
-    }
-
-    public void setBuild(String build) {
-        this.build.set(build);
-    }
+    public void setCsc(String csc) {this.csc.set(csc);}
+    public void setCsu(String csu) {this.csu.set(csu);}
+    public void setDoorsID(String doorsID) {this.doorsID.set(doorsID);}
+    public void setParagraph(String paragraph) {this.paragraph.set(paragraph);}
+    public void setBaseline(String baseline) {this.baseline.set(baseline);}
+    public void setScicr(String scicr) {this.scicr.set(scicr);}
+    public void setCapability(String capability) {this.capability.set(capability);}
+    public void setAdd(double add) {this.add.set(add);}
+    public void setChange(double change) {this.change.set(change);}
+    public void setDelete(double delete) {this.delete.set(delete);}
+    public void setDesignWeight(double designWeight) {this.designWeight.set(designWeight);}
+    public void setCodeWeight(double codeWeight) {this.codeWeight.set(codeWeight);}
+    public void setUnitTestWeight(double unitTestWeight) {this.unitTestWeight.set(unitTestWeight);}
+    public void setIntegrationWeight(double integrationWeight) {this.integrationWeight.set(integrationWeight);}
+    public void setRi(String ri) {this.ri.set(ri);}
+    public void setRommer(String rommer) {this.rommer.set(rommer);}
+    public void setProgram(String program) {this.program.set(program);}
+    public void setBuild(String build) {this.build.set(build);}
 }
