@@ -120,8 +120,8 @@ public class RequirementsModel
      * Updates the database with any of the changes made.
      * @param rowToUpdate the row to update.
      */
-    public static void updateChanges(RequirementsRow rowToUpdate) throws SQLException {
-
+    public static void updateChangesToDB(RequirementsRow rowToUpdate) throws SQLException
+    {
         // The query to insert the data from the fields.
         String insertQuery = "UPDATE RequirementsData SET [csc]=?, [csu]=?, [doors_id]=?, [paragraph]=?, [baseline]=?, [scicr]=?, [capability]=?, [add]=?, [change]=?, [delete]=?, [design]=?, [code]=?, [unitTest]=?, [integration]=?, [ri]=?, [rommer]=?, [program]=?, [build]=? WHERE [Req_ID]=?";
 

@@ -34,4 +34,20 @@ public class InputValidator
             throw new InputFormatException("InputString '" + inputString + "' matches pattern: " + it.getPatternName());
         }
     }
+
+    public static void checkPatternMatch(Double inputDouble, InputType it) throws InputFormatException
+    {
+        if(!it.getPatternName().equals(InputType.DOUBLE.getPatternName()))
+        {
+            throw new InputFormatException("InputDouble '" + inputDouble + "' does not match pattern: " + it.getPatternName());
+        }
+    }
+
+    public static void checkPatternMatch(int inputInt, InputType it) throws InputFormatException
+    {
+        if(!it.getPatternName().equals(InputType.INT.getPatternName()))
+        {
+            throw new InputFormatException("InputInt '" + inputInt + "' does not match pattern: " + it.getPatternName());
+        }
+    }
 }

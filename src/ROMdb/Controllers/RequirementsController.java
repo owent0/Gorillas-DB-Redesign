@@ -1,6 +1,8 @@
 package ROMdb.Controllers;
 
 
+import ROMdb.Helpers.InputType;
+import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
 import javafx.fxml.FXML;
@@ -59,10 +61,13 @@ public class RequirementsController
         this.fillTable();
     }
     private void fillTable() {
-        try {
+        try
+        {
             RequirementsModel.fillTable();
             table_requirements.setItems(RequirementsModel.map.get("Skeleton Key"));
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
             alert.showAndWait();
         }
@@ -83,17 +88,21 @@ public class RequirementsController
 
     @FXML
     private void saveChanges() {
-        try {
-            RequirementsRow row = getRowItem();
-            RequirementsModel.updateChanges(row);
-        } catch(Exception e) {
+        try
+        {
+            RequirementsRow row = getSelectedRowItem();
+            RequirementsModel.updateChangesToDB(row);
+        }
+        catch(Exception e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not save entry", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
 
-    private RequirementsRow getRowItem() {
+    private RequirementsRow getSelectedRowItem()
+    {
         // Attempt to grab the cell that is selected.
         TablePosition selectedCell = (TablePosition) table_requirements.getSelectionModel().getSelectedCells().get(0);
 
@@ -109,12 +118,16 @@ public class RequirementsController
      * Todo this method
      */
     @FXML
-    private void pressSave() {
+    private void pressSave()
+    {
 
-        try {
+        try
+        {
             //RequirementsModel.insertIntoTable();
             System.out.println("Changed");
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not save entry", ButtonType.OK);
             alert.showAndWait();
         }
@@ -253,7 +266,7 @@ public class RequirementsController
 
 
         /**
-         * The next series of overrides is due conversion  between doubles and Strings. We must
+         * The next series of overrides is due to conversion between doubles and Strings. We must
          * override methods so that the fields inside of them can be changed between the two.
          */
         tableColumn_add.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -269,8 +282,18 @@ public class RequirementsController
             // into an actual Double. This is used because all values
             // inside of the table are represented as Strings.
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Added.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getAdd(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_change.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -280,8 +303,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Changed.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getChange(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_delete.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -291,8 +324,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Deleted.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getDelete(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_designWeight.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -302,8 +345,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Design Weight.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getDesignWeight(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_codeWeight.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -313,8 +366,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Code Weight.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getCodeWeight(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_unitTestWeight.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -324,8 +387,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Unit Test Weight.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getUnitTestWeight(); // else return item before change was attempted to be made
+                }
             }
         }));
         tableColumn_integrationWeight.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
@@ -335,8 +408,18 @@ public class RequirementsController
             }
 
             @Override
-            public Double fromString(String string) {
-                return Double.parseDouble(string);
+            public Double fromString(String string)
+            {
+                if (string.matches(InputType.POS_NEG_NUM.getPattern()))
+                {
+                    return Double.parseDouble(string);
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Integration Weight.", ButtonType.OK);
+                    alert.showAndWait();
+                    return getSelectedRowItem().getIntegrationWeight(); // else return item before change was attempted to be made
+                }
             }
         }));
         /**     End override series of methods for String to Double conversions     */
@@ -357,11 +440,14 @@ public class RequirementsController
      * Todo insertion of the error checking will go here.
      *
      */
-    private void createHandlers() {
-
+    private void createHandlers()
+    {
         /*  CSC Column  */
         tableColumn_csc.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue());
 
@@ -369,7 +455,9 @@ public class RequirementsController
                 // This method is located in this class.
                 saveChanges();
 
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for CSC.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -380,11 +468,16 @@ public class RequirementsController
 
         /*  CSU Column  */
         tableColumn_csu.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for CSU.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -394,11 +487,16 @@ public class RequirementsController
         });
         /*  Doors ID Column  */
         tableColumn_doorsID.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDoorsID(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Doors ID.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -409,11 +507,16 @@ public class RequirementsController
 
         /*  Paragraph Column  */
         tableColumn_paragraph.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setParagraph(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Paragraph/Figure.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -424,11 +527,17 @@ public class RequirementsController
 
         /*  Baseline Column  */
         tableColumn_baseline.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                // TODO This column is disabled in the view because we don't ever want to change this field...
+                // So no actions will be done here?
+
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBaseline(t.getNewValue());
-                saveChanges();
-            } catch(Exception e) {
+                //(t.getTableView().getItems().get(t.getTablePosition().getRow())).setBaseline(t.getNewValue());
+                //saveChanges();
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -439,11 +548,16 @@ public class RequirementsController
 
         /*  SC/ICR Column  */
         tableColumn_scicr.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setScicr(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -454,11 +568,16 @@ public class RequirementsController
 
         /*  Capability Column  */
         tableColumn_capability.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Capability.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -469,11 +588,16 @@ public class RequirementsController
 
         /*  Add Column  */
         tableColumn_add.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setAdd(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Add.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -484,11 +608,16 @@ public class RequirementsController
 
         /*  Change Column  */
         tableColumn_change.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setChange(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Change.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -499,11 +628,16 @@ public class RequirementsController
 
         /*  Delete Column  */
         tableColumn_delete.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDelete(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Delete.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -514,11 +648,16 @@ public class RequirementsController
 
         /*  Design Column  */
         tableColumn_designWeight.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDesignWeight(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Design.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -529,11 +668,16 @@ public class RequirementsController
 
         /*  Code Column  */
         tableColumn_codeWeight.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodeWeight(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Code.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -544,11 +688,16 @@ public class RequirementsController
 
         /*  Unit Test Column  */
         tableColumn_unitTestWeight.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUnitTestWeight(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Unit Test.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -559,11 +708,16 @@ public class RequirementsController
 
         /*  Integration Column  */
         tableColumn_integrationWeight.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setIntegrationWeight(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Integration.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -574,11 +728,16 @@ public class RequirementsController
 
         /*  RI Column  */
         tableColumn_ri.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for RI.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -589,11 +748,16 @@ public class RequirementsController
 
         /*  Rommer Column  */
         tableColumn_rommer.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Rommer.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -604,11 +768,16 @@ public class RequirementsController
 
         /*  Program Column  */
         tableColumn_program.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Program.", ButtonType.OK);
                 alert.showAndWait();
 
@@ -619,11 +788,16 @@ public class RequirementsController
 
         /*  Build Column  */
         tableColumn_build.setOnEditCommit(t -> {
-            try {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue());
                 saveChanges();
-            } catch(Exception e) {
+            }
+            catch(Exception e)
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Build.", ButtonType.OK);
                 alert.showAndWait();
 

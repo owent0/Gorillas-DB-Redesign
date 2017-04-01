@@ -5,14 +5,17 @@ package ROMdb.Helpers;
  */
 public enum InputType
 {
-    INT("\\d+", "Integer"),
-    DOUBLE("\\d+(\\.\\d{1,25})?", "Double"),
     ALPHA("^[a-zA-Z]*$", "Alpha"),
     ALPHA_SPACE("^[a-zA-Z\\s]*$", "Alpha Space"),
     ALPHA_NUMERIC("^[a-zA-Z0-9]*$", "Alpha Numeric"),
     ALPHA_NUMERIC_SPACE("^[a-zA-Z0-9\\s]*$", "Alpha Numeric Space"),
+    DOUBLE("\\d+(\\.\\d{1,25})?", "Double"),
     EMPTY_STRING("^$", "Empty String"),
+    INT("\\d+", "Integer"),
+    POS_NEG_NUM("[-+]?\\d*\\.?\\d+", "Positive or Negative Number"),
     WHITE_SPACE("^\\s*$", "White Space");
+
+    // NOTE: Use DOUBLE pattern type when trying to match any number (with decimal place or not)
 
     private String pattern;
     private String patternName;

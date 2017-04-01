@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -413,22 +413,22 @@
               <columns>
                 <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveChanges" prefWidth="72.0" text="CSC" />
                 <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveChanges" prefWidth="93.0" text="CSU" />
-                  <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveChanges" prefWidth="154.240234375" text="Doors ID" />
-                  <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveChanges" prefWidth="95.0" text="Paragraph/Figure" />
-                  <TableColumn fx:id="tableColumn_baseline" onEditCommit="#saveChanges" prefWidth="91.0" text="Baseline" />
-                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveChanges" prefWidth="83.0" text="SC/ICR" />
-                  <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveChanges" prefWidth="93.0" text="Capability" />
-                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="100.0" text="Add" />
-                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="84.0" text="Change" />
-                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="109.240234375" text="Delete" />
-                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="74.0" text="Design" />
-                  <TableColumn fx:id="tableColumn_codeWeight" onEditCommit="#saveChanges" prefWidth="117.0" text="Code" />
-                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="49.0" text="Unit Test" />
-                  <TableColumn fx:id="tableColumn_integrationWeight" onEditCommit="#saveChanges" prefWidth="157.0" text="Integration" />
-                  <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveChanges" prefWidth="120.0" text="RI" />
-                  <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveChanges" prefWidth="120.0" text="Rommer" />
-                  <TableColumn fx:id="tableColumn_program" onEditCommit="#saveChanges" prefWidth="120.0" text="Program" />
-                  <TableColumn fx:id="tableColumn_build" onEditCommit="#saveChanges" prefWidth="120.0" text="Build" />
+                  <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveChanges" prefWidth="145.0" text="Doors ID" />
+                  <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveChanges" prefWidth="140.0" text="Paragraph/Figure" />
+                  <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveChanges" prefWidth="78.0" text="Baseline" />
+                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveChanges" prefWidth="105.0" text="SC/ICR" />
+                  <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveChanges" prefWidth="100.0" text="Capability" />
+                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Added" />
+                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Changed" />
+                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Deleted" />
+                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="110.0" text="Design Weight" />
+                  <TableColumn fx:id="tableColumn_codeWeight" onEditCommit="#saveChanges" prefWidth="110.0" text="Code Weight" />
+                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="120.0" text="Unit Test Weight" />
+                  <TableColumn fx:id="tableColumn_integrationWeight" onEditCommit="#saveChanges" prefWidth="130.0" text="Integration Weight" />
+                  <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveChanges" prefWidth="160.0" text="Responsible Individual" />
+                  <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveChanges" prefWidth="70.0" text="Rommer" />
+                  <TableColumn fx:id="tableColumn_program" onEditCommit="#saveChanges" prefWidth="70.0" text="Program" />
+                  <TableColumn fx:id="tableColumn_build" onEditCommit="#saveChanges" prefWidth="90.0" text="Build" />
               </columns>
             </TableView>
          </center>
