@@ -77,8 +77,6 @@ public class RequirementsModel
 
         PreparedStatement st = QueryBuilder.buildSelectWhereQuery("RequirementsData", "*", RequirementsModel.filters, true);
 
-        System.out.println(st.toString());
-
         ResultSet rs = st.executeQuery();
 
         while (rs.next())

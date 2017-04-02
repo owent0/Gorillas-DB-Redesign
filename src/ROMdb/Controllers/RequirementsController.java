@@ -179,16 +179,40 @@ public class RequirementsController
         RequirementsModel.filters = newListOfFilters;
     }
 
+    /**
+     * Used to test to see if there are any legitimate filters in the filterList
+     * If not return true (yes, Filters Are All Empty)
+     */
+    private boolean areFiltersAllEmpty(ArrayList<FilterItem> filters)
+    {
+        for(FilterItem fi : filters)
+        {
+            if(!fi.getValue().matches(InputType.WHITE_SPACE.getPattern()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void updateJTableWithFilteredReqData()
     {
-        try
+        // If filters are all empty, then load full results set into JTable
+        if(areFiltersAllEmpty(RequirementsModel.filters) == true)
         {
-            table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
+            fillTable();
         }
-        catch(Exception e)
+        else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
-            alert.showAndWait();
+            try
+            {
+                table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
+            }
+            catch(Exception e)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
     }
 
