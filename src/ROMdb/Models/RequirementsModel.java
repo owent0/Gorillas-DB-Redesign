@@ -107,53 +107,6 @@ public class RequirementsModel
         return filteredList;
     }
 
-    /*
-    public static ObservableList getFilteredReqData(String csc,
-                                                    String csu,
-                                                    String doorsID,
-                                                    String paragraph,
-                                                    String baseline,
-                                                    String scicr,
-                                                    String capability,
-                                                    String ri,
-                                                    String rommer,
-                                                    String build) throws SQLException
-    {
-
-        ResultSet rs = QueryBuilder.determineFilters(csc, csu, doorsID, paragraph, baseline,
-                scicr, capability, ri, rommer, build);
-
-        ObservableList list = FXCollections.observableArrayList();
-        while (rs.next())
-        {
-            RequirementsRow tempRow = new RequirementsRow(
-                    rs.getString("csc"),
-                    rs.getString("csu"),
-                    rs.getString("doors_id"),
-                    rs.getString("paragraph"),
-                    rs.getString("baseline"),
-                    rs.getString("scicr"),
-                    rs.getString("capability"),
-                    rs.getDouble("add"),
-                    rs.getDouble("change"),
-                    rs.getDouble("delete"),
-                    rs.getDouble("design"),
-                    rs.getDouble("code"),
-                    rs.getDouble("unitTest"),
-                    rs.getDouble("integration"),
-                    rs.getString("ri"),
-                    rs.getString("rommer"),
-                    rs.getString("program"),
-                    rs.getString("build")
-            );
-
-            list.add(tempRow);
-        }
-        return list;
-    }
-    */
-
-
     /**
      * Updates the database with the new values for the given row.
      * @param rowToUpdate the row to update.
