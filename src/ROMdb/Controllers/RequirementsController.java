@@ -1,6 +1,7 @@
 package ROMdb.Controllers;
 
 
+import ROMdb.Helpers.FilterItem;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
@@ -12,6 +13,8 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
+
+import java.util.ArrayList;
 
 public class RequirementsController
 {
@@ -56,11 +59,18 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_build;
 
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
         this.createFactories();
         this.createHandlers();
         this.fillTable();
 
+        this.setCombosToEmptyValues();
+
+    }
+
+    private void setCombosToEmptyValues()
+    {
         combo_baseline.setValue("");
         combo_scicr.setValue("");
         combo_build.setValue("");
@@ -73,13 +83,14 @@ public class RequirementsController
 
         field_doors.setText("");
         field_paragraph.setText("");
-
     }
-    private void fillTable() {
+
+    private void fillTable()
+    {
         try
         {
-            RequirementsModel.fillTable();
-            table_requirements.setItems(RequirementsModel.map.get("Skeleton Key"));
+            RequirementsModel.refreshAllReqDataFromDB();
+            table_requirements.setItems(RequirementsModel.allReqData);
         }
         catch(Exception e)
         {
@@ -91,7 +102,8 @@ public class RequirementsController
 
 
     @FXML
-    private void newRow() {
+    private void addNewRowWithDefaultsToJTable()
+    {
         RequirementsRow row = new RequirementsRow("New","","","","","","",
                                                     0.0,0.0,0.0,0.0,0.0,0.0,0.0,
                                                     "","","",""
@@ -103,8 +115,8 @@ public class RequirementsController
     private void saveChanges() {
         try
         {
-            RequirementsRow row = getSelectedRowItem();
-            RequirementsModel.updateChangesToDB(row);
+            RequirementsRow row = getSelectedRow();
+            RequirementsModel.updateRowInDB(row);
         }
         catch(Exception e)
         {
@@ -114,7 +126,7 @@ public class RequirementsController
     }
 
 
-    private RequirementsRow getSelectedRowItem()
+    private RequirementsRow getSelectedRow()
     {
         // Attempt to grab the cell that is selected.
         TablePosition selectedCell = (TablePosition) table_requirements.getSelectionModel().getSelectedCells().get(0);
@@ -133,32 +145,42 @@ public class RequirementsController
     @FXML
     private void pressSave()
     {
+        this.sendFiltersToModel();
+        this.updateJTableWithFilteredReqData();
+    }
 
+    public void sendFiltersToModel()
+    {
+        // define a new list of filter criteria based on the current values of the filter boxes in the requirements view
+        ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
+
+        newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
+        // newListOfFilters.add(new FilterItem(combo_scu.getSelectionModel().getSelectedItem(), "scu")); // TODO NEEDS TO BE ADDED ONCE IN VIEW
+        newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
+        newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
+        newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
+        newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "scicr"));
+        newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
+        newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
+        newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
+        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem(), "build"));
+
+        // send these FilterItems to the model
+        RequirementsModel.filters = newListOfFilters;
+    }
+
+    public void updateJTableWithFilteredReqData()
+    {
         try
         {
-            ObservableList list = RequirementsModel.searchByFilters(
-                    combo_csc.getSelectionModel().getSelectedItem(),
-                    "",
-                    field_doors.getText(),
-                    field_paragraph.getText(),
-                    combo_baseline.getSelectionModel().getSelectedItem(),
-                    combo_scicr.getSelectionModel().getSelectedItem(),
-                    combo_capability.getSelectionModel().getSelectedItem(),
-                    combo_resp.getSelectionModel().getSelectedItem(),
-                    combo_rommer.getSelectionModel().getSelectedItem(),
-                    combo_build.getSelectionModel().getSelectedItem()
-            );
-
-            table_requirements.setItems(list);
-            System.out.println("Changed");
+            table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
         }
         catch(Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not save entry", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
             alert.showAndWait();
         }
     }
-
 
 
 /**
@@ -318,7 +340,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Added.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getAdd(); // else return item before change was attempted to be made
+                    return getSelectedRow().getAdd(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -339,7 +361,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Changed.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getChange(); // else return item before change was attempted to be made
+                    return getSelectedRow().getChange(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -360,7 +382,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for # Deleted.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getDelete(); // else return item before change was attempted to be made
+                    return getSelectedRow().getDelete(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -381,7 +403,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Design Weight.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getDesignWeight(); // else return item before change was attempted to be made
+                    return getSelectedRow().getDesignWeight(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -402,7 +424,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Code Weight.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getCodeWeight(); // else return item before change was attempted to be made
+                    return getSelectedRow().getCodeWeight(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -423,7 +445,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Unit Test Weight.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getUnitTestWeight(); // else return item before change was attempted to be made
+                    return getSelectedRow().getUnitTestWeight(); // else return item before change was attempted to be made
                 }
             }
         }));
@@ -444,7 +466,7 @@ public class RequirementsController
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Integration Weight.", ButtonType.OK);
                     alert.showAndWait();
-                    return getSelectedRowItem().getIntegrationWeight(); // else return item before change was attempted to be made
+                    return getSelectedRow().getIntegrationWeight(); // else return item before change was attempted to be made
                 }
             }
         }));

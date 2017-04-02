@@ -1,8 +1,9 @@
 package ROMdb.Models;
 
 import ROMdb.Driver.Main;
+import ROMdb.Helpers.FilterItem;
 import ROMdb.Helpers.RequirementsRow;
-import ROMdb.Helpers.SearchQueries;
+import ROMdb.Helpers.QueryBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,24 +11,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.DoubleSummaryStatistics;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by Anthony Orio on 3/28/2017.
  */
 public class RequirementsModel
 {
-    public static HashMap<String, ObservableList<RequirementsRow>> map = new HashMap<>();
+    //public static HashMap<String, ObservableList<RequirementsRow>> map = new HashMap<>();
     public static final String SKELETON_KEY = "Skeleton Key";
 
+    public static ObservableList<RequirementsRow> allReqData;
+
+    public static ArrayList<FilterItem> filters = null;
 
     /**
      * Fills the table with the data from the database.
      */
-    public static void fillTable() throws SQLException {
-
-
+    public static void refreshAllReqDataFromDB() throws SQLException
+    {
         // Initialize rows list.
         ObservableList rows = FXCollections.observableArrayList();
 
@@ -65,26 +67,67 @@ public class RequirementsModel
             tempRow.setId(rs.getInt("Req_ID"));
             rows.add(tempRow);
         }
-        RequirementsModel.map.put(SKELETON_KEY, rows);
+        //RequirementsModel.map.put(SKELETON_KEY, rows);
+        RequirementsModel.allReqData = rows;
     }
 
-    public static ObservableList searchByFilters(String csc,
-                                        String csu,
-                                        String doorsID,
-                                        String paragraph,
-                                        String baseline,
-                                        String scicr,
-                                        String capability,
-                                        String ri,
-                                        String rommer,
-                                        String build) throws SQLException {
+    public static ObservableList getReqDataWithFilter() throws SQLException
+    {
+        ObservableList filteredList = FXCollections.observableArrayList();
 
-        ResultSet rs = SearchQueries.determineFilters(csc, csu, doorsID, paragraph, baseline,
-                                                        scicr, capability, ri, rommer, build);
+        PreparedStatement st = QueryBuilder.buildSelectWhereQuery("RequirementsData", "*", RequirementsModel.filters, true);
+
+        System.out.println(st.toString());
+
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next())
+        {
+            RequirementsRow tempRow = new RequirementsRow(
+                    rs.getString("csc"),
+                    rs.getString("csu"),
+                    rs.getString("doors_id"),
+                    rs.getString("paragraph"),
+                    rs.getString("baseline"),
+                    rs.getString("scicr"),
+                    rs.getString("capability"),
+                    rs.getDouble("add"),
+                    rs.getDouble("change"),
+                    rs.getDouble("delete"),
+                    rs.getDouble("design"),
+                    rs.getDouble("code"),
+                    rs.getDouble("unitTest"),
+                    rs.getDouble("integration"),
+                    rs.getString("ri"),
+                    rs.getString("rommer"),
+                    rs.getString("program"),
+                    rs.getString("build")
+            );
+
+            filteredList.add(tempRow);
+        }
+        return filteredList;
+    }
+
+    /*
+    public static ObservableList getFilteredReqData(String csc,
+                                                    String csu,
+                                                    String doorsID,
+                                                    String paragraph,
+                                                    String baseline,
+                                                    String scicr,
+                                                    String capability,
+                                                    String ri,
+                                                    String rommer,
+                                                    String build) throws SQLException
+    {
+
+        ResultSet rs = QueryBuilder.determineFilters(csc, csu, doorsID, paragraph, baseline,
+                scicr, capability, ri, rommer, build);
 
         ObservableList list = FXCollections.observableArrayList();
-        while (rs.next()) {
-
+        while (rs.next())
+        {
             RequirementsRow tempRow = new RequirementsRow(
                     rs.getString("csc"),
                     rs.getString("csu"),
@@ -110,17 +153,23 @@ public class RequirementsModel
         }
         return list;
     }
-
+    */
 
 
     /**
-     * Updates the database with any of the changes made.
+     * Updates the database with the new values for the given row.
      * @param rowToUpdate the row to update.
      */
-    public static void updateChangesToDB(RequirementsRow rowToUpdate) throws SQLException
+    public static void updateRowInDB(RequirementsRow rowToUpdate) throws SQLException
     {
         // The query to insert the data from the fields.
-        String insertQuery = "UPDATE RequirementsData SET [csc]=?, [csu]=?, [doors_id]=?, [paragraph]=?, [baseline]=?, [scicr]=?, [capability]=?, [add]=?, [change]=?, [delete]=?, [design]=?, [code]=?, [unitTest]=?, [integration]=?, [ri]=?, [rommer]=?, [program]=?, [build]=? WHERE [Req_ID]=?";
+        String insertQuery = "UPDATE RequirementsData SET" +
+                "[csc]=?, [csu]=?, [doors_id]=?, [paragraph]=?," +
+                "[baseline]=?, [scicr]=?, [capability]=?, [add]=?," +
+                "[change]=?, [delete]=?, [design]=?, [code]=?," +
+                "[unitTest]=?, [integration]=?, [ri]=?, [rommer]=?," +
+                "[program]=?, [build]=?" +
+                "WHERE [Req_ID]=?";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -147,7 +196,7 @@ public class RequirementsModel
         st.setString(17, rowToUpdate.getProgram().trim());
         st.setString(18, rowToUpdate.getBuild().trim());
 
-        // Perform the update inside of the table of the database.
+        // Execute sql statement to update database
         st.executeUpdate();
     }
 }

@@ -214,7 +214,7 @@
                                        <children>
                                           <VBox alignment="BOTTOM_CENTER" prefHeight="47.0" prefWidth="76.0">
                                              <children>
-                                                <Button fx:id="button_newRow" mnemonicParsing="false" onAction="#newRow" prefHeight="32.0" prefWidth="67.0" text="New Row" />
+                                                <Button fx:id="button_newRow" mnemonicParsing="false" onAction="#addNewRowWithDefaultsToJTable" prefHeight="32.0" prefWidth="67.0" text="New Row" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="360.0">
