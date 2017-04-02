@@ -2,6 +2,7 @@ package ROMdb.Models;
 
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.RequirementsRow;
+import ROMdb.Helpers.SearchQueries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 
 /**
@@ -66,55 +68,50 @@ public class RequirementsModel
         RequirementsModel.map.put(SKELETON_KEY, rows);
     }
 
-    public static void insertIntoTable(String csc,
-                                       String csu,
-                                       String doorsID,
-                                       String paragraph,
-                                       String baseline,
-                                       String scicr,
-                                       String capability,
-                                       String add,
-                                       String change,
-                                       String delete,
-                                       String designWeight,
-                                       String codeWeight,
-                                       String unitTestWeight,
-                                       String integrationWeight,
-                                       String ri,
-                                       String rommer,
-                                       String program,
-                                       String build) throws SQLException
-    {
-        String insertQuery = "INSERT INTO SCICRData ([csc], [csu], [doors_id], [paragraph], [baseline], " +
-                                                    "[scicr], [capability], [add], [change], [delete]" +
-                                                    "[design], [code], [unitTest], [integration], " +
-                                                    "[ri], [rommer], [program], [build]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static ObservableList searchByFilters(String csc,
+                                        String csu,
+                                        String doorsID,
+                                        String paragraph,
+                                        String baseline,
+                                        String scicr,
+                                        String capability,
+                                        String ri,
+                                        String rommer,
+                                        String build) throws SQLException {
 
-        // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        ResultSet rs = SearchQueries.determineFilters(csc, csu, doorsID, paragraph, baseline,
+                                                        scicr, capability, ri, rommer, build);
 
-         /** Parse all of the information and stage for writing. */
-        st.setString(1, csc.trim());
-        st.setString(2, csu.trim());
-        st.setString(3, doorsID.trim());
-        st.setString(4, paragraph.trim());
-        st.setString(5, baseline.trim());
-        st.setString(6, scicr.trim());
-        st.setString(7, capability.trim());
-        st.setDouble(8, Double.parseDouble(add));
-        st.setDouble(9, Double.parseDouble(change));
-        st.setDouble(10, Double.parseDouble(delete));
-        st.setDouble(11, Double.parseDouble(designWeight));
-        st.setDouble(12, Double.parseDouble(codeWeight));
-        st.setDouble(13, Double.parseDouble(unitTestWeight));
-        st.setDouble(14, Double.parseDouble(integrationWeight));
-        st.setString(15, ri.trim());
-        st.setString(16, rommer.trim());
-        st.setString(17, program.trim());
-        st.setString(18, build.trim());
+        ObservableList list = FXCollections.observableArrayList();
+        while (rs.next()) {
 
-        st.executeUpdate();
+            RequirementsRow tempRow = new RequirementsRow(
+                    rs.getString("csc"),
+                    rs.getString("csu"),
+                    rs.getString("doors_id"),
+                    rs.getString("paragraph"),
+                    rs.getString("baseline"),
+                    rs.getString("scicr"),
+                    rs.getString("capability"),
+                    rs.getDouble("add"),
+                    rs.getDouble("change"),
+                    rs.getDouble("delete"),
+                    rs.getDouble("design"),
+                    rs.getDouble("code"),
+                    rs.getDouble("unitTest"),
+                    rs.getDouble("integration"),
+                    rs.getString("ri"),
+                    rs.getString("rommer"),
+                    rs.getString("program"),
+                    rs.getString("build")
+            );
+
+            list.add(tempRow);
+        }
+        return list;
     }
+
+
 
     /**
      * Updates the database with any of the changes made.

@@ -5,6 +5,7 @@ import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -16,18 +17,18 @@ public class RequirementsController
 {
     @FXML private TabPane requirementsEntryView;
 
-    @FXML private ComboBox<?> combo_baseline;
-    @FXML private ComboBox<?> combo_scicr;
-    @FXML private ComboBox<?> combo_build;
-    @FXML private ComboBox<?> combo_resp;
-    @FXML private ComboBox<?> combo_csc;
-    @FXML private ComboBox<?> combo_capability;
-    @FXML private ComboBox<?> combo_program;
-    @FXML private ComboBox<?> combo_rommer;
-    @FXML private ComboBox<?> combo_sort;
+    @FXML private ComboBox<String> combo_baseline;
+    @FXML private ComboBox<String> combo_scicr;
+    @FXML private ComboBox<String> combo_build;
+    @FXML private ComboBox<String> combo_resp;
+    @FXML private ComboBox<String> combo_csc;
+    @FXML private ComboBox<String> combo_capability;
+    @FXML private ComboBox<String> combo_program;
+    @FXML private ComboBox<String> combo_rommer;
+    @FXML private ComboBox<String> combo_sort;
 
     @FXML private TextField field_paragraph;
-    @FXML private TextField field_foors;
+    @FXML private TextField field_doors;
 
     @FXML private Button button_clear;
     @FXML private Button button_save;
@@ -59,6 +60,20 @@ public class RequirementsController
         this.createFactories();
         this.createHandlers();
         this.fillTable();
+
+        combo_baseline.setValue("");
+        combo_scicr.setValue("");
+        combo_build.setValue("");
+        combo_resp.setValue("");
+        combo_csc.setValue("");
+        combo_capability.setValue("");
+        combo_program.setValue("");
+        combo_rommer.setValue("");
+        combo_sort.setValue("");
+
+        field_doors.setText("");
+        field_paragraph.setText("");
+
     }
     private void fillTable() {
         try
@@ -71,8 +86,6 @@ public class RequirementsController
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
             alert.showAndWait();
         }
-
-        //table_requirements.getItems().add(null);
     }
 
 
@@ -123,7 +136,20 @@ public class RequirementsController
 
         try
         {
-            //RequirementsModel.insertIntoTable();
+            ObservableList list = RequirementsModel.searchByFilters(
+                    combo_csc.getSelectionModel().getSelectedItem(),
+                    "",
+                    field_doors.getText(),
+                    field_paragraph.getText(),
+                    combo_baseline.getSelectionModel().getSelectedItem(),
+                    combo_scicr.getSelectionModel().getSelectedItem(),
+                    combo_capability.getSelectionModel().getSelectedItem(),
+                    combo_resp.getSelectionModel().getSelectedItem(),
+                    combo_rommer.getSelectionModel().getSelectedItem(),
+                    combo_build.getSelectionModel().getSelectedItem()
+            );
+
+            table_requirements.setItems(list);
             System.out.println("Changed");
         }
         catch(Exception e)
