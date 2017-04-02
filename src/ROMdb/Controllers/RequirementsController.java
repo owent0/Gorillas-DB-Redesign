@@ -6,7 +6,6 @@ import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -62,11 +61,22 @@ public class RequirementsController
     public void initialize()
     {
         this.createFactories();
-        this.createHandlers();
+        this.createTableHandlers();
         this.fillTable();
+
 
         this.setCombosToEmptyValues();
 
+    }
+
+    // Includes combo boxes and text fields used as filters
+    private void createFilterHandlers()
+    {
+        // TODO Place code here to turn the comboboxes into having text entering capacity
+        // Also put in event handlers that will fire:
+        //      this.sendFiltersToModel();
+        //      this.updateJTableWithFilteredReqData();
+        // When a key is pressed (continous update simulation)
     }
 
     private void setCombosToEmptyValues()
@@ -155,7 +165,7 @@ public class RequirementsController
         ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
 
         newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
-        // newListOfFilters.add(new FilterItem(combo_scu.getSelectionModel().getSelectedItem(), "scu")); // TODO NEEDS TO BE ADDED ONCE IN VIEW
+        // newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu")); // TODO NEEDS TO BE ADDED ONCE IN VIEW
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
         newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
@@ -488,7 +498,7 @@ public class RequirementsController
      * Todo insertion of the error checking will go here.
      *
      */
-    private void createHandlers()
+    private void createTableHandlers()
     {
         /*  CSC Column  */
         tableColumn_csc.setOnEditCommit(t -> {
