@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -193,7 +193,7 @@
                                           </VBox>
                                           <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="68.0">
                                              <children>
-                                                <Button fx:id="button_clear" mnemonicParsing="false" prefHeight="32.0" prefWidth="53.0" text="Clear">
+                                                <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="53.0" text="Clear">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>

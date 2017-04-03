@@ -6,13 +6,22 @@ import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
+import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
 
 public class RequirementsController
@@ -64,21 +73,91 @@ public class RequirementsController
         this.createTableHandlers();
         this.fillTable();
 
-
-        this.setCombosToEmptyValues();
-
+        this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
+        this.createFilterHandlers();
     }
 
     // Includes combo boxes and text fields used as filters
     private void createFilterHandlers()
     {
-        // TODO Place code here to turn the comboboxes into having text entering capacity
-        // Also put in event handlers that will fire:
-        //      this.sendFiltersToModel();
-        //      this.updateJTableWithFilteredReqData();
-        // When a key is pressed (continous update simulation)
+        // Set all combo boxes to be editable
+        combo_baseline.setEditable(true);
+        combo_scicr.setEditable(true);
+        combo_build.setEditable(true);
+        combo_resp.setEditable(true);
+        combo_csc.setEditable(true);
+        combo_capability.setEditable(true);
+        combo_program.setEditable(true);
+        combo_rommer.setEditable(true);
+        combo_sort.setEditable(true);
+
+        // Define event change handlers for filtering combo boxes
+        attachChangeListenerComboBox(combo_baseline);
+        attachChangeListenerComboBox(combo_scicr);
+        attachChangeListenerComboBox(combo_build);
+        attachChangeListenerComboBox(combo_resp);
+        attachChangeListenerComboBox(combo_csc);
+        attachChangeListenerComboBox(combo_capability);
+        attachChangeListenerComboBox(combo_program);
+        attachChangeListenerComboBox(combo_rommer);
+        attachChangeListenerComboBox(combo_sort);
+
+        // Define event change handlers for filtering text fields
+        attachChangeListenerTextField(field_paragraph);
+        attachChangeListenerTextField(field_doors);
     }
 
+    /**
+     * Creates a ChangeListener object and assigns it to the comboBox passed in.
+     *      The changeListener refreshes the JTable according to the current state of the filters
+     *      whenver the changed event is called.
+     * @param cb
+     */
+    private void attachChangeListenerComboBox(ComboBox<String> cb)
+    {
+        cb.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
+                    sendFiltersToModel();
+                    updateJTableWithFilteredReqData();
+                }
+        );
+    }
+
+
+    // TODO I would love to update the filter on every key press, but it does not look like the
+    //      changed event is called until the enter key is pressed.
+    //      if I could somehow call the enter keyevent after every key press this might work...
+    //      Or some other solution
+    /*
+    private void attachChangeListenerComboBox(ComboBox<String> cb)
+    {
+        cb.getEditor().addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            System.out.println(e);
+            e.consume();
+            cb.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED, KeyCode.ENTER.toString(), "", KeyCode.ENTER, false, false, false, false));
+            sendFiltersToModel();
+            updateJTableWithFilteredReqData();
+        });
+    }
+    */
+
+    /**
+     * Creates a ChangeListener object and assigns it to the textField passed in.
+     *      The changeListener refreshes the JTable according to the current state of the filters
+     *      whenver the changed event is called.
+     * @param tf
+     */
+    private void attachChangeListenerTextField(TextField tf)
+    {
+        tf.textProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
+                    sendFiltersToModel();
+                    updateJTableWithFilteredReqData();
+                }
+        );
+    }
+
+    /**
+     * Clears the filtering combo boxes and text fields of their data and sets them to the empty string
+     */
     private void setCombosToEmptyValues()
     {
         combo_baseline.setValue("");
@@ -95,6 +174,9 @@ public class RequirementsController
         field_paragraph.setText("");
     }
 
+    /**
+     * Method called to fill the JTable with all ReqData at the load of the window
+     */
     private void fillTable()
     {
         try
@@ -155,10 +237,24 @@ public class RequirementsController
     @FXML
     private void pressSave()
     {
-        this.sendFiltersToModel();
-        this.updateJTableWithFilteredReqData();
+
     }
 
+    /**
+     * Clears filter fields and dropboxes of their values (sets all values to empty string)
+     *      (This will call their event handlers which will trigger methods to refresh the table view)
+     */
+    @FXML
+    private void pressClear()
+    {
+        this.setCombosToEmptyValues();
+    }
+
+    /**
+     * Method collects all values from the filtering comboBoxes and textFields
+     *      and compiles them in an arraylist as FilterItems (easier to manage)
+     *      This arraylist is then sent to the model
+     */
     public void sendFiltersToModel()
     {
         // define a new list of filter criteria based on the current values of the filter boxes in the requirements view
@@ -195,6 +291,10 @@ public class RequirementsController
         return true;
     }
 
+    /**
+     * Method uses a method in the model class to retrieve ReqData according to the current filter in the model.
+     * If the filter is all empty then just reload all the full ReqData
+     */
     public void updateJTableWithFilteredReqData()
     {
         // If filters are all empty, then load full results set into JTable
