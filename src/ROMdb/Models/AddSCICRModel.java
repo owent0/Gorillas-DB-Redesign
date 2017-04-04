@@ -65,7 +65,6 @@ public class AddSCICRModel {
 
         if (count == 0) {
             inDatabase = false;
-            System.out.println("Not in table for baseline");
         }
         return inDatabase;
     }

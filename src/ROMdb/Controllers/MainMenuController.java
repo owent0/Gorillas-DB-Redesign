@@ -71,7 +71,6 @@ public class MainMenuController
         estimationStackPane.setVisible(true);
         requirementsStackPane.setVisible(false);
         scicrStackPane.setVisible(false);
-        //System.out.println(anchor_estimation.getChildren().get(0));
     }
 
 
