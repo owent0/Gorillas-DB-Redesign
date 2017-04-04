@@ -9,14 +9,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,6 +144,7 @@ public class RequirementsController
         combo_program.setItems(this.observableFilterMap.get("program"));
         combo_resp.setItems(this.observableFilterMap.get("ri"));
         combo_rommer.setItems(this.observableFilterMap.get("rommer"));
+        combo_baseline.setItems(this.observableFilterMap.get("baseline"));
 
     }
 
@@ -286,6 +292,13 @@ public class RequirementsController
             public void handle(ActionEvent event)
             {
                 addNewRowWithDefaultsToJTable();
+
+                try {
+                    displayAddRequirementWindow();
+                } catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could not display add requirements window.", ButtonType.OK);
+                    alert.showAndWait();
+                }
             }
         });
 
@@ -295,6 +308,16 @@ public class RequirementsController
         return cm;
     }
 
+    private void displayAddRequirementWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddRequirementWindow.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        stage.setTitle("Requirement Creation");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
 
     @FXML
     private void addNewRowWithDefaultsToJTable()
@@ -385,6 +408,7 @@ public class RequirementsController
         newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
         newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
         newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
+        newListOfFilters.add(new FilterItem(combo_program.getSelectionModel().getSelectedItem(), "program"));
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -453,6 +477,8 @@ public class RequirementsController
     @FXML
     private void updateDesign()
     {
+        // Todo insert confirmation. Yes: return    No: continue
+
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design",
@@ -469,6 +495,7 @@ public class RequirementsController
     @FXML
     private void updateCode()
     {
+        // Todo insert confirmation. Yes: return    No: continue
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code",
@@ -486,6 +513,7 @@ public class RequirementsController
     @FXML
     private void updateUnitTest()
     {
+        // Todo insert confirmation. Yes: return    No: continue
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
@@ -503,6 +531,7 @@ public class RequirementsController
     @FXML
     private void updateIntegration()
     {
+        // Todo insert confirmation. Yes: return    No: continue
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
@@ -548,6 +577,7 @@ public class RequirementsController
     @FXML
     private void updateRI()
     {
+        // Todo insert confirmation. Yes: return    No: continue
         try
         {
             //String oldRi = this.getSelectedRow().getRi();
@@ -563,6 +593,7 @@ public class RequirementsController
     @FXML
     private void updateProgram()
     {
+        // Todo insert confirmation. Yes: return    No: continue
         try
         {
             //String oldProgram = this.getSelectedRow().getProgram();
