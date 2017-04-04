@@ -62,8 +62,7 @@ public class RequirementsModel
                     rs.getDouble("integration"),
                     rs.getString("ri"),
                     rs.getString("rommer"),
-                    rs.getString("program"),
-                    rs.getString("build")
+                    rs.getString("program")
             );
             tempRow.setId(rs.getInt("Req_ID"));
             rows.add(tempRow);
@@ -100,8 +99,7 @@ public class RequirementsModel
                     rs.getDouble("integration"),
                     rs.getString("ri"),
                     rs.getString("rommer"),
-                    rs.getString("program"),
-                    rs.getString("build")
+                    rs.getString("program")
             );
             tempRow.setId(rs.getInt("Req_ID"));
             filteredList.add(tempRow);
@@ -119,9 +117,6 @@ public class RequirementsModel
 
             switch(columnName)
             {
-                case "build" :
-                    row.setBuild(textToWrite);
-                    break;
                 case "ri":
                     row.setRi(textToWrite);
                     break;
@@ -215,7 +210,6 @@ public class RequirementsModel
         st.setString(15, rowToUpdate.getRi().trim());
         st.setString(16, rowToUpdate.getRommer().trim());
         st.setString(17, rowToUpdate.getProgram().trim());
-        st.setString(18, rowToUpdate.getBuild().trim());
 
         // Execute sql statement to update database
         st.executeUpdate();

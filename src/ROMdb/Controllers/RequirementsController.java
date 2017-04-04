@@ -10,12 +10,16 @@ import ROMdb.Models.RequirementsModel;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.*;
 import javafx.util.StringConverter;
+
 import java.util.ArrayList;
 
 public class RequirementsController
@@ -30,9 +34,10 @@ public class RequirementsController
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
-    @FXML private ComboBox<String> combo_build;
+
     @FXML private ComboBox<String> combo_resp;
     @FXML private ComboBox<String> combo_csc;
+    @FXML private ComboBox<String> combo_csu;
     @FXML private ComboBox<String> combo_capability;
     @FXML private ComboBox<String> combo_program;
     @FXML private ComboBox<String> combo_rommer;
@@ -43,7 +48,7 @@ public class RequirementsController
 
     @FXML private Button button_clear;
     @FXML private Button button_save;
-    @FXML private Button button_newRow;
+
 
     /* Complete tab components                          */
     @FXML private Button button_completeDesign;
@@ -64,6 +69,7 @@ public class RequirementsController
     @FXML private ComboBox<?> combo_completeProgram;
     /* End complete tab components                          */
 
+
     @FXML private TableView<RequirementsRow> table_requirements;
 
     @FXML private TableColumn<RequirementsRow, String> tableColumn_csc;
@@ -83,7 +89,7 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_ri;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_rommer;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_build;
+
 
 
     @FXML
@@ -95,29 +101,25 @@ public class RequirementsController
 
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
         this.createFilterHandlers();
+
+        this.createTableViewClickHandler();
+
+        // complete tab
         this.occupyComboBoxes();
     }
 
-    // Includes combo boxes and text fields used as filters
+    /**
+     * Neccessary to listen for the changed property of the combo boxes and text fields
+     */
     private void createFilterHandlers()
     {
-        // Set all combo boxes to be editable
-        combo_baseline.setEditable(true);
-        combo_scicr.setEditable(true);
-        combo_build.setEditable(true);
-        combo_resp.setEditable(true);
-        combo_csc.setEditable(true);
-        combo_capability.setEditable(true);
-        combo_program.setEditable(true);
-        combo_rommer.setEditable(true);
-        combo_sort.setEditable(true);
-
         // Define event change handlers for filtering combo boxes
         attachChangeListenerComboBox(combo_baseline);
         attachChangeListenerComboBox(combo_scicr);
-        attachChangeListenerComboBox(combo_build);
+
         attachChangeListenerComboBox(combo_resp);
         attachChangeListenerComboBox(combo_csc);
+        attachChangeListenerComboBox(combo_csu);
         attachChangeListenerComboBox(combo_capability);
         attachChangeListenerComboBox(combo_program);
         attachChangeListenerComboBox(combo_rommer);
@@ -143,24 +145,6 @@ public class RequirementsController
         );
     }
 
-
-    // TODO I would love to update the filter on every key press, but it does not look like the
-    //      changed event is called until the enter key is pressed.
-    //      if I could somehow call the enter keyevent after every key press this might work...
-    //      Or some other solution
-    /*
-    private void attachChangeListenerComboBox(ComboBox<String> cb)
-    {
-        cb.getEditor().addEventFilter(KeyEvent.KEY_TYPED, e -> {
-            System.out.println(e);
-            e.consume();
-            cb.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED, KeyCode.ENTER.toString(), "", KeyCode.ENTER, false, false, false, false));
-            sendFiltersToModel();
-            updateJTableWithFilteredReqData();
-        });
-    }
-    */
-
     /**
      * Creates a ChangeListener object and assigns it to the textField passed in.
      *      The changeListener refreshes the JTable according to the current state of the filters
@@ -176,6 +160,13 @@ public class RequirementsController
         );
     }
 
+    @FXML
+    private void updateFilters()
+    {
+        this.sendFiltersToModel();
+        this.updateJTableWithFilteredReqData();
+    }
+
     /**
      * Clears the filtering combo boxes and text fields of their data and sets them to the empty string
      */
@@ -183,9 +174,10 @@ public class RequirementsController
     {
         combo_baseline.setValue("");
         combo_scicr.setValue("");
-        combo_build.setValue("");
+
         combo_resp.setValue("");
         combo_csc.setValue("");
+        combo_csu.setValue("");
         combo_capability.setValue("");
         combo_program.setValue("");
         combo_rommer.setValue("");
@@ -212,20 +204,59 @@ public class RequirementsController
         }
     }
 
+    @FXML
+    public void createTableViewClickHandler()
+    {
+        ContextMenu cm = createRightClickContextMenu();
+
+        table_requirements.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
+        {
+            if(event.getButton() == MouseButton.SECONDARY)
+            {
+                table_requirements.setContextMenu(cm);
+            }
+        });
+    }
+
+    private ContextMenu createRightClickContextMenu()
+    {
+        // Create ContextMenu
+        ContextMenu cm = new ContextMenu();
+
+        MenuItem addItem = new MenuItem("Add New Row");
+        addItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                addNewRowWithDefaultsToJTable();
+            }
+        });
+
+        // Add MenuItem to ContextMenu
+        cm.getItems().addAll(addItem);
+
+        return cm;
+    }
 
 
     @FXML
     private void addNewRowWithDefaultsToJTable()
     {
-        RequirementsRow row = new RequirementsRow("New","","","","","","",
-                                                    0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-                                                    "","","",""
-                                                 );
+        RequirementsRow row = new RequirementsRow("","","","","","","",
+                0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                "","",""
+        );
         table_requirements.getItems().add(row);
     }
 
     @FXML
-    private void saveChanges() {
+    /**
+     * This method gets called on an editCommit event in any field of any column in the tableView
+     * It is used to call the Model's updateRowInDB method to save the changes made to a row object in the DB
+     */
+    private void saveRowEditChanges()
+    {
         try
         {
             RequirementsRow row = getSelectedRow();
@@ -238,7 +269,10 @@ public class RequirementsController
         }
     }
 
-
+    /**
+     * Retrieve the selected row from the tableView and return the object contained there (RequirementsRow object)
+     * @return
+     */
     private RequirementsRow getSelectedRow()
     {
         // Attempt to grab the cell that is selected.
@@ -284,7 +318,7 @@ public class RequirementsController
         ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
 
         newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
-        // newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu")); // TODO NEEDS TO BE ADDED ONCE IN VIEW
+        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu"));
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
         newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
@@ -292,7 +326,7 @@ public class RequirementsController
         newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
         newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
         newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
-        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem(), "build"));
+
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -348,16 +382,16 @@ public class RequirementsController
     {
         for(RequirementsRow row : RequirementsModel.allReqData)
         {
-            String build = row.getBuild();
+            //String build = row.getBuild();
             String ri = row.getRi();
             String program = row.getProgram();
 
-            if(!builds.contains(build)) { builds.add(build); }
+            //if(!builds.contains(build)) { builds.add(build); }
             if(!individuals.contains(ri)) { individuals.add(ri); }
             if(!programs.contains(program)) { programs.add(program); }
         }
 
-        combo_completeBuild.setItems(builds);
+        //combo_completeBuild.setItems(builds);
         combo_completeRI.setItems(individuals);
         combo_completeProgram.setItems(programs);
     }
@@ -491,9 +525,6 @@ public class RequirementsController
     /* END COMPLETE TAB FUNCTIONALITY *********************************************************************************/
 
 
-
-
-
 /**
  * All the code below here pertains to the views factories and handlers. It is advised that this code
  * is not edited due to the possibility of functionality not working correctly. The code below will
@@ -507,6 +538,27 @@ public class RequirementsController
  *
  */
 
+    /**
+     * Method sets the table column to be a combobox on edit
+     * The factory will set the referenced column to a specific component
+     * such as a text field or combo box in this case.
+     *
+     * @param tc
+     */
+    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc)
+    {
+        tc.setCellFactory(col ->
+                {
+                    // Sets up the column of cells to be a combo box.
+                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+
+                    // Makes these combo boxes editable, as in you can type into them.
+                    cell.setComboBoxEditable(true);
+
+                    return cell;
+                }
+        );
+    }
 
     /**
      * This method will create all of the factories for the columns inside of the table view.
@@ -540,80 +592,80 @@ public class RequirementsController
         tableColumn_ri.setCellValueFactory(new PropertyValueFactory<>("ri"));
         tableColumn_rommer.setCellValueFactory(new PropertyValueFactory<>("rommer"));
         tableColumn_program.setCellValueFactory(new PropertyValueFactory<>("program"));
-        tableColumn_build.setCellValueFactory(new PropertyValueFactory<>("build"));
 
 
-        /**
-         * These factories will set the referenced column to a specific component
-         * such as a text field or combo box in this case.
-         */
-        tableColumn_csc.setCellFactory(col -> {
+        this.setColumnCellToComboBox(tableColumn_csc);
+        this.setColumnCellToComboBox(tableColumn_csu);
 
-                    // Sets up the column of cells to be a combo box.
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
 
-                    // Makes these combo boxes editable, as in you can type into them.
-                    cell.setComboBoxEditable(true);
 
-                    return cell;
-                }
-        );
 
-        tableColumn_csu.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_baseline.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_scicr.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_capability.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_ri.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_rommer.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_program.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
 
-        tableColumn_build.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
+
+
+
+
+
+
+
+
+
+
+
+        this.setColumnCellToComboBox(tableColumn_baseline);
+
+
+
+
+
+
+        this.setColumnCellToComboBox(tableColumn_scicr);
+
+
+
+
+
+
+        this.setColumnCellToComboBox(tableColumn_capability);
+        this.setColumnCellToComboBox(tableColumn_ri);
+
+
+
+
+
+
+
+
+
+
+
+
+        this.setColumnCellToComboBox(tableColumn_rommer);
+        this.setColumnCellToComboBox(tableColumn_program);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /**
@@ -812,7 +864,7 @@ public class RequirementsController
 
                 // Save the change to the cell to the database.
                 // This method is located in this class.
-                saveChanges();
+                saveRowEditChanges();
 
             }
             catch(Exception e)
@@ -833,7 +885,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -852,7 +904,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDoorsID(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -872,7 +924,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setParagraph(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -893,7 +945,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 //(t.getTableView().getItems().get(t.getTablePosition().getRow())).setBaseline(t.getNewValue());
-                //saveChanges();
+                //saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -913,7 +965,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setScicr(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -933,7 +985,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -953,7 +1005,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setAdd(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -973,7 +1025,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setChange(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -993,7 +1045,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDelete(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1013,7 +1065,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDesignWeight(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1033,7 +1085,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodeWeight(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1053,7 +1105,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUnitTestWeight(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1073,7 +1125,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setIntegrationWeight(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1093,24 +1145,24 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
 
-                /*int count = 1;
-                for (RequirementsRow row : RequirementsModel.allReqData) {
-                    if(row.getRi().equals(t.getNewValue())) {
-                        count++;
-                    }
-                }
-                if(count == 1) {
-                    *//*int index = individuals.indexOf(t.getOldValue());
-                    individuals.set(index, t.getNewValue());*//*
-                    System.out.println(t.getOldValue());
-                    individuals.remove(t.getOldValue());
-                }
 
-                if(!individuals.contains(t.getNewValue())) { individuals.add(t.getNewValue()); }
 
-                combo_completeRI.setItems(individuals);*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
             catch(Exception e)
             {
@@ -1130,7 +1182,7 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
             }
             catch(Exception e)
             {
@@ -1150,22 +1202,22 @@ public class RequirementsController
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue());
-                saveChanges();
+                saveRowEditChanges();
 
-                /*int count = 1;
-                for (RequirementsRow row : RequirementsModel.currentFilteredList) {
-                    if(row.getProgram().equals(t.getNewValue())) {
-                        count++;
-                    }
-                }
-                if(count == 1) {
-                    int index = programs.indexOf(t.getOldValue());
-                    programs.set(index, t.getNewValue());
-                }
 
-                if(!programs.contains(t.getNewValue())) { programs.add(t.getNewValue()); }
 
-                combo_completeProgram.setItems(programs);*/
+
+
+
+
+
+
+
+
+
+
+
+
             }
             catch(Exception e)
             {
@@ -1176,41 +1228,5 @@ public class RequirementsController
                 table_requirements.refresh();
             }
         });
-
-        /*  Build Column  */
-        tableColumn_build.setOnEditCommit(t -> {
-            try
-            {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
-
-                // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue());
-                saveChanges();
-
-                /*int count = 1;
-                for (RequirementsRow row : RequirementsModel.currentFilteredList) {
-                    if(row.getBuild().equals(t.getNewValue())) {
-                        count++;
-                    }
-                }
-                if(count == 1) {
-                    int index = builds.indexOf(t.getOldValue());
-                    builds.set(index, t.getNewValue());
-                }
-
-                if(!builds.contains(t.getNewValue())) { builds.add(t.getNewValue()); }
-
-                combo_completeBuild.setItems(builds);*/
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Build.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
     }
-
 }
