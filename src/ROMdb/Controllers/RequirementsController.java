@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -64,8 +65,8 @@ public class RequirementsController
     @FXML private TextField field_completeIntegration;
 
     //@FXML private ComboBox<?> combo_completeBuild;
-    @FXML private ComboBox<?> combo_completeRI;
-    @FXML private ComboBox<?> combo_completeProgram;
+    @FXML private ComboBox<String> combo_completeRI;
+    @FXML private ComboBox<String> combo_completeProgram;
     /* End complete tab components                          */
 
 
@@ -108,6 +109,8 @@ public class RequirementsController
         try
         {
             this.initializeObservableFilterLists();
+            this.occupyMainTabCombos();
+            this.occupyCompleteTabCombos();
         }
         catch(Exception e)
         {
@@ -118,6 +121,31 @@ public class RequirementsController
             alert.showAndWait();
             System.exit(1);
         }
+        this.setColumnCells();
+
+    }
+
+    /**
+     * This method will take each combo box in the main tab and fill them with the data from
+     * the database.
+     */
+    private void occupyMainTabCombos() {
+        /* scicr, capability, csc, csu, program, ri, rommer*/
+
+        combo_scicr.setItems(this.observableFilterMap.get("scicr"));
+        combo_capability.setItems(this.observableFilterMap.get("capability"));
+        combo_csc.setItems(this.observableFilterMap.get("csc"));
+        combo_csu.setItems(this.observableFilterMap.get("csu"));
+        combo_program.setItems(this.observableFilterMap.get("program"));
+        combo_resp.setItems(this.observableFilterMap.get("ri"));
+        combo_rommer.setItems(this.observableFilterMap.get("rommer"));
+
+    }
+
+    private void occupyCompleteTabCombos()
+    {
+        combo_completeProgram.setItems(this.observableFilterMap.get("program"));
+        combo_completeRI.setItems(this.observableFilterMap.get("ri"));
     }
 
     /**
@@ -210,6 +238,9 @@ public class RequirementsController
 
         field_doors.setText("");
         field_paragraph.setText("");
+
+        combo_completeProgram.setValue("");
+        combo_completeRI.setValue("");
     }
 
     /**
@@ -522,19 +553,6 @@ public class RequirementsController
             //String oldRi = this.getSelectedRow().getRi();
             String ri = combo_completeRI.getValue().toString();
             RequirementsModel.updateTextColumnInDB("RequirementsData", "ri", ri);
-           /* System.out.println("Old RI: " + oldRi + "\n" + "New RI: " + ri);
-            int count = 1;
-            for (RequirementsRow row : RequirementsModel.allReqData) {
-                if(row.getRi().equals(ri)) {
-                    count++;
-                }
-            }
-            if(count == 1) {
-                int index = individuals.indexOf(oldRi);
-                individuals.set(index, ri);
-            }*/
-
-            if(!individuals.contains(ri)) { individuals.add(ri); }
         }
         catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Responsible individual was unable to be updated.", ButtonType.OK);
@@ -550,19 +568,6 @@ public class RequirementsController
             //String oldProgram = this.getSelectedRow().getProgram();
             String program = combo_completeProgram.getValue().toString();
             RequirementsModel.updateTextColumnInDB("RequirementsData", "program", program) ;
-            /*System.out.println("Old Program: " + oldProgram + "\n" + "New Program: " + program);
-            int count = 1;
-            for (RequirementsRow row : RequirementsModel.allReqData) {
-                if(row.getRi().equals(program)) {
-                    count++;
-                }
-            }
-            if(count == 1) {
-                int index = individuals.indexOf(oldProgram);
-                individuals.set(index, program);
-            }*/
-
-            if(!individuals.contains(program)) { individuals.add(program); }
         }
         catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Program was unable to be updated.", ButtonType.OK);
@@ -593,19 +598,39 @@ public class RequirementsController
      *
      * @param tc
      */
-    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc)
+    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc, ObservableList<String> list)
     {
         tc.setCellFactory(col ->
                 {
                     // Sets up the column of cells to be a combo box.
                     ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
 
+                    int size = list.size();
+                    for( int i = 0; i < size; i++ ) {
+                        cell.setItem(list.get(i));
+                    }
+
+
                     // Makes these combo boxes editable, as in you can type into them.
-                    cell.setComboBoxEditable(true);
+                    //cell.setComboBoxEditable(true);
 
                     return cell;
                 }
         );
+    }
+
+    private void setColumnCells()
+    {
+        tableColumn_csc.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csc")));
+        tableColumn_csu.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csu")));
+        tableColumn_baseline.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("baseline")));
+        tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
+        tableColumn_capability.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("capability")));
+        tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));
+        tableColumn_rommer.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("rommer")));
+        tableColumn_program.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("program")));
+
+
     }
 
     /**
@@ -641,14 +666,6 @@ public class RequirementsController
         tableColumn_rommer.setCellValueFactory(new PropertyValueFactory<>("rommer"));
         tableColumn_program.setCellValueFactory(new PropertyValueFactory<>("program"));
 
-        this.setColumnCellToComboBox(tableColumn_csc);
-        this.setColumnCellToComboBox(tableColumn_csu);
-        this.setColumnCellToComboBox(tableColumn_baseline);
-        this.setColumnCellToComboBox(tableColumn_scicr);
-        this.setColumnCellToComboBox(tableColumn_capability);
-        this.setColumnCellToComboBox(tableColumn_ri);
-        this.setColumnCellToComboBox(tableColumn_rommer);
-        this.setColumnCellToComboBox(tableColumn_program);
 
         /**
          * These create the components in the column so that the cells are either combo boxes

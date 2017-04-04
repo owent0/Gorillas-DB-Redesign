@@ -111,18 +111,29 @@ public class RequirementsModel
 
     public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws SQLException
     {
-        for(RequirementsRow row : currentFilteredList)
+
+        ObservableList<RequirementsRow> list;
+        if(!currentFilteredList.isEmpty()) {
+            list = currentFilteredList;
+        } else {
+            list = allReqData;
+        }
+
+        for(RequirementsRow row : list)
         {
             PreparedStatement st = QueryBuilder.updateColumnText(tableName, columnName, textToWrite, row.getId());
             st.executeUpdate();
+            int i = list.indexOf(row);
 
             switch(columnName)
             {
                 case "ri":
                     row.setRi(textToWrite);
+                    list.set(i, row);
                     break;
                 case "program":
                     row.setProgram(textToWrite);
+                    list.set(i, row);
                     break;
                 default:
                     break;
@@ -191,7 +202,7 @@ public class RequirementsModel
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
-        st.setInt(19, rowToUpdate.getId());
+        st.setInt(18, rowToUpdate.getId());
 
         /** Parse all of the information and stage for writing. */
         st.setString(1, rowToUpdate.getCsc().trim());

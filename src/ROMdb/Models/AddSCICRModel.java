@@ -12,6 +12,16 @@ import java.sql.SQLException;
  * Created by Tom on 3/24/2017.
  */
 public class AddSCICRModel {
+
+    /**
+     * This method saves an SC/ICR to the database
+     * @param baseline the current baseline
+     * @param type the type, SC or ICR
+     * @param number the number of the SC/ICR
+     * @param title the title of the SC/ICR
+     * @param build the build of the SC/ICR
+     * @throws Exception if there is an error with the input caused by error checking, or an SQL exception
+     */
     public static void saveSCICR(String baseline, String type, String number, String title, String build) throws Exception {
 
         errorsExist(baseline, title, number, build);
@@ -22,7 +32,7 @@ public class AddSCICRModel {
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
-        /** Parse all of the information and stage for writing. */
+        /* Parse all of the information and stage for writing. */
         st.setString(1, number.trim());
         st.setString(2, type.trim());
         st.setString(3, title.trim());
@@ -33,6 +43,13 @@ public class AddSCICRModel {
         st.executeUpdate();
     }
 
+    /**
+     * Check to see if the number for an SC/ICR is unique
+     * @param number the number of the  SC/ICR
+     * @param baseline the baseline of the SC/ICR
+     * @return whether or not the number for an SC/ICR is unique
+     * @throws Exception when the number is not unique or there is an SQL error with the input or connecting to database
+     */
     public static boolean isNumberUnique(String number, String baseline) throws Exception{
         // The query to insert the data from the fields.
         boolean inDatabase = true;

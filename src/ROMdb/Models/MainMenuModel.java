@@ -24,19 +24,34 @@ public class MainMenuModel {
     public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
 
-
+    /**
+     * Get the observable list that contains all the baselines for the program
+     * @return the observable list that contains all the baselines
+     */
     public static ObservableList<String> getBaselines() {
         return baselines;
     }
 
+    /**
+     * Set the observable list that will contain all the baselines for the program
+     * @param baselines the new observable list containing all the baselines
+     */
     public static void setBaselines(ObservableList<String> baselines) {
         MainMenuModel.baselines = baselines;
     }
 
+    /**
+     * Get the currently selected baseline from the combobox
+     * @return the currently selected baseline
+     */
     public static String getSelectedBaseline() {
         return selectedBaseline.getValue();
     }
 
+    /**
+     * Set the selected baseline for the combobox
+     * @param selectedBaseline the new selected baseline
+     */
     public static void setSelectedBaseline(String selectedBaseline) {
         MainMenuModel.selectedBaseline = new SimpleStringProperty(selectedBaseline);
     }
