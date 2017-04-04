@@ -132,4 +132,10 @@ public class RequirementsRow {
     public void setRi(String ri) {this.ri.set(ri);}
     public void setRommer(String rommer) {this.rommer.set(rommer);}
     public void setProgram(String program) {this.program.set(program);}
+
+    @Override
+    public String toString()
+    {
+        return "" + id;
+    }
 }
