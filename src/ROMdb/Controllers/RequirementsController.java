@@ -127,6 +127,7 @@ public class RequirementsController
     //      changed event is called until the enter key is pressed.
     //      if I could somehow call the enter keyevent after every key press this might work...
     //      Or some other solution
+    // testing 
     /*
     private void attachChangeListenerComboBox(ComboBox<String> cb)
     {
