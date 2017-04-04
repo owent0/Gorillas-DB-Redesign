@@ -477,7 +477,18 @@ public class RequirementsController
     @FXML
     private void updateDesign()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating Design field.
+        * Yes: then continue the attempt to write to DB
+        * No: exit this method and don't write to DB
+        */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the Design field?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
 
         try
         {
@@ -495,7 +506,19 @@ public class RequirementsController
     @FXML
     private void updateCode()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating Code field.
+         * Yes: then continue the attempt to write to DB
+         * No: exit this method and don't write to DB
+         */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the Code field?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
+
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code",
@@ -513,7 +536,19 @@ public class RequirementsController
     @FXML
     private void updateUnitTest()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating the UnitTest field.
+         * Yes: then continue the attempt to write to DB
+         * No: exit this method and don't write to DB
+         */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the Unit Test field?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
+
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
@@ -531,7 +566,19 @@ public class RequirementsController
     @FXML
     private void updateIntegration()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating Integration field.
+         * Yes: then continue the attempt to write to DB
+         * No: exit this method and don't write to DB
+         */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the Integration field?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
+
         try
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
@@ -577,7 +624,19 @@ public class RequirementsController
     @FXML
     private void updateRI()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating RI field.
+         * Yes: then continue the attempt to write to DB
+         * No: exit this method and don't write to DB
+         */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the RI field for all the rows below?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
+
         try
         {
             //String oldRi = this.getSelectedRow().getRi();
@@ -593,7 +652,19 @@ public class RequirementsController
     @FXML
     private void updateProgram()
     {
-        // Todo insert confirmation. Yes: return    No: continue
+        /** Confirmation of updating Program field.
+         * Yes: then continue the attempt to write to DB
+         * No: exit this method and don't write to DB
+         */
+        Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                "Are you sure you want to update the Program field for all the rows below?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+        {
+            return;
+        }
+
         try
         {
             //String oldProgram = this.getSelectedRow().getProgram();
