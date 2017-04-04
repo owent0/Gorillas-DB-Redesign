@@ -10,6 +10,8 @@ public class RequirementsRow {
 
     private int id;
 
+
+
     private SimpleStringProperty csc;
     private SimpleStringProperty csu;
     private SimpleStringProperty doorsID;
@@ -27,7 +29,6 @@ public class RequirementsRow {
     private SimpleStringProperty ri;
     private SimpleStringProperty rommer;
     private SimpleStringProperty program;
-    private SimpleStringProperty build;
 
     public RequirementsRow(String csc,
                            String csu,
@@ -45,8 +46,7 @@ public class RequirementsRow {
                            Double integrationWeight,
                            String ri,
                            String rommer,
-                           String program,
-                           String build)
+                           String program)
     {
 
         this.csc = new SimpleStringProperty(csc);
@@ -66,7 +66,6 @@ public class RequirementsRow {
         this.ri =  new SimpleStringProperty(ri);
         this.rommer =  new SimpleStringProperty(rommer);
         this.program =  new SimpleStringProperty(program);
-        this.build =  new SimpleStringProperty(build);
     }
 
 
@@ -88,7 +87,6 @@ public class RequirementsRow {
     public SimpleStringProperty riProperty() {return ri;}
     public SimpleStringProperty rommerProperty() {return rommer;}
     public SimpleStringProperty programProperty() {return program;}
-    public SimpleStringProperty buildProperty() {return build;}
 
     public SimpleDoubleProperty changeProperty() {return change;}
     public SimpleDoubleProperty deleteProperty() {return delete;}
@@ -108,7 +106,6 @@ public class RequirementsRow {
     public String getRi() {return ri.get();}
     public String getRommer() {return rommer.get();}
     public String getProgram() {return program.get();}
-    public String getBuild() {return build.get();}
 
     public double getAdd() {return add.get();}
     public double getChange() {return change.get();}
@@ -135,10 +132,10 @@ public class RequirementsRow {
     public void setRi(String ri) {this.ri.set(ri);}
     public void setRommer(String rommer) {this.rommer.set(rommer);}
     public void setProgram(String program) {this.program.set(program);}
-    public void setBuild(String build) {this.build.set(build);}
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "" + id;
     }
 }
