@@ -2,6 +2,7 @@ package ROMdb.Models;
 
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.FilterItem;
+import ROMdb.Helpers.MapList;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Helpers.QueryBuilder;
 import javafx.collections.FXCollections;
@@ -184,7 +185,7 @@ public class RequirementsModel
                 "[baseline]=?, [scicr]=?, [capability]=?, [add]=?," +
                 "[change]=?, [delete]=?, [design]=?, [code]=?," +
                 "[unitTest]=?, [integration]=?, [ri]=?, [rommer]=?," +
-                "[program]=?" +
+                "[program]=? " +
                 "WHERE [Req_ID]=?";
 
         // Create a new statement.
@@ -214,4 +215,71 @@ public class RequirementsModel
         // Execute sql statement to update database
         st.executeUpdate();
     }
+
+    public static ArrayList<MapList<String>> getFilterListsData() throws SQLException
+    {
+        ArrayList<MapList<String>> returnList = new ArrayList<MapList<String>>();
+
+        // construct scicr al
+        String scicr_ColumnLabel = "Number";
+        ArrayList<String> scicr_ArrayList = new ArrayList<String>();
+        PreparedStatement scicr_Statement = QueryBuilder.buildSelectOrderByQuery("SCICRData", scicr_ColumnLabel, scicr_ColumnLabel, "asc");
+        ResultSet scicr_ResultSet = scicr_Statement.executeQuery();
+        while(scicr_ResultSet.next())
+        {
+            scicr_ArrayList.add(scicr_ResultSet.getString(scicr_ColumnLabel));
+        }
+        MapList<String> scicr_MapList = new MapList<String>("scicr", scicr_ArrayList);
+        returnList.add(scicr_MapList);
+
+        // construct capability al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("capability"));
+        // construct csc al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("csc"));
+        // construct csu al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("csu"));
+        // construct program al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("program"));
+        // construct ri al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("ri"));
+        // construct rommer al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("rommer"));
+
+        return returnList;
+    }
+
+    /**
+     * Method that extracts the val_codes into a MapList of a particular Field_Name ordered by the table's Order_Id
+     *      and returns the MapList
+     *      ex: fieldName = days_of_week
+     *          String for MapList name: days_of_week
+     *          values in MapList list:
+     *              Sunday
+     *              Monday
+     *              Tuesday
+     *              Wednesday
+     *              Thursday
+     *              Friday
+     *              Saturday
+     *
+     * @param fieldName
+     * @return
+     * @throws SQLException
+     */
+    private static MapList<String> getMapListFromVal_Codes(String fieldName) throws SQLException
+    {
+        String columnLabel = "Field_Value";
+        ArrayList<String> fieldName_ArrayList = new ArrayList<String>();
+        ArrayList<FilterItem> fieldName_FilterItemArrayList = new ArrayList<FilterItem>();
+        fieldName_FilterItemArrayList.add(new FilterItem(fieldName, "Field_Name"));
+        PreparedStatement fieldName_Statement = QueryBuilder.buildSelectWhereOrderByQuery("Val_Codes", "Field_Value", fieldName_FilterItemArrayList, false, "Order_Id", "asc");
+        ResultSet fieldName_ResultSet = fieldName_Statement.executeQuery();
+        while(fieldName_ResultSet.next())
+        {
+            fieldName_ArrayList.add(fieldName_ResultSet.getString(columnLabel));
+        }
+        MapList<String> fieldName_MapList = new MapList<String>(fieldName, fieldName_ArrayList);
+        return fieldName_MapList;
+    }
+
 }

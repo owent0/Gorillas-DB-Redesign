@@ -1,10 +1,6 @@
 package ROMdb.Controllers;
 
-
-import ROMdb.Helpers.FilterItem;
-import ROMdb.Helpers.InputType;
-import ROMdb.Helpers.InputValidator;
-import ROMdb.Helpers.RequirementsRow;
+import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import javafx.beans.value.ChangeListener;
@@ -20,7 +16,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.util.StringConverter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RequirementsController
 {
@@ -29,6 +27,8 @@ public class RequirementsController
     //private ObservableList builds = FXCollections.observableArrayList();
     private ObservableList individuals = FXCollections.observableArrayList();
     private ObservableList programs = FXCollections.observableArrayList();
+
+    public HashMap<String, ObservableList> observableFilterMap = null;
 
     @FXML private TabPane requirementsEntryView;
 
@@ -48,7 +48,6 @@ public class RequirementsController
 
     @FXML private Button button_clear;
     @FXML private Button button_save;
-
 
     /* Complete tab components                          */
     @FXML private Button button_completeDesign;
@@ -91,7 +90,6 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
 
 
-
     @FXML
     public void initialize()
     {
@@ -105,7 +103,41 @@ public class RequirementsController
         this.createTableViewClickHandler();
 
         // complete tab
-//        this.occupyComboBoxes();
+        // this.occupyComboBoxes();
+
+        try
+        {
+            this.initializeObservableFilterLists();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not load filter values for combo boxes." +
+                            "Program closing.", ButtonType.OK);
+            alert.showAndWait();
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Method makes call to RequirementsModel and sets the Controller's HashMap of observable lists
+     *      for each of the filtering combo boxes
+     *
+     * @throws SQLException
+     */
+    private void initializeObservableFilterLists() throws SQLException
+    {
+        ArrayList<MapList<String>> listOfLists = RequirementsModel.getFilterListsData();
+        this.observableFilterMap = new HashMap<String, ObservableList>();
+        for(MapList<String> fl : listOfLists)
+        {
+            ObservableList<String> ol = FXCollections.observableArrayList(fl.getList());
+            this.observableFilterMap.put(fl.getName(), ol);
+        }
+
+        // add already existing ObservableLists
+        this.observableFilterMap.put("baseline", MainMenuModel.baselines);
     }
 
     /**
@@ -158,13 +190,6 @@ public class RequirementsController
                     updateJTableWithFilteredReqData();
                 }
         );
-    }
-
-    @FXML
-    private void updateFilters()
-    {
-        this.sendFiltersToModel();
-        this.updateJTableWithFilteredReqData();
     }
 
     /**
@@ -243,11 +268,14 @@ public class RequirementsController
     @FXML
     private void addNewRowWithDefaultsToJTable()
     {
+        /*
         RequirementsRow row = new RequirementsRow("","","","","","","",
                 0.0,0.0,0.0,0.0,0.0,0.0,0.0,
                 "","",""
         );
         table_requirements.getItems().add(row);
+        */
+        // TODO - Replace with GUI interface
     }
 
     @FXML
@@ -287,7 +315,7 @@ public class RequirementsController
     }
 
     /**
-     * Todo this method
+     * TODO this method
      */
     @FXML
     private void pressSave()
@@ -326,7 +354,6 @@ public class RequirementsController
         newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
         newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
         newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
-
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -373,11 +400,7 @@ public class RequirementsController
         }
     }
 
-
-
-
-    /* BEGIN COMPLETE TAB FUNCTIONALITY ********************************************************************************/
-// build ri program
+    /********** BEGIN COMPLETE TAB FUNCTIONALITY **************/
     private void occupyComboBoxes()
     {
         for(RequirementsRow row : RequirementsModel.allReqData)
@@ -397,54 +420,74 @@ public class RequirementsController
     }
 
     @FXML
-    private void updateDesign() {
-        try {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design", Double.parseDouble(field_completeDesign.getText()) );
+    private void updateDesign()
+    {
+        try
+        {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design",
+                    Double.parseDouble(field_completeDesign.getText()) );
             table_requirements.refresh();
         }
         catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
     @FXML
-    private void updateCode() {
-        try {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code", Double.parseDouble(field_completeCode.getText()) );
+    private void updateCode()
+    {
+        try
+        {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code",
+                    Double.parseDouble(field_completeCode.getText()) );
             table_requirements.refresh();
         }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
     @FXML
-    private void updateUnitTest() {
-        try {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "unitTest", Double.parseDouble(field_completeUnitTest.getText()) );
+    private void updateUnitTest()
+    {
+        try
+        {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData",
+                    "unitTest", Double.parseDouble(field_completeUnitTest.getText()) );
             table_requirements.refresh();
         }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
     @FXML
-    private void updateIntegration() {
-        try {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "integration", Double.parseDouble(field_completeIntegration.getText()) );
+    private void updateIntegration()
+    {
+        try
+        {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData",
+                    "integration", Double.parseDouble(field_completeIntegration.getText()) );
             table_requirements.refresh();
         }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
-    /*@FXML
+    /*
+    @FXML
     private void updateBuild() {
         try {
             //String oldBuild = this.getSelectedRow().getBuild();
@@ -468,11 +511,14 @@ public class RequirementsController
             Alert alert = new Alert(Alert.AlertType.ERROR, "Build was unable to be updated.", ButtonType.OK);
             alert.showAndWait();
         }
-    }*/
+    }
+    */
 
     @FXML
-    private void updateRI() {
-        try {
+    private void updateRI()
+    {
+        try
+        {
             //String oldRi = this.getSelectedRow().getRi();
             String ri = combo_completeRI.getValue().toString();
             RequirementsModel.updateTextColumnInDB("RequirementsData", "ri", ri);
@@ -497,8 +543,10 @@ public class RequirementsController
     }
 
     @FXML
-    private void updateProgram() {
-        try {
+    private void updateProgram()
+    {
+        try
+        {
             //String oldProgram = this.getSelectedRow().getProgram();
             String program = combo_completeProgram.getValue().toString();
             RequirementsModel.updateTextColumnInDB("RequirementsData", "program", program) ;
@@ -522,7 +570,7 @@ public class RequirementsController
         }
     }
 
-    /* END COMPLETE TAB FUNCTIONALITY *********************************************************************************/
+    /**************** END COMPLETE TAB FUNCTIONALITY *************************/
 
 
 /**
