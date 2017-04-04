@@ -64,4 +64,29 @@ public class QueryBuilder
 
         return st;
     }
+
+    public static PreparedStatement updateColumnText(String tableName, String columnName, String textToInsert, int rowID) throws SQLException {
+        String query = "";
+        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [Req_ID] = ?";
+
+        PreparedStatement st = Main.conn.prepareStatement(query);
+
+        st.setString(1, textToInsert);
+        st.setInt(2, rowID);
+
+        return st;
+    }
+
+    public static PreparedStatement updateColumnDouble(String tableName, String columnName, double valueToInsert, int rowID) throws SQLException
+    {
+        String query = "";
+        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [Req_ID] = ?";
+
+        PreparedStatement st = Main.conn.prepareStatement(query);
+
+        st.setDouble(1, valueToInsert);
+        st.setInt(2, rowID);
+
+        return st;
+    }
 }

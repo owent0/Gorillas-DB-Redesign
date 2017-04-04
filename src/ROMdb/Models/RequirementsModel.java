@@ -22,6 +22,7 @@ public class RequirementsModel
     public static final String SKELETON_KEY = "Skeleton Key";
 
     public static ObservableList<RequirementsRow> allReqData;
+    public static ObservableList<RequirementsRow> currentFilteredList = FXCollections.observableArrayList();
 
     public static ArrayList<FilterItem> filters = null;
 
@@ -73,7 +74,8 @@ public class RequirementsModel
 
     public static ObservableList getReqDataWithFilter() throws SQLException
     {
-        ObservableList filteredList = FXCollections.observableArrayList();
+        ObservableList<RequirementsRow> filteredList = FXCollections.observableArrayList();
+        //filteredList.removeAll();
 
         PreparedStatement st = QueryBuilder.buildSelectWhereQuery("RequirementsData", "*", RequirementsModel.filters, true);
 
@@ -101,10 +103,78 @@ public class RequirementsModel
                     rs.getString("program"),
                     rs.getString("build")
             );
-
+            tempRow.setId(rs.getInt("Req_ID"));
             filteredList.add(tempRow);
         }
+        currentFilteredList = filteredList;
         return filteredList;
+    }
+
+    public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws SQLException
+    {
+        for(RequirementsRow row : currentFilteredList)
+        {
+            PreparedStatement st = QueryBuilder.updateColumnText(tableName, columnName, textToWrite, row.getId());
+            st.executeUpdate();
+
+            switch(columnName)
+            {
+                case "build" :
+                    row.setBuild(textToWrite);
+                    break;
+                case "ri":
+                    row.setRi(textToWrite);
+                    break;
+                case "program":
+                    row.setProgram(textToWrite);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public static void updateDoubleColumnInDB(String tableName, String columnName, double value) throws Exception
+    {
+        if(value > 100 || value < 0) {
+            throw new Exception("Number not within range 0-100");
+        }
+
+        ObservableList<RequirementsRow> list;
+        if(!currentFilteredList.isEmpty()) {
+            list = currentFilteredList;
+        } else {
+            list = allReqData;
+        }
+
+        for(RequirementsRow row : list)
+        {
+            PreparedStatement st = QueryBuilder.updateColumnDouble(tableName, columnName, value, row.getId());
+            st.executeUpdate();
+            int i = list.indexOf(row);
+
+            switch(columnName)
+            {
+                case "design" :
+                    row.setDesignWeight(value);
+                    list.set(i, row);
+                    break;
+                case "code":
+                    row.setCodeWeight(value);
+                    list.set(i, row);
+                    break;
+                case "unitTest":
+                    row.setUnitTestWeight(value);
+                    list.set(i, row);
+                    break;
+                case "integration":
+                    row.setIntegrationWeight(value);
+                    list.set(i, row);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /**

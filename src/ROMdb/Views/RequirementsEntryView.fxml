@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -287,12 +287,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Design">
+                                                      <Button fx:id="button_completeDesign" mnemonicParsing="false" onAction="#updateDesign" text="Design">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeDesign" alignment="CENTER" />
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets left="5.0" right="5.0" />
@@ -304,12 +304,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Code">
+                                                      <Button fx:id="button_completeCode" mnemonicParsing="false" onAction="#updateCode" text="Code">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeCode" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -321,12 +321,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Unit Test">
+                                                      <Button fx:id="button_completeUnitTest" mnemonicParsing="false" onAction="#updateUnitTest" text="Unit Test">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeUnitTest" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -338,12 +338,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Integration">
+                                                      <Button fx:id="button_completeIntegration" mnemonicParsing="false" onAction="#updateIntegration" text="Integration">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeIntegration" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -359,12 +359,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Build">
+                                                      <Button fx:id="button_completeBuild" mnemonicParsing="false" onAction="#updateBuild" text="Build">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox prefWidth="175.0" />
+                                                      <ComboBox fx:id="combo_completeBuild" prefWidth="175.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -373,12 +373,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="RI">
+                                                      <Button fx:id="button_completeRI" mnemonicParsing="false" onAction="#updateRI" prefHeight="25.0" prefWidth="45.0" text="RI">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox prefWidth="225.0" />
+                                                      <ComboBox fx:id="combo_completeRI" prefWidth="225.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -387,12 +387,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Program">
+                                                      <Button fx:id="button_completeProgram" mnemonicParsing="false" onAction="#updateProgram" text="Program">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox prefWidth="175.0" />
+                                                      <ComboBox fx:id="combo_completeProgram" prefWidth="175.0" />
                                                    </children>
                                                 </HBox>
                                              </children>

@@ -10,8 +10,6 @@ public class RequirementsRow {
 
     private int id;
 
-
-
     private SimpleStringProperty csc;
     private SimpleStringProperty csu;
     private SimpleStringProperty doorsID;
@@ -138,4 +136,9 @@ public class RequirementsRow {
     public void setRommer(String rommer) {this.rommer.set(rommer);}
     public void setProgram(String program) {this.program.set(program);}
     public void setBuild(String build) {this.build.set(build);}
+
+    @Override
+    public String toString() {
+        return "" + id;
+    }
 }
