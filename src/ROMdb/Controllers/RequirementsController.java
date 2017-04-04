@@ -5,8 +5,11 @@ import ROMdb.Helpers.FilterItem;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
+import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,10 +24,17 @@ import java.util.ArrayList;
 
 public class RequirementsController
 {
+
+    /* For use when keeping the combo boxes updated */
+    //private ObservableList builds = FXCollections.observableArrayList();
+    private ObservableList individuals = FXCollections.observableArrayList();
+    private ObservableList programs = FXCollections.observableArrayList();
+
     @FXML private TabPane requirementsEntryView;
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
+
     @FXML private ComboBox<String> combo_resp;
     @FXML private ComboBox<String> combo_csc;
     @FXML private ComboBox<String> combo_csu;
@@ -38,6 +48,27 @@ public class RequirementsController
 
     @FXML private Button button_clear;
     @FXML private Button button_save;
+
+
+    /* Complete tab components                          */
+    @FXML private Button button_completeDesign;
+    @FXML private Button button_completeCode;
+    @FXML private Button button_completeUnitTest;
+    @FXML private Button button_completeIntegration;
+    //@FXML private Button button_completeBuild;
+    @FXML private Button button_completeRI;
+    @FXML private Button button_completeProgram;
+
+    @FXML private TextField field_completeDesign;
+    @FXML private TextField field_completeCode;
+    @FXML private TextField field_completeUnitTest;
+    @FXML private TextField field_completeIntegration;
+
+    //@FXML private ComboBox<?> combo_completeBuild;
+    @FXML private ComboBox<?> combo_completeRI;
+    @FXML private ComboBox<?> combo_completeProgram;
+    /* End complete tab components                          */
+
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
@@ -59,6 +90,8 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_rommer;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
 
+
+
     @FXML
     public void initialize()
     {
@@ -70,6 +103,9 @@ public class RequirementsController
         this.createFilterHandlers();
 
         this.createTableViewClickHandler();
+
+        // complete tab
+//        this.occupyComboBoxes();
     }
 
     /**
@@ -80,6 +116,7 @@ public class RequirementsController
         // Define event change handlers for filtering combo boxes
         attachChangeListenerComboBox(combo_baseline);
         attachChangeListenerComboBox(combo_scicr);
+
         attachChangeListenerComboBox(combo_resp);
         attachChangeListenerComboBox(combo_csc);
         attachChangeListenerComboBox(combo_csu);
@@ -137,6 +174,7 @@ public class RequirementsController
     {
         combo_baseline.setValue("");
         combo_scicr.setValue("");
+
         combo_resp.setValue("");
         combo_csc.setValue("");
         combo_csu.setValue("");
@@ -206,9 +244,9 @@ public class RequirementsController
     private void addNewRowWithDefaultsToJTable()
     {
         RequirementsRow row = new RequirementsRow("","","","","","","",
-                                                    0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-                                                    "","",""
-                                                 );
+                0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                "","",""
+        );
         table_requirements.getItems().add(row);
     }
 
@@ -265,6 +303,8 @@ public class RequirementsController
     private void pressClear()
     {
         this.setCombosToEmptyValues();
+        RequirementsModel.currentFilteredList.clear();
+        this.fillTable();
     }
 
     /**
@@ -286,6 +326,7 @@ public class RequirementsController
         newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
         newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
         newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
+
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -331,6 +372,157 @@ public class RequirementsController
             }
         }
     }
+
+
+
+
+    /* BEGIN COMPLETE TAB FUNCTIONALITY ********************************************************************************/
+// build ri program
+    private void occupyComboBoxes()
+    {
+        for(RequirementsRow row : RequirementsModel.allReqData)
+        {
+            //String build = row.getBuild();
+            String ri = row.getRi();
+            String program = row.getProgram();
+
+            //if(!builds.contains(build)) { builds.add(build); }
+            if(!individuals.contains(ri)) { individuals.add(ri); }
+            if(!programs.contains(program)) { programs.add(program); }
+        }
+
+        //combo_completeBuild.setItems(builds);
+        combo_completeRI.setItems(individuals);
+        combo_completeProgram.setItems(programs);
+    }
+
+    @FXML
+    private void updateDesign() {
+        try {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design", Double.parseDouble(field_completeDesign.getText()) );
+            table_requirements.refresh();
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void updateCode() {
+        try {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code", Double.parseDouble(field_completeCode.getText()) );
+            table_requirements.refresh();
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void updateUnitTest() {
+        try {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "unitTest", Double.parseDouble(field_completeUnitTest.getText()) );
+            table_requirements.refresh();
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void updateIntegration() {
+        try {
+            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "integration", Double.parseDouble(field_completeIntegration.getText()) );
+            table_requirements.refresh();
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Input must be a number between 0 - 100.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    /*@FXML
+    private void updateBuild() {
+        try {
+            //String oldBuild = this.getSelectedRow().getBuild();
+            //String build = combo_completeBuild.getValue().toString();
+            //RequirementsModel.updateTextColumnInDB("RequirementsData", "build", build);
+            *//*System.out.println("Old Build: " + oldBuild + "\n" + "New Build: " + build);
+            int count = 1;
+            for (RequirementsRow row : RequirementsModel.allReqData) {
+                if(row.getRi().equals(build)) {
+                    count++;
+                }
+            }
+            if(count == 1) {
+                int index = individuals.indexOf(oldBuild);
+                individuals.set(index, build);
+            }*//*
+
+            if(!individuals.contains(build)) { individuals.add(build); }
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Build was unable to be updated.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }*/
+
+    @FXML
+    private void updateRI() {
+        try {
+            //String oldRi = this.getSelectedRow().getRi();
+            String ri = combo_completeRI.getValue().toString();
+            RequirementsModel.updateTextColumnInDB("RequirementsData", "ri", ri);
+           /* System.out.println("Old RI: " + oldRi + "\n" + "New RI: " + ri);
+            int count = 1;
+            for (RequirementsRow row : RequirementsModel.allReqData) {
+                if(row.getRi().equals(ri)) {
+                    count++;
+                }
+            }
+            if(count == 1) {
+                int index = individuals.indexOf(oldRi);
+                individuals.set(index, ri);
+            }*/
+
+            if(!individuals.contains(ri)) { individuals.add(ri); }
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Responsible individual was unable to be updated.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void updateProgram() {
+        try {
+            //String oldProgram = this.getSelectedRow().getProgram();
+            String program = combo_completeProgram.getValue().toString();
+            RequirementsModel.updateTextColumnInDB("RequirementsData", "program", program) ;
+            /*System.out.println("Old Program: " + oldProgram + "\n" + "New Program: " + program);
+            int count = 1;
+            for (RequirementsRow row : RequirementsModel.allReqData) {
+                if(row.getRi().equals(program)) {
+                    count++;
+                }
+            }
+            if(count == 1) {
+                int index = individuals.indexOf(oldProgram);
+                individuals.set(index, program);
+            }*/
+
+            if(!individuals.contains(program)) { individuals.add(program); }
+        }
+        catch(Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Program was unable to be updated.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    /* END COMPLETE TAB FUNCTIONALITY *********************************************************************************/
 
 
 /**
@@ -409,7 +601,6 @@ public class RequirementsController
         this.setColumnCellToComboBox(tableColumn_ri);
         this.setColumnCellToComboBox(tableColumn_rommer);
         this.setColumnCellToComboBox(tableColumn_program);
-
 
         /**
          * These create the components in the column so that the cells are either combo boxes
@@ -940,5 +1131,4 @@ public class RequirementsController
             }
         });
     }
-
 }

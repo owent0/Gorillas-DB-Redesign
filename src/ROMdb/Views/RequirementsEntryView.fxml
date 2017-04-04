@@ -15,13 +15,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <TabPane prefHeight="177.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Main">
+               <tabs>
+                  <Tab text="Main">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
@@ -70,7 +70,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_paragraph" editable="false" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
+                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -262,8 +262,8 @@
                            </center>
                         </BorderPane>
                      </content>
-                </Tab>
-                <Tab text="\% Complete">
+                  </Tab>
+                  <Tab text="\% Complete">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
@@ -280,12 +280,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Design">
+                                                      <Button fx:id="button_completeDesign" mnemonicParsing="false" onAction="#updateDesign" text="Design">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeDesign" alignment="CENTER" />
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets left="5.0" right="5.0" />
@@ -297,12 +297,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Code">
+                                                      <Button fx:id="button_completeCode" mnemonicParsing="false" onAction="#updateCode" text="Code">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeCode" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -314,12 +314,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Unit Test">
+                                                      <Button fx:id="button_completeUnitTest" mnemonicParsing="false" onAction="#updateUnitTest" text="Unit Test">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeUnitTest" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -331,12 +331,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Integration">
+                                                      <Button fx:id="button_completeIntegration" mnemonicParsing="false" onAction="#updateIntegration" text="Integration">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <TextField alignment="CENTER" />
+                                                      <TextField fx:id="field_completeIntegration" alignment="CENTER" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -352,7 +352,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Build">
+                                                      <Button fx:id="button_completeBuild" mnemonicParsing="false" text="Build">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
@@ -397,15 +397,15 @@
                            </center>
                         </BorderPane>
                      </content>
-                </Tab>
-              </tabs>
+                  </Tab>
+               </tabs>
             </TabPane>
          </top>
          <center>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="944.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="72.0" text="CSC" />
-                <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveRowEditChanges" prefWidth="93.0" text="CSU" />
+               <columns>
+                  <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="72.0" text="CSC" />
+                  <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveRowEditChanges" prefWidth="93.0" text="CSU" />
                   <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Doors ID" />
                   <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Paragraph/Figure" />
                   <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="78.0" text="Baseline" />
@@ -421,7 +421,7 @@
                   <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveRowEditChanges" prefWidth="160.0" text="Responsible Individual" />
                   <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Rommer" />
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Program" />
-              </columns>
+               </columns>
             </TableView>
          </center>
       </BorderPane>
