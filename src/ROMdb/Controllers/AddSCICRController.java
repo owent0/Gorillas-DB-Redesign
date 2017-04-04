@@ -48,19 +48,18 @@ public class AddSCICRController {
 
         // The currently selected baseline from the drop down.
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();
-        System.out.println(baseline);
         try
         {
             String SCorICR = "SC";
 
             // Get either SC or ICR as a string value
             // based on the combo box selection.
-            if(radio_icr.isSelected()){
+            if(radio_icr.isSelected())
+            {
                 SCorICR = radio_icr.getText();
             }
-            System.out.println("Start Number testing");
-            if(AddSCICRModel.isNumberUnique(field_number.getText(), baseline)) {
-                System.out.println("Number is in baseline");
+            if(AddSCICRModel.isNumberUnique(field_number.getText(), baseline))
+            {
                 throw new Exception();
             }
 
@@ -72,7 +71,6 @@ public class AddSCICRController {
             // Close the scene.
             closeScene();
             // Add it to the list of SCICRRow objects for that baseline.
-            //System.out.println(SCICRController.map.get(baseline).toString());
             SCICRModel.getMap().get(baseline).add(newSCICR);
 
         }

@@ -24,7 +24,7 @@ public class DatabaseUtilities
     {
         if(Config.dbType == DatabaseType.MS_ACCESS)
         {
-            System.out.println("initalize connection with MS Access settings");
+            System.out.println("Initalize connection with MS Access settings");
         }
         else
         {

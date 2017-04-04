@@ -275,6 +275,7 @@ public class SCICRController {
      * Deletes a selected row from the table view and the database.
      */
     @FXML
+    // TODO THIS METHOD WILL BE CALLED VIA ADMIN FUNCTION
     private void removeRow() {
 
         try {

@@ -27,7 +27,7 @@
                            <center>
                               <AnchorPane prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="813.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
@@ -36,7 +36,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_baseline" editable="true" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_baseline" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -53,24 +53,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_scicr" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0">
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                </ComboBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
-                                          </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
-                                             <children>
-                                                <Label text="Build:">
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                </Label>
-                                                <ComboBox fx:id="combo_build" editable="true" maxHeight="-Infinity" maxWidth="300.0" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_scicr" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -87,7 +70,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
+                                                <TextField fx:id="field_paragraph" editable="false" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -104,7 +87,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
+                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="150.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -121,7 +104,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_capability" editable="true" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_capability" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -130,7 +113,7 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER" layoutX="9.0" prefHeight="42.0" prefWidth="976.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
+                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
@@ -139,7 +122,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_csc" editable="true" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csc" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -156,7 +139,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_csu" editable="true" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csu" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -169,7 +152,7 @@
                                           <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Program:" />
-                                                <ComboBox fx:id="combo_program" editable="true" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_program" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -182,7 +165,7 @@
                                           <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="130.0" text="Responsible Individual:" />
-                                                <ComboBox fx:id="combo_resp" editable="true" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_resp" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -195,7 +178,7 @@
                                           <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Rommer:" />
-                                                <ComboBox fx:id="combo_rommer" editable="true" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_rommer" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -421,24 +404,23 @@
          <center>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="944.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveChanges" prefWidth="72.0" text="CSC" />
-                <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveChanges" prefWidth="93.0" text="CSU" />
-                  <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveChanges" prefWidth="145.0" text="Doors ID" />
-                  <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveChanges" prefWidth="140.0" text="Paragraph/Figure" />
-                  <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveChanges" prefWidth="78.0" text="Baseline" />
-                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveChanges" prefWidth="105.0" text="SC/ICR" />
-                  <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveChanges" prefWidth="100.0" text="Capability" />
-                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Added" />
-                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Changed" />
-                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="70.0" text="# Deleted" />
-                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="110.0" text="Design Weight" />
-                  <TableColumn fx:id="tableColumn_codeWeight" onEditCommit="#saveChanges" prefWidth="110.0" text="Code Weight" />
-                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveChanges" prefWidth="120.0" text="Unit Test Weight" />
-                  <TableColumn fx:id="tableColumn_integrationWeight" onEditCommit="#saveChanges" prefWidth="130.0" text="Integration Weight" />
-                  <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveChanges" prefWidth="160.0" text="Responsible Individual" />
-                  <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveChanges" prefWidth="70.0" text="Rommer" />
-                  <TableColumn fx:id="tableColumn_program" onEditCommit="#saveChanges" prefWidth="70.0" text="Program" />
-                  <TableColumn fx:id="tableColumn_build" onEditCommit="#saveChanges" prefWidth="90.0" text="Build" />
+                <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="72.0" text="CSC" />
+                <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveRowEditChanges" prefWidth="93.0" text="CSU" />
+                  <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Doors ID" />
+                  <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Paragraph/Figure" />
+                  <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="78.0" text="Baseline" />
+                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveRowEditChanges" prefWidth="105.0" text="SC/ICR" />
+                  <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="Capability" />
+                  <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="# Added" />
+                  <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="# Changed" />
+                  <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="# Deleted" />
+                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="110.0" text="Design Weight" />
+                  <TableColumn fx:id="tableColumn_codeWeight" onEditCommit="#saveRowEditChanges" prefWidth="110.0" text="Code Weight" />
+                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Unit Test Weight" />
+                  <TableColumn fx:id="tableColumn_integrationWeight" onEditCommit="#saveRowEditChanges" prefWidth="130.0" text="Integration Weight" />
+                  <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveRowEditChanges" prefWidth="160.0" text="Responsible Individual" />
+                  <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Rommer" />
+                  <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Program" />
               </columns>
             </TableView>
          </center>
