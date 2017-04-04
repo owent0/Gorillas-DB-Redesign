@@ -65,6 +65,111 @@ public class QueryBuilder
         return st;
     }
 
+    public static PreparedStatement buildSelectWhereOrderByQuery(String tableName, String selectSet, ArrayList<FilterItem> filterCriteria, boolean useLike, String orderBy, String directionOfOrder) throws SQLException
+    {
+        String query = "";
+
+        String eq_or_like_1 = useLike ? "LIKE " : "= ";
+        String eq_or_like_2 = useLike ? "%" : "";
+
+        String dir = "";
+
+        /**
+         * ensure that dir is a valid keyword
+         */
+        switch(directionOfOrder.toLowerCase())
+        {
+            case "asc":
+                dir = "asc";
+                break;
+            case "desc":
+                dir = "desc";
+                break;
+            default:
+                dir = "";
+                break;
+        }
+
+        String selectPart = "SELECT " + selectSet + " ";
+        String fromPart = "FROM " + tableName + " ";
+        String wherePart = "WHERE ";
+        String orderByPart = "ORDER BY " + orderBy + " " + dir;
+
+        boolean firstCriteria = true;
+
+        // Build where part with question marks (?) in place of arguments
+        for(FilterItem fi : filterCriteria)
+        {
+            String andPart = firstCriteria ? "" : "AND ";
+
+            if(!fi.getValue().matches(InputType.WHITE_SPACE.getPattern()))
+            {
+                wherePart += andPart + "[" + fi.getName() + "] " + eq_or_like_1 + "?";
+                firstCriteria = false;
+            }
+
+        }
+
+        query = selectPart + fromPart + wherePart + orderByPart;
+
+        PreparedStatement st = Main.conn.prepareStatement(query);
+
+        // replace question marks (?) with actual arguments
+        int argNum = 1;
+        for(FilterItem fi : filterCriteria)
+        {
+            if(!fi.getValue().matches(InputType.WHITE_SPACE.getPattern()))
+            {
+                st.setString(argNum++, ("" + eq_or_like_2 + fi.getValue() + eq_or_like_2) );
+            }
+        }
+
+        return st;
+    }
+
+    /**
+     * Use "" for directionOfOrder if you want the default order direction (ASC, DEC)
+     *
+     * @param tableName
+     * @param selectSet
+     * @param orderBy
+     * @param directionOfOrder
+     * @return
+     * @throws SQLException
+     */
+    public static PreparedStatement buildSelectOrderByQuery(String tableName, String selectSet, String orderBy, String directionOfOrder) throws SQLException
+    {
+        String query = "";
+
+        String dir = "";
+
+        /**
+         * ensure that dir is a valid keyword
+         */
+        switch(directionOfOrder.toLowerCase())
+        {
+            case "asc":
+                dir = "asc";
+                break;
+            case "desc":
+                dir = "desc";
+                break;
+            default:
+                dir = "";
+                break;
+        }
+
+        String selectPart = "SELECT " + selectSet + " ";
+        String fromPart = "FROM " + tableName + " ";
+        String orderByPart = "ORDER BY " + orderBy + " " + dir;
+
+        query = selectPart + fromPart + orderByPart;
+
+        PreparedStatement st = Main.conn.prepareStatement(query);
+
+        return st;
+    }
+
     public static PreparedStatement updateColumnText(String tableName, String columnName, String textToInsert, int rowID) throws SQLException {
         String query = "";
         query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [Req_ID] = ?";
