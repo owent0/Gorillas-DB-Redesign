@@ -366,12 +366,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="RI">
+                                                      <Button mnemonicParsing="false" onAction="#updateRI" prefHeight="25.0" prefWidth="45.0" text="RI">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox prefWidth="225.0" />
+                                                      <ComboBox fx:id="combo_completeRI" prefWidth="225.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -380,12 +380,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Program">
+                                                      <Button mnemonicParsing="false" onAction="#updateProgram" text="Program">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox prefWidth="175.0" />
+                                                      <ComboBox fx:id="combo_completeProgram" prefWidth="175.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
