@@ -26,7 +26,7 @@ public class RequirementsController
 {
 
     /* For use when keeping the combo boxes updated */
-    private ObservableList builds = FXCollections.observableArrayList();
+    //private ObservableList builds = FXCollections.observableArrayList();
     private ObservableList individuals = FXCollections.observableArrayList();
     private ObservableList programs = FXCollections.observableArrayList();
 
@@ -55,7 +55,7 @@ public class RequirementsController
     @FXML private Button button_completeCode;
     @FXML private Button button_completeUnitTest;
     @FXML private Button button_completeIntegration;
-    @FXML private Button button_completeBuild;
+    //@FXML private Button button_completeBuild;
     @FXML private Button button_completeRI;
     @FXML private Button button_completeProgram;
 
@@ -64,7 +64,7 @@ public class RequirementsController
     @FXML private TextField field_completeUnitTest;
     @FXML private TextField field_completeIntegration;
 
-    @FXML private ComboBox<?> combo_completeBuild;
+    //@FXML private ComboBox<?> combo_completeBuild;
     @FXML private ComboBox<?> combo_completeRI;
     @FXML private ComboBox<?> combo_completeProgram;
     /* End complete tab components                          */
@@ -105,7 +105,7 @@ public class RequirementsController
         this.createTableViewClickHandler();
 
         // complete tab
-        this.occupyComboBoxes();
+//        this.occupyComboBoxes();
     }
 
     /**
@@ -444,13 +444,13 @@ public class RequirementsController
         }
     }
 
-    @FXML
+    /*@FXML
     private void updateBuild() {
         try {
             //String oldBuild = this.getSelectedRow().getBuild();
-            String build = combo_completeBuild.getValue().toString();
-            RequirementsModel.updateTextColumnInDB("RequirementsData", "build", build);
-            /*System.out.println("Old Build: " + oldBuild + "\n" + "New Build: " + build);
+            //String build = combo_completeBuild.getValue().toString();
+            //RequirementsModel.updateTextColumnInDB("RequirementsData", "build", build);
+            *//*System.out.println("Old Build: " + oldBuild + "\n" + "New Build: " + build);
             int count = 1;
             for (RequirementsRow row : RequirementsModel.allReqData) {
                 if(row.getRi().equals(build)) {
@@ -460,7 +460,7 @@ public class RequirementsController
             if(count == 1) {
                 int index = individuals.indexOf(oldBuild);
                 individuals.set(index, build);
-            }*/
+            }*//*
 
             if(!individuals.contains(build)) { individuals.add(build); }
         }
@@ -468,7 +468,7 @@ public class RequirementsController
             Alert alert = new Alert(Alert.AlertType.ERROR, "Build was unable to be updated.", ButtonType.OK);
             alert.showAndWait();
         }
-    }
+    }*/
 
     @FXML
     private void updateRI() {
@@ -593,80 +593,14 @@ public class RequirementsController
         tableColumn_rommer.setCellValueFactory(new PropertyValueFactory<>("rommer"));
         tableColumn_program.setCellValueFactory(new PropertyValueFactory<>("program"));
 
-
         this.setColumnCellToComboBox(tableColumn_csc);
         this.setColumnCellToComboBox(tableColumn_csu);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         this.setColumnCellToComboBox(tableColumn_baseline);
-
-
-
-
-
-
         this.setColumnCellToComboBox(tableColumn_scicr);
-
-
-
-
-
-
         this.setColumnCellToComboBox(tableColumn_capability);
         this.setColumnCellToComboBox(tableColumn_ri);
-
-
-
-
-
-
-
-
-
-
-
-
         this.setColumnCellToComboBox(tableColumn_rommer);
         this.setColumnCellToComboBox(tableColumn_program);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /**
          * These create the components in the column so that the cells are either combo boxes
@@ -1146,23 +1080,6 @@ public class RequirementsController
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue());
                 saveRowEditChanges();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
             catch(Exception e)
             {
@@ -1203,21 +1120,6 @@ public class RequirementsController
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue());
                 saveRowEditChanges();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
             catch(Exception e)
             {

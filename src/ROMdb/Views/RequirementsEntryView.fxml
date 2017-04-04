@@ -20,23 +20,23 @@
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <TabPane prefHeight="177.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Main">
+               <tabs>
+                  <Tab text="Main">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
                               <AnchorPane prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="813.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="5.0">
                                        <children>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Baseline:">
+                                                <Label prefHeight="17.0" prefWidth="52.0" text="Baseline:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_baseline" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_baseline" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -46,7 +46,7 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="160.0" prefHeight="25.0" prefWidth="120.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="160.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="SC/ICR:">
                                                    <VBox.margin>
@@ -63,31 +63,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="160.0">
-                                             <children>
-                                                <Label text="Build:">
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                </Label>
-                                                <ComboBox fx:id="combo_build" maxHeight="-Infinity" maxWidth="300.0" prefHeight="25.0" prefWidth="150.0">
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                </ComboBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
-                                          </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Paragraph:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="195.0">
+                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -97,14 +80,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="210.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Doors ID:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="195.0">
+                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="150.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -114,31 +97,32 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
-                                       <children>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" layoutX="31.0" layoutY="10.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Resp. Individual" />
-                                                <ComboBox fx:id="combo_resp" prefWidth="150.0">
+                                                <Label prefHeight="17.0" prefWidth="57.0" text="Capability">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <ComboBox fx:id="combo_capability" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </ComboBox>
                                              </children>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="CSC:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_csc" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csc" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -148,14 +132,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Capability:">
+                                                <Label text="CSU:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_capability" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csu" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -165,10 +149,10 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Program:" />
-                                                <ComboBox fx:id="combo_program" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_program" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -178,10 +162,23 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="130.0" text="Responsible Individual:" />
+                                                <ComboBox fx:id="combo_resp" prefHeight="25.0" prefWidth="150.0">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </ComboBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Rommer:" />
-                                                <ComboBox fx:id="combo_rommer" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_rommer" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -191,9 +188,9 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="68.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="81.0">
                                              <children>
-                                                <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="53.0" text="Clear">
+                                                <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="126.0" text="Clear Filters">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -203,24 +200,20 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="66.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="55.0">
                                              <children>
-                                                <Button fx:id="button_save" mnemonicParsing="false" onAction="#pressSave" prefHeight="32.0" prefWidth="53.0" text="Save" />
+                                                <Button fx:id="button_save" mnemonicParsing="false" onAction="#pressSave" prefHeight="32.0" prefWidth="56.0" text="Save" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER" layoutY="95.0" maxHeight="-Infinity" prefHeight="48.0" prefWidth="984.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="95.0">
+                                    <HBox alignment="CENTER" layoutX="30.0" layoutY="95.0" maxHeight="-Infinity" prefHeight="42.0" prefWidth="945.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="95.0">
                                        <children>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="47.0" prefWidth="76.0">
-                                             <children>
-                                                <Button fx:id="button_newRow" mnemonicParsing="false" onAction="#addNewRowWithDefaultsToJTable" prefHeight="32.0" prefWidth="67.0" text="New Row" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="360.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="48.0" prefWidth="92.0" />
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="294.0">
                                              <children>
                                                 <Label text="Sort By:" />
-                                                <ComboBox fx:id="combo_sort" prefHeight="25.0" prefWidth="356.0" />
+                                                <ComboBox fx:id="combo_sort" prefHeight="25.0" prefWidth="150.0" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
@@ -269,8 +262,8 @@
                            </center>
                         </BorderPane>
                      </content>
-                </Tab>
-                <Tab text="\% Complete">
+                  </Tab>
+                  <Tab text="\% Complete">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
@@ -359,12 +352,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button fx:id="button_completeBuild" mnemonicParsing="false" onAction="#updateBuild" text="Build">
+                                                      <Button fx:id="button_completeBuild" mnemonicParsing="false" text="Build">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox fx:id="combo_completeBuild" prefWidth="175.0" />
+                                                      <ComboBox prefWidth="175.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -373,12 +366,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button fx:id="button_completeRI" mnemonicParsing="false" onAction="#updateRI" prefHeight="25.0" prefWidth="45.0" text="RI">
+                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="RI">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox fx:id="combo_completeRI" prefWidth="225.0" />
+                                                      <ComboBox prefWidth="225.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -387,12 +380,12 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button fx:id="button_completeProgram" mnemonicParsing="false" onAction="#updateProgram" text="Program">
+                                                      <Button mnemonicParsing="false" text="Program">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <ComboBox fx:id="combo_completeProgram" prefWidth="175.0" />
+                                                      <ComboBox prefWidth="175.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -404,15 +397,15 @@
                            </center>
                         </BorderPane>
                      </content>
-                </Tab>
-              </tabs>
+                  </Tab>
+               </tabs>
             </TabPane>
          </top>
          <center>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="944.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="72.0" text="CSC" />
-                <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveRowEditChanges" prefWidth="93.0" text="CSU" />
+               <columns>
+                  <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="72.0" text="CSC" />
+                  <TableColumn fx:id="tableColumn_csu" onEditCommit="#saveRowEditChanges" prefWidth="93.0" text="CSU" />
                   <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Doors ID" />
                   <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Paragraph/Figure" />
                   <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="78.0" text="Baseline" />
@@ -428,8 +421,7 @@
                   <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveRowEditChanges" prefWidth="160.0" text="Responsible Individual" />
                   <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Rommer" />
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="70.0" text="Program" />
-                  <TableColumn fx:id="tableColumn_build" onEditCommit="#saveRowEditChanges" prefWidth="90.0" text="Build" />
-              </columns>
+               </columns>
             </TableView>
          </center>
       </BorderPane>

@@ -184,7 +184,7 @@ public class RequirementsModel
                 "[baseline]=?, [scicr]=?, [capability]=?, [add]=?," +
                 "[change]=?, [delete]=?, [design]=?, [code]=?," +
                 "[unitTest]=?, [integration]=?, [ri]=?, [rommer]=?," +
-                "[program]=?, [build]=?" +
+                "[program]=?" +
                 "WHERE [Req_ID]=?";
 
         // Create a new statement.
