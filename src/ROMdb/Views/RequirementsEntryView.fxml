@@ -27,16 +27,16 @@
                            <center>
                               <AnchorPane prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
+                                    <HBox alignment="CENTER" layoutX="15.0" prefHeight="42.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                                        <children>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Baseline:">
+                                                <Label prefHeight="17.0" prefWidth="52.0" text="Baseline:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_baseline" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_baseline" editable="true" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -46,14 +46,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="160.0" prefHeight="25.0" prefWidth="120.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="160.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="SC/ICR:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_scicr" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_scicr" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -63,14 +63,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="160.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Build:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_build" maxHeight="-Infinity" maxWidth="300.0" prefHeight="25.0" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_build" editable="true" maxHeight="-Infinity" maxWidth="300.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -80,14 +80,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Paragraph:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="195.0">
+                                                <TextField fx:id="field_paragraph" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -97,14 +97,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="210.0">
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Doors ID:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="195.0">
+                                                <TextField fx:id="field_doors" maxHeight="-Infinity" maxWidth="450.0" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -114,31 +114,32 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
-                                       <children>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" layoutX="31.0" layoutY="10.0" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Resp. Individual" />
-                                                <ComboBox fx:id="combo_resp" prefWidth="150.0">
+                                                <Label prefHeight="17.0" prefWidth="57.0" text="Capability">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <ComboBox fx:id="combo_capability" editable="true" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </ComboBox>
                                              </children>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutX="9.0" prefHeight="42.0" prefWidth="976.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="CSC:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_csc" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csc" editable="true" prefHeight="25.0" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -148,14 +149,14 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
-                                                <Label text="Capability:">
+                                                <Label text="CSU:">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="combo_capability" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_csu" editable="true" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -165,10 +166,10 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Program:" />
-                                                <ComboBox fx:id="combo_program" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_program" editable="true" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -178,10 +179,23 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefWidth="150.0">
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="130.0" text="Responsible Individual:" />
+                                                <ComboBox fx:id="combo_resp" editable="true" prefWidth="150.0">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </ComboBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0">
                                              <children>
                                                 <Label text="Rommer:" />
-                                                <ComboBox fx:id="combo_rommer" prefWidth="150.0">
+                                                <ComboBox fx:id="combo_rommer" editable="true" prefWidth="150.0">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -191,9 +205,9 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="68.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="81.0">
                                              <children>
-                                                <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="53.0" text="Clear">
+                                                <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="126.0" text="Clear Filters">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -203,24 +217,20 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="66.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="42.0" prefWidth="55.0">
                                              <children>
-                                                <Button fx:id="button_save" mnemonicParsing="false" onAction="#pressSave" prefHeight="32.0" prefWidth="53.0" text="Save" />
+                                                <Button fx:id="button_save" mnemonicParsing="false" onAction="#pressSave" prefHeight="32.0" prefWidth="56.0" text="Save" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER" layoutY="95.0" maxHeight="-Infinity" prefHeight="48.0" prefWidth="984.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="95.0">
+                                    <HBox alignment="CENTER" layoutX="30.0" layoutY="95.0" maxHeight="-Infinity" prefHeight="42.0" prefWidth="945.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="95.0">
                                        <children>
-                                          <VBox alignment="BOTTOM_CENTER" prefHeight="47.0" prefWidth="76.0">
-                                             <children>
-                                                <Button fx:id="button_newRow" mnemonicParsing="false" onAction="#addNewRowWithDefaultsToJTable" prefHeight="32.0" prefWidth="67.0" text="New Row" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="360.0">
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="48.0" prefWidth="92.0" />
+                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="42.0" prefWidth="294.0">
                                              <children>
                                                 <Label text="Sort By:" />
-                                                <ComboBox fx:id="combo_sort" prefHeight="25.0" prefWidth="356.0" />
+                                                <ComboBox fx:id="combo_sort" prefHeight="25.0" prefWidth="150.0" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />

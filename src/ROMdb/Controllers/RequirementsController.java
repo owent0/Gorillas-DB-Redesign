@@ -7,21 +7,16 @@ import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.util.StringConverter;
 
-import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
 
 public class RequirementsController
@@ -33,6 +28,7 @@ public class RequirementsController
     @FXML private ComboBox<String> combo_build;
     @FXML private ComboBox<String> combo_resp;
     @FXML private ComboBox<String> combo_csc;
+    @FXML private ComboBox<String> combo_csu;
     @FXML private ComboBox<String> combo_capability;
     @FXML private ComboBox<String> combo_program;
     @FXML private ComboBox<String> combo_rommer;
@@ -43,7 +39,6 @@ public class RequirementsController
 
     @FXML private Button button_clear;
     @FXML private Button button_save;
-    @FXML private Button button_newRow;
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
@@ -75,28 +70,22 @@ public class RequirementsController
 
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
         this.createFilterHandlers();
+
+        this.createTableViewHandler();
     }
 
-    // Includes combo boxes and text fields used as filters
+    /**
+     * Neccessary to listen for the changed property of the combo boxes and text fields
+     */
     private void createFilterHandlers()
     {
-        // Set all combo boxes to be editable
-        combo_baseline.setEditable(true);
-        combo_scicr.setEditable(true);
-        combo_build.setEditable(true);
-        combo_resp.setEditable(true);
-        combo_csc.setEditable(true);
-        combo_capability.setEditable(true);
-        combo_program.setEditable(true);
-        combo_rommer.setEditable(true);
-        combo_sort.setEditable(true);
-
         // Define event change handlers for filtering combo boxes
         attachChangeListenerComboBox(combo_baseline);
         attachChangeListenerComboBox(combo_scicr);
         attachChangeListenerComboBox(combo_build);
         attachChangeListenerComboBox(combo_resp);
         attachChangeListenerComboBox(combo_csc);
+        attachChangeListenerComboBox(combo_csu);
         attachChangeListenerComboBox(combo_capability);
         attachChangeListenerComboBox(combo_program);
         attachChangeListenerComboBox(combo_rommer);
@@ -122,25 +111,6 @@ public class RequirementsController
         );
     }
 
-
-    // TODO I would love to update the filter on every key press, but it does not look like the
-    //      changed event is called until the enter key is pressed.
-    //      if I could somehow call the enter keyevent after every key press this might work...
-    //      Or some other solution
-    // testing 
-    /*
-    private void attachChangeListenerComboBox(ComboBox<String> cb)
-    {
-        cb.getEditor().addEventFilter(KeyEvent.KEY_TYPED, e -> {
-            System.out.println(e);
-            e.consume();
-            cb.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED, KeyCode.ENTER.toString(), "", KeyCode.ENTER, false, false, false, false));
-            sendFiltersToModel();
-            updateJTableWithFilteredReqData();
-        });
-    }
-    */
-
     /**
      * Creates a ChangeListener object and assigns it to the textField passed in.
      *      The changeListener refreshes the JTable according to the current state of the filters
@@ -156,6 +126,13 @@ public class RequirementsController
         );
     }
 
+    @FXML
+    private void updateFilters()
+    {
+        this.sendFiltersToModel();
+        this.updateJTableWithFilteredReqData();
+    }
+
     /**
      * Clears the filtering combo boxes and text fields of their data and sets them to the empty string
      */
@@ -166,6 +143,7 @@ public class RequirementsController
         combo_build.setValue("");
         combo_resp.setValue("");
         combo_csc.setValue("");
+        combo_csu.setValue("");
         combo_capability.setValue("");
         combo_program.setValue("");
         combo_rommer.setValue("");
@@ -192,6 +170,40 @@ public class RequirementsController
         }
     }
 
+    @FXML
+    public void createTableViewHandler()
+    {
+        ContextMenu cm = createRightClickContextMenu();
+
+        table_requirements.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
+        {
+            if(event.getButton() == MouseButton.SECONDARY)
+            {
+                table_requirements.setContextMenu(cm);
+            }
+        });
+    }
+
+    private ContextMenu createRightClickContextMenu()
+    {
+        // Create ContextMenu
+        ContextMenu cm = new ContextMenu();
+
+        MenuItem addItem = new MenuItem("Add New Row");
+        addItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                System.out.println("ADDING NEW ROW");
+            }
+        });
+
+        // Add MenuItem to ContextMenu
+        cm.getItems().addAll(addItem);
+
+        return cm;
+    }
 
 
     @FXML
@@ -262,7 +274,7 @@ public class RequirementsController
         ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
 
         newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
-        // newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu")); // TODO NEEDS TO BE ADDED ONCE IN VIEW
+        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu"));
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
         newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
@@ -331,6 +343,27 @@ public class RequirementsController
  *
  */
 
+    /**
+     * Method sets the table column to be a combobox on edit
+     * The factory will set the referenced column to a specific component
+     * such as a text field or combo box in this case.
+     *
+     * @param tc
+     */
+    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc)
+    {
+        tc.setCellFactory(col ->
+                {
+                    // Sets up the column of cells to be a combo box.
+                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
+
+                    // Makes these combo boxes editable, as in you can type into them.
+                    cell.setComboBoxEditable(true);
+
+                    return cell;
+                }
+        );
+    }
 
     /**
      * This method will create all of the factories for the columns inside of the table view.
@@ -366,78 +399,15 @@ public class RequirementsController
         tableColumn_program.setCellValueFactory(new PropertyValueFactory<>("program"));
         tableColumn_build.setCellValueFactory(new PropertyValueFactory<>("build"));
 
-
-        /**
-         * These factories will set the referenced column to a specific component
-         * such as a text field or combo box in this case.
-         */
-        tableColumn_csc.setCellFactory(col -> {
-
-                    // Sets up the column of cells to be a combo box.
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-
-                    // Makes these combo boxes editable, as in you can type into them.
-                    cell.setComboBoxEditable(true);
-
-                    return cell;
-                }
-        );
-
-        tableColumn_csu.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_baseline.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_scicr.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_capability.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_ri.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_rommer.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_program.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
-
-        tableColumn_build.setCellFactory(col -> {
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-                    cell.setComboBoxEditable(true);
-                    return cell;
-                }
-        );
+        this.setColumnCellToComboBox(tableColumn_csc);
+        this.setColumnCellToComboBox(tableColumn_csu);
+        this.setColumnCellToComboBox(tableColumn_baseline);
+        this.setColumnCellToComboBox(tableColumn_scicr);
+        this.setColumnCellToComboBox(tableColumn_capability);
+        this.setColumnCellToComboBox(tableColumn_ri);
+        this.setColumnCellToComboBox(tableColumn_rommer);
+        this.setColumnCellToComboBox(tableColumn_program);
+        this.setColumnCellToComboBox(tableColumn_build);
 
 
         /**
