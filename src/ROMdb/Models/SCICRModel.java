@@ -19,8 +19,6 @@ public class SCICRModel {
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
 
-
-
     /**
      * Fills the table with the data from the database.
      */
@@ -104,10 +102,18 @@ public class SCICRModel {
             st.executeUpdate();
     }
 
+    /**
+     * Get the map that keeps track of all the SC/ICRs for a baseline
+     * @return the hashmap containing SC/ICRs
+     */
     public static HashMap<String, ObservableList<SCICRRow>> getMap() {
         return map;
     }
 
+    /**
+     * Set the map that keeps track of all the SC/ICRs for a baseline
+     * @param map the new map to store the values of all the SC/ICRs for a baseline
+     */
     public static void setMap(HashMap<String, ObservableList<SCICRRow>> map) {
         SCICRModel.map = map;
     }

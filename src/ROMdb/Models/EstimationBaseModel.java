@@ -183,7 +183,7 @@ public class EstimationBaseModel {
      * This method will calculate the SLOCS/Staff-Day field
      * based on the following formula:
      *         (SLOCS/Staff-Month / 20.92) = SLOCS/Staff-Day
-     *
+     * @param staffMonth the number entered in to the staff month text field
      */
 
     public static String calculateStaffDay(String staffMonth)
@@ -223,6 +223,21 @@ public class EstimationBaseModel {
      * This method will parse the information currently out of the text
      * fields and right them into the database column specified by the
      * names within the insertQuery string.
+     * @param baseline the current baseline
+     * @param staffDay the input for staff day
+     * @param staffMonth the input for staff month
+     * @param integration the input for integration weight
+     * @param testing the input for testing weight
+     * @param code the input for code weight
+     * @param defaultSlocs the input for default slocs
+     * @param design the input for design weight
+     * @param upgrade the input for budget upgrade
+     * @param maint the input for budget maintenance
+     * @param ddr the input for DDR/CWT slocs
+     * @param document the cpdd document
+     * @param date the cpdd date
+     * @param cprs the cprs number
+     * @throws SQLException when the input is invalid
      */
     private static void writeTextfieldsToDB(String baseline, String staffDay, String staffMonth, String integration, String testing, String code,
                                     String defaultSlocs, String design, String upgrade, String maint,
@@ -275,6 +290,9 @@ public class EstimationBaseModel {
      * "basicrom" and display it inside the correct text field when
      * the user chooses the baseline from the drop down menu. This information
      * can then be updated if desired.
+     * @param baseline the selected baseline to fill in the values for
+     * @return a list containing all the values for an estimation give a certain baseline
+     * @throws SQLException when the input for baseline is incorrect or there is a problem reading from the database
      */
     public static ArrayList<String> fillTextFieldsFromDB(String baseline) throws SQLException
     {
