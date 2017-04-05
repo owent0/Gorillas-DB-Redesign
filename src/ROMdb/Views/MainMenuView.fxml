@@ -65,12 +65,17 @@
    <center>
       <StackPane fx:id="requirementsStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <fx:include source="LoginView.fxml" />
+               </children>
+            </StackPane>
             <StackPane fx:id="scicrStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
                <children>
                   <fx:include source="SCICRView.fxml" />
                </children>
             </StackPane>
-            <StackPane fx:id="requirementsStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" StackPane.alignment="CENTER_LEFT">
+            <StackPane fx:id="requirementsStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
                <children>
                   <fx:include source="RequirementsEntryView.fxml" />
                </children>
