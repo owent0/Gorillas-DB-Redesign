@@ -48,8 +48,6 @@ public class Main extends Application
             JOptionPane.showMessageDialog(null, e);
         }
 
-        //C:/Users/Jatin/IdeaProjects/Gorillas-DB-Redesign/src/ROMdb/Views
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/MainMenuView.fxml"));
         Parent root = loader.load();
 

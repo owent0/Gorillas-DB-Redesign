@@ -194,7 +194,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="button_save" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" text="Save" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="button_save" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#createNewRequirementObject" text="Save" HBox.hgrow="ALWAYS" />
                         <Button fx:id="button_cancel" minWidth="100.0" mnemonicParsing="false" onAction="#exit" text="Cancel">
                            <HBox.margin>
                               <Insets left="48.0" />

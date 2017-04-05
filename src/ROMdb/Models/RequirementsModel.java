@@ -109,8 +109,13 @@ public class RequirementsModel
         return filteredList;
     }
 
-    public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws SQLException
+    public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws Exception
     {
+
+        if(textToWrite == null || textToWrite.trim().equals(""))
+        {
+            throw new Exception("Invalid input.");
+        }
 
         ObservableList<RequirementsRow> list;
         if(!currentFilteredList.isEmpty()) {
@@ -257,6 +262,39 @@ public class RequirementsModel
         returnList.add(RequirementsModel.getMapListFromVal_Codes("rommer"));
 
         return returnList;
+    }
+
+    public static void insertNewReqRow(RequirementsRow row) throws SQLException {
+        // The query to insert the data from the fields.
+        String insertQuery =    "INSERT INTO RequirementsData ([csc], [csu], [doors_id], [paragraph], " +
+                                                                "[baseline], [scicr], [capability], [add], " +
+                                                                "[change], [delete], [design], [code], [unitTest], " +
+                                                                "[integration], [ri], [rommer], [program])" +
+                                                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Create a new statement.
+        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+
+        st.setString(1, row.getCsc().trim());
+        st.setString(2, row.getCsu().trim());
+        st.setString(3, row.getDoorsID().trim());
+        st.setString(4, row.getParagraph().trim());
+        st.setString(5, row.getBaseline().trim());
+        st.setString(6, row.getScicr().trim());
+        st.setString(7, row.getCapability().trim());
+        st.setDouble(8, row.getAdd());
+        st.setDouble(9, row.getChange());
+        st.setDouble(10, row.getDelete());
+        st.setDouble(11, row.getDesignWeight());
+        st.setDouble(12, row.getCodeWeight());
+        st.setDouble(13, row.getUnitTestWeight());
+        st.setDouble(14, row.getIntegrationWeight());
+        st.setString(15, row.getRi());
+        st.setString(16, row.getRommer());
+        st.setString(17, row.getProgram());
+
+        // Perform the update inside of the table of the database.
+        st.executeUpdate();
     }
 
     /**

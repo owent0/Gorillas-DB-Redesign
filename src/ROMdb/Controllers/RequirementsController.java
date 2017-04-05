@@ -128,6 +128,7 @@ public class RequirementsController
         }
         this.setColumnCells();
 
+        AddRequirementController.requirementsController = this;
     }
 
     /**
@@ -725,7 +726,7 @@ public class RequirementsController
     {
         tableColumn_csc.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csc")));
         tableColumn_csu.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csu")));
-        tableColumn_baseline.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("baseline")));
+        //tableColumn_baseline.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("baseline")));
         tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
         tableColumn_capability.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("capability")));
         tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));

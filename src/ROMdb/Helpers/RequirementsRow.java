@@ -136,6 +136,9 @@ public class RequirementsRow {
     @Override
     public String toString()
     {
-        return "" + id;
+        return "" + id + "\n" + csc + "\n" + csu + "\n" + baseline + "\n" + designWeight + "\n" +
+                codeWeight + "\n" + unitTestWeight + "\n" + integrationWeight + "\n" + add + "\n" + change +
+                "\n" + delete + "\n" + ri + "\n" + rommer + "\n" + program + "\n" + capability + "\n" + scicr +
+                "\n" + paragraph + "\n" + doorsID;
     }
 }
