@@ -236,18 +236,6 @@ public class RequirementsModel
     {
         ArrayList<MapList<String>> returnList = new ArrayList<MapList<String>>();
 
-        // construct scicr al
-        String scicr_ColumnLabel = "Number";
-        ArrayList<String> scicr_ArrayList = new ArrayList<String>();
-        PreparedStatement scicr_Statement = QueryBuilder.buildSelectOrderByQuery("SCICRData", scicr_ColumnLabel, scicr_ColumnLabel, "asc");
-        ResultSet scicr_ResultSet = scicr_Statement.executeQuery();
-        while(scicr_ResultSet.next())
-        {
-            scicr_ArrayList.add(scicr_ResultSet.getString(scicr_ColumnLabel));
-        }
-        MapList<String> scicr_MapList = new MapList<String>("scicr", scicr_ArrayList);
-        returnList.add(scicr_MapList);
-
         // construct capability al
         returnList.add(RequirementsModel.getMapListFromVal_Codes("capability"));
         // construct csc al

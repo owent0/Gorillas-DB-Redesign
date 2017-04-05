@@ -73,6 +73,11 @@ public class AddSCICRController {
             // Add it to the list of SCICRRow objects for that baseline.
             SCICRModel.getMap().get(baseline).add(newSCICR);
 
+            /**
+             * Since we have added a new SCICR to our running program, we need to update the list of scicrs
+             *      for other windows and components, and we do that from the MainMenuModel class.
+             */
+            MainMenuModel.scicrs.add(newSCICR.getNumber());
         }
         catch (Exception e)
         {

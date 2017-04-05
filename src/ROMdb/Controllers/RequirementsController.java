@@ -6,6 +6,7 @@ import ROMdb.Models.RequirementsModel;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.util.converter.DefaultStringConverter;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -138,14 +140,14 @@ public class RequirementsController
     private void occupyMainTabCombos() {
         /* scicr, capability, csc, csu, program, ri, rommer*/
 
-        combo_scicr.setItems(this.observableFilterMap.get("scicr"));
+        combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
         combo_capability.setItems(this.observableFilterMap.get("capability"));
         combo_csc.setItems(this.observableFilterMap.get("csc"));
         combo_csu.setItems(this.observableFilterMap.get("csu"));
         combo_program.setItems(this.observableFilterMap.get("program"));
         combo_resp.setItems(this.observableFilterMap.get("ri"));
         combo_rommer.setItems(this.observableFilterMap.get("rommer"));
-        combo_baseline.setItems(this.observableFilterMap.get("baseline"));
+        combo_baseline.setItems(new SortedList<String>(this.observableFilterMap.get("baseline"), Collator.getInstance()));
 
     }
 
@@ -173,6 +175,7 @@ public class RequirementsController
 
         // add already existing ObservableLists
         this.observableFilterMap.put("baseline", MainMenuModel.baselines);
+        this.observableFilterMap.put("scicr", MainMenuModel.scicrs);
     }
 
     /**

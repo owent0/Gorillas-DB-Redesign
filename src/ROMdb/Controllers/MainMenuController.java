@@ -11,6 +11,7 @@ import ROMdb.Driver.Main;
 import ROMdb.Models.MainMenuModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +28,7 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
 import java.util.ArrayList;
 
 
@@ -50,8 +52,9 @@ public class MainMenuController
     @FXML private ComboBox<String> combo_baseline;
 
     @FXML
-    public void initialize() {
-        this.combo_baseline.setItems(MainMenuModel.getBaselines());
+    public void initialize()
+    {
+        this.combo_baseline.setItems(new SortedList<String>(MainMenuModel.getBaselines(), Collator.getInstance()));
     }
 
     @FXML
