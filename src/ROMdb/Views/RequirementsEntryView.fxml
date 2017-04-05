@@ -392,7 +392,7 @@
                   <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Doors ID" />
                   <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Paragraph/Figure" />
                   <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="Baseline" />
-                  <TableColumn fx:id="tableColumn_scicr" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="SC/ICR" />
+                  <TableColumn fx:id="tableColumn_scicr" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="SC/ICR" />
                   <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="Capability" />
                   <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Added" />
                   <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Changed" />
