@@ -33,7 +33,7 @@
                   <TableView fx:id="table_ScIcr" editable="true" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="tableColumn_scicr" prefWidth="64.0" text="SC/ICR" />
-                      <TableColumn fx:id="tableColumn_number" prefWidth="114.0" text="Number" />
+                      <TableColumn fx:id="tableColumn_number" editable="false" prefWidth="114.0" text="Number" />
                         <TableColumn fx:id="tableColumn_title" prefWidth="181.0" text="Title" />
                         <TableColumn fx:id="tableColumn_build" prefWidth="136.0" text="Build" />
                         <TableColumn fx:id="tableColumn_baseline" prefWidth="105.0" text="Baseline" />

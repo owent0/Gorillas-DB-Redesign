@@ -528,7 +528,7 @@ public class RequirementsController
         * No: exit this method and don't write to DB
         */
         Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-                "Are you sure you want to update the Design field?", ButtonType.YES, ButtonType.NO);
+                "Are you sure you want to update the Design field for all of the rows below?", ButtonType.YES, ButtonType.NO);
         warningMsg.showAndWait();
 
         if (warningMsg.getResult() == (ButtonType.NO))
@@ -540,6 +540,10 @@ public class RequirementsController
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design",
                     Double.parseDouble(field_completeDesign.getText()) );
+
+            // clear the field once they've done the update
+            field_completeDesign.setText("");
+
             table_requirements.refresh();
         }
         catch(Exception e) {
@@ -561,7 +565,7 @@ public class RequirementsController
          * No: exit this method and don't write to DB
          */
         Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-                "Are you sure you want to update the Code field?", ButtonType.YES, ButtonType.NO);
+                "Are you sure you want to update the Code field for all of the rows below?", ButtonType.YES, ButtonType.NO);
         warningMsg.showAndWait();
 
         if (warningMsg.getResult() == (ButtonType.NO))
@@ -573,6 +577,10 @@ public class RequirementsController
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code",
                     Double.parseDouble(field_completeCode.getText()) );
+
+            // clear the field once they've done the update
+            field_completeCode.setText("");
+
             table_requirements.refresh();
         }
         catch(Exception e)
@@ -595,7 +603,7 @@ public class RequirementsController
          * No: exit this method and don't write to DB
          */
         Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-                "Are you sure you want to update the Unit Test field?", ButtonType.YES, ButtonType.NO);
+                "Are you sure you want to update the Unit Test field for all of the rows below?", ButtonType.YES, ButtonType.NO);
         warningMsg.showAndWait();
 
         if (warningMsg.getResult() == (ButtonType.NO))
@@ -607,6 +615,9 @@ public class RequirementsController
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
                     "unitTest", Double.parseDouble(field_completeUnitTest.getText()) );
+
+            field_completeUnitTest.setText("");
+
             table_requirements.refresh();
         }
         catch(Exception e)
@@ -629,7 +640,7 @@ public class RequirementsController
          * No: exit this method and don't write to DB
          */
         Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-                "Are you sure you want to update the Integration field?", ButtonType.YES, ButtonType.NO);
+                "Are you sure you want to update the Integration field for all of the rows below?", ButtonType.YES, ButtonType.NO);
         warningMsg.showAndWait();
 
         if (warningMsg.getResult() == (ButtonType.NO))
@@ -641,6 +652,9 @@ public class RequirementsController
         {
             RequirementsModel.updateDoubleColumnInDB("RequirementsData",
                     "integration", Double.parseDouble(field_completeIntegration.getText()) );
+
+            field_completeIntegration.setText("");
+
             table_requirements.refresh();
         }
         catch(Exception e)
