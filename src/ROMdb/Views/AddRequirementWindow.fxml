@@ -62,7 +62,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="combo_baseline" prefWidth="155.0" />
+                        <ComboBox fx:id="combo_baseline" onAction="#changeSCICRToSelectedBaseline" prefWidth="155.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

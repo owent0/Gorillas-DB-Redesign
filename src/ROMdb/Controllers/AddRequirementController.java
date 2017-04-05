@@ -4,7 +4,12 @@ import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.RequirementsRow;
+import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
+import ROMdb.Models.SCICRModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -45,6 +50,29 @@ public class AddRequirementController
     public void initialize()
     {
         this.occupyComboBoxes();
+        this.combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+        this.changeSCICRToSelectedBaseline();
+    }
+
+    @FXML
+    private void changeSCICRToSelectedBaseline()
+    {
+        ObservableList<String> scicrs = FXCollections.observableArrayList();
+        MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
+
+        if(MainMenuModel.getSelectedBaseline().equals("Baseline"))
+        {
+            return;
+        }
+
+        ObservableList<SCICRRow> rows = SCICRModel.map.get(this.combo_baseline.getSelectionModel().getSelectedItem());
+
+        for(SCICRRow r : rows)
+        {
+            scicrs.add(r.getNumber());
+        }
+
+        this.combo_scicr.setItems(scicrs);
     }
 
     /**
@@ -172,7 +200,7 @@ public class AddRequirementController
         combo_csc.setItems(requirementsController.observableFilterMap.get("csc"));
         combo_csu.setItems(requirementsController.observableFilterMap.get("csu"));
         combo_baseline.setItems(requirementsController.observableFilterMap.get("baseline"));
-        combo_scicr.setItems(requirementsController.observableFilterMap.get("scicr"));
+        //combo_scicr.setItems(requirementsController.observableFilterMap.get("scicr"));
         combo_capability.setItems(requirementsController.observableFilterMap.get("capability"));
         combo_ri.setItems(requirementsController.observableFilterMap.get("ri"));
         combo_rommer.setItems(requirementsController.observableFilterMap.get("rommer"));
