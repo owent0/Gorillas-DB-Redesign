@@ -28,17 +28,24 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Created by Team Gorillas
+ *
+ * This is the main controller class that will control the requirements
+ * menu table and the tabs associated with it. Due to the complexity of
+ * this class many of the features associated with the GUI components
+ * are located at the bottom of this file and should only be altered if
+ * completely necessary. Look for the comment section below for where
+ * this begins.
+ */
 public class RequirementsController
 {
 
     /* For use when keeping the combo boxes updated */
-    //private ObservableList builds = FXCollections.observableArrayList();
     private ObservableList individuals = FXCollections.observableArrayList();
     private ObservableList programs = FXCollections.observableArrayList();
 
     public HashMap<String, ObservableList> observableFilterMap = null;
-
-    @FXML private TabPane requirementsEntryView;
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
@@ -54,24 +61,13 @@ public class RequirementsController
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
 
-    @FXML private Button button_clear;
-    @FXML private Button button_save;
 
     /* Complete tab components                          */
-    @FXML private Button button_completeDesign;
-    @FXML private Button button_completeCode;
-    @FXML private Button button_completeUnitTest;
-    @FXML private Button button_completeIntegration;
-    //@FXML private Button button_completeBuild;
-    @FXML private Button button_completeRI;
-    @FXML private Button button_completeProgram;
-
     @FXML private TextField field_completeDesign;
     @FXML private TextField field_completeCode;
     @FXML private TextField field_completeUnitTest;
     @FXML private TextField field_completeIntegration;
 
-    //@FXML private ComboBox<?> combo_completeBuild;
     @FXML private ComboBox<String> combo_completeRI;
     @FXML private ComboBox<String> combo_completeProgram;
     /* End complete tab components                          */
@@ -98,29 +94,45 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
 
 
+    /**
+     * This method will activate when the program loads.
+     */
     @FXML
     public void initialize()
     {
+        // Create the factories for the GUI components.
         this.createFactories();
+
+        // Creates the handlers for the GUI components.
         this.createTableHandlers();
+
+        // Fills the table view with the data.
         this.fillTable();
 
+        // Initializes the combo boxes with empty values.
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
+
+        // Creates the handlers for filtering table data.
         this.createFilterHandlers();
 
+        // Creates the handler for when you click on the table.
         this.createTableViewClickHandler();
 
-        // complete tab
-        // this.occupyComboBoxes();
 
         try
         {
+            // Initialize each observable list of filters.
             this.initializeObservableFilterLists();
+
+            // Fill the combo boxes in the main tab.
             this.occupyMainTabCombos();
+
+            // Fill the combo boxes in the complete tab.
             this.occupyCompleteTabCombos();
         }
         catch(Exception e)
         {
+            // Filters or combos could not be completed.
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not load filter values for combo boxes." +
@@ -128,8 +140,11 @@ public class RequirementsController
             alert.showAndWait();
             System.exit(1);
         }
+
+        // Set the column cells in the table view.
         this.setColumnCells();
 
+        // Reference the requirements controller.
         AddRequirementController.requirementsController = this;
     }
 
@@ -138,8 +153,6 @@ public class RequirementsController
      * the database.
      */
     private void occupyMainTabCombos() {
-        /* scicr, capability, csc, csu, program, ri, rommer*/
-
         combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
         combo_capability.setItems(this.observableFilterMap.get("capability"));
         combo_csc.setItems(this.observableFilterMap.get("csc"));
@@ -151,6 +164,10 @@ public class RequirementsController
 
     }
 
+    /**
+     * Fills the combos with the list data for program and
+     * responsible individual.
+     */
     private void occupyCompleteTabCombos()
     {
         combo_completeProgram.setItems(this.observableFilterMap.get("program"));
@@ -161,12 +178,18 @@ public class RequirementsController
      * Method makes call to RequirementsModel and sets the Controller's HashMap of observable lists
      *      for each of the filtering combo boxes
      *
-     * @throws SQLException
+     * @throws SQLException If getFilterListsData cannot successfully complete its statement.
      */
     private void initializeObservableFilterLists() throws SQLException
     {
+        // We need to grab all of the lists.
         ArrayList<MapList<String>> listOfLists = RequirementsModel.getFilterListsData();
+
+        // Create a hashmap.
         this.observableFilterMap = new HashMap<String, ObservableList>();
+
+        // Fill the hashmap with a key and the list that should
+        // associate with this key from the observableFilterMap.
         for(MapList<String> fl : listOfLists)
         {
             ObservableList<String> ol = FXCollections.observableArrayList(fl.getList());
@@ -204,7 +227,7 @@ public class RequirementsController
      * Creates a ChangeListener object and assigns it to the comboBox passed in.
      *      The changeListener refreshes the JTable according to the current state of the filters
      *      whenver the changed event is called.
-     * @param cb
+     * @param cb The combobox to attach the change listener to.
      */
     private void attachChangeListenerComboBox(ComboBox<String> cb)
     {
@@ -219,7 +242,7 @@ public class RequirementsController
      * Creates a ChangeListener object and assigns it to the textField passed in.
      *      The changeListener refreshes the JTable according to the current state of the filters
      *      whenver the changed event is called.
-     * @param tf
+     * @param tf The textfield to attach the change listener to.
      */
     private void attachChangeListenerTextField(TextField tf)
     {
@@ -270,6 +293,10 @@ public class RequirementsController
         }
     }
 
+    /**
+     * Creates the handler for being able to click on the table view
+     * and perform an action such as right clicking to display a menu.
+     */
     @FXML
     public void createTableViewClickHandler()
     {
@@ -277,6 +304,7 @@ public class RequirementsController
 
         table_requirements.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
         {
+            // Right mouse click.
             if(event.getButton() == MouseButton.SECONDARY)
             {
                 table_requirements.setContextMenu(cm);
@@ -284,6 +312,11 @@ public class RequirementsController
         });
     }
 
+    /**
+     * Creates the menu that will display when you right click
+     * on the table view.
+     * @return The context menu that will display upon click.
+     */
     private ContextMenu createRightClickContextMenu()
     {
         // Create ContextMenu
@@ -312,6 +345,11 @@ public class RequirementsController
         return cm;
     }
 
+    /**
+     * Displays the window for adding a new requirements row to the
+     * table view when the user right clicks the context menu.
+     * @throws IOException If the window could not successfully load.
+     */
     private void displayAddRequirementWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddRequirementWindow.fxml"));
         Parent root = loader.load();
@@ -357,7 +395,7 @@ public class RequirementsController
 
     /**
      * Retrieve the selected row from the tableView and return the object contained there (RequirementsRow object)
-     * @return
+     * @return The RequirementsRow object that is currently selected in the table view.
      */
     private RequirementsRow getSelectedRow()
     {
@@ -372,9 +410,7 @@ public class RequirementsController
         return row;
     }
 
-    /**
-     * TODO this method
-     */
+
     @FXML
     private void pressSave()
     {
@@ -421,6 +457,8 @@ public class RequirementsController
     /**
      * Used to test to see if there are any legitimate filters in the filterList
      * If not return true (yes, Filters Are All Empty)
+     * @param filters The list of filters to apply.
+     * @return True if the input is correct. False if it doesn't
      */
     private boolean areFiltersAllEmpty(ArrayList<FilterItem> filters)
     {
@@ -478,6 +516,10 @@ public class RequirementsController
         combo_completeProgram.setItems(programs);
     }
 
+    /**
+     * For updating the design column for all rows currently
+     * selected.
+     */
     @FXML
     private void updateDesign()
     {
@@ -507,6 +549,10 @@ public class RequirementsController
         }
     }
 
+    /**
+     * For updating the code column for all rows currently
+     * selected.
+     */
     @FXML
     private void updateCode()
     {
@@ -537,6 +583,10 @@ public class RequirementsController
         }
     }
 
+    /**
+     * For updating weight the unit testing column for all rows currently
+     * selected.
+     */
     @FXML
     private void updateUnitTest()
     {
@@ -567,6 +617,10 @@ public class RequirementsController
         }
     }
 
+    /**
+     * For updating the integration column for all rows currently
+     * selected.
+     */
     @FXML
     private void updateIntegration()
     {
@@ -625,6 +679,10 @@ public class RequirementsController
     }
     */
 
+    /**
+     * For updating the responsible individual column for all
+     * rows currently selected.
+     */
     @FXML
     private void updateRI()
     {
@@ -653,6 +711,9 @@ public class RequirementsController
         }
     }
 
+    /**
+     * For updating program column for all rows currently selected.
+     */
     @FXML
     private void updateProgram()
     {
@@ -697,12 +758,13 @@ public class RequirementsController
  *
  */
 
+
     /**
      * Method sets the table column to be a combobox on edit
      * The factory will set the referenced column to a specific component
      * such as a text field or combo box in this case.
-     *
-     * @param tc
+     * @param tc The table column to use.
+     * @param list The list to associate witht he column.
      */
     private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc, ObservableList<String> list)
     {
@@ -725,11 +787,13 @@ public class RequirementsController
         );
     }
 
+    /**
+     * Sets the appropriate column cells to a combo box cell.
+     */
     private void setColumnCells()
     {
         tableColumn_csc.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csc")));
         tableColumn_csu.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csu")));
-        //tableColumn_baseline.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("baseline")));
         tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
         tableColumn_capability.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("capability")));
         tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));

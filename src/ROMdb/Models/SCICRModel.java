@@ -19,8 +19,10 @@ public class SCICRModel {
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
 
+
     /**
      * Fills the table with the data from the database.
+     * @throws SQLException If the query statement could not successfully complete.
      */
     public static void fillTable() throws SQLException {
         // For each baseline.
@@ -63,6 +65,7 @@ public class SCICRModel {
     /**
      * Updates the database with any of the changes made.
      * @param rowToUpdate the row to update.
+     * @throws SQLException If the query could not successfully complete.
      */
     public static void updateChanges(SCICRRow rowToUpdate) throws SQLException {
 
@@ -88,6 +91,7 @@ public class SCICRModel {
     /**
      * Deletes the selected row from the database.
      * @param rowKey the primary key to search for in the table.
+     * @throws SQLException If the query statement could not successfully complete.
      */
     public static void deleteRowFromDatabase(String rowKey) throws SQLException {
 

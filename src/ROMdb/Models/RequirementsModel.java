@@ -16,19 +16,27 @@ import java.util.ArrayList;
 
 /**
  * Created by Anthony Orio on 3/28/2017.
+ *
+ * This is the model class that the RequirementsController
+ * will be altering. All information is stored in memory here.
  */
 public class RequirementsModel
 {
-    //public static HashMap<String, ObservableList<RequirementsRow>> map = new HashMap<>();
     public static final String SKELETON_KEY = "Skeleton Key";
 
+    // This list contains all the requirement rows objects in the table.
     public static ObservableList<RequirementsRow> allReqData;
+
+    // This list contains the requirement rows that are currently filtered.
+    // Will constantly be cleared and altered as filters appear and disappear.
     public static ObservableList<RequirementsRow> currentFilteredList = FXCollections.observableArrayList();
 
+    // The array list containing the filters.
     public static ArrayList<FilterItem> filters = null;
 
     /**
      * Fills the table with the data from the database.
+     * @throws SQLException If the query could not successfully complete.
      */
     public static void refreshAllReqDataFromDB() throws SQLException
     {
@@ -68,15 +76,21 @@ public class RequirementsModel
             tempRow.setId(rs.getInt("Req_ID"));
             rows.add(tempRow);
         }
-        //RequirementsModel.map.put(SKELETON_KEY, rows);
         RequirementsModel.allReqData = rows;
     }
 
+    /**
+     * This method will return an observable list contain all of the
+     * requirement rows that have been filtered while the user was
+     * searching.
+     * @return The observable list containing the filtered rows.
+     * @throws SQLException If the SQL query could not successfully complete.
+     */
     public static ObservableList getReqDataWithFilter() throws SQLException
     {
         ObservableList<RequirementsRow> filteredList = FXCollections.observableArrayList();
-        //filteredList.removeAll();
 
+        // Method call to QueryBuilder to build the query.
         PreparedStatement st = QueryBuilder.buildSelectWhereQuery("RequirementsData", "*", RequirementsModel.filters, true);
 
         ResultSet rs = st.executeQuery();
@@ -109,9 +123,18 @@ public class RequirementsModel
         return filteredList;
     }
 
+    /**
+     * Updates an entire column columnName within the database table tableName
+     * with the value textToWrite.
+     * @param tableName The table to make the update to.
+     * @param columnName The column to update in the table.
+     * @param textToWrite The text to write into the column.
+     * @throws Exception If the input is invalid or SQL statement could not complete.
+     */
     public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws Exception
     {
 
+        // Check to make sure the input is not null or empty.
         if(textToWrite == null || textToWrite.trim().equals(""))
         {
             throw new Exception("Invalid input.");
@@ -130,6 +153,9 @@ public class RequirementsModel
             st.executeUpdate();
             int i = list.indexOf(row);
 
+            // We need to see which column we actually
+            // are updating so that we can make the update
+            // to the object in memory.
             switch(columnName)
             {
                 case "ri":
@@ -146,6 +172,14 @@ public class RequirementsModel
         }
     }
 
+    /**
+     * Updates the column columnName in the table tableName with a value that
+     * is a double.
+     * @param tableName The table name in the database.
+     * @param columnName The column name in the table.
+     * @param value The value to insert into the column.
+     * @throws Exception If value is not between 0 and 100 inclusively or SQL statement cannot complete.
+     */
     public static void updateDoubleColumnInDB(String tableName, String columnName, double value) throws Exception
     {
         if(value > 100 || value < 0) {
@@ -165,6 +199,9 @@ public class RequirementsModel
             st.executeUpdate();
             int i = list.indexOf(row);
 
+            // We need to see which column we actually
+            // are updating so that we can make the update
+            // to the object in memory.
             switch(columnName)
             {
                 case "design" :
@@ -191,7 +228,8 @@ public class RequirementsModel
 
     /**
      * Updates the database with the new values for the given row.
-     * @param rowToUpdate the row to update.
+     * @param rowToUpdate The row to update.
+     * @throws SQLException If the statement could not complete.
      */
     public static void updateRowInDB(RequirementsRow rowToUpdate) throws SQLException
     {
@@ -232,6 +270,11 @@ public class RequirementsModel
         st.executeUpdate();
     }
 
+    /**
+     * Gets the list of filters for each observable list.
+     * @return An arraylist containing MapList Objects of type string.
+     * @throws SQLException If the statement could not be complete by getMapListFromVal_Codes call.
+     */
     public static ArrayList<MapList<String>> getFilterListsData() throws SQLException
     {
         ArrayList<MapList<String>> returnList = new ArrayList<MapList<String>>();
@@ -252,6 +295,12 @@ public class RequirementsModel
         return returnList;
     }
 
+    /**
+     * Insert a new RequirementRow object into the table when the user
+     * creates a new one.
+     * @param row The row that will have its data written into the table.
+     * @throws SQLException If the query could not complete successfully.
+     */
     public static void insertNewReqRow(RequirementsRow row) throws SQLException {
         // The query to insert the data from the fields.
         String insertQuery =    "INSERT INTO RequirementsData ([csc], [csu], [doors_id], [paragraph], " +
@@ -299,9 +348,9 @@ public class RequirementsModel
      *              Friday
      *              Saturday
      *
-     * @param fieldName
-     * @return
-     * @throws SQLException
+     * @param fieldName The name of the field you are searching for.
+     * @return The MapList of strings.
+     * @throws SQLException If the query could not complete successfully.
      */
     private static MapList<String> getMapListFromVal_Codes(String fieldName) throws SQLException
     {

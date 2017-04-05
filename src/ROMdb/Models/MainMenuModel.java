@@ -105,7 +105,6 @@ public class MainMenuModel
      * Retrieves scicrs from database and stores them here for global program reference
      * @return
      */
-
     private static ObservableList<String> fetchSCICRsFromDB()
     {
         try

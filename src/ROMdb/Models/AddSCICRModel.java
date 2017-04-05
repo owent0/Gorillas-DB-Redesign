@@ -113,7 +113,11 @@ public class AddSCICRModel {
     /**
      * Checks to see if any errors exist, such as non alpha-numeric
      * characters.
-     * @return true if there exists an error in the input.
+     * @param baseline The baseline to check.
+     * @param title The title to check.
+     * @param number The number to check.
+     * @param build The build to check.
+     * @throws InputFormatException If the input for each parameter is not acceptable.
      */
     public static void errorsExist(String baseline, String title, String number, String build) throws InputFormatException
     {

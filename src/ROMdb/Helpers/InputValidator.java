@@ -35,6 +35,13 @@ public class InputValidator
         }
     }
 
+    /**
+     * Check that the pattern matches. Takes in a double as a parameter and matches
+     * it to the pattern passed as InputType.
+     * @param inputDouble The double that is to passed as a parameter.
+     * @param it The InputType to compare with.
+     * @throws InputFormatException If the inputDouble does not match the InputType.
+     */
     public static void checkPatternMatch(Double inputDouble, InputType it) throws InputFormatException
     {
         if(!it.getPatternName().equals(InputType.DOUBLE.getPatternName()))
@@ -43,6 +50,13 @@ public class InputValidator
         }
     }
 
+    /**
+     * Check that the pattern matches. Takes in an int as a parameter and matches
+     * it to the pattern passed as InputType.
+     * @param inputInt The int that will be compared to the InputType.
+     * @param it The InputType to compare against the passed integer.
+     * @throws InputFormatException If the integer does not match the InputType.
+     */
     public static void checkPatternMatch(int inputInt, InputType it) throws InputFormatException
     {
         if(!it.getPatternName().equals(InputType.INT.getPatternName()))
@@ -51,6 +65,11 @@ public class InputValidator
         }
     }
 
+    /**
+     * Checks to make sure that val is between 0 and 100 inclusively.
+     * @param val The value to check the boundaries of.
+     * @throws InputFormatException If val does not fall between 0 and 100 inclusively.
+     */
     public static void oneToHundredInclusive(double val) throws InputFormatException
     {
         if(val < 0 || val > 100)
@@ -59,6 +78,11 @@ public class InputValidator
         }
     }
 
+    /**
+     * Checks if val is a negative number and throws an exception if it is true.
+     * @param val The value that will be checked if it is negative.
+     * @throws InputFormatException If the value is a negative number.
+     */
     public static void checkNegative(double val) throws InputFormatException
     {
         if(val < 0)

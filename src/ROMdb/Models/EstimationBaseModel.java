@@ -29,6 +29,21 @@ public class EstimationBaseModel {
      * to a specific number format pattern. If fields are left blank,
      * then the user will be told to enter a value. Finally, the
      * weight fields will be evaluated to ensure they add up to 100.
+     * @param baseline baseline to check input for.
+     * @param staffDay staffDay will be automatically generated.
+     * @param staffMonth The input should be a number.
+     * @param integration Integration should be between 0 and 100 inclusively.
+     * @param testing Testing should be between 0 and 100 inclusively.
+     * @param code Code should be between 0 and 100 inclusively.
+     * @param defaultSlocs Checks for valid input of defaultSlocs.
+     * @param design Design should be between 0 and 100 inclusively.
+     * @param upgrade The upgrade value to check input for..
+     * @param maint Maintenance to check input for.
+     * @param ddr DDR to check input for.
+     * @param document Document value to check input for.
+     * @param date Date value to check input for.
+     * @param cprs CPRS value to check input for.
+     * @throws SQLException If the statement could not be successfully completed.
      */
     public static void errorChecking(String baseline, String staffDay, String staffMonth, String integration, String testing, String code,
                                      String defaultSlocs, String design, String upgrade, String maint,
@@ -184,6 +199,7 @@ public class EstimationBaseModel {
      * based on the following formula:
      *         (SLOCS/Staff-Month / 20.92) = SLOCS/Staff-Day
      * @param staffMonth the number entered in to the staff month text field
+     * @return The string representation of the staff day value calculated.
      */
 
     public static String calculateStaffDay(String staffMonth)

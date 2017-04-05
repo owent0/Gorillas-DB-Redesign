@@ -9,8 +9,6 @@ package ROMdb.Controllers;
 
 import ROMdb.Driver.Main;
 import ROMdb.Models.MainMenuModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,15 +19,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.Collator;
-import java.util.ArrayList;
 
 
 /**
@@ -51,12 +45,19 @@ public class MainMenuController
 
     @FXML private ComboBox<String> combo_baseline;
 
+    /**
+     * This method will be called upon creating this window.
+     */
     @FXML
     public void initialize()
     {
         this.combo_baseline.setItems(new SortedList<String>(MainMenuModel.getBaselines(), Collator.getInstance()));
     }
 
+    /**
+     * Changes the currently selected baseline inside
+     * of the combobox in each menu.
+     */
     @FXML
     public void changeSelectedBaseline() {
         MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
@@ -153,6 +154,7 @@ public class MainMenuController
 
     /**
      * Handles the action when the user selects exit button.
+     * @throws SQLException If the connection could not close successfully.
      */
     @FXML
     public void exitProgram() throws SQLException {

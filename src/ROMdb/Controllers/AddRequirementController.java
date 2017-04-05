@@ -15,15 +15,22 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 
 /**
  * Created by Anthony Orio on 4/4/2017.
+ *
+ * This class associates with the window for adding a new
+ * row within the requirements table.
+ *
  */
 public class AddRequirementController
 {
+    // Reference to the RequirementsController class.
+    // Allows us to alter components, such as the table view
+    // found within the requirements menu.
     public static RequirementsController requirementsController;
 
+    // Combo boxes
     @FXML private ComboBox<String> combo_csc;
     @FXML private ComboBox<String> combo_csu;
     @FXML private ComboBox<String> combo_baseline;
@@ -33,6 +40,7 @@ public class AddRequirementController
     @FXML private ComboBox<String> combo_rommer;
     @FXML private ComboBox<String> combo_program;
 
+    // Text fields
     @FXML private TextField field_doors; //alphanumeric
     @FXML private TextField field_paragraph; //alphanumeric
     @FXML private TextField field_added; //double
@@ -43,35 +51,58 @@ public class AddRequirementController
     @FXML private TextField field_unitTest; //double 0-100
     @FXML private TextField field_integration; //double 0-100
 
+    // Button
     @FXML private Button button_save;
-    @FXML private Button button_cancel;
 
+    /**
+     * This method will activate each time the window is created.
+     */
     @FXML
     public void initialize()
     {
+        // Fill the combo boxes with the components.
         this.occupyComboBoxes();
+
+        // Fill the baseline combo with the current selected baseline from main menu.
         this.combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+
+        // Only display the SC/ICR's associated with the selected baseline.
         this.changeSCICRToSelectedBaseline();
     }
 
+    /**
+     * This method will ensure that the SC/ICR combobox will only
+     * contain the SC/ICR's associated with the baseline currently
+     * selected in another combobox. This will prevent mixing of
+     * SC/ICR's with other baselines that they don't belong to.
+     */
     @FXML
     private void changeSCICRToSelectedBaseline()
     {
+        // Set up a new observable list.
         ObservableList<String> scicrs = FXCollections.observableArrayList();
+
+        // Set the currently selected baseline to this baseline.
         MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
 
+        // If there is no baseline currently selected then
+        // we will just filter the combo when the user selects
+        // it in the window.
         if(MainMenuModel.getSelectedBaseline().equals("Baseline"))
         {
             return;
         }
 
+        // Get the SC/ICR row objects associated with this baseline.
         ObservableList<SCICRRow> rows = SCICRModel.map.get(this.combo_baseline.getSelectionModel().getSelectedItem());
 
+        // Fill the temp list with the SC/ICR number.
         for(SCICRRow r : rows)
         {
             scicrs.add(r.getNumber());
         }
 
+        // Set the items.
         this.combo_scicr.setItems(scicrs);
     }
 
@@ -84,8 +115,11 @@ public class AddRequirementController
     private void createNewRequirementObject() throws InputFormatException
     {
         try {
+
+            // Check for invalid inputs.
             this.errorChecking();
 
+            // Build new row object.
             RequirementsRow newRow = new RequirementsRow
                 (
                         combo_csc.getValue(),
@@ -195,12 +229,15 @@ public class AddRequirementController
             //InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
     }
 
+    /**
+     * Fills the combo boxes with the items that need to
+     * be displayed.
+     */
     private void occupyComboBoxes()
     {
         combo_csc.setItems(requirementsController.observableFilterMap.get("csc"));
         combo_csu.setItems(requirementsController.observableFilterMap.get("csu"));
         combo_baseline.setItems(requirementsController.observableFilterMap.get("baseline"));
-        //combo_scicr.setItems(requirementsController.observableFilterMap.get("scicr"));
         combo_capability.setItems(requirementsController.observableFilterMap.get("capability"));
         combo_ri.setItems(requirementsController.observableFilterMap.get("ri"));
         combo_rommer.setItems(requirementsController.observableFilterMap.get("rommer"));

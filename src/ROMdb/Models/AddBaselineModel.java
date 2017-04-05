@@ -2,15 +2,9 @@ package ROMdb.Models;
 
 import ROMdb.Controllers.MainMenuController;
 import ROMdb.Driver.Main;
-import ROMdb.Exceptions.InputFormatException;
-import ROMdb.Helpers.InputType;
-import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -22,13 +16,14 @@ public class AddBaselineModel {
     public static MainMenuController mainMenuController;
 
 
-
     /**
+     *
      * Updating a baseline that is already in the baseline table in MS Access
      * Precondition: newBaseline is validated already
+     *
      * @param oldBaseline the current baseline in the baseline table
      * @param newBaseline the new value for the baseline in the baseline table
-     *
+     * @throws SQLException If the query could not successfully complete.
      */
     public static void writeBaselineEditToDB(String oldBaseline, String newBaseline) throws SQLException {
 
@@ -53,6 +48,7 @@ public class AddBaselineModel {
 
     /**
      * Writing the baseline to the baseline table in MS Access
+     * @param  baseline The baseline to write to the database.
      * @throws Exception If it fails.
      */
     public static void writeBaseline(String baseline) throws Exception {

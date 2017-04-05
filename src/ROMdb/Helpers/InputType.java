@@ -5,6 +5,10 @@ package ROMdb.Helpers;
  */
 public enum InputType
 {
+    /**
+     * The patterns to use when verifying input. The name of the pattern
+     * is the enumeration name.
+     */
     ALPHA("^[a-zA-Z]*$", "Alpha"),
     ALPHA_SPACE("^[a-zA-Z\\s]*$", "Alpha Space"),
     ALPHA_NUMERIC("^[a-zA-Z0-9]*$", "Alpha Numeric"),
@@ -22,8 +26,8 @@ public enum InputType
 
     /**
      * Checks for the validity on the string using the specified pattern.
-     * @param pattern the pattern to use.
-     * @param patternName the pattern name.
+     * @param pattern The pattern to use.
+     * @param patternName The pattern name.
      */
     InputType(String pattern, String patternName)
     {
@@ -33,7 +37,7 @@ public enum InputType
 
     /**
      * Gets the pattern.
-     * @return the pattern.
+     * @return The pattern.
      */
     public String getPattern()
     {
@@ -42,7 +46,7 @@ public enum InputType
 
     /**
      * Gets the pattern name.
-     * @return the pattern name.
+     * @return The pattern name.
      */
     public String getPatternName()
     {
