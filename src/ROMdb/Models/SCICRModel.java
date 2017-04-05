@@ -30,7 +30,6 @@ public class SCICRModel {
             // Initialize rows list.
             ObservableList rows = FXCollections.observableArrayList();
 
-
             // Create query to grab all rows.
             String query = "SELECT * FROM SCICRData";
 
@@ -68,7 +67,7 @@ public class SCICRModel {
     public static void updateChanges(SCICRRow rowToUpdate) throws SQLException {
 
             // The query to insert the data from the fields.
-            String insertQuery = "UPDATE SCICRData SET [Type]=?, [Number]=?, [Title]=?, [Build]=?, [Baseline]=? WHERE [id]=?";
+            String insertQuery = "UPDATE SCICRData SET [Type]=?, [Number]=?, [Title]=?, [Build]=?, [Baseline]=? WHERE [SCICR_ID]=?";
 
             // Create a new statement.
             PreparedStatement st = Main.conn.prepareStatement(insertQuery);

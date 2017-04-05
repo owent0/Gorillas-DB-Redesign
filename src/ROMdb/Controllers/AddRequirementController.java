@@ -81,6 +81,7 @@ public class AddRequirementController
 
             RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
+            this.exit();
         }
         catch(InputFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,

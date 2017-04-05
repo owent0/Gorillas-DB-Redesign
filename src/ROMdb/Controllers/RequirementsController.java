@@ -732,8 +732,6 @@ public class RequirementsController
         tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));
         tableColumn_rommer.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("rommer")));
         tableColumn_program.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("program")));
-
-
     }
 
     /**
