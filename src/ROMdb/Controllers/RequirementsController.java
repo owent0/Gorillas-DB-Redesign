@@ -1104,6 +1104,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.checkNegative(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setAdd(t.getNewValue());
@@ -1124,6 +1125,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.checkNegative(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setChange(t.getNewValue());
@@ -1144,6 +1146,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.checkNegative(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDelete(t.getNewValue());
@@ -1164,6 +1167,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.oneToHundredInclusive(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setDesignWeight(t.getNewValue());
@@ -1184,6 +1188,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.oneToHundredInclusive(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodeWeight(t.getNewValue());
@@ -1204,6 +1209,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.oneToHundredInclusive(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setUnitTestWeight(t.getNewValue());
@@ -1224,6 +1230,7 @@ public class RequirementsController
             try
             {
                 InputValidator.checkPatternMatch(t.getNewValue(), InputType.DOUBLE);
+                InputValidator.oneToHundredInclusive(t.getNewValue());
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setIntegrationWeight(t.getNewValue());

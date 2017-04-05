@@ -50,4 +50,20 @@ public class InputValidator
             throw new InputFormatException("InputInt '" + inputInt + "' does not match pattern: " + it.getPatternName());
         }
     }
+
+    public static void oneToHundredInclusive(double val) throws InputFormatException
+    {
+        if(val < 0 || val > 100)
+        {
+            throw new InputFormatException("Input: " + val + " not in acceptable boundaries [0-100].");
+        }
+    }
+
+    public static void checkNegative(double val) throws InputFormatException
+    {
+        if(val < 0)
+        {
+            throw new InputFormatException("Input: " + val + " cannot be negative.");
+        }
+    }
 }
