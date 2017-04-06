@@ -72,6 +72,65 @@ public class RequirementsController
     @FXML private ComboBox<String> combo_completeProgram;
     /* End complete tab components                          */
 
+    /* Header / Footer Tab Components */
+    @FXML private TextField field_header;
+
+    @FXML private TextField field_footer;
+    /* End Header / Footer Tab Components */
+
+    /* DDR Tab Components */
+    @FXML private Button button_tracePortrait;
+
+    @FXML private Button button_traceLandscape;
+    /* End DDR Tab Components*/
+
+    /* Groups Tab Components*/
+    @FXML private Button button_groupsOneGroupSlocs;
+
+    @FXML private Button button_groupsOneGroupStatus;
+
+    @FXML private ComboBox<?> combo_groupsOne;
+
+    @FXML private Button button_groupsTwoGroupSlocs;
+
+    @FXML private Button button_groupsTwoGroupStatus;
+
+    @FXML private ComboBox<?> combo_groupsTwo;
+
+    @FXML private Button button_groupsThreeGroupSlocs;
+
+    @FXML private Button button_groupsThreeGroupStatus;
+
+    @FXML private ComboBox<?> combo_groupsThree;
+
+    @FXML private Button button_groupsFourGroupSlocs;
+
+    @FXML private Button button_groupsFourGroupStatus;
+
+    @FXML private ComboBox<?> combo_groupsFour;
+    /* End Groups Tab Components */
+
+    /* Paragraphs Tab Components */
+    @FXML private Button button_paragraphsFourGroupSlocs;
+
+    @FXML private Button button_paragraphsFourGroupStatus;
+
+    @FXML private ComboBox<?> combo_paragraphsFour;
+
+    @FXML private Button button_paragraphsFiveGroupSlocs;
+
+    @FXML private Button button_paragraphsFiveGroupStatus;
+
+    @FXML private ComboBox<?> combo_paragraphsFive;
+
+    @FXML private Button button_paragraphsSixGroupSlocs;
+
+    @FXML private Button button_paragraphsSixGroupStatus;
+
+    @FXML private ComboBox<?> combo_paragraphsSixr;
+    /* End Paragraphs Tab Components */
+
+
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
