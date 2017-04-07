@@ -3,6 +3,9 @@ package ROMdb.Controllers;
 import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +25,15 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
+//might need the ones commented out, leave for now. - Jatin
+//import sun.plugin.javascript.navig4.Document;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -816,6 +827,110 @@ public class RequirementsController
     }
 
     /**************** END COMPLETE TAB FUNCTIONALITY *************************/
+
+    /**************** BEGIN DDR TAB (TAB 9)FUNCTIONALITY ********************/
+
+    @FXML
+    private void generatePDFddrTab() throws Exception
+    {
+        ResultSet rs = RequirementsModel.getReqDataForDDRpdf();
+
+        Document ddr_pdf_report = new Document();
+
+        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("ddr_pdf_report.pdf"));
+        ddr_pdf_report.open();
+
+        // 18 columns in ReqData table
+        PdfPTable ddr_report_table = new PdfPTable(18);
+
+        // create a cell Object
+        PdfPCell table_cell;
+
+        // Retrieve data from ResultSet rs
+        // each iteration is retrieving data from a row
+        while (rs.next())
+        {
+            String req_id = rs.getString("Req_ID");
+            table_cell=new PdfPCell(new Phrase(req_id));
+            ddr_report_table.addCell(table_cell);
+
+            String csc = rs.getString("csc");
+            table_cell=new PdfPCell(new Phrase(csc));
+            ddr_report_table.addCell(table_cell);
+
+            String csu = rs.getString("csu");
+            table_cell=new PdfPCell(new Phrase(csu));
+            ddr_report_table.addCell(table_cell);
+
+            String doors_id = rs.getString("doors_id");
+            table_cell=new PdfPCell(new Phrase(doors_id));
+            ddr_report_table.addCell(table_cell);
+
+            String paragraph = rs.getString("paragraph");
+            table_cell=new PdfPCell(new Phrase(paragraph));
+            ddr_report_table.addCell(table_cell);
+
+            String baseline = rs.getString("baseline");
+            table_cell=new PdfPCell(new Phrase(baseline));
+            ddr_report_table.addCell(table_cell);
+
+            String scicr = rs.getString("scicr");
+            table_cell=new PdfPCell(new Phrase(scicr));
+            ddr_report_table.addCell(table_cell);
+
+            String capability = rs.getString("capability");
+            table_cell=new PdfPCell(new Phrase(capability));
+            ddr_report_table.addCell(table_cell);
+
+            String add = rs.getString("add");
+            table_cell=new PdfPCell(new Phrase(add));
+            ddr_report_table.addCell(table_cell);
+
+            String change = rs.getString("change");
+            table_cell=new PdfPCell(new Phrase(change));
+            ddr_report_table.addCell(table_cell);
+
+            String delete = rs.getString("delete");
+            table_cell=new PdfPCell(new Phrase(delete));
+            ddr_report_table.addCell(table_cell);
+
+            String design = rs.getString("design");
+            table_cell=new PdfPCell(new Phrase(design));
+            ddr_report_table.addCell(table_cell);
+
+            String code = rs.getString("code");
+            table_cell=new PdfPCell(new Phrase(code));
+            ddr_report_table.addCell(table_cell);
+
+            String unitTest = rs.getString("unitTest");
+            table_cell=new PdfPCell(new Phrase(unitTest));
+            ddr_report_table.addCell(table_cell);
+
+            String integration = rs.getString("integration");
+            table_cell=new PdfPCell(new Phrase(integration));
+            ddr_report_table.addCell(table_cell);
+
+            String ri = rs.getString("ri");
+            table_cell=new PdfPCell(new Phrase(ri));
+            ddr_report_table.addCell(table_cell);
+
+            String rommer = rs.getString("rommer");
+            table_cell=new PdfPCell(new Phrase(rommer));
+            ddr_report_table.addCell(table_cell);
+
+            String program = rs.getString("program");
+            table_cell=new PdfPCell(new Phrase(program));
+            ddr_report_table.addCell(table_cell);
+        } // end while
+
+        ddr_pdf_report.add(ddr_report_table);
+        ddr_pdf_report.close();
+        rs.close();
+
+    } // end generatePDFddrTab()
+
+
+
 
 
 /**

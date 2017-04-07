@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -449,7 +449,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" text="DDR Traceability - Portrait">
+                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" onAction="#generatePDFddrTab" text="DDR Traceability - Portrait">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>

@@ -368,4 +368,51 @@ public class RequirementsModel
         return fieldName_MapList;
     }
 
+    /**
+     * TODO - Jatin pull data for DDR pdf report
+     *
+     * Fills the table with the data from the database.
+     * @throws SQLException If the query could not successfully complete.
+     */
+    public static ResultSet getReqDataForDDRpdf() throws SQLException
+    {
+/*        // Initialize rows list.
+        ObservableList rows = FXCollections.observableArrayList();*/
+
+        // Create query to grab all rows.
+        String query = "SELECT * FROM RequirementsData";
+
+        // Create the statement to send.
+        Statement st = Main.conn.createStatement();
+
+        // Return the result set from this query.
+        ResultSet rs = st.executeQuery(query);
+        return rs;
+       /* while (rs.next()) { // Retrieve data from ResultSet
+
+            RequirementsRow tempRow = new RequirementsRow(
+                    rs.getString("csc"),
+                    rs.getString("csu"),
+                    rs.getString("doors_id"),
+                    rs.getString("paragraph"),
+                    rs.getString("baseline"),
+                    rs.getString("scicr"),
+                    rs.getString("capability"),
+                    rs.getDouble("add"),
+                    rs.getDouble("change"),
+                    rs.getDouble("delete"),
+                    rs.getDouble("design"),
+                    rs.getDouble("code"),
+                    rs.getDouble("unitTest"),
+                    rs.getDouble("integration"),
+                    rs.getString("ri"),
+                    rs.getString("rommer"),
+                    rs.getString("program")
+            );
+            tempRow.setId(rs.getInt("Req_ID"));
+            rows.add(tempRow);
+        }
+        RequirementsModel.allReqData = rows;*/
+    } // end getReqDataForDDRpdf()
+
 }
