@@ -13,9 +13,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -441,15 +442,15 @@
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
-                              <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                              <StackPane BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="TOP_CENTER" layoutX="15.0" layoutY="40.0" prefHeight="41.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="40.0">
+                                    <HBox alignment="TOP_CENTER" StackPane.alignment="CENTER">
                                        <children>
-                                          <VBox maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" prefHeight="141.0" prefWidth="300.0">
                                              <children>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                <HBox alignment="CENTER" prefWidth="290.0">
                                                    <children>
-                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" onAction="#generatePDFddrTab" text="DDR Traceability - Portrait">
+                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" onAction="#generatePDFddrTab" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Portrait">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
@@ -461,26 +462,26 @@
                                                 </HBox>
                                              </children>
                                           </VBox>
-                                          <VBox maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER">
                                              <children>
-                                                <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                                <HBox alignment="CENTER" prefWidth="290.0">
                                                    <children>
-                                                      <Button fx:id="button_traceLandscape" mnemonicParsing="false" text="DDR Traceability - Landscape">
+                                                      <Button fx:id="button_traceLandscape" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Landscape">
                                                          <HBox.margin>
-                                                            <Insets right="5.0" />
+                                                            <Insets left="5.0" />
                                                          </HBox.margin>
                                                       </Button>
                                                    </children>
                                                 </HBox>
                                              </children>
                                              <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets />
                                              </HBox.margin>
                                           </VBox>
                                        </children>
                                     </HBox>
                                  </children>
-                              </AnchorPane>
+                              </StackPane>
                            </center>
                         </BorderPane>
                      </content>
@@ -489,13 +490,17 @@
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
-                              <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                              <StackPane>
                                  <children>
-                                    <HBox alignment="TOP_CENTER" layoutX="15.0" layoutY="19.0" prefHeight="41.0" prefWidth="970.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="19.0">
+                                    <HBox alignment="TOP_CENTER" StackPane.alignment="CENTER">
                                        <children>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label alignment="CENTER" text="One Group" />
+                                                <Label alignment="CENTER" text="One Group">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_groupsOneGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -509,9 +514,13 @@
                                                 <ComboBox fx:id="combo_groupsOne" prefWidth="150.0" />
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Two Groups" />
+                                                <Label text="Two Groups">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_groupsTwoGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -525,9 +534,13 @@
                                                 <ComboBox fx:id="combo_groupsTwo" prefWidth="150.0" />
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Three Groups" />
+                                                <Label text="Three Groups">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_groupsThreeGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -541,9 +554,13 @@
                                                 <ComboBox fx:id="combo_groupsThree" prefWidth="150.0" />
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Four Groups" />
+                                                <Label text="Four Groups">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_groupsFourGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -560,7 +577,7 @@
                                        </children>
                                     </HBox>
                                  </children>
-                              </AnchorPane>
+                              </StackPane>
                            </center>
                         </BorderPane>
                      </content>
@@ -569,16 +586,16 @@
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
-                              <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                              <StackPane BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox alignment="TOP_CENTER" layoutX="15.0" layoutY="14.0" prefHeight="105.0" prefWidth="970.0">
+                                    <HBox alignment="TOP_CENTER" StackPane.alignment="CENTER">
                                        <children>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="110.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label alignment="CENTER" text="Four Groups">
-                                                   <padding>
-                                                      <Insets bottom="5.0" />
-                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
                                                 </Label>
                                                 <Button fx:id="button_paragraphsFourGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
@@ -593,9 +610,13 @@
                                                 <ComboBox fx:id="combo_paragraphsFour" prefWidth="150.0" />
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Five Groups" />
+                                                <Label text="Five Groups">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_paragraphsFiveGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -609,9 +630,13 @@
                                                 <ComboBox fx:id="combo_paragraphsFive" prefWidth="150.0" />
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="50.0" prefWidth="300.0">
+                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Six Groups" />
+                                                <Label text="Six Groups">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <Button fx:id="button_paragraphsSixGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" />
@@ -628,7 +653,7 @@
                                        </children>
                                     </HBox>
                                  </children>
-                              </AnchorPane>
+                              </StackPane>
                            </center>
                         </BorderPane>
                      </content>
