@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.SCICRController">
    <children>
       <BorderPane style="-fx-background-color: lightgrey;">
          <center>
@@ -20,6 +20,11 @@
                   <HBox alignment="CENTER_RIGHT">
                      <children>
                          <ComboBox fx:id="combo_ScIcrBaseline" prefWidth="150.0" promptText="Baseline" visible="false" />
+                        <Button fx:id="button_archive" mnemonicParsing="false" onAction="#archiveSelected" prefHeight="25.0" prefWidth="80.0" text="Archive">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Button>
                          <Button fx:id="button_newSCICR" mnemonicParsing="false" onAction="#createNewSCICR" text="New SC/ICR">
                            <HBox.margin>
                               <Insets right="15.0" />

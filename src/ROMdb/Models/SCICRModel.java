@@ -1,5 +1,6 @@
 package ROMdb.Models;
 
+import ROMdb.Archive.SCICRArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,6 +20,7 @@ public class SCICRModel {
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
+    public static SCICRArchive archive = new SCICRArchive();
 
 
     /**
@@ -95,15 +98,30 @@ public class SCICRModel {
      */
     public static void deleteRowFromDatabase(String rowKey) throws SQLException {
 
-            // Set up statement for deleting from database.
-            PreparedStatement st = Main.conn.prepareStatement("DELETE FROM SCICRData WHERE Number = ?");
+        // Set up statement for deleting from database.
+        PreparedStatement st = Main.conn.prepareStatement("DELETE FROM SCICRData WHERE Number = ?");
 
-            // Uses the primary key to locate in table.
-            st.setString(1,rowKey);
+        // Uses the primary key to locate in table.
+        st.setString(1,rowKey);
 
-            // Perform the query.
-            st.executeUpdate();
+        // Perform the query.
+        st.executeUpdate();
     }
+
+    public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
+    {
+        archive.addListOfRecords(rows);
+
+        ArrayList<SCICRRow> list = new ArrayList<>(rows);
+
+        int size = list.size();
+        for(int i = 0; i < size; i++)
+        {
+            SCICRRow temp = list.get(i);
+            map.get(MainMenuModel.getSelectedBaseline()).remove(temp);
+        }
+    }
+
 
     /**
      * Get the map that keeps track of all the SC/ICRs for a baseline

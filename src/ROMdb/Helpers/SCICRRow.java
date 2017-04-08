@@ -163,4 +163,10 @@ public class SCICRRow {
     public SimpleStringProperty baselineProperty() {
         return baseline;
     }
+
+    @Override
+    public String toString()
+    {
+        return "" + title;
+    }
 }

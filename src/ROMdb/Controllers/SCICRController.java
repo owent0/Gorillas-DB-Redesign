@@ -18,6 +18,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,6 +27,8 @@ import java.sql.SQLException;
  * Created by Team Gorillas on 3/14/2017
  */
 public class SCICRController {
+
+    public ObservableList<SCICRRow> selectedRows = FXCollections.observableArrayList();
 
     @FXML private ComboBox<String> combo_ScIcrBaseline;
 
@@ -37,6 +40,7 @@ public class SCICRController {
     @FXML private TableColumn tableColumn_title;
     @FXML private TableColumn tableColumn_build;
 
+    @FXML private Button button_archive;
 
     /**
      * Initialize this view.
@@ -57,6 +61,8 @@ public class SCICRController {
         // Call to fill the table view with the SC/ICR
         // entries in the database.
         this.fillTable();
+
+        this.createEventHandlers();
     }
 
     /**
@@ -333,4 +339,47 @@ public class SCICRController {
             alert.showAndWait();
         }
     }
+
+    /*Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+            "Are you sure you want to update the Design field for all of the rows below?", ButtonType.YES, ButtonType.NO);
+        warningMsg.showAndWait();
+
+        if (warningMsg.getResult() == (ButtonType.NO))
+    {
+        return;
+    }*/
+    @FXML
+    private void archiveSelected()
+    {
+        if(!selectedRows.isEmpty()) {
+            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
+            warningMsg.showAndWait();
+
+            if(warningMsg.getResult() == (ButtonType.NO)) {
+                return;
+            }
+
+            try {
+                SCICRModel.archiveRows(selectedRows);
+            } catch (SQLException s) {
+                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
+                warningMsg.showAndWait();
+            }
+        }
+    }
+
+    private void createEventHandlers()
+    {
+
+        table_ScIcr.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
+        {
+            if(event.isControlDown())
+            {
+                table_ScIcr.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
+            }
+        });
+    }
+
 }
