@@ -1,5 +1,6 @@
 package ROMdb.Models;
 
+import ROMdb.Archive.RequirementsArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.FilterItem;
 import ROMdb.Helpers.MapList;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
  */
 public class RequirementsModel
 {
+    public static RequirementsArchive archive = new RequirementsArchive();
+
     public static final String SKELETON_KEY = "Skeleton Key";
 
     // This list contains all the requirement rows objects in the table.
@@ -33,6 +36,22 @@ public class RequirementsModel
 
     // The array list containing the filters.
     public static ArrayList<FilterItem> filters = null;
+
+
+    public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
+    {
+        archive.addListOfRecords(rows);
+
+        ArrayList<RequirementsRow> list = new ArrayList<>(rows);
+
+        int size = list.size();
+        for(int i = 0; i < size; i++)
+        {
+            RequirementsRow temp = list.get(i);
+            allReqData.remove(temp);
+        }
+    }
+
 
     /**
      * Fills the table with the data from the database.

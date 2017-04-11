@@ -72,6 +72,7 @@ public class RequirementsController
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
 
+    @FXML private Button button_archive;
 
     /* Complete tab components                          */
     @FXML private TextField field_completeDesign;
@@ -188,6 +189,7 @@ public class RequirementsController
         // Creates the handler for when you click on the table.
         this.createTableViewClickHandler();
 
+        table_requirements.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         try
         {
@@ -566,6 +568,31 @@ public class RequirementsController
             }
         }
     }
+
+
+    @FXML
+    private void archiveSelected()
+    {
+        ObservableList<RequirementsRow> selectedRows = table_requirements.getSelectionModel().getSelectedItems();
+
+        if(!selectedRows.isEmpty()) {
+            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
+            warningMsg.showAndWait();
+
+            if(warningMsg.getResult() == (ButtonType.NO)) {
+                return;
+            }
+
+            try {
+                RequirementsModel.archiveRows(selectedRows);
+            } catch (SQLException s) {
+                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
+                warningMsg.showAndWait();
+            }
+        }
+    }
+
 
     /********** BEGIN COMPLETE TAB FUNCTIONALITY **************/
     private void occupyComboBoxes()

@@ -36,8 +36,23 @@ public abstract class Archive<T>
      * The purpose of this method is to store a list of records into the list
      * records. Used when the user wants to pass a list off records.
      * @param list The list of objects to append to the current list.
+     * @throws SQLException If the SQL query fails.
      */
     public abstract void addListOfRecords(ObservableList<T> list) throws SQLException;
+
+    /**
+     * The purpose of this method is to take a list of elements from the archive
+     * and either delete or place them back into the original place they came from.
+     * @param list The list to bring back from the archive.
+     * @throws SQLException If the SQL query fails.
+     */
+    public abstract void removeListOfRecords(ObservableList<T> list) throws SQLException;
+
+    /**
+     * Fills a table view with the data read from the database table.
+     * @throws SQLException If the SQL query fails.
+     */
+    public abstract void fillRows() throws  SQLException;
 
 
     /**

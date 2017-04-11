@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.ArchiveController">
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" maxHeight="55.0" prefHeight="55.0" prefWidth="861.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="button_cancel" alignment="CENTER" mnemonicParsing="false" onAction="#closeScene" prefHeight="30.0" prefWidth="77.0" text="Cancel" />
+            <Button fx:id="button_restore" alignment="CENTER" mnemonicParsing="false" onAction="#restoreSelected" prefHeight="30.0" prefWidth="77.0" text="Restore">
+               <HBox.margin>
+                  <Insets left="15.0" right="40.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <TabPane fx:id="tabPane_tabs" maxHeight="1.7976931348623157E308" minHeight="50.0" prefHeight="427.0" prefWidth="925.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="tab_scicr" text="SC/ICR">
+               <content>
+                  <StackPane maxHeight="1.7976931348623157E308" minHeight="50.0">
+                     <children>
+                        <TableView fx:id="table_scicrArchive" maxHeight="1.7976931348623157E308" minHeight="50.0">
+                          <columns>
+                              <TableColumn fx:id="tableColumn_date" prefWidth="75.0" text="Date" />
+                            <TableColumn fx:id="tableColumn_scicr" maxWidth="1.7976931348623157E308" prefWidth="50.0" text="SC/ICR" />
+                            <TableColumn fx:id="tableColumn_number" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Number" />
+                              <TableColumn fx:id="tableColumn_title" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Title" />
+                              <TableColumn fx:id="tableColumn_build" maxWidth="1.7976931348623157E308" prefWidth="200.0" text="Build" />
+                              <TableColumn fx:id="tableColumn_baseline" maxWidth="1.7976931348623157E308" prefWidth="90.0" text="Baseline" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </StackPane>
+               </content>
+          </Tab>
+          <Tab fx:id="tab_requirements" text="Requirements">
+               <content>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table_requirementsArchive" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                              <TableColumn fx:id="tableColumn_reqDate" prefWidth="145.0" text="Date" />
+                            <TableColumn fx:id="tableColumn_reqCSC" prefWidth="95.0" text="CSC" />
+                            <TableColumn fx:id="tableColumn_reqCSU" prefWidth="95.0" text="CSU" />
+                              <TableColumn fx:id="tableColumn_reqDoors" prefWidth="145.0" text="Doors ID" />
+                              <TableColumn fx:id="tableColumn_reqParagraph" prefWidth="145.0" text="Paragraph/Figure" />
+                              <TableColumn fx:id="tableColumn_reqBaseline" prefWidth="100.0" text="Baseline" />
+                              <TableColumn fx:id="tableColumn_reqSCICR" prefWidth="100.0" text="SC/ICR" />
+                              <TableColumn fx:id="tableColumn_reqCapability" prefWidth="100.0" text="Capability" />
+                              <TableColumn fx:id="tableColumn_reqAdded" prefWidth="75.0" text="# Added" />
+                              <TableColumn fx:id="tableColumn_reqChanged" prefWidth="75.0" text="# Changed" />
+                              <TableColumn fx:id="tableColumn_reqDeleted" prefWidth="75.0" text="# Deleted" />
+                              <TableColumn fx:id="tableColumn_reqDesign" prefWidth="110.0" text="Design Weight" />
+                              <TableColumn fx:id="tableColumn_reqCode" prefWidth="110.0" text="Code Weight" />
+                              <TableColumn fx:id="tableColumn_reqUnit" prefWidth="110.0" text="Unit Test Weight" />
+                              <TableColumn fx:id="tableColumn_reqInt" prefWidth="125.0" text="Integration Weight" />
+                              <TableColumn fx:id="tableColumn_reqRI" prefWidth="140.0" text="Responsible Individual" />
+                              <TableColumn fx:id="tableColumn_reqRom" prefWidth="100.0" text="Rommer" />
+                              <TableColumn fx:id="tableColumn_reqProgram" prefWidth="100.0" text="Program" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </StackPane>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

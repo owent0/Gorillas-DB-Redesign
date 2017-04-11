@@ -34,11 +34,15 @@
                   </Button>
                   <Button fx:id="button_estimationBase" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
                      <VBox.margin>
-                        <Insets />
+                        <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive" />
                   <Region minHeight="0.0" prefHeight="204.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
-                  <ComboBox fx:id="combo_baseline" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline" />
+                  <ComboBox fx:id="combo_baseline" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></ComboBox>
                   <Region minHeight="1.0" prefHeight="345.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
                   <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
                </children>

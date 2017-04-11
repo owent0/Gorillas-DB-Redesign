@@ -13,6 +13,10 @@ public class RequirementsRow {
 
     private int id;
 
+    private SimpleStringProperty timestamp;
+
+
+
     private SimpleStringProperty csc;
     private SimpleStringProperty csu;
     private SimpleStringProperty doorsID;
@@ -161,6 +165,19 @@ public class RequirementsRow {
     public void setRi(String ri) {this.ri.set(ri);}
     public void setRommer(String rommer) {this.rommer.set(rommer);}
     public void setProgram(String program) {this.program.set(program);}
+
+
+    public String getTimestamp() {
+        return timestamp.get();
+    }
+
+    public SimpleStringProperty timestampProperty() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = new SimpleStringProperty(timestamp);
+    }
 
     /**
      * The override of toString that will display all of the values that this

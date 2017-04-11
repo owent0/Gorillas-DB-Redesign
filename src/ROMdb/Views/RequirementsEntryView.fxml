@@ -117,6 +117,11 @@
                                           </VBox>
                                           <VBox alignment="BOTTOM_CENTER" prefHeight="44.0" prefWidth="83.0" HBox.hgrow="ALWAYS">
                                              <children>
+                                                <Button fx:id="button_archive" mnemonicParsing="false" onAction="#archiveSelected" prefHeight="32.0" prefWidth="126.0" text="Archive">
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" />
+                                                   </VBox.margin>
+                                                </Button>
                                                 <Button fx:id="button_clear" mnemonicParsing="false" onAction="#pressClear" prefHeight="32.0" prefWidth="126.0" text="Clear Filters">
                                                    <VBox.margin>
                                                       <Insets />

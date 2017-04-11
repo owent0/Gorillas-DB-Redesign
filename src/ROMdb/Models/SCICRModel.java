@@ -28,6 +28,7 @@ public class SCICRModel {
      * @throws SQLException If the query statement could not successfully complete.
      */
     public static void fillTable() throws SQLException {
+
         // For each baseline.
         ObservableList<String> baselines = MainMenuModel.getBaselines();
         for( String baseline : baselines) {

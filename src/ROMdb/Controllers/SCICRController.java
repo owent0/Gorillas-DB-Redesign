@@ -18,7 +18,6 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,7 +27,7 @@ import java.sql.SQLException;
  */
 public class SCICRController {
 
-    public ObservableList<SCICRRow> selectedRows = FXCollections.observableArrayList();
+
 
     @FXML private ComboBox<String> combo_ScIcrBaseline;
 
@@ -62,7 +61,7 @@ public class SCICRController {
         // entries in the database.
         this.fillTable();
 
-        this.createEventHandlers();
+        table_ScIcr.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     /**
@@ -351,6 +350,8 @@ public class SCICRController {
     @FXML
     private void archiveSelected()
     {
+        ObservableList<SCICRRow> selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
+
         if(!selectedRows.isEmpty()) {
             Alert warningMsg = new Alert(Alert.AlertType.WARNING,
                     "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
@@ -369,7 +370,7 @@ public class SCICRController {
         }
     }
 
-    private void createEventHandlers()
+    /*private void createEventHandlers()
     {
 
         table_ScIcr.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
@@ -380,6 +381,6 @@ public class SCICRController {
                 selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
             }
         });
-    }
+    }*/
 
 }

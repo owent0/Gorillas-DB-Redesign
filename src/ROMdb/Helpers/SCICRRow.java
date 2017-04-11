@@ -1,6 +1,9 @@
 package ROMdb.Helpers;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Anthony Orio on 3/14/2017.
@@ -8,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class SCICRRow {
 
     private int id;
+    private SimpleStringProperty timestamp;
     private SimpleStringProperty type;
     private SimpleStringProperty number;
     private SimpleStringProperty title;
@@ -79,6 +83,12 @@ public class SCICRRow {
     }
 
     /**
+     * The setter for the timestamp.
+     * @param timestamp the timestamp.
+     */
+    public void setTimestamp(String timestamp) { this.timestamp = new SimpleStringProperty(timestamp); }
+
+    /**
      * The getter for the id.
      * @return the id.
      */
@@ -125,6 +135,12 @@ public class SCICRRow {
     }
 
     /**
+     * The getter for the timestamp.
+     * @return the timestamp.
+     */
+    public String getTimestamp() { return timestamp.get(); }
+
+    /**
      * The getter for the type property.
      * @return the type property.
      */
@@ -163,6 +179,12 @@ public class SCICRRow {
     public SimpleStringProperty baselineProperty() {
         return baseline;
     }
+
+    /**
+     * The getter for the timestamp property.
+     * @return the timestamp property.
+     */
+    public SimpleStringProperty timestampeProperty() { return timestamp; }
 
     @Override
     public String toString()
