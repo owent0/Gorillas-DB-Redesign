@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -24,6 +27,29 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="580.0">
+                     <children>
+                        <Label fx:id="label_userName" minWidth="65.0" text="User Name:">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ChoiceBox fx:id="choicebox_userName" prefWidth="150.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="580.0">
+                     <children>
+                        <Label fx:id="label_password" minWidth="65.0" text="Password: ">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <PasswordField fx:id="passfield_password" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </center>
