@@ -8,17 +8,18 @@
 package ROMdb.Controllers;
 
 import ROMdb.Driver.Main;
+import ROMdb.Models.LoginModel;
 import ROMdb.Models.MainMenuModel;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -42,7 +43,13 @@ public class MainMenuController
     @FXML private StackPane estimationStackPane;
     @FXML private StackPane scicrStackPane;
     @FXML private StackPane requirementsStackPane;
+    @FXML private StackPane loginStackPane;
 
+    @FXML private Button button_SCICR;
+    @FXML private Button button_requirementsEntry;
+    @FXML private Button button_estimationBase;
+    @FXML private Button button_viewArchive;
+    @FXML private MenuItem menuItem_createBaseline;
     @FXML private ComboBox<String> combo_baseline;
 
     /**
@@ -52,6 +59,31 @@ public class MainMenuController
     public void initialize()
     {
         this.combo_baseline.setItems(new SortedList<String>(MainMenuModel.getBaselines(), Collator.getInstance()));
+        LoginModel.mainMenuController = this;
+    }
+
+    public void enableMenuButtons() {
+
+        button_SCICR.setDisable(false);
+        button_estimationBase.setDisable(false);
+        button_requirementsEntry.setDisable(false);
+        button_viewArchive.setDisable(false);
+        combo_baseline.setDisable(false);
+
+        if(LoginModel.isAdmin == true){
+            menuItem_createBaseline.setDisable(false);
+        }
+    }
+
+    public void disableMenuButtons() {
+
+        button_SCICR.setDisable(true);
+        button_estimationBase.setDisable(true);
+        button_requirementsEntry.setDisable(true);
+        button_viewArchive.setDisable(true);
+        combo_baseline.setDisable(true);
+        menuItem_createBaseline.setDisable(true);
+
     }
 
     /**
@@ -75,6 +107,7 @@ public class MainMenuController
         estimationStackPane.setVisible(true);
         requirementsStackPane.setVisible(false);
         scicrStackPane.setVisible(false);
+        loginStackPane.setVisible(false);
     }
 
 
@@ -88,6 +121,7 @@ public class MainMenuController
         estimationStackPane.setVisible(false);
         requirementsStackPane.setVisible(true);
         scicrStackPane.setVisible(false);
+        loginStackPane.setVisible(false);
     }
 
     /**
@@ -100,6 +134,7 @@ public class MainMenuController
         estimationStackPane.setVisible(false);
         requirementsStackPane.setVisible(false);
         scicrStackPane.setVisible(true);
+        loginStackPane.setVisible(false);
     }
 
 
@@ -162,6 +197,32 @@ public class MainMenuController
         stage.setScene(new Scene(root));
         //stage.setResizable(false);
         stage.show();
+    }
+
+    @FXML
+    public void systemLogout() {
+
+        if(LoginModel.isLoggedIn == false) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No username is logged in.", ButtonType.OK);
+            alert.showAndWait();
+
+        } else {
+
+            estimationStackPane.setVisible(false);
+            requirementsStackPane.setVisible(false);
+            scicrStackPane.setVisible(false);
+            loginStackPane.setVisible(true);
+
+            LoginModel.isAdmin = false;
+            LoginModel.isLoggedIn = false;
+
+            LoginModel.mainMenuController.disableMenuButtons();
+            LoginModel.estimationBaseController.disableWeights();
+            MainMenuModel.loginController.logoutSuccess();
+
+        }
+
     }
 
     /**

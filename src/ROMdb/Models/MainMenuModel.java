@@ -1,6 +1,7 @@
 package ROMdb.Models;
 
 import ROMdb.Controllers.EstimationBaseController;
+import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.SCICRController;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.MapList;
@@ -26,6 +27,7 @@ public class MainMenuModel
 {
     public static EstimationBaseController estimationBaseController;
     public static SCICRController sCICRController;
+    public static LoginController loginController;
 
     public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
