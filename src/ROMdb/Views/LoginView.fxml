@@ -5,31 +5,30 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.LoginController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.LoginController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="ASRC-Federal Misson Solutions" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-                  <Label text="ROM Database Entry System" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
+                  <ImageView fx:id="image_ASRC" fitHeight="249.0" fitWidth="477.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/ASRC_Logo_ROMDb.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </ImageView>
                   <ComboBox fx:id="combo_username" onAction="#enablePasswordField" prefWidth="150.0" promptText="Username">
                      <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets />
                      </VBox.margin>
                   </ComboBox>
                   <PasswordField fx:id="passfield_password" disable="true" maxWidth="150.0" onAction="#loginButtonClicked" promptText="Password">
