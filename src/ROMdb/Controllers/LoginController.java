@@ -65,7 +65,7 @@ public class LoginController {
 
         LoginModel.isLoggedIn = true;
         label_loginmessage.setTextFill(Color.web("#000000"));
-        label_loginmessage.setText("Welcome!");
+        label_loginmessage.setText("Welcome! You are now logged in as: " + combo_username.getSelectionModel().getSelectedItem().toString());
         combo_username.setVisible(false);
         passfield_password.setVisible(false);
         button_login.setVisible(false);
