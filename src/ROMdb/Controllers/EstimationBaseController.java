@@ -7,6 +7,7 @@
 package ROMdb.Controllers;
 
 import ROMdb.Models.EstimationBaseModel;
+import ROMdb.Models.LoginModel;
 import ROMdb.Models.MainMenuModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -45,6 +46,23 @@ public class EstimationBaseController {
     {
         //combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
         MainMenuModel.estimationBaseController = this;
+        LoginModel.estimationBaseController = this;
+    }
+
+    public void disableWeights()
+    {
+        this.field_designWeight.setDisable(true);
+        this.field_codeWeight.setDisable(true);
+        this.field_integrationWeight.setDisable(true);
+        this.field_unitTestingWeight.setDisable(true);
+    }
+
+    public void enableWeights()
+    {
+        this.field_designWeight.setDisable(false);
+        this.field_codeWeight.setDisable(false);
+        this.field_integrationWeight.setDisable(false);
+        this.field_unitTestingWeight.setDisable(false);
     }
 
     /**

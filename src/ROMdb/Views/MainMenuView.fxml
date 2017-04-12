@@ -22,26 +22,26 @@
          <children>
             <VBox alignment="TOP_CENTER" layoutX="11.0" layoutY="37.0" prefHeight="501.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="button_SCICR" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
+                  <Button fx:id="button_SCICR" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="button_requirementsEntry" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="25.0" prefWidth="135.0" text="Requirements Entry">
+                  <Button fx:id="button_requirementsEntry" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="25.0" prefWidth="135.0" text="Requirements Entry">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="button_estimationBase" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
+                  <Button fx:id="button_estimationBase" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive" />
+                  <Button fx:id="button_viewArchive" disable="true" mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive" />
                   <Region minHeight="0.0" prefHeight="204.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
-                  <ComboBox fx:id="combo_baseline" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
+                  <ComboBox fx:id="combo_baseline" disable="true" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets bottom="5.0" top="5.0" />
                      </VBox.margin></ComboBox>
                   <Region minHeight="1.0" prefHeight="345.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
                   <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
@@ -55,11 +55,16 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create Baseline" />
-                  <MenuItem mnemonicParsing="false" onAction="#changeDatabasePath" text="Change File Path" />
+                  <MenuItem fx:id="menuItem_logout" mnemonicParsing="false" onAction="#systemLogout" text="Logout" />
               <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Close" />
             </items>
           </Menu>
+            <Menu fx:id="menuItem_edit" mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem fx:id="menuItem_createBaseline" disable="true" mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create Baseline" />
+                  <MenuItem fx:id="menuItem_changeDatabasePath" mnemonicParsing="false" onAction="#changeDatabasePath" text="Change File Path" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
    </top>
@@ -69,7 +74,7 @@
    <center>
       <StackPane fx:id="requirementsStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane fx:id="loginStackPane" prefHeight="150.0" prefWidth="200.0">
                <children>
                   <fx:include source="LoginView.fxml" />
                </children>

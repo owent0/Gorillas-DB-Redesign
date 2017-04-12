@@ -137,7 +137,7 @@
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="field_designWeight" minWidth="120.0" />
+                                          <TextField fx:id="field_designWeight" disable="true" minWidth="120.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -147,7 +147,7 @@
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="field_codeWeight" minWidth="120.0" />
+                                          <TextField fx:id="field_codeWeight" disable="true" minWidth="120.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -157,7 +157,7 @@
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="field_unitTestingWeight" minWidth="120.0" />
+                                          <TextField fx:id="field_unitTestingWeight" disable="true" minWidth="120.0" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -167,7 +167,7 @@
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="field_integrationWeight" minWidth="120.0" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="field_integrationWeight" disable="true" minWidth="120.0" HBox.hgrow="NEVER" />
                                        </children>
                                     </HBox>
                                  </children>
