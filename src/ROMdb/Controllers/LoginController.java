@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /**
@@ -18,6 +19,7 @@ public class LoginController {
     @FXML private PasswordField passfield_password;
     @FXML private Label label_loginmessage;
     @FXML private Button button_login;
+    @FXML private ImageView image_ASRC;
 
     @FXML
     public void initialize(){
@@ -73,6 +75,7 @@ public class LoginController {
         LoginModel.mainMenuController.enableMenuButtons();
 
     }
+
 
     public void logoutSuccess() {
 

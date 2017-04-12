@@ -6,49 +6,45 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane minHeight="0.0" minWidth="1150.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <left>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets top="15.0" />
-         </BorderPane.margin>
+      <VBox alignment="TOP_CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="11.0" layoutY="37.0" prefHeight="501.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Button fx:id="button_SCICR" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="button_requirementsEntry" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="25.0" prefWidth="135.0" text="Requirements Entry">
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="button_estimationBase" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="button_viewArchive" disable="true" mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive" />
-                  <Region minHeight="0.0" prefHeight="204.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
-                  <ComboBox fx:id="combo_baseline" disable="true" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="5.0" />
-                     </VBox.margin></ComboBox>
-                  <Region minHeight="1.0" prefHeight="345.0" prefWidth="146.0" VBox.vgrow="SOMETIMES" />
-                  <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
-               </children>
-            </VBox>
+            <Button fx:id="button_SCICR" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="button_requirementsEntry" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewRequirementsEntry" prefHeight="25.0" prefWidth="135.0" text="Requirements Entry">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="button_estimationBase" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewEstimationBase" prefHeight="25.0" prefWidth="135.0" text="Estimation Base">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="button_viewArchive" disable="true" mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive" />
+            <Region minHeight="0.0" VBox.vgrow="SOMETIMES" />
+            <ComboBox fx:id="combo_baseline" disable="true" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </ComboBox>
+            <Region minHeight="1.0" VBox.vgrow="SOMETIMES" />
+            <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
          </children>
-      </AnchorPane>
+         <BorderPane.margin>
+            <Insets left="10.0" top="15.0" />
+         </BorderPane.margin>
+      </VBox>
    </left>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
@@ -72,24 +68,24 @@
       <Pane prefHeight="15.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <StackPane fx:id="requirementsStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER_LEFT">
+      <StackPane fx:id="requirementsStackPane" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <StackPane fx:id="loginStackPane" prefHeight="150.0" prefWidth="200.0">
+            <StackPane fx:id="loginStackPane">
                <children>
                   <fx:include source="LoginView.fxml" />
                </children>
             </StackPane>
-            <StackPane fx:id="scicrStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
+            <StackPane fx:id="scicrStackPane" alignment="CENTER_LEFT" visible="false" StackPane.alignment="CENTER_LEFT">
                <children>
                   <fx:include source="SCICRView.fxml" />
                </children>
             </StackPane>
-            <StackPane fx:id="requirementsStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
+            <StackPane fx:id="requirementsStackPane" alignment="CENTER_LEFT" visible="false" StackPane.alignment="CENTER_LEFT">
                <children>
                   <fx:include source="RequirementsEntryView.fxml" />
                </children>
             </StackPane>
-            <StackPane fx:id="estimationStackPane" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
+            <StackPane fx:id="estimationStackPane" alignment="CENTER_LEFT" visible="false" StackPane.alignment="CENTER_LEFT">
                <children>
                   <fx:include source="EstimationBaseView.fxml" />
                </children>
