@@ -352,6 +352,8 @@ public class SCICRController {
     {
         ObservableList<SCICRRow> selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
 
+        selectedRows.get(0);
+
         if(!selectedRows.isEmpty()) {
             Alert warningMsg = new Alert(Alert.AlertType.WARNING,
                     "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);

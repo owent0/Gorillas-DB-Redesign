@@ -48,7 +48,7 @@ public class RequirementsModel
         for(int i = 0; i < size; i++)
         {
             RequirementsRow temp = list.get(i);
-            allReqData.remove(temp);
+            currentFilteredList.remove(temp);
         }
     }
 

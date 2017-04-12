@@ -72,30 +72,40 @@ public class ArchiveController {
     private void restoreSelected() throws Exception {
         if(tab_scicr.isSelected())
         {
-            ObservableList<SCICRRow> rows = table_scicrArchive.getItems();
-            ObservableList<Integer> indicies = table_scicrArchive.getSelectionModel().getSelectedIndices();
-            ObservableList<SCICRRow> rowsToRestore = FXCollections.observableArrayList();
+            ObservableList<SCICRRow> rows = table_scicrArchive.getSelectionModel().getSelectedItems();
+            rows.get(0);
 
-            int size = indicies.size();
-            for (int i = 0; i < size; i++) {
-                rowsToRestore.add(rows.get(indicies.get(i)));
-            }
+            ArrayList<SCICRRow> list = new ArrayList<>(rows);
 
-            ArrayList<SCICRRow> list = new ArrayList<>(rowsToRestore);
-
-            size = list.size();
+            int size = list.size();
             for (int i = 0; i < size; i++) {
                 SCICRRow temp = list.get(i);
                 SCICRModel.getMap().get(temp.getBaseline()).add(temp);
                 table_scicrArchive.getItems().remove(temp);
             }
 
-            rowsToRestore = FXCollections.observableList(list);
-            SCICRModel.archive.removeListOfRecords(rowsToRestore);
+            rows = FXCollections.observableList(list);
+            SCICRModel.archive.removeListOfRecords(rows);
+
         }
         else
         {
-            ObservableList<RequirementsRow> rows = table_requirementsArchive.getItems();
+            ObservableList<RequirementsRow> rows = table_requirementsArchive.getSelectionModel().getSelectedItems();
+            rows.get(0);
+
+            ArrayList<RequirementsRow> list = new ArrayList<>(rows);
+
+            int size = list.size();
+            for (int i = 0; i < size; i++) {
+                RequirementsRow temp = list.get(i);
+                RequirementsModel.currentFilteredList.add(temp);
+                table_requirementsArchive.getItems().remove(temp);
+            }
+
+            rows = FXCollections.observableList(list);
+            RequirementsModel.archive.removeListOfRecords(rows);
+
+            /*ObservableList<RequirementsRow> rows = table_requirementsArchive.getItems();
             ObservableList<Integer> indicies = table_requirementsArchive.getSelectionModel().getSelectedIndices();
             ObservableList<RequirementsRow> rowsToRestore = FXCollections.observableArrayList();
 
@@ -114,7 +124,7 @@ public class ArchiveController {
             }
 
             rowsToRestore = FXCollections.observableList(list);
-            RequirementsModel.archive.removeListOfRecords(rowsToRestore);
+            RequirementsModel.archive.removeListOfRecords(rowsToRestore);*/
         }
     }
 

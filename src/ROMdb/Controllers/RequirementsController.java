@@ -497,8 +497,9 @@ public class RequirementsController
     private void pressClear()
     {
         this.setCombosToEmptyValues();
-        RequirementsModel.currentFilteredList.clear();
-        this.fillTable();
+        //RequirementsModel.currentFilteredList.clear();
+        RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
+        //this.fillTable();
     }
 
     /**
@@ -574,6 +575,8 @@ public class RequirementsController
     private void archiveSelected()
     {
         ObservableList<RequirementsRow> selectedRows = table_requirements.getSelectionModel().getSelectedItems();
+
+        selectedRows.get(0);
 
         if(!selectedRows.isEmpty()) {
             Alert warningMsg = new Alert(Alert.AlertType.WARNING,
