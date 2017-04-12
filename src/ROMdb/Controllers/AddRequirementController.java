@@ -53,6 +53,8 @@ public class AddRequirementController
 
     // Button
     @FXML private Button button_save;
+    @FXML private Button button_saveNew;
+
 
     /**
      * This method will activate each time the window is created.
@@ -104,6 +106,66 @@ public class AddRequirementController
 
         // Set the items.
         this.combo_scicr.setItems(scicrs);
+    }
+
+    //TODO: finish this method reopening the add requirements tab
+    //Requirement Creation screen is pre-populated with the
+    // CSC, CSU, SC/ICR, Capability, Rommer and Program from the previous entry.
+    @FXML
+    private void saveAndNewRequirements() throws InputFormatException {
+        //createNewRequirementObject();
+
+/*        try {
+
+            // Check for invalid inputs.
+            this.errorChecking();
+
+            // Build new row object.
+            RequirementsRow newRow = new RequirementsRow
+                    (
+                            combo_csc.getValue(),
+                            combo_csu.getValue(),
+                            field_doors.getText().trim(),
+                            field_paragraph.getText().trim(),
+                            combo_baseline.getValue(),
+                            combo_scicr.getValue(),
+                            combo_capability.getValue(),
+                            Double.parseDouble(field_added.getText().trim()),
+                            Double.parseDouble(field_changed.getText().trim()),
+                            Double.parseDouble(field_deleted.getText().trim()),
+                            Double.parseDouble(field_design.getText().trim()),
+                            Double.parseDouble(field_code.getText().trim()),
+                            Double.parseDouble(field_unitTest.getText().trim()),
+                            Double.parseDouble(field_integration.getText().trim()),
+                            combo_ri.getValue(),
+                            combo_rommer.getValue(),
+                            combo_program.getValue()
+                    );
+
+            RequirementsModel.allReqData.add(newRow);
+            RequirementsModel.insertNewReqRow(newRow);
+
+
+            field_doors.setText("");
+            field_paragraph.setText("");
+            field_added.setText("0");
+            field_changed.setText("0");
+            field_deleted.setText("0");
+            field_design.setText("0");
+            field_code.setText("0");
+            field_code.setText("0");
+            field_integration.setText("0");
+        }
+        catch(InputFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Ensure that the fields contain the correct values. Some fields can only contain numbers or alpha numeric characters.", ButtonType.OK);
+            alert.showAndWait();
+        }
+        catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not write new entry to database.", ButtonType.OK);
+            alert.showAndWait();
+        }*/
     }
 
     /**

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
    <children>
       <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -194,12 +194,16 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="button_save" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#createNewRequirementObject" text="Save" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="button_cancel" minWidth="100.0" mnemonicParsing="false" onAction="#exit" text="Cancel">
+                        <Button fx:id="button_save" alignment="CENTER" minWidth="57.0" mnemonicParsing="false" onAction="#createNewRequirementObject" prefHeight="27.0" prefWidth="57.0" text="Save" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="48.0" />
+                              <Insets right="26.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="button_cancel" minWidth="55.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="63.0" text="Cancel">
+                           <HBox.margin>
+                              <Insets right="27.0" />
                            </HBox.margin>
                         </Button>
+                        <Button fx:id="button_saveNew" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#saveAndNewRequirements" prefHeight="27.0" prefWidth="109.0" text="Save and New" />
                      </children>
                   </HBox>
                </children>
