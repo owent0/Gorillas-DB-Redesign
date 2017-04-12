@@ -202,7 +202,7 @@ public class MainMenuController
     @FXML
     public void systemLogout() {
 
-        if(LoginModel.isLoggedIn = false) {
+        if(LoginModel.isLoggedIn == false) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR, "No username is logged in.", ButtonType.OK);
             alert.showAndWait();
