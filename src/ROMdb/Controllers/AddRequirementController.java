@@ -143,6 +143,8 @@ public class AddRequirementController
 
             RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
+            requirementsController.updateJTableWithFilteredReqData();
+
             this.exit();
         }
         catch(InputFormatException e) {
