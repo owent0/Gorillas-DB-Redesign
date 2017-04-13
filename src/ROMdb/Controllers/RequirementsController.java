@@ -67,7 +67,6 @@ public class RequirementsController
     @FXML private ComboBox<String> combo_capability;
     @FXML private ComboBox<String> combo_program;
     @FXML private ComboBox<String> combo_rommer;
-    @FXML private ComboBox<String> combo_sort;
 
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
@@ -267,7 +266,6 @@ public class RequirementsController
         attachChangeListenerComboBox(combo_capability);
         attachChangeListenerComboBox(combo_program);
         attachChangeListenerComboBox(combo_rommer);
-        attachChangeListenerComboBox(combo_sort);
 
         // Define event change handlers for filtering text fields
         attachChangeListenerTextField(field_paragraph);
@@ -318,7 +316,6 @@ public class RequirementsController
         combo_capability.setValue("");
         combo_program.setValue("");
         combo_rommer.setValue("");
-        combo_sort.setValue("");
 
         field_doors.setText("");
         field_paragraph.setText("");
