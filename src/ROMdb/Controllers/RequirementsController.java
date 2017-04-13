@@ -411,8 +411,26 @@ public class RequirementsController
             }
         });
 
+        MenuItem copyItem = new MenuItem("Copy Selected Row");
+        copyItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                RequirementsRow currRow = getSelectedRow();
+                addNewRowWithDefaultsToJTable();
+                try {
+                    displayAddRequirementWindowFromCopy(currRow);
+                } catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could not copy requirements row.", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            }
+        });
+
         // Add MenuItem to ContextMenu
         cm.getItems().addAll(addItem);
+        cm.getItems().addAll(copyItem);
 
         return cm;
     }
@@ -432,6 +450,26 @@ public class RequirementsController
         stage.setResizable(false);
         stage.show();
     }
+
+    /**
+     * Displays the window for adding a new requirements row to the
+     * table view when the user right clicks the context menu. It takes in a current row to copy the selected rows
+     * data into the fields of the requirements entry
+     * @param currentRow the row to be copied
+     * @throws IOException If the window could not successfully load.
+     */
+    private void displayAddRequirementWindowFromCopy(RequirementsRow currentRow) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddRequirementWindow.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Requirement Creation");
+        stage.setScene(new Scene(root));
+        AddRequirementController controller = loader.<AddRequirementController>getController();
+        controller.setFieldsFromCopiedItem(currentRow);
+        stage.setResizable(false);
+        stage.show();
+    }
+
 
     @FXML
     private void addNewRowWithDefaultsToJTable()

@@ -22,6 +22,20 @@ public class InputValidator
     }
 
     /**
+     * Checks to see if the string is empty
+     * @param inputString the string to check
+     * @param it the input type
+     * @return if the string is empty
+     */
+    public static boolean checkEmptyString(String inputString, InputType it) {
+        if (inputString.matches(it.getPattern()))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks to see if the pattern does not match.
      * @param inputString the string to check for validity.
      * @param it the input type.

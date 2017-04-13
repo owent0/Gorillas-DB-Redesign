@@ -108,14 +108,15 @@ public class AddRequirementController
         this.combo_scicr.setItems(scicrs);
     }
 
-    //TODO: finish this method reopening the add requirements tab
-    //Requirement Creation screen is pre-populated with the
-    // CSC, CSU, SC/ICR, Capability, Rommer and Program from the previous entry.
+    /**
+     * This method allows you to save a requirements and entry and then instantly allows you to add another requirements
+     * entry to the database.
+     * @throws InputFormatException If any of the fields have invalid input
+     */
     @FXML
     private void saveAndNewRequirements() throws InputFormatException {
-        //createNewRequirementObject();
 
-/*        try {
+        try {
 
             // Check for invalid inputs.
             this.errorChecking();
@@ -144,17 +145,19 @@ public class AddRequirementController
 
             RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
-
+            requirementsController.updateJTableWithFilteredReqData();
 
             field_doors.setText("");
             field_paragraph.setText("");
-            field_added.setText("0");
-            field_changed.setText("0");
-            field_deleted.setText("0");
-            field_design.setText("0");
-            field_code.setText("0");
-            field_code.setText("0");
-            field_integration.setText("0");
+            field_added.setText("");
+            field_changed.setText("");
+            field_deleted.setText("");
+            field_design.setText("");
+            field_code.setText("");
+            field_unitTest.setText("");
+            field_integration.setText("");
+            combo_ri.getSelectionModel().clearSelection();
+            combo_baseline.getSelectionModel().select("Baseline");
         }
         catch(InputFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -165,7 +168,37 @@ public class AddRequirementController
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not write new entry to database.", ButtonType.OK);
             alert.showAndWait();
-        }*/
+        }
+    }
+
+    /**
+     * Sets the fields of the requirements entry to the components of the selected row to be copied
+     * @param row the row to fill the fields of the requirements entry view.
+     */
+    @FXML
+    public void setFieldsFromCopiedItem(RequirementsRow row) {
+
+        field_doors.setText(row.getDoorsID());
+        field_paragraph.setText(row.getParagraph());
+        field_added.setText(Double.toString(row.getAdd()));
+        field_changed.setText(Double.toString(row.getChange()));
+        field_deleted.setText(Double.toString(row.getDelete()));
+        field_design.setText(Double.toString(row.getDesignWeight()));
+        field_code.setText(Double.toString(row.getCodeWeight()));
+        field_unitTest.setText(Double.toString(row.getUnitTestWeight()));
+        field_integration.setText(Double.toString(row.getIntegrationWeight()));
+
+        combo_capability.getSelectionModel().select(row.getCapability());
+        combo_rommer.getSelectionModel().select(row.getRommer());
+        combo_program.getSelectionModel().select(row.getProgram());
+        combo_baseline.getSelectionModel().select(row.getBaseline());
+        combo_csc.getSelectionModel().select(row.getCsc());
+        combo_csu.getSelectionModel().select(row.getCsu());
+        combo_scicr.getSelectionModel().select(row.getScicr());
+        combo_ri.getSelectionModel().select(row.getRi());
+
+        // Only display the SC/ICR's associated with the selected baseline.
+        this.changeSCICRToSelectedBaseline();
     }
 
     /**
@@ -205,6 +238,8 @@ public class AddRequirementController
 
             RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
+            requirementsController.updateJTableWithFilteredReqData();
+
             this.exit();
         }
         catch(InputFormatException e) {
@@ -228,7 +263,6 @@ public class AddRequirementController
      */
     private void errorChecking() throws InputFormatException{
 
-
             // The value is alpha numeric only with no spaces.
             InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC);
             if(field_doors.getText().trim() == null || field_doors.getText().trim().equals("")) {
@@ -244,21 +278,29 @@ public class AddRequirementController
             InputValidator.checkPatternMatch(field_changed.getText().trim(), InputType.DOUBLE);
             InputValidator.checkPatternMatch(field_deleted.getText().trim(), InputType.DOUBLE);
 
-            InputValidator.checkPatternMatch(field_design.getText().trim(), InputType.DOUBLE);
-            if (Double.parseDouble(field_design.getText().trim()) < 0 || Double.parseDouble(field_design.getText().trim()) > 100) {
-                throw new InputFormatException("The design weight is not within 0-100");
+            //Checking to see if the weights are either empty or the right input type.
+            if (!InputValidator.checkEmptyString(field_design.getText().trim(), InputType.EMPTY_STRING)) {
+                if (Double.parseDouble(field_design.getText().trim()) < 0 || Double.parseDouble(field_design.getText().trim()) > 100) {
+                    throw new InputFormatException("The design weight is not within 0-100");
+                }
             }
-            InputValidator.checkPatternMatch(field_code.getText().trim(), InputType.DOUBLE);
-            if (Double.parseDouble(field_code.getText().trim()) < 0 || Double.parseDouble(field_code.getText().trim()) > 100) {
-                throw new InputFormatException("The code weight is not within 0-100");
+
+            if (!InputValidator.checkEmptyString(field_code.getText().trim(), InputType.EMPTY_STRING)) {
+                if (Double.parseDouble(field_code.getText().trim()) < 0 || Double.parseDouble(field_code.getText().trim()) > 100) {
+                    throw new InputFormatException("The code weight is not within 0-100");
+                }
             }
-            InputValidator.checkPatternMatch(field_unitTest.getText().trim(), InputType.DOUBLE);
-            if (Double.parseDouble(field_unitTest.getText().trim()) < 0 || Double.parseDouble(field_unitTest.getText().trim()) > 100) {
-                throw new InputFormatException("The unit test weight is not within 0-100");
+
+            if (!InputValidator.checkEmptyString(field_unitTest.getText().trim(), InputType.EMPTY_STRING)) {
+                if (Double.parseDouble(field_unitTest.getText().trim()) < 0 || Double.parseDouble(field_unitTest.getText().trim()) > 100) {
+                    throw new InputFormatException("The unit test weight is not within 0-100");
+                }
             }
-            InputValidator.checkPatternMatch(field_integration.getText().trim(), InputType.DOUBLE);
-            if (Double.parseDouble(field_integration.getText().trim()) < 0 || Double.parseDouble(field_integration.getText().trim()) > 100) {
-                throw new InputFormatException("The integration weight is not within 0-100");
+
+            if (!InputValidator.checkEmptyString(field_integration.getText().trim(), InputType.EMPTY_STRING)) {
+                if (Double.parseDouble(field_integration.getText().trim()) < 0 || Double.parseDouble(field_integration.getText().trim()) > 100) {
+                    throw new InputFormatException("The integration weight is not within 0-100");
+                }
             }
 
             if(combo_baseline.getValue() == null || combo_baseline.getValue().trim().equals("")) {
