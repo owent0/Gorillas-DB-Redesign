@@ -42,7 +42,7 @@
             <Button fx:id="button_exit" maxHeight="-Infinity" mnemonicParsing="false" onAction="#exitProgram" prefHeight="25.0" prefWidth="135.0" text="Exit Program" />
          </children>
          <BorderPane.margin>
-            <Insets left="10.0" top="15.0" />
+            <Insets left="10.0" right="10.0" top="15.0" />
          </BorderPane.margin>
       </VBox>
    </left>
