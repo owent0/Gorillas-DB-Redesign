@@ -884,13 +884,13 @@ public class RequirementsController
 
         Document ddr_pdf_report = new Document();
 
-        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("ddr_pdf_report.pdf"));
+        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/PDF_Reports/ddr_pdf_report.pdf"));
         ddr_pdf_report.open();
 
-        // 18 columns in ReqData table
+        // create table w/18 columns in PDF to model ReqData table
         PdfPTable ddr_report_table = new PdfPTable(18);
 
-        // create a cell Object
+        // create a cell Object in PDF
         PdfPCell table_cell;
 
         // Retrieve data from ResultSet rs
