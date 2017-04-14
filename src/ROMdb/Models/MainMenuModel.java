@@ -1,5 +1,6 @@
 package ROMdb.Models;
 
+import ROMdb.Controllers.ChangeAdminPasswordController;
 import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.SCICRController;
@@ -28,6 +29,7 @@ public class MainMenuModel
     public static EstimationBaseController estimationBaseController;
     public static SCICRController sCICRController;
     public static LoginController loginController;
+    public static ChangeAdminPasswordController changeAdminPasswordController;
 
     public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
