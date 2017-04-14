@@ -4,12 +4,22 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchor_newBaseline" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="380.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddBaselineController">
    <children>
-      <TextField fx:id="field_addBaseline" layoutX="20.0" layoutY="222.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter baseline" />
-      <Button fx:id="button_cancelNewBaseline" layoutX="284.0" layoutY="222.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="76.0" text="Cancel" />
-      <Button fx:id="button_addNewBaseline" layoutX="200.0" layoutY="222.0" mnemonicParsing="false" onAction="#writeBaseline" prefHeight="25.0" prefWidth="76.0" text="Add" />
+      <TextField fx:id="field_addBaseline" layoutX="20.0" layoutY="222.0" prefHeight="25.0" prefWidth="171.0" promptText="Enter baseline">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font></TextField>
+      <Button fx:id="button_cancelNewBaseline" layoutX="284.0" layoutY="222.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="76.0" text="Cancel">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font></Button>
+      <Button fx:id="button_addNewBaseline" layoutX="200.0" layoutY="222.0" mnemonicParsing="false" onAction="#writeBaseline" prefHeight="25.0" prefWidth="76.0" text="Add">
+         <font>
+            <Font name="Times New Roman" size="12.0" />
+         </font></Button>
       <ListView fx:id="list_baselineList" layoutX="12.0" layoutY="13.0" prefHeight="200.0" prefWidth="356.0" />
    </children>
 </AnchorPane>

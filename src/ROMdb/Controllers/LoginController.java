@@ -40,7 +40,7 @@ public class LoginController {
                 LoginModel.isAdmin = false;
                 loginSuccess();
 
-            } else if(combo_username.getSelectionModel().getSelectedItem().equals("Admin") && passfield_password.getText().equals("")){
+            } else if(combo_username.getSelectionModel().getSelectedItem().equals("Admin") && passfield_password.getText().equals(LoginModel.getAdminPassword())){
 
                 LoginModel.isAdmin = true;
                 loginSuccess();

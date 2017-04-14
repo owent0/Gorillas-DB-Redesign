@@ -160,7 +160,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="110.0" VBox.vgrow="SOMETIMES">
                <children>
-                  <HBox style="-fx-border-color: grey;">
+                  <HBox alignment="CENTER" style="-fx-border-color: grey;">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>

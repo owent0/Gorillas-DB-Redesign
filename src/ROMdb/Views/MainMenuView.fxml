@@ -59,6 +59,7 @@
                <items>
                   <MenuItem fx:id="menuItem_createBaseline" disable="true" mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create Baseline" />
                   <MenuItem fx:id="menuItem_changeDatabasePath" mnemonicParsing="false" onAction="#changeDatabasePath" text="Change File Path" />
+                  <MenuItem fx:id="menuItem_changeAdminPassword" disable="true" mnemonicParsing="false" onAction="#viewChangeAdminPassword" text="Change Admin Password" />
                </items>
             </Menu>
         </menus>

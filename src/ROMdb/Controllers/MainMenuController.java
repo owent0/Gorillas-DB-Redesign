@@ -50,6 +50,7 @@ public class MainMenuController
     @FXML private Button button_estimationBase;
     @FXML private Button button_viewArchive;
     @FXML private MenuItem menuItem_createBaseline;
+    @FXML private MenuItem menuItem_changeAdminPassword;
     @FXML private ComboBox<String> combo_baseline;
 
     /**
@@ -72,6 +73,7 @@ public class MainMenuController
 
         if(LoginModel.isAdmin == true){
             menuItem_createBaseline.setDisable(false);
+            menuItem_changeAdminPassword.setDisable(false);
         }
     }
 
@@ -83,6 +85,7 @@ public class MainMenuController
         button_viewArchive.setDisable(true);
         combo_baseline.setDisable(true);
         menuItem_createBaseline.setDisable(true);
+        menuItem_changeAdminPassword.setDisable(true);
 
     }
 
@@ -223,6 +226,19 @@ public class MainMenuController
 
         }
 
+    }
+
+    @FXML
+    public void viewChangeAdminPassword() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/ChangeAdminPasswordView.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        stage.setTitle("Changing Administrator Password");
+        stage.setScene(new Scene(root));
+        //stage.setResizable(false);
+        stage.show();
     }
 
     /**
