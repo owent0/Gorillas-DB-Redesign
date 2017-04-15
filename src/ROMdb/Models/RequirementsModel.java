@@ -393,7 +393,6 @@ public class RequirementsModel
     }
 
     /**
-     * TODO - Jatin pull data for DDR pdf report
      *
      * Fills the table with the data from the database.
      * @throws SQLException If the query could not successfully complete.

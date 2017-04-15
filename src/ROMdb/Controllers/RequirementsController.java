@@ -4,6 +4,7 @@ import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import ROMdb.Reports.ReportGenerator;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -907,18 +908,47 @@ public class RequirementsController
     @FXML
     private void generatePDFddrTab() throws Exception
     {
-        ResultSet rs = RequirementsModel.getReqDataForDDRpdf();
-
         Document ddr_pdf_report = new Document();
 
-        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/PDF_Reports/ddr_pdf_report.pdf"));
+        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/PDF_Reports/ddr_pdf_report2.pdf"));
         ddr_pdf_report.open();
+
+        //ddr_pdf_report.addTitle("DDR Requirements");
+        ddr_pdf_report.add(addHeadertoPDF());
+        ddr_pdf_report.add(addDataContentToPDF());
+        ddr_pdf_report.close();
+
+
+    } // end generatePDFddrTab()
+
+    /**
+     *
+     */
+    private Paragraph addHeadertoPDF()
+    {
+        Paragraph headerContent = new Paragraph();
+        headerContent.add(new Paragraph("DDR Requirements Traceability Report - F100-S2"));
+
+        return headerContent;
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    private PdfPTable addDataContentToPDF() throws Exception
+    {
+        ResultSet rs = RequirementsModel.getReqDataForDDRpdf();
 
         // create table w/18 columns in PDF to model ReqData table
         PdfPTable ddr_report_table = new PdfPTable(18);
 
         // create a cell Object in PDF
         PdfPCell table_cell;
+
+        // headers for table
+        table_cell = new PdfPCell(new Paragraph());
 
         // Retrieve data from ResultSet rs
         // each iteration is retrieving data from a row
@@ -997,11 +1027,9 @@ public class RequirementsController
             ddr_report_table.addCell(table_cell);
         } // end while
 
-        ddr_pdf_report.add(ddr_report_table);
-        ddr_pdf_report.close();
         rs.close();
-
-    } // end generatePDFddrTab()
+        return ddr_report_table;
+    }
 
     /**************** END DDR TAB FUNCTIONALITY *************************/
 
