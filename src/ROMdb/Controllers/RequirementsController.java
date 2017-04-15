@@ -910,7 +910,7 @@ public class RequirementsController
     {
         Document ddr_pdf_report = new Document();
 
-        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/PDF_Reports/ddr_pdf_report2.pdf"));
+        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/Reports/ddr_pdf_report2.pdf"));
         ddr_pdf_report.open();
 
         //ddr_pdf_report.addTitle("DDR Requirements");
