@@ -622,22 +622,22 @@
                                              <content>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" text="One">
+                                                      <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" selected="true" text="One">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" text="Two">
+                                                      <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Two">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" text="Three">
+                                                      <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Three">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" text="Four" />
+                                                      <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four" />
                                                    </children>
                                                 </HBox>
                                              </content>
@@ -649,17 +649,17 @@
                                              <content>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <RadioButton fx:id="radio_groupFourWithPara" minWidth="55.0" mnemonicParsing="false" text="Four">
+                                                      <RadioButton fx:id="radio_groupFourWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="radio_groupFiveWithPara" minWidth="55.0" mnemonicParsing="false" text="Five">
+                                                      <RadioButton fx:id="radio_groupFiveWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="radio_groupSixWithPara" minWidth="55.0" mnemonicParsing="false" text="Six" />
+                                                      <RadioButton fx:id="radio_groupSixWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six" />
                                                    </children>
                                                 </HBox>
                                              </content>
@@ -679,16 +679,16 @@
                                                 <ListView fx:id="listview_choices" prefHeight="141.0" prefWidth="220.0" />
                                                 <VBox alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="button_add" minWidth="43.0" mnemonicParsing="false" text="&gt;">
+                                                      <Button fx:id="button_add" minWidth="43.0" mnemonicParsing="false" onAction="#addGroupItem" text="&gt;">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
                                                       </Button>
-                                                      <Button fx:id="button_remove" minWidth="43.0" mnemonicParsing="false" text="&lt;">
+                                                      <Button fx:id="button_remove" minWidth="43.0" mnemonicParsing="false" onAction="#removeGroupItem" text="&lt;">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin></Button>
-                                                      <Button fx:id="button_clearChoices" minWidth="43.0" mnemonicParsing="false" text="Clear" />
+                                                      <Button fx:id="button_clearChoices" minWidth="43.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Clear" />
                                                    </children>
                                                    <HBox.margin>
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

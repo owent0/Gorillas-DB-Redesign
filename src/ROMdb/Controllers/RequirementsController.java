@@ -38,6 +38,7 @@ import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 /**
  * Created by Team Gorillas
@@ -55,6 +56,11 @@ public class RequirementsController
     /* For use when keeping the combo boxes updated */
     private ObservableList individuals = FXCollections.observableArrayList();
     private ObservableList programs = FXCollections.observableArrayList();
+
+    /* For use with the list views on the Group Reports Tab */
+    private ObservableList<String> groupChoices = FXCollections.observableArrayList();
+    private ObservableList<String> groupSelection = FXCollections.observableArrayList();
+    private int currSelectCount = 0;
 
     public HashMap<String, ObservableList> observableFilterMap = null;
 
@@ -120,6 +126,24 @@ public class RequirementsController
     @FXML private ComboBox<?> combo_paragraphsSixr;
     /* End Paragraphs Tab Components */
 
+    /* Group Reports Tab Components */
+    @FXML private RadioButton radio_groupOne;
+    @FXML private RadioButton radio_groupTwo;
+    @FXML private RadioButton radio_groupThree;
+    @FXML private RadioButton radio_groupFour;
+    @FXML private RadioButton radio_groupFourWithPara;
+    @FXML private RadioButton radio_groupFiveWithPara;
+    @FXML private RadioButton radio_groupSixWithPara;
+
+    @FXML private Button button_add;
+    @FXML private Button button_remove;
+    @FXML private Button button_clearChoices;
+    @FXML private Button button_SLOCs;
+    @FXML private Button button_status;
+
+    @FXML private ListView<String> listview_choices;
+    @FXML private ListView<String> listview_selections;
+    /* End Group Reports Tab Components */
 
 
     @FXML private TableView<RequirementsRow> table_requirements;
@@ -196,6 +220,11 @@ public class RequirementsController
 
         // Reference the requirements controller.
         AddRequirementController.requirementsController = this;
+
+        /* Group Reports initial */
+        this.fillListView();
+        this.createRadioButtonToggleGroup();
+        /* ---------------------------------- */
     }
 
     /**
@@ -972,6 +1001,94 @@ public class RequirementsController
         rs.close();
 
     } // end generatePDFddrTab()
+
+    /**************** END DDR TAB FUNCTIONALITY *************************/
+
+
+    /**************** Begin GROUPS TAB FUNCTIONALITY ********************/
+
+    private void fillListView()
+    {
+        this.groupChoices.addAll(RequirementsModel.groupChoices);
+        this.listview_selections.setItems(groupSelection);
+
+        this.listview_choices.setItems(groupChoices);
+    }
+
+    private void createRadioButtonToggleGroup()
+    {
+        ToggleGroup group = new ToggleGroup();
+
+        this.radio_groupOne.setToggleGroup(group);
+        this.radio_groupTwo.setToggleGroup(group);
+        this.radio_groupThree.setToggleGroup(group);
+        this.radio_groupFour.setToggleGroup(group);
+        this.radio_groupFourWithPara.setToggleGroup(group);
+        this.radio_groupFiveWithPara.setToggleGroup(group);
+        this.radio_groupSixWithPara.setToggleGroup(group);
+    }
+
+    private int getCurrSelectLimit()
+    {
+        /* Used to retrieve toggle group. Radio button chosen randomly to achieve this. */
+        ToggleGroup group = this.radio_groupOne.getToggleGroup();
+        RadioButton currSelected = (RadioButton) group.getSelectedToggle();
+
+        int limit = 0;
+        switch (currSelected.getText())
+        {
+            case "One":     limit = 1; break;
+            case "Two":     limit = 2; break;
+            case "Three":   limit = 3; break;
+            case "Four":    limit = 4; break;
+            case "Five":    limit = 5; break;
+            case "Six":     limit = 6; break;
+            default:        break;
+        }
+
+        return limit;
+    }
+
+    @FXML
+    private void addGroupItem()
+    {
+        String selected = listview_choices.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+            return;
+
+        int limit = this.getCurrSelectLimit();
+
+        if (currSelectCount < limit)
+        {
+            this.groupChoices.remove(selected);
+            this.groupSelection.add(selected);
+            this.currSelectCount++;
+        }
+    }
+
+    @FXML
+    private void removeGroupItem()
+    {
+        String selected = listview_selections.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+            return;
+
+        this.groupChoices.add(selected);
+        this.groupSelection.remove(selected);
+        this.currSelectCount--;
+    }
+
+    @FXML
+    private void clearGroupItem()
+    {
+        this.groupChoices.clear();
+        this.groupSelection.clear();
+        this.groupChoices.addAll(RequirementsModel.groupChoices);
+        this.currSelectCount = 0;
+    }
+    /**************** END GROUPS TAB FUNCTIONALITY **********************/
 
 
 /**

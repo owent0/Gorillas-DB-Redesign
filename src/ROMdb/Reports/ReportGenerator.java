@@ -38,7 +38,6 @@ public class ReportGenerator {
 
         ReportGenerator.generateSLOCS(null, groups);
 
-
     }
 
     /**
