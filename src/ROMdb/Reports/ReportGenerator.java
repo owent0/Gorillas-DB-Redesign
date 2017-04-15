@@ -1,5 +1,6 @@
 package ROMdb.Reports;
 
+import ROMdb.Helpers.FileHandler;
 import ROMdb.Helpers.RequirementsRow;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Element;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
  * open source software iText.
  */
 public class ReportGenerator {
+
+    private static final FileHandler fileHandler = new FileHandler();
 
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
@@ -50,8 +53,10 @@ public class ReportGenerator {
     public static void generateSLOCS(ArrayList<RequirementsRow> reqItems, ArrayList<String> groups)
                                                     throws FileNotFoundException, DocumentException
     {
+        String path = fileHandler.getPathWithFileChooser();
+
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Anthony Orio/Desktop/Rowan/Software Engineering/Project/Desktoppic.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/Desktoppic.pdf"));
 
         if (groups.size() >= 4)
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());

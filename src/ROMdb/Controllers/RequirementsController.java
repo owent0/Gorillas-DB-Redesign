@@ -3,6 +3,7 @@ package ROMdb.Controllers;
 import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
+import ROMdb.Reports.ReportGenerator;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -1087,6 +1088,27 @@ public class RequirementsController
         this.groupSelection.clear();
         this.groupChoices.addAll(RequirementsModel.groupChoices);
         this.currSelectCount = 0;
+    }
+
+    @FXML
+    private void pressSLOCSButton()
+    {
+        try {
+            ArrayList groups = new ArrayList(listview_selections.getItems());
+
+            if (groups.size() == 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "There is group names selected.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else
+                ReportGenerator.generateSLOCS(null, groups);
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate SLOCs Add/Chg/Del Report.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
     /**************** END GROUPS TAB FUNCTIONALITY **********************/
 

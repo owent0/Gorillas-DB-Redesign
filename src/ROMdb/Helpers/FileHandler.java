@@ -1,6 +1,8 @@
 package ROMdb.Helpers;
 
 import javafx.stage.FileChooser;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.URISyntaxException;
 
@@ -122,5 +124,20 @@ public class FileHandler {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         return (selectedFile == null) ? null : selectedFile;
+    }
+
+    public String getPathWithFileChooser()
+    {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select location to save file.");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        chooser.showDialog(null, "Save");
+
+        String dir = chooser.getSelectedFile().getAbsolutePath();
+
+        return dir;
     }
 }

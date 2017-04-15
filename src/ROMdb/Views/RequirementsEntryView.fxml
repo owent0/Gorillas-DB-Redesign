@@ -704,7 +704,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" prefHeight="141.0" prefWidth="150.0">
                                        <children>
-                                          <Button fx:id="button_SLOCs" minHeight="30.0" minWidth="125.0" mnemonicParsing="false" text="SLOCs Add/Chg/Del">
+                                          <Button fx:id="button_SLOCs" minHeight="30.0" minWidth="125.0" mnemonicParsing="false" onAction="#pressSLOCSButton" text="SLOCs Add/Chg/Del">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
