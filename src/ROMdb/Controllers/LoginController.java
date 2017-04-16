@@ -6,30 +6,51 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+
 
 /**
  * Created by chrisrmckane on 4/11/17.
  */
 public class LoginController {
 
+    // The choices for login names to the system
     private ObservableList<String> options = FXCollections.observableArrayList("User", "Admin");
+
+    // GUI components for the LoginView
     @FXML private ComboBox combo_username;
     @FXML private PasswordField passfield_password;
     @FXML private Label label_loginmessage;
     @FXML private Button button_login;
-    @FXML private ImageView image_ASRC;
 
+    /**
+     * Initializes the login view components
+     */
     @FXML
     public void initialize(){
 
+        // Populates the combo box with pre-determined user names
         combo_username.setItems(options);
+
+        // Sets the combo box to 'User' by default
         combo_username.getSelectionModel().selectFirst();
+
         MainMenuModel.loginController = this;
 
     }
 
+    /**
+     * Method called when the login button is clicked. Checks to see which user is logging in.
+     *
+     * If 'User' is logging in LoginModel.isAdmin is set to false and then it calls loginSuccess()
+     * since no password is required.
+     *
+     * If 'Admin' is logging in then it also checks the password to see if it is correct.
+     * If the password is correct then LoginModel.isAdmin is set to true to flag that an admin
+     * has signed in. Then estimation base weights are enabled. Then loginSuccess() is called.
+     * If the admin password is incorrect and error message informs the user that the password
+     * or username is incorrect and gives them a chance to enter again.
+     */
     @FXML
     private void loginButtonClicked() {
 
@@ -40,12 +61,11 @@ public class LoginController {
                 LoginModel.isAdmin = false;
                 loginSuccess();
 
-            } else if(combo_username.getSelectionModel().getSelectedItem().equals("Admin") && passfield_password.getText().equals(LoginModel.getAdminPassword())){
+            } else if(combo_username.getSelectionModel().getSelectedItem().equals("Admin") && LoginModel.checkInputPassword(passfield_password.getText())) {
 
                 LoginModel.isAdmin = true;
-                loginSuccess();
-
                 LoginModel.estimationBaseController.enableWeights();
+                loginSuccess();
 
             } else {
 
@@ -55,7 +75,7 @@ public class LoginController {
 
             }
 
-        }catch(Exception e) {
+        }  catch(Exception e) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a username.", ButtonType.OK);
             alert.showAndWait();
@@ -63,6 +83,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * When login is successful LoginModel.isLoggedIn is set to true to flag that someone has logged in. The user is
+     * then welcomed and informed who they are logged in under. The combo box, password field and login buttons are
+     * then hidden. Then all of the main menu buttons are enabled for use of the program.
+     */
     private void loginSuccess() {
 
         LoginModel.isLoggedIn = true;
@@ -76,7 +101,10 @@ public class LoginController {
 
     }
 
-
+    /**
+     * When logout is successful the login message is hidden and the combo box, password field and login button
+     * are made visible.
+     */
     public void logoutSuccess() {
 
         label_loginmessage.setText("");
@@ -87,6 +115,9 @@ public class LoginController {
 
     }
 
+    /**
+     * This method makes a password field appear when the 'Admin' user is selected
+     */
     @FXML
     private void enablePasswordField() {
         if(combo_username.getSelectionModel().getSelectedItem().equals("Admin")) {

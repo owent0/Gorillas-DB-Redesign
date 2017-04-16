@@ -14,20 +14,16 @@ public class ChangeAdminPasswordController {
     @FXML private PasswordField passwordField_currentPass;
     @FXML private PasswordField passwordField_newPass;
     @FXML private PasswordField passwordField_confirmPass;
-    @FXML private Button button_changePass;
     @FXML private Button button_cancel;
 
+    /**
+     * Calls the changeAdminPassword in LoginModel from the ChangeAdminPasswordView
+     */
     @FXML
-    private void changeAdminPassword(){
+    private void changeAdminPassword() {
+
         LoginModel.changeAdminPassword(passwordField_currentPass.getText(), passwordField_newPass.getText(), passwordField_confirmPass.getText());
         closeScene();
-    }
-
-    public void clearPasswordFields() {
-
-        passwordField_currentPass.clear();
-        passwordField_newPass.clear();
-        passwordField_confirmPass.clear();
 
     }
 

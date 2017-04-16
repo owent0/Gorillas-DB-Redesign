@@ -63,32 +63,6 @@ public class MainMenuController
         LoginModel.mainMenuController = this;
     }
 
-    public void enableMenuButtons() {
-
-        button_SCICR.setDisable(false);
-        button_estimationBase.setDisable(false);
-        button_requirementsEntry.setDisable(false);
-        button_viewArchive.setDisable(false);
-        combo_baseline.setDisable(false);
-
-        if(LoginModel.isAdmin == true){
-            menuItem_createBaseline.setDisable(false);
-            menuItem_changeAdminPassword.setDisable(false);
-        }
-    }
-
-    public void disableMenuButtons() {
-
-        button_SCICR.setDisable(true);
-        button_estimationBase.setDisable(true);
-        button_requirementsEntry.setDisable(true);
-        button_viewArchive.setDisable(true);
-        combo_baseline.setDisable(true);
-        menuItem_createBaseline.setDisable(true);
-        menuItem_changeAdminPassword.setDisable(true);
-
-    }
-
     /**
      * Changes the currently selected baseline inside
      * of the combobox in each menu.
@@ -190,6 +164,10 @@ public class MainMenuController
         stage.show();
     }
 
+    /**
+     * Opens the archive window if a user selects the 'View Archive' button
+     * @throws IOException If I/O error occurs.
+     */
     @FXML
     public void viewArchive() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/ArchiveWindow.fxml"));
@@ -202,6 +180,10 @@ public class MainMenuController
         stage.show();
     }
 
+    /**
+     * This method gets called when the user selects 'Logout' from the File menu on the menu bar.
+     * When this method is called the system is set to a logged out state.
+     */
     @FXML
     public void systemLogout() {
 
@@ -228,6 +210,43 @@ public class MainMenuController
 
     }
 
+    /**
+     * Enables the buttons on the left side of the main menu
+     */
+    public void enableMenuButtons() {
+
+        button_SCICR.setDisable(false);
+        button_estimationBase.setDisable(false);
+        button_requirementsEntry.setDisable(false);
+        button_viewArchive.setDisable(false);
+        combo_baseline.setDisable(false);
+
+        if(LoginModel.isAdmin == true){
+            menuItem_createBaseline.setDisable(false);
+            menuItem_changeAdminPassword.setDisable(false);
+        }
+    }
+
+    /**
+     * Disables the buttons on the left side of the main menu
+     */
+    public void disableMenuButtons() {
+
+        button_SCICR.setDisable(true);
+        button_estimationBase.setDisable(true);
+        button_requirementsEntry.setDisable(true);
+        button_viewArchive.setDisable(true);
+        combo_baseline.setDisable(true);
+        menuItem_createBaseline.setDisable(true);
+        menuItem_changeAdminPassword.setDisable(true);
+
+    }
+
+    /**
+     * Opens the Change Admin Password window when the user selects the 'Change Admin Password' menu item in the
+     * file menu bar while logged in as an admin.
+     * @throws IOException If I/O error occurs.
+     */
     @FXML
     public void viewChangeAdminPassword() throws IOException {
 
@@ -235,7 +254,7 @@ public class MainMenuController
         Parent root = loader.load();
         Stage stage = new Stage();
 
-        stage.setTitle("Changing Administrator Password");
+        stage.setTitle("Changing Password");
         stage.setScene(new Scene(root));
         //stage.setResizable(false);
         stage.show();
