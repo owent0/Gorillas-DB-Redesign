@@ -1,6 +1,7 @@
 package ROMdb.Models;
 
 import ROMdb.Controllers.EstimationBaseController;
+import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.MainMenuController;
 import ROMdb.Driver.Main;
 import javafx.scene.control.Alert;
@@ -18,6 +19,7 @@ public class LoginModel {
     public static EstimationBaseController estimationBaseController;
     public static boolean isAdmin = false;
     public static boolean isLoggedIn = false;
+    public static boolean passMatches = false;
     private static StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     /**
@@ -91,8 +93,11 @@ public class LoginModel {
         try {
 
             if(checkInputPassword(oldPassword) && newAdminPassword.equals(confirmNewPassword)) {
+                passMatches = true;
                 writeAdminPasswordToDB(newAdminPassword);
             } else {
+                passMatches = false;
+
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Old or New Passwords do not match!", ButtonType.OK);
                 alert.showAndWait();
             }

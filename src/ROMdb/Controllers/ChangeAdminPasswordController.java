@@ -23,7 +23,14 @@ public class ChangeAdminPasswordController {
     private void changeAdminPassword() {
 
         LoginModel.changeAdminPassword(passwordField_currentPass.getText(), passwordField_newPass.getText(), passwordField_confirmPass.getText());
-        closeScene();
+
+        if(LoginModel.passMatches) {
+            closeScene();
+        } else {
+           passwordField_currentPass.clear();
+           passwordField_newPass.clear();
+           passwordField_confirmPass.clear();
+        }
 
     }
 
