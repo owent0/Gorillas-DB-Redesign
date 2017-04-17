@@ -37,11 +37,16 @@ public class RequirementsModel
     // The array list containing the filters.
     public static ArrayList<FilterItem> filters = null;
 
-    public final static String[] groupChoices = {    "SC/ICR", "CSC", "Capability", "Build",
+    public static final String[] groupChoices = {    "SC/ICR", "CSC", "Capability", "Build",
                                                         "Responsible Individual", "CPRS Function",
                                                         "Baseline", "Paragraph/Figure", "Program"
                                                     };
 
+    public static final String[] gridViewColumnHeadings = { "CSC", "CSU", "Door", "Para/Fig", "BL",
+                                                                "SC/ICR", "Cap", "Add", "Chg", "Del",
+                                                                "De sign Wt", "Code Wt", "Unit Test Wt", "Integ Wt",
+                                                                "Resp Indv", "Rom", "Prog"
+                                                            };
 
     public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
     {

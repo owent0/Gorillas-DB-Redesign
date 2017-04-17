@@ -905,25 +905,60 @@ public class RequirementsController
 
     /**************** BEGIN DDR TAB (TAB 9)FUNCTIONALITY ********************/
 
+
     @FXML
-    private void generatePDFddrTab() throws Exception
+    private void generateDDRPortraitPDF()
     {
+        try
+        {
+            ReportGenerator.generateDDR(false);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRreportPortrait.pdf\"",
+                    ButtonType.OK);
+            alert.showAndWait();
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait. Please close DDRreportPortrait.pdf",
+                    ButtonType.OK);
+            // e.printStackTrace();
+            alert.showAndWait();
+        }
+
+        /*
         Document ddr_pdf_report = new Document();
 
-        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/Reports/ddr_pdf_report2.pdf"));
+        PdfWriter.getInstance(ddr_pdf_report, new FileOutputStream("src/ROMdb/Reports/ddr_pdf_report.pdf"));
         ddr_pdf_report.open();
 
         //ddr_pdf_report.addTitle("DDR Requirements");
         ddr_pdf_report.add(addHeadertoPDF());
         ddr_pdf_report.add(addDataContentToPDF());
         ddr_pdf_report.close();
+        */
 
+    } // end generateDDRPortraitPDF()
 
-    } // end generatePDFddrTab()
+    @FXML
+    private void generateDDRLandscapePDF()
+    {
+        try
+        {
+            ReportGenerator.generateDDR(true);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRreportLandscape.pdf\"",
+                    ButtonType.OK);
+            alert.showAndWait();
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape. Please close DDRreportLandscape.pdf",
+                    ButtonType.OK);
+            // e.printStackTrace();
+            alert.showAndWait();
+        }
 
-    /**
-     *
-     */
+    }
+
+    /*
     private Paragraph addHeadertoPDF()
     {
         Paragraph headerContent = new Paragraph();
@@ -932,11 +967,6 @@ public class RequirementsController
         return headerContent;
     }
 
-    /**
-     *
-     * @return
-     * @throws Exception
-     */
     private PdfPTable addDataContentToPDF() throws Exception
     {
         ResultSet rs = RequirementsModel.getReqDataForDDRpdf();
@@ -1030,6 +1060,7 @@ public class RequirementsController
         rs.close();
         return ddr_report_table;
     }
+    */
 
     /**************** END DDR TAB FUNCTIONALITY *************************/
 

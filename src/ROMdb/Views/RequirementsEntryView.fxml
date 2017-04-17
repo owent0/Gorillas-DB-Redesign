@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -402,7 +402,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefWidth="290.0">
                                                    <children>
-                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" onAction="#generatePDFddrTab" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Portrait">
+                                                      <Button fx:id="button_tracePortrait" mnemonicParsing="false" onAction="#generateDDRPortraitPDF" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Portrait">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
@@ -418,7 +418,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" prefWidth="290.0">
                                                    <children>
-                                                      <Button fx:id="button_traceLandscape" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Landscape">
+                                                      <Button fx:id="button_traceLandscape" mnemonicParsing="false" onAction="#generateDDRLandscapePDF" prefHeight="50.0" prefWidth="175.0" text="DDR Traceability - Landscape">
                                                          <HBox.margin>
                                                             <Insets left="5.0" />
                                                          </HBox.margin>
