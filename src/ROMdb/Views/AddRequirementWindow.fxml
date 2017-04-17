@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
    <children>
       <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -21,6 +22,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_csc" minWidth="155.0" />
                      </children>
@@ -31,6 +35,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_csu" minWidth="155.0" />
                      </children>
@@ -41,8 +48,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_doors" minWidth="155.0" />
+                        <TextField fx:id="field_doors" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -51,8 +64,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_paragraph" minWidth="155.0" />
+                        <TextField fx:id="field_paragraph" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -61,6 +80,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_baseline" onAction="#changeSCICRToSelectedBaseline" prefWidth="155.0" />
                      </children>
@@ -71,6 +93,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_scicr" prefWidth="155.0" />
                      </children>
@@ -81,6 +106,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_capability" prefWidth="155.0" />
                      </children>
@@ -91,8 +119,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_added" minWidth="155.0" />
+                        <TextField fx:id="field_added" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -101,8 +135,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_changed" minWidth="155.0" />
+                        <TextField fx:id="field_changed" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                </children>
@@ -118,8 +158,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_deleted" minWidth="155.0" />
+                        <TextField fx:id="field_deleted" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -128,8 +174,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_design" minWidth="155.0" />
+                        <TextField fx:id="field_design" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -138,8 +190,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_code" minWidth="155.0" />
+                        <TextField fx:id="field_code" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -148,8 +206,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_unitTest" minWidth="155.0" />
+                        <TextField fx:id="field_unitTest" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -158,8 +222,14 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
-                        <TextField fx:id="field_integration" minWidth="155.0" />
+                        <TextField fx:id="field_integration" minWidth="155.0">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></TextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -168,6 +238,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_ri" prefWidth="155.0" />
                      </children>
@@ -178,6 +251,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_rommer" minWidth="155.0" />
                      </children>
@@ -188,6 +264,9 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Label>
                         <ComboBox fx:id="combo_program" prefWidth="155.0" />
                      </children>
@@ -197,13 +276,22 @@
                         <Button fx:id="button_save" alignment="CENTER" minWidth="57.0" mnemonicParsing="false" onAction="#createNewRequirementObject" prefHeight="27.0" prefWidth="57.0" text="Save" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="26.0" />
-                           </HBox.margin></Button>
+                           </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></Button>
                         <Button fx:id="button_cancel" minWidth="55.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="63.0" text="Cancel">
                            <HBox.margin>
                               <Insets right="27.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font>
                         </Button>
-                        <Button fx:id="button_saveNew" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#saveAndNewRequirements" prefHeight="27.0" prefWidth="109.0" text="Save and New" />
+                        <Button fx:id="button_saveNew" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#saveAndNewRequirements" prefHeight="27.0" prefWidth="109.0" text="Save and New">
+                           <font>
+                              <Font name="Times New Roman" size="13.0" />
+                           </font></Button>
                      </children>
                   </HBox>
                </children>
