@@ -595,7 +595,7 @@
                                                                   <Font name="Times New Roman" size="13.0" />
                                                                </font>
                                                             </RadioButton>
-                                                            <RadioButton fx:id="radio_groupFourWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
+                                                            <RadioButton fx:id="radio_groupFive" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
                                                                <HBox.margin>
                                                                   <Insets right="5.0" />
                                                                </HBox.margin>
@@ -603,15 +603,7 @@
                                                                   <Font name="Times New Roman" size="13.0" />
                                                                </font>
                                                             </RadioButton>
-                                                            <RadioButton fx:id="radio_groupFiveWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupSixWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
+                                                            <RadioButton fx:id="radio_groupSix" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
                                                                <font>
                                                                   <Font name="Times New Roman" size="13.0" />
                                                                </font>

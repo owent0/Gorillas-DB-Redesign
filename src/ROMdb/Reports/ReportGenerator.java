@@ -34,11 +34,7 @@ public class ReportGenerator
 
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-    //private static final String T = "   ";
-    //private static final String DT = "     ";
-    private static final String TT = "         ";
-    private static final String T = TT+TT+TT;
-    private static final String ADDCHGDEL = "Add" +TT+ "Chg" +TT+ "Del" +TT+ "Total";
+
 
     public static void main(String[] args) throws FileNotFoundException, DocumentException
     {
@@ -297,7 +293,7 @@ public class ReportGenerator
         /* Create title */
         Paragraph title = new Paragraph();
         title.setAlignment(Element.ALIGN_CENTER);
-        title.add(new Chunk("Add/Chg/Del SLOC's Summary\n\n", BOLD_TITLE));
+        title.add(new Chunk("D/C/T/I Status\n\n", BOLD_TITLE));
         document.add(title);
 
         /* Line separate */
@@ -318,10 +314,10 @@ public class ReportGenerator
 
         for (String key : partitions.keySet())
         {
-            document = addMasterTable(document, groups, partitions.get(key));
+            document = addMasterTable(document, groups, partitions.get(key), false);
 
             /* Add subtotal section */
-            document = addSubtotalSection(document, partitions.get(key), groups.size());
+            document = addSubtotalSection(document, partitions.get(key), groups.size(), false);
         }
 
 
@@ -333,7 +329,8 @@ public class ReportGenerator
         document.close();
     }
 
-    private static Document createDCTIColumnNames(Document doc, ArrayList<String> groups) throws DocumentException {
+    private static Document createDCTIColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
+    {
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
         outerTable.setWidthPercentage(100f);
@@ -342,7 +339,7 @@ public class ReportGenerator
         leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
         leftTable.setWidthPercentage(100f);
 
-        PdfPTable rightTable = new PdfPTable(5);
+        PdfPTable rightTable = new PdfPTable(4);
         rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.setWidthPercentage(100f);
 
@@ -355,7 +352,7 @@ public class ReportGenerator
             newCell.setHorizontalAlignment(Element.ALIGN_LEFT);
             leftTable.addCell(newCell);
         }
-        
+
         PdfPCell newCell = createTextCell("Design");
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
@@ -372,9 +369,9 @@ public class ReportGenerator
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
 
-        newCell = createTextCell("Total");
+        /*newCell = createTextCell("Total");
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        rightTable.addCell(newCell);
+        rightTable.addCell(newCell);*/
 
         outerTable.addCell( createNestedTableCell(leftTable) );
         outerTable.addCell( createNestedTableCell(rightTable) );
@@ -395,7 +392,7 @@ public class ReportGenerator
         String path = fileHandler.getPathWithFileChooser();
 
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCS Add/Chg/Del.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCSAddChgDel.pdf"));
 
         if (groups.size() >= 4)
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
@@ -430,10 +427,10 @@ public class ReportGenerator
 
         for (String key : partitions.keySet())
         {
-            document = addMasterTable(document, groups, partitions.get(key));
+            document = addMasterTable(document, groups, partitions.get(key), true);
 
             /* Add subtotal section */
-            document = addSubtotalSection(document, partitions.get(key), groups.size());
+            document = addSubtotalSection(document, partitions.get(key), groups.size(), true);
         }
 
 
@@ -513,7 +510,7 @@ public class ReportGenerator
     }
 
 
-    private static Document addMasterTable(Document doc, ArrayList<String> groups,  ArrayList<RequirementsRow> rows) throws DocumentException
+    private static Document addMasterTable(Document doc, ArrayList<String> groups,  ArrayList<RequirementsRow> rows, boolean isSlocs) throws DocumentException
     {
         int groupSize = groups.size();
         int rowCount = rows.size();
@@ -565,26 +562,52 @@ public class ReportGenerator
                 partitionTable.addCell(newCell);
             }
 
-            double add = rows.get(i).getAdd();
-            double chg = rows.get(i).getChange();
-            double del = rows.get(i).getDelete();
-            double tot = add + chg + del;
+            if (isSlocs)
+            {
+                double add = rows.get(i).getAdd();
+                double chg = rows.get(i).getChange();
+                double del = rows.get(i).getDelete();
+                double tot = add + chg + del;
 
-            PdfPCell tempCell = new PdfPCell( createTextCell(Double.toString(add)) );
-            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            subTable.addCell( tempCell );
+                PdfPCell tempCell = new PdfPCell(createTextCell(Double.toString(add)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
 
-            tempCell = new PdfPCell( createTextCell(Double.toString(chg)) );
-            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            subTable.addCell( tempCell );
+                tempCell = new PdfPCell(createTextCell(Double.toString(chg)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
 
-            tempCell = new PdfPCell( createTextCell(Double.toString(del)) );
-            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            subTable.addCell( tempCell );
+                tempCell = new PdfPCell(createTextCell(Double.toString(del)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
 
-            tempCell = new PdfPCell( createTextCell(Double.toString(tot)) );
-            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            subTable.addCell( tempCell );
+                tempCell = new PdfPCell(createTextCell(Double.toString(tot)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
+            }
+            else
+            {
+                double design = rows.get(i).getDesignWeight();
+                double code = rows.get(i).getCodeWeight();
+                double unit = rows.get(i).getUnitTestWeight();
+                double integ = rows.get(i).getIntegrationWeight();
+
+                PdfPCell tempCell = new PdfPCell(createTextCell(Double.toString(design)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
+
+                tempCell = new PdfPCell(createTextCell(Double.toString(code)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
+
+                tempCell = new PdfPCell(createTextCell(Double.toString(unit)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
+
+                tempCell = new PdfPCell(createTextCell(Double.toString(integ)));
+                tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                subTable.addCell(tempCell);
+            }
         }
 
         PdfPCell left = createNestedTableCell(partitionTable);
@@ -700,7 +723,7 @@ public class ReportGenerator
      * @return The document with the added subtotal section.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    private static Document addSubtotalSection(Document doc, ArrayList<RequirementsRow> partition, int groupSize) throws DocumentException {
+    private static Document addSubtotalSection(Document doc, ArrayList<RequirementsRow> partition, int groupSize, boolean isSlocs) throws DocumentException {
 
         LineSeparator ls = new LineSeparator(1f, 105f, BaseColor.BLACK, Element.ALIGN_CENTER, -10);
         doc.add(new Chunk((ls)));
@@ -726,7 +749,7 @@ public class ReportGenerator
 
 
 
-        double[] subs = calculateSubtotal(partition);
+        double[] subs = calculateSubtotal(partition, isSlocs);
 
         PdfPCell table_cell = new PdfPCell( new Phrase(Double.toString(subs[0]), BOLD_HEADERS));
         table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -759,7 +782,7 @@ public class ReportGenerator
      * @param partition The group of rows that will be calculated together.
      * @return An array containing the subtotals for each column.
      */
-    private static double[] calculateSubtotal(ArrayList<RequirementsRow> partition)
+    private static double[] calculateSubtotal(ArrayList<RequirementsRow> partition, boolean isSLOCS)
     {
         /* We have four columns. */
         double[] subs = new double[4];
@@ -769,12 +792,25 @@ public class ReportGenerator
         {
             RequirementsRow curr = partition.get(i);
 
-            /* Total is add, change and deleted added together.                     */
-            double total = curr.getAdd() + curr.getChange() + curr.getDelete();
-            subs[0] += curr.getAdd();                           /* Add subtotal     */
-            subs[1] += curr.getChange();                        /* Change subtotal  */
-            subs[2] += curr.getDelete();                        /* Delete subtotal  */
-            subs[3] += total;                                   /* Total subtotal   */
+            if (isSLOCS)
+            {
+                /* Total is add, change and deleted added together.                     */
+                double total = curr.getAdd() + curr.getChange() + curr.getDelete();
+                subs[0] += curr.getAdd();                           /* Add subtotal     */
+                subs[1] += curr.getChange();                        /* Change subtotal  */
+                subs[2] += curr.getDelete();                        /* Delete subtotal  */
+                subs[3] += total;                                   /* Total subtotal   */
+            }
+            else
+            {
+                /* Total is add, change and deleted added together.                     */
+                //double total = curr.getAdd() + curr.getChange() + curr.getDelete();
+                subs[0] += curr.getDesignWeight();                  /* Design subtotal      */
+                subs[1] += curr.getCodeWeight();                    /* Code subtotal        */
+                subs[2] += curr.getUnitTestWeight();                /* Unit Test subtotal   */
+                subs[3] += curr.getIntegrationWeight();             /* Integ. subtotal      */
+            }
+
         }
 
         return subs;

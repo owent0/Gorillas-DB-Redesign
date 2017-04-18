@@ -133,9 +133,8 @@ public class RequirementsController
     @FXML private RadioButton radio_groupTwo;
     @FXML private RadioButton radio_groupThree;
     @FXML private RadioButton radio_groupFour;
-    @FXML private RadioButton radio_groupFourWithPara;
-    @FXML private RadioButton radio_groupFiveWithPara;
-    @FXML private RadioButton radio_groupSixWithPara;
+    @FXML private RadioButton radio_groupFive;
+    @FXML private RadioButton radio_groupSix;
 
     @FXML private Button button_add;
     @FXML private Button button_remove;
@@ -227,6 +226,8 @@ public class RequirementsController
         this.fillListView();
         this.createRadioButtonToggleGroup();
         /* ---------------------------------- */
+
+        RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
     }
 
     /**
@@ -1089,9 +1090,8 @@ public class RequirementsController
         this.radio_groupTwo.setToggleGroup(group);
         this.radio_groupThree.setToggleGroup(group);
         this.radio_groupFour.setToggleGroup(group);
-        this.radio_groupFourWithPara.setToggleGroup(group);
-        this.radio_groupFiveWithPara.setToggleGroup(group);
-        this.radio_groupSixWithPara.setToggleGroup(group);
+        this.radio_groupFive.setToggleGroup(group);
+        this.radio_groupSix.setToggleGroup(group);
     }
 
     private int getCurrSelectLimit()
