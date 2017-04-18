@@ -1161,7 +1161,28 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateSLOCS( groups);
+                ReportGenerator.generateSLOCS(groups);
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate SLOCs Add/Chg/Del Report.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void pressDCTIButton()
+    {
+        try {
+            ArrayList groups = new ArrayList(listview_selections.getItems());
+
+            if (groups.size() == 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "There is group names selected.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else
+                ReportGenerator.generateDCTI(groups);
         }
         catch (Exception e)
         {

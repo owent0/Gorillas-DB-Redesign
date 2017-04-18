@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -908,7 +908,7 @@
                                                 <Font name="Times New Roman" size="13.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="button_status" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" text="D/C/T/I Status">
+                                          <Button fx:id="button_status" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#pressDCTIButton" text="D/C/T/I Status">
                                              <font>
                                                 <Font name="Times New Roman" size="13.0" />
                                              </font></Button>

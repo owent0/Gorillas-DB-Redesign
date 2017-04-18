@@ -278,6 +278,111 @@ public class ReportGenerator
     }
     */
 
+    public static void generateDCTI(ArrayList<String> groups) throws FileNotFoundException, DocumentException
+    {
+        String path = fileHandler.getPathWithFileChooser();
+
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DCTIStatus.pdf"));
+
+        if (groups.size() >= 4)
+            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+
+         /* Beginning creating the document. */
+        document.open();
+
+        /* Line separator */
+        document.add( defaultSeparator() );
+
+        /* Create title */
+        Paragraph title = new Paragraph();
+        title.setAlignment(Element.ALIGN_CENTER);
+        title.add(new Chunk("Add/Chg/Del SLOC's Summary\n\n", BOLD_TITLE));
+        document.add(title);
+
+        /* Line separate */
+        document.add( defaultSeparator() );
+
+        /* Column headings */
+        document = createDCTIColumnNames(document, groups);
+
+
+        /* Get the items to place onto the report. */
+        ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
+        //HashMap<String, ArrayList<RequirementsRow>> categories = sortByWhat(rows, groups.get(0));
+
+        //ArrayList<RequirementsRow> partition = new ArrayList<>();
+
+
+        TreeMap<String, ArrayList<RequirementsRow>> partitions = sortByWhat(rows, groups.get(0));
+
+        for (String key : partitions.keySet())
+        {
+            document = addMasterTable(document, groups, partitions.get(key));
+
+            /* Add subtotal section */
+            document = addSubtotalSection(document, partitions.get(key), groups.size());
+        }
+
+
+        /*document = addMasterTable(document, groups, rows);
+
+            *//* Add subtotal section *//*
+        document = addSubtotalSection(document, rows, groups.size());*/
+
+        document.close();
+    }
+
+    private static Document createDCTIColumnNames(Document doc, ArrayList<String> groups) throws DocumentException {
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidthPercentage(100f);
+
+        PdfPTable leftTable = new PdfPTable(groups.size());
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+        leftTable.setWidthPercentage(100f);
+
+        PdfPTable rightTable = new PdfPTable(5);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.setWidthPercentage(100f);
+
+        outerTable.setWidths( (groups.size() < 4) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        int size = groups.size();
+        for (int i = 0; i < size; i++)
+        {
+            PdfPCell newCell = createTextCell(groups.get(i));
+            newCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            leftTable.addCell(newCell);
+        }
+        
+        PdfPCell newCell = createTextCell("Design");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Code");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Unit Test");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Integration");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Total");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        outerTable.addCell( createNestedTableCell(leftTable) );
+        outerTable.addCell( createNestedTableCell(rightTable) );
+        doc.add(outerTable);
+
+        return doc;
+    }
+
     /**
      * Generates the SLOCS report for groups 1, 2, 3 and 4.
      * @param groups The group(s) that will be on the used as columns.
@@ -290,7 +395,7 @@ public class ReportGenerator
         String path = fileHandler.getPathWithFileChooser();
 
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/Desktoppic.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCS Add/Chg/Del.pdf"));
 
         if (groups.size() >= 4)
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
@@ -311,7 +416,7 @@ public class ReportGenerator
         document.add( defaultSeparator() );
 
         /* Column headings */
-        document = createColumnNames(document, groups);
+        document = createSLOCColumnNames(document, groups);
 
 
         /* Get the items to place onto the report. */
@@ -348,7 +453,7 @@ public class ReportGenerator
      * @return The document with the column names.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    private static Document createColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
+    private static Document createSLOCColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
     {
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
