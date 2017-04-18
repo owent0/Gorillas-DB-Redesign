@@ -26,7 +26,6 @@ public class AddSCICRController {
     @FXML private Button button_cancel;
 
 
-
     @FXML
     public void initialize()
     {

@@ -57,6 +57,19 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER">
                                                    <children>
+                                                      <Label text="Build:">
+                                                         <font>
+                                                            <Font name="Times New Roman" size="13.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <ComboBox fx:id="combo_build" maxWidth="250.0" prefHeight="25.0" prefWidth="150.0" />
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <VBox alignment="CENTER">
+                                                   <children>
                                                       <Label text="SC/ICR:">
                                                          <VBox.margin>
                                                             <Insets />
@@ -121,26 +134,6 @@
                                                       <Insets left="5.0" right="5.0" />
                                                    </HBox.margin>
                                                 </VBox>
-                                                <VBox alignment="CENTER" layoutX="31.0" layoutY="10.0">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="57.0" text="Capability">
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <ComboBox fx:id="combo_capability" maxWidth="250.0" prefHeight="25.0" prefWidth="150.0">
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </ComboBox>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" right="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
                                                 <VBox alignment="CENTER">
                                                    <children>
                                                       <Button fx:id="button_archive" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#archiveSelected" prefHeight="25.0" prefWidth="90.0" text="Archive">
@@ -171,6 +164,26 @@
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="55.0" prefWidth="970.0" VBox.vgrow="ALWAYS">
                                              <children>
+                                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label prefHeight="17.0" prefWidth="57.0" text="Capability">
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                         <font>
+                                                            <Font name="Times New Roman" size="13.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <ComboBox fx:id="combo_capability" maxWidth="250.0" prefHeight="25.0" prefWidth="150.0">
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </ComboBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </VBox>
                                                 <VBox alignment="CENTER" prefHeight="42.0" prefWidth="150.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <Label text="CSC:">
@@ -535,241 +548,6 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Groups">
-                     <content>
-                        <BorderPane prefHeight="150.0" prefWidth="1000.0">
-                           <center>
-                              <StackPane>
-                                 <children>
-                                    <HBox alignment="TOP_CENTER" StackPane.alignment="CENTER">
-                                       <children>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label alignment="CENTER" text="One Group">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_groupsOneGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_groupsOneGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_groupsOne" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Two Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_groupsTwoGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_groupsTwoGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_groupsTwo" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Three Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_groupsThreeGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_groupsThreeGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_groupsThree" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Four Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_groupsFourGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_groupsFourGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_groupsFour" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </StackPane>
-                           </center>
-                        </BorderPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Paragraphs">
-                     <content>
-                        <BorderPane prefHeight="150.0" prefWidth="1000.0">
-                           <center>
-                              <StackPane BorderPane.alignment="CENTER">
-                                 <children>
-                                    <HBox alignment="TOP_CENTER" StackPane.alignment="CENTER">
-                                       <children>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label alignment="CENTER" text="Four Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_paragraphsFourGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_paragraphsFourGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_paragraphsFour" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Five Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_paragraphsFiveGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_paragraphsFiveGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_paragraphsFive" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Six Groups">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Button fx:id="button_paragraphsSixGroupSlocs" mnemonicParsing="false" prefWidth="150.0" text="SLOCs Add/Chg/Del">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="button_paragraphsSixGroupStatus" mnemonicParsing="false" prefWidth="150.0" text="D/C/T/I Status">
-                                                   <VBox.margin>
-                                                      <Insets bottom="10.0" />
-                                                   </VBox.margin>
-                                                   <font>
-                                                      <Font name="Times New Roman" size="13.0" />
-                                                   </font>
-                                                </Button>
-                                                <ComboBox fx:id="combo_paragraphsSix" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </StackPane>
-                           </center>
-                        </BorderPane>
-                     </content>
-                  </Tab>
                   <Tab text="Group Reports">
                      <content>
                         <StackPane>
@@ -780,72 +558,68 @@
                                        <children>
                                           <TitledPane collapsible="false" text="Group Size">
                                              <content>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                <VBox>
                                                    <children>
-                                                      <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" selected="true" text="One">
-                                                         <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Two">
-                                                         <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Three">
-                                                         <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font></RadioButton>
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" selected="true" text="One">
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Two">
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Three">
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="radio_groupFourWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="radio_groupFiveWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="radio_groupSixWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
+                                                               <font>
+                                                                  <Font name="Times New Roman" size="13.0" />
+                                                               </font>
+                                                            </RadioButton>
+                                                         </children>
+                                                      </HBox>
                                                    </children>
-                                                </HBox>
-                                             </content>
-                                             <VBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Times New Roman" size="13.0" />
-                                             </font>
-                                          </TitledPane>
-                                          <TitledPane collapsible="false" text="Group Size With Paragraph">
-                                             <content>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <RadioButton fx:id="radio_groupFourWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
-                                                         <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="radio_groupFiveWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
-                                                         <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="radio_groupSixWithPara" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font></RadioButton>
-                                                   </children>
-                                                </HBox>
+                                                </VBox>
                                              </content>
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
@@ -934,6 +708,7 @@
                   <TableColumn fx:id="tableColumn_doorsID" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Doors ID" />
                   <TableColumn fx:id="tableColumn_paragraph" onEditCommit="#saveRowEditChanges" prefWidth="145.0" text="Paragraph/Figure" />
                   <TableColumn fx:id="tableColumn_baseline" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="Baseline" />
+                  <TableColumn fx:id="tableColumn_build" prefWidth="100.0" text="Build" />
                   <TableColumn fx:id="tableColumn_scicr" editable="false" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="SC/ICR" />
                   <TableColumn fx:id="tableColumn_capability" onEditCommit="#saveRowEditChanges" prefWidth="100.0" text="Capability" />
                   <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Added" />
