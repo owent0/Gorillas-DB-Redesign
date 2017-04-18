@@ -11,10 +11,14 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import com.itextpdf.text.Font;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 /**
  * Team Gorillas
@@ -30,7 +34,7 @@ public class ReportGenerator
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
     //private static final String T = "   ";
-    private static final String DT = "     ";
+    //private static final String DT = "     ";
     private static final String TT = "         ";
     private static final String T = TT+TT+TT;
     private static final String ADDCHGDEL = "Add" +TT+ "Chg" +TT+ "Del" +TT+ "Total";
@@ -44,7 +48,7 @@ public class ReportGenerator
         groups.add("Heading 4");
 
         // ReportGenerator.generateDDR(false);
-        ReportGenerator.generateSLOCS(null, groups);
+        ReportGenerator.generateSLOCS(groups);
 
     }
 
@@ -275,12 +279,11 @@ public class ReportGenerator
 
     /**
      * Generates the SLOCS report for groups 1, 2, 3 and 4.
-     * @param reqItems The requirements that will be on the report.
      * @param groups The group(s) that will be on the used as columns.
      * @throws FileNotFoundException If the file cannot be located and written to.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    public static void generateSLOCS(ArrayList<RequirementsRow> reqItems, ArrayList<String> groups)
+    public static void generateSLOCS(ArrayList<String> groups)
                                                     throws FileNotFoundException, DocumentException
     {
         String path = fileHandler.getPathWithFileChooser();
@@ -309,11 +312,71 @@ public class ReportGenerator
         /* Column headings */
         document = createColumnNames(document, groups);
 
+
+        /* Get the items to place onto the report. */
+        ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
+        //HashMap<String, ArrayList<RequirementsRow>> categories = sortByWhat(rows, groups.get(0));
+
+        //ArrayList<RequirementsRow> partition = new ArrayList<>();
+
+
+
+
+
+
+        document = addMasterTable(document, groups, rows);
+
+
         /* Add subtotal section */
-        document = addSubtotalSection(document, null);
+        document = addSubtotalSection(document, rows, groups.size());
 
         document.close();
     }
+
+   /* private static HashMap<String, ArrayList<RequirementsRow>> sortByWhat(ArrayList<RequirementsRow> rows, String sortByThis)
+    {
+        TreeSet<String> categories = new TreeSet<>();
+        HashMap<String, ArrayList<RequirementsRow>> map = new HashMap<>();
+        int size = rows.size();
+
+        ArrayList<RequirementsRow> temp = new ArrayList<>();
+        switch (sortByThis)
+        {
+            case "SC/ICR":
+
+                break;
+
+            case "CSC":
+                break;
+
+            case "CSU":
+                break;
+
+            case "Capability":
+                break;
+
+            //case "Build":                   break;
+
+            case "Responsible Individual":
+                break;
+
+            //case "CPRS Function":           break;
+
+            case "Baseline":
+                break;
+
+            case "Paragraph/Figure":
+                break;
+
+            case "Program":
+                break;
+
+            default:
+                break;
+        }
+
+        return map;
+    }*/
 
     /**
      *
@@ -324,35 +387,48 @@ public class ReportGenerator
      */
     private static Document createColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
     {
-        Paragraph headers = new Paragraph();
-        headers.setFont(BOLD_HEADERS);
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidthPercentage(100f);
 
-        /* We need to format based on how many groups are chosen. */
-        switch (groups.size())
+        PdfPTable leftTable = new PdfPTable(groups.size());
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+        leftTable.setWidthPercentage(100f);
+
+        PdfPTable rightTable = new PdfPTable(4);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.setWidthPercentage(100f);
+
+        outerTable.setWidths( (groups.size() < 4) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        int size = groups.size();
+        for (int i = 0; i < size; i++)
         {
-            case 1: headers.add( new Chunk(groups.get(0)) );
-                    break;
-            case 2: headers.add( new Chunk(groups.get(0) +T+ groups.get(1)) );
-                    break;
-            case 3: headers.add( new Chunk(groups.get(0) +T+ groups.get(1) +T+ groups.get(2)) );
-                    break;
-            case 4: headers.add( new Chunk(groups.get(0) +T+ groups.get(1) +T+ groups.get(2) +T+ groups.get(3)) );
-                    break;
-            case 5:
-                    break;
-            case 6:
-                    break;
-
+            PdfPCell newCell = createTextCell(groups.get(i));
+            newCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            leftTable.addCell(newCell);
         }
 
-        // This will let us "glue" add/chg/del onto the right hand side.
-        Chunk glue = new Chunk(new VerticalPositionMark());
 
-        // Add glue and place add/chg/del.
-        headers.add(new Chunk(glue));
-        headers.add(ADDCHGDEL);
+        PdfPCell newCell = createTextCell("Add");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
 
-        doc.add(headers);
+        newCell = createTextCell("Chg");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Del");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Total");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        outerTable.addCell( createNestedTableCell(leftTable) );
+        outerTable.addCell( createNestedTableCell(rightTable) );
+        doc.add(outerTable);
 
         return doc;
     }
@@ -368,50 +444,150 @@ public class ReportGenerator
         return new Chunk(ls);
     }
 
+
+    private static Document addMasterTable(Document doc, ArrayList<String> groups,  ArrayList<RequirementsRow> rows) throws DocumentException
+    {
+        int groupSize = groups.size();
+        int rowCount = rows.size();
+
+        PdfPTable masterTable = new PdfPTable(2);
+        masterTable.setWidthPercentage(100f);
+        masterTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        masterTable.setWidths( (groupSize < 4) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        /* Initialize the table with a left alignment. */
+        PdfPTable partitionTable = new PdfPTable(groupSize);
+        partitionTable.setWidthPercentage(100f);
+        partitionTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+        PdfPTable subTable = new PdfPTable(4);
+        subTable.setWidthPercentage(100f);
+        subTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            RequirementsRow curr = rows.get(i);
+
+
+            for (int ii = 0; ii < groupSize; ii++)
+            {
+                String item = "";
+
+                switch (groups.get(ii))
+                {
+                    case "SC/ICR":                  item = curr.getScicr(); break;
+                    case "CSC":                     item = curr.getCsc();   break;
+                    case "CSU":                     item = curr.getCsu();   break;
+                    case "Capability":              item = curr.getCapability(); break;
+                    //case "Build":                   break;
+                    case "Responsible Individual":  item = curr.getRi(); break;
+                    //case "CPRS Function":           break;
+                    case "Baseline":                item = curr.getBaseline(); break;
+                    case "Paragraph/Figure":        item = curr.getParagraph(); break;
+                    case "Program":                 item = curr.getProgram(); break;
+                    default:
+                        break;
+                }
+
+                PdfPCell newCell = createTextCell(item);
+                newCell.setBorder(Rectangle.NO_BORDER);
+                newCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                partitionTable.addCell(newCell);
+            }
+
+            double add = rows.get(i).getAdd();
+            double chg = rows.get(i).getChange();
+            double del = rows.get(i).getDelete();
+            double tot = add + chg + del;
+
+            PdfPCell tempCell = new PdfPCell( createTextCell(Double.toString(add)) );
+            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            subTable.addCell( tempCell );
+
+            tempCell = new PdfPCell( createTextCell(Double.toString(chg)) );
+            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            subTable.addCell( tempCell );
+
+            tempCell = new PdfPCell( createTextCell(Double.toString(del)) );
+            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            subTable.addCell( tempCell );
+
+            tempCell = new PdfPCell( createTextCell(Double.toString(tot)) );
+            tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            subTable.addCell( tempCell );
+        }
+
+        PdfPCell left = createNestedTableCell(partitionTable);
+        PdfPCell right = createNestedTableCell(subTable);
+        //left.setBorder(Rectangle.NO_BORDER);
+        left.setHorizontalAlignment(Element.ALIGN_LEFT);
+        right.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+        masterTable.addCell(left);
+        masterTable.addCell(right);
+
+        doc.add(masterTable);
+
+        return doc;
+    }
+
     /**
      * Add the subtotal section to the document. A document may contain multiple subtotal sections
-     * depending on how many partitions exist.
+     * depending on how many partitions exist. The group of items the user is wanting to print is
+     * broken down into partitions based on the first group choice they choose.
      * @param doc The document to add the subtotal section to.
      * @param partition The group of rows that will be part of this subtotal section.
      * @return The document with the added subtotal section.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    private static Document addSubtotalSection(Document doc, ArrayList<RequirementsRow> partition) throws DocumentException {
+    private static Document addSubtotalSection(Document doc, ArrayList<RequirementsRow> partition, int groupSize) throws DocumentException {
 
         LineSeparator ls = new LineSeparator(1f, 105f, BaseColor.BLACK, Element.ALIGN_CENTER, -10);
         doc.add(new Chunk((ls)));
 
-        /* This table will contain the nested subtotal table and subtotal phrase */
-        PdfPTable wordsAndTable = new PdfPTable(2);
-        wordsAndTable.setWidthPercentage(50f);
-        wordsAndTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setWidthPercentage(100f);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidths( (groupSize < 4) ? new int[]{60, 35} : new int[]{40, 15} );
 
-        /* Add the phrase "Subtotal" to the wordsAndTable. */
-        PdfPCell textCell = createTextCell("Subtotal");
-        textCell.setBorder(Rectangle.NO_BORDER);
-        textCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        wordsAndTable.addCell( textCell );
+        /* Initialize the table with a left alignment. */
+        PdfPTable leftTable = new PdfPTable(4);
+        leftTable.setWidthPercentage(100f);
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-        /* The nested table that will contain the numbers return from calculateSubtotal. */
-        PdfPTable subTable = new PdfPTable(4);
-        subTable.setWidthPercentage(100f);
+        PdfPTable rightTable = new PdfPTable(4);
+        rightTable.setWidthPercentage(100f);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-        /* Add the numbers to each of the subtotal columns. */
-        PdfPCell table_cell = new PdfPCell( new Phrase("Test", BOLD_HEADERS));
+
+        PdfPCell subCell = createTextCell("Subtotal");
+        subCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        outerTable.addCell(subCell);
+
+        double[] subs = calculateSubtotal(partition);
+
+        PdfPCell table_cell = new PdfPCell( new Phrase(Double.toString(subs[0]), BOLD_HEADERS));
         table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(table_cell);
 
-        subTable.addCell(table_cell);
-        subTable.addCell(table_cell);
-        subTable.addCell(table_cell);
-        subTable.addCell(table_cell);
+        table_cell = new PdfPCell( new Phrase(Double.toString(subs[1]), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(table_cell);
 
-        /* Nest the subtotal table inside of the wordsAndTable table. */
-        PdfPCell tableCell = createNestedTableCell(subTable);
-        tableCell.setBorder(Rectangle.NO_BORDER);
-        wordsAndTable.addCell( tableCell );
+        table_cell = new PdfPCell( new Phrase(Double.toString(subs[2]), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(table_cell);
 
-        doc.add(wordsAndTable);
+        table_cell = new PdfPCell( new Phrase(Double.toString(subs[3]), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(table_cell);
 
+
+        //outerTable.addCell( createNestedTableCell(leftTable) );
+        outerTable.addCell( createNestedTableCell(rightTable) );
+        doc.add(outerTable);
 
         ls = new LineSeparator(1f, 105f, BaseColor.BLACK, Element.ALIGN_CENTER, 10);
         doc.add(new Chunk((ls)));
@@ -485,6 +661,3 @@ public class ReportGenerator
     }
 }
 
-// 1) Separate by first name
-// 2) Partition.
-// 3) Generate subtotal section with partitions.

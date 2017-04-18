@@ -37,7 +37,7 @@ public class RequirementsModel
     // The array list containing the filters.
     public static ArrayList<FilterItem> filters = null;
 
-    public static final String[] groupChoices = {    "SC/ICR", "CSC", "Capability", "Build",
+    public static final String[] groupChoices = {    "SC/ICR", "CSC", "CSU", "Capability", "Build",
                                                         "Responsible Individual", "CPRS Function",
                                                         "Baseline", "Paragraph/Figure", "Program"
                                                     };
