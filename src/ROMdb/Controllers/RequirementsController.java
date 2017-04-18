@@ -1161,7 +1161,7 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateSLOCS(null, groups);
+                ReportGenerator.generateSLOCS( groups);
         }
         catch (Exception e)
         {
