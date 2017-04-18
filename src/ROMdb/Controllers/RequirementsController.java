@@ -424,6 +424,12 @@ public class RequirementsController
             @Override
             public void handle(ActionEvent event)
             {
+                try {
+                    RequirementsRow currRow = getSelectedRow();
+                } catch(Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could not copy requirements row.", ButtonType.OK);
+                    alert.showAndWait();
+                }
                 RequirementsRow currRow = getSelectedRow();
                 addNewRowWithDefaultsToJTable();
                 try {
