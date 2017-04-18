@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -320,63 +321,25 @@ public class ReportGenerator
         //ArrayList<RequirementsRow> partition = new ArrayList<>();
 
 
+        TreeMap<String, ArrayList<RequirementsRow>> partitions = sortByWhat(rows, groups.get(0));
+
+        for (String key : partitions.keySet())
+        {
+            document = addMasterTable(document, groups, partitions.get(key));
+
+            /* Add subtotal section */
+            document = addSubtotalSection(document, partitions.get(key), groups.size());
+        }
 
 
+        /*document = addMasterTable(document, groups, rows);
 
-
-        document = addMasterTable(document, groups, rows);
-
-
-        /* Add subtotal section */
-        document = addSubtotalSection(document, rows, groups.size());
+            *//* Add subtotal section *//*
+        document = addSubtotalSection(document, rows, groups.size());*/
 
         document.close();
     }
 
-   /* private static HashMap<String, ArrayList<RequirementsRow>> sortByWhat(ArrayList<RequirementsRow> rows, String sortByThis)
-    {
-        TreeSet<String> categories = new TreeSet<>();
-        HashMap<String, ArrayList<RequirementsRow>> map = new HashMap<>();
-        int size = rows.size();
-
-        ArrayList<RequirementsRow> temp = new ArrayList<>();
-        switch (sortByThis)
-        {
-            case "SC/ICR":
-
-                break;
-
-            case "CSC":
-                break;
-
-            case "CSU":
-                break;
-
-            case "Capability":
-                break;
-
-            //case "Build":                   break;
-
-            case "Responsible Individual":
-                break;
-
-            //case "CPRS Function":           break;
-
-            case "Baseline":
-                break;
-
-            case "Paragraph/Figure":
-                break;
-
-            case "Program":
-                break;
-
-            default:
-                break;
-        }
-
-        return map;
-    }*/
 
     /**
      *
@@ -533,6 +496,96 @@ public class ReportGenerator
         return doc;
     }
 
+    private static TreeMap<String, ArrayList<RequirementsRow>> sortByWhat(ArrayList<RequirementsRow> rows, String sortByThis)
+    {
+        TreeMap<String, ArrayList<RequirementsRow>> map = new TreeMap<>();
+        ArrayList<RequirementsRow> tempList = new ArrayList<>();
+
+        switch (sortByThis)
+        {
+            case "SC/ICR":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getScicr().equals(r.getScicr()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getScicr(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            case "CSC":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getCsc().equals(r.getCsc()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getCsc(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            case "CSU":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getCsu().equals(r.getCsu()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getCsu(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            case "Capability":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getCapability().equals(r.getCapability()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getCapability(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            //case "Build":
+            // break;
+            case "Responsible Individual":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getRi().equals(r.getRi()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getRi(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            //case "CPRS Function":
+            // break;
+            case "Baseline":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getBaseline().equals(r.getBaseline()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getBaseline(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            case "Paragraph/Figure":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getParagraph().equals(r.getParagraph()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getParagraph(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            case "Program":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getProgram().equals(r.getProgram()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getProgram(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
+            default:
+                break;
+        }
+
+        return map;
+    }
+
     /**
      * Add the subtotal section to the document. A document may contain multiple subtotal sections
      * depending on how many partitions exist. The group of items the user is wanting to print is
@@ -566,6 +619,8 @@ public class ReportGenerator
         subCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         outerTable.addCell(subCell);
 
+
+
         double[] subs = calculateSubtotal(partition);
 
         PdfPCell table_cell = new PdfPCell( new Phrase(Double.toString(subs[0]), BOLD_HEADERS));
@@ -583,7 +638,6 @@ public class ReportGenerator
         table_cell = new PdfPCell( new Phrase(Double.toString(subs[3]), BOLD_HEADERS));
         table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(table_cell);
-
 
         //outerTable.addCell( createNestedTableCell(leftTable) );
         outerTable.addCell( createNestedTableCell(rightTable) );
