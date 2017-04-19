@@ -256,6 +256,10 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
         st.executeUpdate();
     }
 
+    /**
+     * Getter for the list of rows currently in memory in the archive.
+     * @return The ObservableList of rows.
+     */
     public ObservableList<RequirementsRow> getRows() {
         return rows;
     }
