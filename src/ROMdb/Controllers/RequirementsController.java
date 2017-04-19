@@ -92,8 +92,8 @@ public class RequirementsController
     /* End complete tab components                          */
 
     /* Header / Footer Tab Components */
-    @FXML private TextField field_header;
-    @FXML private TextField field_footer;
+    //@FXML private TextField field_header;
+    //@FXML private TextField field_footer;
     /* End Header / Footer Tab Components */
 
     /* DDR Tab Components */
