@@ -2,7 +2,6 @@ package ROMdb.Controllers;
 
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Helpers.SCICRRow;
-import ROMdb.Models.AddSCICRModel;
 import ROMdb.Models.RequirementsModel;
 import ROMdb.Models.SCICRModel;
 import javafx.collections.FXCollections;
@@ -11,11 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
+ * The controller that controls the Archive component and handles
+ * the ArchiveModel.
+ *
  * Created by Anthony Orio on 4/10/2017.
  */
 public class ArchiveController {
@@ -58,9 +58,13 @@ public class ArchiveController {
     @FXML private TableColumn tableColumn_reqProgram;
     @FXML private TableColumn tableColumn_reqBuild;
 
+    /**
+     * Initialize is called each time the program runs.
+     */
     @FXML
     public void initialize()
     {
+
         table_scicrArchive.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table_requirementsArchive.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -69,15 +73,24 @@ public class ArchiveController {
         this.fillRequirementsTable();
     }
 
+    /**
+     * Moves the selected rows from the archive back to the editable tables.
+     * @throws Exception
+     */
     @FXML
-    private void restoreSelected() throws Exception {
+    private void restoreSelected() throws Exception
+    {
+        /* If its the SC/ICR tab. */
         if(tab_scicr.isSelected())
         {
+            /* Create a list from the selected rows. */
             ObservableList<SCICRRow> rows = table_scicrArchive.getSelectionModel().getSelectedItems();
-            rows.get(0);
+            rows.get(0); // We must do this to avoid a notorious javaFX bug.
 
+            /* Convert it to an array list. */
             ArrayList<SCICRRow> list = new ArrayList<>(rows);
 
+            /* Loop until the end of the list. */
             int size = list.size();
             for (int i = 0; i < size; i++) {
                 SCICRRow temp = list.get(i);
@@ -85,17 +98,23 @@ public class ArchiveController {
                 table_scicrArchive.getItems().remove(temp);
             }
 
+            /* Bring it back to an ObservableList. */
             rows = FXCollections.observableList(list);
+
+            /* Remove the list of rows from the archive table. */
             SCICRModel.archive.removeListOfRecords(rows);
 
         }
+        /* If its a Requirements row.*/
         else
         {
+            /* Set up the list from the selected rows in the table view.*/
             ObservableList<RequirementsRow> rows = table_requirementsArchive.getSelectionModel().getSelectedItems();
-            rows.get(0);
+            rows.get(0); // Avoids a JavaFX null pointer bug.
 
             ArrayList<RequirementsRow> list = new ArrayList<>(rows);
 
+            /* Loop until end. */
             int size = list.size();
             for (int i = 0; i < size; i++) {
                 RequirementsRow temp = list.get(i);
@@ -105,40 +124,28 @@ public class ArchiveController {
 
             rows = FXCollections.observableList(list);
             RequirementsModel.archive.removeListOfRecords(rows);
-
-            /*ObservableList<RequirementsRow> rows = table_requirementsArchive.getItems();
-            ObservableList<Integer> indicies = table_requirementsArchive.getSelectionModel().getSelectedIndices();
-            ObservableList<RequirementsRow> rowsToRestore = FXCollections.observableArrayList();
-
-            int size = indicies.size();
-            for (int i = 0; i < size; i++) {
-                rowsToRestore.add(rows.get(indicies.get(i)));
-            }
-
-            ArrayList<RequirementsRow> list = new ArrayList<>(rowsToRestore);
-
-            size = list.size();
-            for (int i = 0; i < size; i++) {
-                RequirementsRow temp = list.get(i);
-                RequirementsModel.allReqData.add(temp);
-                table_requirementsArchive.getItems().remove(temp);
-            }
-
-            rowsToRestore = FXCollections.observableList(list);
-            RequirementsModel.archive.removeListOfRecords(rowsToRestore);*/
         }
     }
 
+    /**
+     * Fills the SC/ICR table view in the archive.
+     */
     private void fillSCICRTable()
     {
         table_scicrArchive.setItems(SCICRModel.archive.getRows());
     }
 
+    /**
+     * Fills the Requirements table view in the archive.
+     */
     private void fillRequirementsTable()
     {
         table_requirementsArchive.setItems(RequirementsModel.archive.getRows());
     }
 
+    /**
+     * Creates the cell factories for each column inside of the table views.
+     */
     private void createCellFactories()
     {
         tableColumn_date.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
