@@ -66,7 +66,7 @@
                               <TableColumn fx:id="tableColumn_reqDoors" prefWidth="145.0" text="Doors ID" />
                               <TableColumn fx:id="tableColumn_reqParagraph" prefWidth="145.0" text="Paragraph/Figure" />
                               <TableColumn fx:id="tableColumn_reqBaseline" prefWidth="100.0" text="Baseline" />
-                              <TableColumn fx:id="tableColumn_reqBuild" prefWidth="100.0" text="Column X" />
+                              <TableColumn fx:id="tableColumn_reqBuild" prefWidth="100.0" text="Build" />
                               <TableColumn fx:id="tableColumn_reqSCICR" prefWidth="100.0" text="SC/ICR" />
                               <TableColumn fx:id="tableColumn_reqCapability" prefWidth="100.0" text="Capability" />
                               <TableColumn fx:id="tableColumn_reqAdded" prefWidth="75.0" text="# Added" />

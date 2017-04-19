@@ -10,6 +10,8 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.Font;
 import javafx.collections.ObservableList;
+import sun.reflect.generics.tree.Tree;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -29,13 +31,257 @@ public class ReportGenerator
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
+
+
+    public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException {
+        /* Use a file chooser to find the path. */
+        String path = fileHandler.getPathWithFileChooser();
+
+        /* Instantiate document and its location. */
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DDRReq.pdf"));
+
+        /* Change to landscape if there are more than four group selections. */
+        if (isLandscape)
+            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+
+         /* Beginning creating the document. */
+        document.open();
+
+        /* Line separator */
+        document.add( defaultSeparator() );
+
+        /* Create title */
+        Paragraph title = new Paragraph();
+        title.setAlignment(Element.ALIGN_CENTER);
+        title.add(new Chunk("DDR Requirements Traceability Report\n\n", BOLD_TITLE));
+        document.add(title);
+
+        /* Line separate */
+        document.add( defaultSeparator() );
+
+        /* Column headings */
+        document = addDDRHeaders(document, isLandscape);
+
+        ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
+        document = addReqRows(document, rows, isLandscape);
+
+        /* Get the items to place onto the report. */
+        /*ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
+
+        *//* Let's sort based on the first group chosen. *//*
+        TreeMap<String, ArrayList<RequirementsRow>> partitions = sortByWhat(rows, groups.get(0));
+
+        *//* For each list associated in the hash map. *//*
+        for (String key : partitions.keySet())
+        {
+            *//* Add the partion table. *//*
+            document = addPartitionTable(document, groups, partitions.get(key), false);
+
+            *//* Add subtotal section *//*
+            document = addSubtotalSection(document, partitions.get(key), groups.size(), false);
+        }
+*/
+        /* Done writing to PDF. */
+        document.close();
+    }
+
+    public static Document addDDRHeaders(Document doc, boolean isLandscape) throws DocumentException
+    {
+        /* Outer table will consist of group headers on left and sub total headers on right. */
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidthPercentage(100f);
+
+        /* The left table with the group headers. */
+        PdfPTable leftTable = new PdfPTable(5);
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+        leftTable.setWidthPercentage(100f);
+
+        /* The right table with design, code, unit test and integ weight. */
+        PdfPTable rightTable = new PdfPTable(4);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.setWidthPercentage(100f);
+
+        /* Set the width of the table based on the orientation of the document. */
+        outerTable.setWidths( (isLandscape) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        PdfPCell newCell = createTextCell("Build");
+        newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        leftTable.addCell(newCell);
+
+        newCell = createTextCell("Doors ID");
+        newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        leftTable.addCell(newCell);
+
+        newCell = createTextCell("CPRS Paragraph");
+        newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        leftTable.addCell(newCell);
+
+        newCell = createTextCell("CSC");
+        newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        leftTable.addCell(newCell);
+
+        newCell = createTextCell("CSU");
+        newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        leftTable.addCell(newCell);
+
+        /* Create the headers for the sub totals. */
+        newCell = createTextCell("Add");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Chg");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Del");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        newCell = createTextCell("Tot");
+        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.addCell(newCell);
+
+        /* Nest the left and right tables into the outer table. */
+        outerTable.addCell( createNestedTableCell(leftTable) );
+        outerTable.addCell( createNestedTableCell(rightTable) );
+        doc.add(outerTable);
+
+        return doc;
+    }
+
+    public static Document addReqRows(Document doc, ArrayList<RequirementsRow> rows, boolean isLandscape) throws DocumentException
+    {
+        /* Outer table will consist of group headers on left and sub total headers on right. */
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidthPercentage(100f);
+
+        /* The left table with the group headers. */
+        PdfPTable leftTable = new PdfPTable(5);
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+        leftTable.setWidthPercentage(100f);
+
+        /* The right table with design, code, unit test and integ weight. */
+        PdfPTable rightTable = new PdfPTable(3);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.setWidthPercentage(100f);
+
+        /* Set the width of the table based on the orientation of the document. */
+        outerTable.setWidths( (isLandscape) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        TreeMap<String, ArrayList<RequirementsRow>> partitions = partitionBySCICR(rows);
+        for (String key : partitions.keySet())
+        {
+            Phrase p = new Phrase(key);
+            p.setFont(BOLD_TITLE);
+            Paragraph par = new Paragraph(p);
+            par.setAlignment(Element.ALIGN_LEFT);
+            doc.add(par);
+
+            doc = writePartitions(doc, partitions.get(key), isLandscape);
+
+            int size = 0;
+            if (!isLandscape)
+                size = 5;
+
+            doc = addSubtotalSection(doc, partitions.get(key), size, true);
+        }
+
+        return doc;
+    }
+
+    public static Document writePartitions(Document doc, ArrayList<RequirementsRow> partition, boolean isLandscape) throws DocumentException
+    {
+        /* Outer table will consist of group headers on left and sub total headers on right. */
+        PdfPTable outerTable = new PdfPTable(2);
+        outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+        outerTable.setWidthPercentage(100f);
+
+        /* The left table with the group headers. */
+        PdfPTable leftTable = new PdfPTable(5);
+        leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+        leftTable.setWidthPercentage(100f);
+
+        /* The right table with design, code, unit test and integ weight. */
+        PdfPTable rightTable = new PdfPTable(4);
+        rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        rightTable.setWidthPercentage(100f);
+
+        outerTable.setWidths( (isLandscape) ? new int[]{60, 35} : new int[]{40, 15} );
+
+        for (RequirementsRow row : partition)
+        {
+            PdfPCell newCell = createTextCell(row.getBuild());
+            newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            leftTable.addCell(newCell);
+
+            newCell = createTextCell(row.getDoorsID());
+            newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            leftTable.addCell(newCell);
+
+            newCell = createTextCell(row.getParagraph());
+            newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            leftTable.addCell(newCell);
+
+            newCell = createTextCell(row.getCsc());
+            newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            leftTable.addCell(newCell);
+
+            newCell = createTextCell(row.getCsu());
+            newCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            leftTable.addCell(newCell);
+
+            newCell = createTextCell(Double.toString(row.getAdd()));
+            newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            rightTable.addCell(newCell);
+
+            newCell = createTextCell(Double.toString(row.getChange()));
+            newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            rightTable.addCell(newCell);
+
+            newCell = createTextCell(Double.toString(row.getDelete()));
+            newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            rightTable.addCell(newCell);
+
+            double tot = row.getAdd() + row.getChange() + row.getDelete();
+            newCell = createTextCell(Double.toString(tot));
+            newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            rightTable.addCell(newCell);
+        }
+
+        outerTable.addCell(leftTable);
+        outerTable.addCell(rightTable);
+        doc.add(outerTable);
+
+        return doc;
+    }
+
+    public static TreeMap<String, ArrayList<RequirementsRow>> partitionBySCICR(ArrayList<RequirementsRow> rows)
+    {
+        TreeMap<String, ArrayList<RequirementsRow>> map = new TreeMap<>();
+        ArrayList<RequirementsRow> tempList = new ArrayList<>();
+
+        for (RequirementsRow row : rows) {
+            for (RequirementsRow r : rows) {
+                if (row.getScicr().equals(r.getScicr()))
+                    tempList.add(r);
+            }
+            map.put(row.getScicr(), new ArrayList<>(tempList));
+            tempList.clear();
+        }
+
+        return map;
+    }
+
     /**
      *
      * @param isLandscape
      * @throws FileNotFoundException
      * @throws DocumentException
      */
-    public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
+    /*public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
     {
         String path = fileHandler.getPathWithFileChooser();
         String filename = "/DDRreportPortrait.pdf";
@@ -68,14 +314,14 @@ public class ReportGenerator
 
         document.close();
     }
-
+*/
     /**
      *
      * @param numColumns
      * @param columnHeadings
      * @return
      */
-    private static PdfPTable createColHeadingsForTable(int numColumns, String[] columnHeadings)
+    /*private static PdfPTable createColHeadingsForTable(int numColumns, String[] columnHeadings)
     {
         PdfPTable tableForColHeadings = new PdfPTable(numColumns);
         tableForColHeadings.setWidthPercentage(100);
@@ -112,7 +358,7 @@ public class ReportGenerator
         tableForSubTotals.addCell(table_cell);
 
         return tableForSubTotals;
-    }
+    }*/
 
     /**
      *
@@ -120,7 +366,7 @@ public class ReportGenerator
      * @return
      * @throws DocumentException
      */
-    private static Document populateReportFieldsFromListView(Document document) throws DocumentException
+    /*private static Document populateReportFieldsFromListView(Document document) throws DocumentException
     {
         // used to keep track of respective fields in gridView for Subtotals
         double add = 0.0;
@@ -291,7 +537,7 @@ public class ReportGenerator
         document.add(ddrReportTableForSubTotals);
 
         return document;
-    }
+    }*/
 
     /*
     * This was here to try and avoid DRY principle, but some need different alignment props,
