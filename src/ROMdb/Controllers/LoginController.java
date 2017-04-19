@@ -130,6 +130,7 @@ public class LoginController {
     /**
      * Used to place an initial password if the DBUser table has an error.
      * Change LoginView Login button to call this method. Sets password to ""
+     * which can later be changed in the program
      */
     @FXML
     private void callInitPassword() {
