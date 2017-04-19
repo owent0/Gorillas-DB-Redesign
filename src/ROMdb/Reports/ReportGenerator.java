@@ -20,7 +20,7 @@ import java.util.TreeMap;
 /**
  * Team Gorillas
  * Created by Anthony Orio on 4/13/2017.
- * Last Modified by Jatin Bhakta on 4/16/2017
+ * Last Modified by Jatin Bhakta on 4/19/2017
  * The purpose of this class is to generate the reports using the
  * open source software iText.
  */
@@ -32,8 +32,14 @@ public class ReportGenerator
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
 
-
-    public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException {
+    /**
+     * Generates the DDR report for portrait/landscape, lets user choose where to save it
+     * @param isLandscape true if the DDR report is to be in Landscape format
+     * @throws FileNotFoundException
+     * @throws DocumentException
+     */
+    public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
+    {
         /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
 
@@ -86,6 +92,13 @@ public class ReportGenerator
         document.close();
     }
 
+    /**
+     * Adds column headers to the DDR report
+     * @param doc the current document that are we making changes to
+     * @param isLandscape true if the report is to be in Landscape format
+     * @return
+     * @throws DocumentException
+     */
     public static Document addDDRHeaders(Document doc, boolean isLandscape) throws DocumentException
     {
         /* Outer table will consist of group headers on left and sub total headers on right. */
@@ -151,6 +164,14 @@ public class ReportGenerator
         return doc;
     }
 
+    /**
+     * Add req rows to the document
+     * @param doc the current document we are adding to
+     * @param rows the rows from the gridview
+     * @param isLandscape true if the report is to be in landscape format
+     * @return
+     * @throws DocumentException
+     */
     public static Document addReqRows(Document doc, ArrayList<RequirementsRow> rows, boolean isLandscape) throws DocumentException
     {
         /* Outer table will consist of group headers on left and sub total headers on right. */
@@ -192,6 +213,14 @@ public class ReportGenerator
         return doc;
     }
 
+    /**
+     *
+     * @param doc the current report we're working in
+     * @param partition rows from the gridview
+     * @param isLandscape true if the report is to be in Landscape format
+     * @return
+     * @throws DocumentException
+     */
     public static Document writePartitions(Document doc, ArrayList<RequirementsRow> partition, boolean isLandscape) throws DocumentException
     {
         /* Outer table will consist of group headers on left and sub total headers on right. */
@@ -258,6 +287,11 @@ public class ReportGenerator
         return doc;
     }
 
+    /**
+     *
+     * @param rows
+     * @return
+     */
     public static TreeMap<String, ArrayList<RequirementsRow>> partitionBySCICR(ArrayList<RequirementsRow> rows)
     {
         TreeMap<String, ArrayList<RequirementsRow>> map = new TreeMap<>();

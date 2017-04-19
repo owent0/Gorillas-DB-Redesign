@@ -919,19 +919,22 @@ public class RequirementsController
     /**************** BEGIN DDR TAB (TAB 9)FUNCTIONALITY ********************/
 
 
+    /**
+     * this method calls the one in the ReportGenerator and then brings up a confirmation / error popup
+     */
     @FXML
     private void generateDDRPortraitPDF()
     {
         try
         {
             ReportGenerator.generateDDR(false);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRreportPortrait.pdf\"",
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
         catch (Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait. Please close DDRreportPortrait.pdf",
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait. Please close DDRReq.pdf",
                     ButtonType.OK);
             // e.printStackTrace();
             alert.showAndWait();
@@ -951,19 +954,22 @@ public class RequirementsController
 
     } // end generateDDRPortraitPDF()
 
+    /**
+     * this method calls the one in the ReportGenerator and then brings up a confirmation / error popup
+     */
     @FXML
     private void generateDDRLandscapePDF()
     {
         try
         {
             ReportGenerator.generateDDR(true);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRreportLandscape.pdf\"",
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
         catch (Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape. Please close DDRreportLandscape.pdf",
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape. Please close DDRLandscape.pdf",
                     ButtonType.OK);
             // e.printStackTrace();
             alert.showAndWait();
