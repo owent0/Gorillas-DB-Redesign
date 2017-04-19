@@ -1,9 +1,6 @@
 package ROMdb.Helpers;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Anthony Orio on 3/14/2017.

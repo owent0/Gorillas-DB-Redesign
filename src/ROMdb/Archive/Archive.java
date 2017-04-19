@@ -29,6 +29,7 @@ public abstract class Archive<T>
      * The purpose of this method is to add a single record to the list
      * records.
      * @param object The object to store into the records list.
+     * @throws SQLException If the SQL query cannot be completed properly.
      */
     public abstract void addRecord(T object) throws SQLException;
 

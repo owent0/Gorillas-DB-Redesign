@@ -339,14 +339,9 @@ public class SCICRController {
         }
     }
 
-    /*Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-            "Are you sure you want to update the Design field for all of the rows below?", ButtonType.YES, ButtonType.NO);
-        warningMsg.showAndWait();
-
-        if (warningMsg.getResult() == (ButtonType.NO))
-    {
-        return;
-    }*/
+    /**
+     * Archives the selected SC/ICR rows in the table view.
+     */
     @FXML
     private void archiveSelected()
     {
@@ -371,18 +366,4 @@ public class SCICRController {
             }
         }
     }
-
-    /*private void createEventHandlers()
-    {
-
-        table_ScIcr.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->
-        {
-            if(event.isControlDown())
-            {
-                table_ScIcr.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-                selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
-            }
-        });
-    }*/
-
 }

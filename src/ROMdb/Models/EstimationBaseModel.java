@@ -1,11 +1,8 @@
 package ROMdb.Models;
 
-import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Driver.Main;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

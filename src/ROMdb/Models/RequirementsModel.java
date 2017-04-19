@@ -48,6 +48,12 @@ public class RequirementsModel
                                                                 "Resp Indv", "Rom", "Prog"
                                                             };
 
+    /**
+     * Archives a list of RequirementRows into the RequirementsData_Archive table
+     * in the database.
+     * @param rows The rows to archive.
+     * @throws SQLException If the SQL query could not complete properly.
+     */
     public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
     {
         archive.addListOfRecords(rows);
@@ -404,9 +410,11 @@ public class RequirementsModel
     }
 
     /**
+     * Deprecated.
      *
      * Fills the table with the data from the database.
      * @throws SQLException If the query could not successfully complete.
+     * @return The result set.
      */
     public static ResultSet getReqDataForDDRpdf() throws SQLException
     {

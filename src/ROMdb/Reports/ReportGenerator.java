@@ -9,8 +9,6 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.Font;
-import javafx.collections.ObservableList;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,8 +33,8 @@ public class ReportGenerator
     /**
      * Generates the DDR report for portrait/landscape, lets user choose where to save it
      * @param isLandscape true if the DDR report is to be in Landscape format
-     * @throws FileNotFoundException
-     * @throws DocumentException
+     * @throws FileNotFoundException When the file cannot be located.
+     * @throws DocumentException If the document is open or cannot be written to.
      */
     public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
     {
@@ -96,8 +94,8 @@ public class ReportGenerator
      * Adds column headers to the DDR report
      * @param doc the current document that are we making changes to
      * @param isLandscape true if the report is to be in Landscape format
-     * @return
-     * @throws DocumentException
+     * @return The documented that was edited.
+     * @throws DocumentException If the document is open or cannot be written to.
      */
     public static Document addDDRHeaders(Document doc, boolean isLandscape) throws DocumentException
     {
@@ -169,8 +167,8 @@ public class ReportGenerator
      * @param doc the current document we are adding to
      * @param rows the rows from the gridview
      * @param isLandscape true if the report is to be in landscape format
-     * @return
-     * @throws DocumentException
+     * @return The document that was edited.
+     * @throws DocumentException If the document is open or cannot be edited.
      */
     public static Document addReqRows(Document doc, ArrayList<RequirementsRow> rows, boolean isLandscape) throws DocumentException
     {
@@ -218,8 +216,8 @@ public class ReportGenerator
      * @param doc the current report we're working in
      * @param partition rows from the gridview
      * @param isLandscape true if the report is to be in Landscape format
-     * @return
-     * @throws DocumentException
+     * @return The document that was edited.
+     * @throws DocumentException If the document is open or cannot be written to.
      */
     public static Document writePartitions(Document doc, ArrayList<RequirementsRow> partition, boolean isLandscape) throws DocumentException
     {
@@ -289,8 +287,8 @@ public class ReportGenerator
 
     /**
      *
-     * @param rows
-     * @return
+     * @param rows The list of rows to partition by SC/ICR.
+     * @return A map containing the partition lists.
      */
     public static TreeMap<String, ArrayList<RequirementsRow>> partitionBySCICR(ArrayList<RequirementsRow> rows)
     {
@@ -309,282 +307,6 @@ public class ReportGenerator
         return map;
     }
 
-    /**
-     *
-     * @param isLandscape
-     * @throws FileNotFoundException
-     * @throws DocumentException
-     */
-    /*public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
-    {
-        String path = fileHandler.getPathWithFileChooser();
-        String filename = "/DDRreportPortrait.pdf";
-
-        Document document = new Document();
-
-        if (isLandscape)
-        {
-            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
-            filename = "/DDRreportLandscape.pdf";
-        }
-
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + filename));
-
-        // begin writing to document
-        document.open();
-
-        // Line separator
-        document.add(defaultSeparator());
-
-        // Create title
-        Paragraph title = new Paragraph();
-        title.setAlignment(Element.ALIGN_CENTER);
-        title.add(new Chunk("DDR Requirements Traceability Report - F100-S2 \n\n", BOLD_TITLE));
-        document.add(title);
-
-        // add the table with all the data to the report
-        //document.add(populateReportFieldsFromListView());
-        document = populateReportFieldsFromListView(document);
-
-        document.close();
-    }
-*/
-    /**
-     *
-     * @param numColumns
-     * @param columnHeadings
-     * @return
-     */
-    /*private static PdfPTable createColHeadingsForTable(int numColumns, String[] columnHeadings)
-    {
-        PdfPTable tableForColHeadings = new PdfPTable(numColumns);
-        tableForColHeadings.setWidthPercentage(100);
-
-        for (int i = 0; i < columnHeadings.length; i++)
-        {
-            PdfPCell table_cell = new PdfPCell( new Phrase(columnHeadings[i], BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            tableForColHeadings.addCell(table_cell);
-        }
-
-        return tableForColHeadings;
-    }
-
-    private static PdfPTable createSubTotalsDDR(double add, double change, double delete)
-    {
-        PdfPTable tableForSubTotals = new PdfPTable(3);
-        tableForSubTotals.setWidthPercentage(100);
-
-        PdfPCell table_cell = new PdfPCell( new Phrase(String.valueOf(add), BOLD_HEADERS));
-        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table_cell.setBorder(Rectangle.NO_BORDER);
-        tableForSubTotals.addCell(table_cell);
-
-        table_cell = new PdfPCell( new Phrase(String.valueOf(change), BOLD_HEADERS));
-        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table_cell.setBorder(Rectangle.NO_BORDER);
-        tableForSubTotals.addCell(table_cell);
-
-        table_cell = new PdfPCell( new Phrase(String.valueOf(delete), BOLD_HEADERS));
-        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table_cell.setBorder(Rectangle.NO_BORDER);
-        tableForSubTotals.addCell(table_cell);
-
-        return tableForSubTotals;
-    }*/
-
-    /**
-     *
-     * @param document
-     * @return
-     * @throws DocumentException
-     */
-    /*private static Document populateReportFieldsFromListView(Document document) throws DocumentException
-    {
-        // used to keep track of respective fields in gridView for Subtotals
-        double add = 0.0;
-        double change = 0.0;
-        double delete = 0.0;
-
-        // create table w/constant # columns in PDF to represent cols from grid view (which comes from ReqData table)
-        int numCols = RequirementsModel.gridViewColumnHeadings.length;
-        PdfPTable ddrReportTable = new PdfPTable(numCols);
-        ddrReportTable.setWidthPercentage(100);
-
-        // add the column names for the DDR report to the DDR report table
-        PdfPTable ddrReportTableForColHeadings = createColHeadingsForTable( numCols, RequirementsModel.gridViewColumnHeadings );
-
-        // add the table (w/just the col headings) to the report
-        document.add(ddrReportTableForColHeadings);
-
-        // Line separator
-        document.add(defaultSeparator());
-
-        // number of Rows in the currFilteredList view
-        int size = RequirementsModel.currentFilteredList.size();
-
-        // represents the grid/list view that is seen by user
-        ObservableList<RequirementsRow> gridView;
-
-        // if no dropdown filter for the view is chosen, the view consists of all ReqData from DB
-        if (size == 0)
-        {
-            gridView = RequirementsModel.allReqData;
-
-            // we need to reset size to # of rows in grid view when no filter is applied
-            size = gridView.size();
-        }
-        else
-        {
-            // at least 1 filter is applied, therefore gridView isn't allReqData anymore
-            gridView = RequirementsModel.currentFilteredList;
-        }
-
-        // For every row in the FilteredList take each column property and put it in a cell in the report
-        for (int i = 0; i < size; i++)
-        {
-            // get the current ReqRow Object in the grid/list view
-            RequirementsRow currRowInGridView = gridView.get(i);
-
-            String csc = currRowInGridView.getCsc();
-            PdfPCell table_cell = new PdfPCell( new Phrase(csc, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String csu = currRowInGridView.getCsu();
-            table_cell = new PdfPCell( new Phrase(csu, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String doorsID = currRowInGridView.getDoorsID();
-            table_cell = new PdfPCell( new Phrase(doorsID, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String paragraph = currRowInGridView.getParagraph();
-            table_cell = new PdfPCell( new Phrase(paragraph, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String build = currRowInGridView.getBuild();
-            table_cell = new PdfPCell( new Phrase(build, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String baseline = currRowInGridView.getBaseline();
-            table_cell = new PdfPCell( new Phrase(baseline, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String scIcr = currRowInGridView.getScicr();
-            table_cell = new PdfPCell( new Phrase(scIcr, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String capability = currRowInGridView.getCapability();
-            table_cell = new PdfPCell( new Phrase(capability, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            add += currRowInGridView.getAdd();
-            String numAdded = String.valueOf(add);
-            table_cell = new PdfPCell( new Phrase(numAdded, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            change += currRowInGridView.getChange();
-            String numChanged = String.valueOf(change);
-            table_cell = new PdfPCell( new Phrase(numChanged, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            delete += currRowInGridView.getDelete();
-            String numDeleted = String.valueOf(delete);
-            table_cell = new PdfPCell( new Phrase(numDeleted, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String designWeight = String.valueOf(currRowInGridView.getDesignWeight());
-            table_cell = new PdfPCell( new Phrase(designWeight, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String codeWeight = String.valueOf(currRowInGridView.getCodeWeight());
-            table_cell = new PdfPCell( new Phrase(codeWeight, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String unitTestWeight = String.valueOf(currRowInGridView.getUnitTestWeight());
-            table_cell = new PdfPCell( new Phrase(unitTestWeight, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String integrationWeight = String.valueOf(currRowInGridView.getIntegrationWeight());
-            table_cell = new PdfPCell( new Phrase(integrationWeight, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String responsibleIndivid = currRowInGridView.getRi();
-            table_cell = new PdfPCell( new Phrase(responsibleIndivid, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String rommer = currRowInGridView.getRommer();
-            table_cell = new PdfPCell( new Phrase(rommer, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-            String program = currRowInGridView.getProgram();
-            table_cell = new PdfPCell( new Phrase(program, BOLD_HEADERS));
-            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table_cell.setBorder(Rectangle.NO_BORDER);
-            ddrReportTable.addCell(table_cell);
-
-        }
-
-        // add the column names for the DDR report to the DDR report table
-        PdfPTable ddrReportTableForSubTotals = createSubTotalsDDR(add, change, delete);
-
-        document.add(ddrReportTable);
-
-        document.add(defaultSeparator());
-
-        // add the table (w/just the col headings) to the report
-        document.add(ddrReportTableForSubTotals);
-
-        return document;
-    }*/
-
-    /*
-    * This was here to try and avoid DRY principle, but some need different alignment props,
-    * need to convert types to String etc..
-    private static PdfPTable addCellToTable(PdfPTable ddrReportTable, String cellValue)
-    {
-        PdfPCell table_cell = new PdfPCell( new Phrase(cellValue, BOLD_HEADERS));
-        table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        ddrReportTable.addCell(table_cell);
-
-        return ddrReportTable;
-    }
-    */
 
     /**
      * Creates the DCTI Report and allows the user to save it to a location
