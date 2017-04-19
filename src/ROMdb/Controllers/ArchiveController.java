@@ -56,6 +56,7 @@ public class ArchiveController {
     @FXML private TableColumn tableColumn_reqRI;
     @FXML private TableColumn tableColumn_reqRom;
     @FXML private TableColumn tableColumn_reqProgram;
+    @FXML private TableColumn tableColumn_reqBuild;
 
     @FXML
     public void initialize()
@@ -165,6 +166,7 @@ public class ArchiveController {
         tableColumn_reqRI.setCellValueFactory(new PropertyValueFactory<>("ri"));
         tableColumn_reqRom.setCellValueFactory(new PropertyValueFactory<>("rommer"));
         tableColumn_reqProgram.setCellValueFactory(new PropertyValueFactory<>("program"));
+        tableColumn_reqBuild.setCellValueFactory(new PropertyValueFactory<>("build"));
 
     }
 

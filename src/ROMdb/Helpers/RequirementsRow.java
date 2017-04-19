@@ -12,10 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class RequirementsRow {
 
     private int id;
-
     private SimpleStringProperty timestamp;
-
-
 
     private SimpleStringProperty csc;
     private SimpleStringProperty csu;
@@ -34,6 +31,7 @@ public class RequirementsRow {
     private SimpleStringProperty ri;
     private SimpleStringProperty rommer;
     private SimpleStringProperty program;
+    private SimpleStringProperty build;
 
     /**
      * Default constructor for a RequirementsRow.
@@ -71,7 +69,8 @@ public class RequirementsRow {
                            Double integrationWeight,
                            String ri,
                            String rommer,
-                           String program)
+                           String program,
+                           String build)
     {
 
         this.csc = new SimpleStringProperty(csc);
@@ -91,6 +90,7 @@ public class RequirementsRow {
         this.ri =  new SimpleStringProperty(ri);
         this.rommer =  new SimpleStringProperty(rommer);
         this.program =  new SimpleStringProperty(program);
+        this.build = new SimpleStringProperty(build);
     }
 
     /**
@@ -123,6 +123,19 @@ public class RequirementsRow {
     public SimpleDoubleProperty changeProperty() {return change;}
     public SimpleDoubleProperty deleteProperty() {return delete;}
     public SimpleDoubleProperty addProperty() {return add;}
+
+    public void setBuild(String build) {
+        this.build.set(build);
+    }
+
+    public String getBuild() {
+        return build.get();
+    }
+
+    public SimpleStringProperty buildProperty() {
+        return build;
+    }
+
     public SimpleDoubleProperty designWeightProperty() {return designWeight;}
     public SimpleDoubleProperty codeWeightProperty() {return codeWeight;}
     public SimpleDoubleProperty unitTestWeightProperty() {return unitTestWeight;}

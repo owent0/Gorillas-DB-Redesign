@@ -68,7 +68,7 @@ public class RequirementsController
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
-
+    @FXML private ComboBox<String> combo_build;
     @FXML private ComboBox<String> combo_resp;
     @FXML private ComboBox<String> combo_csc;
     @FXML private ComboBox<String> combo_csu;
@@ -154,6 +154,7 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, String> tableColumn_doorsID;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_paragraph;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_baseline;
+    @FXML private TableColumn<RequirementsRow, String> tableColumn_build;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_scicr;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_capability;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_add;
@@ -227,6 +228,7 @@ public class RequirementsController
         this.createRadioButtonToggleGroup();
         /* ---------------------------------- */
 
+        /* The current filtered list should be the as allReqData initially. */
         RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
     }
 
@@ -243,6 +245,7 @@ public class RequirementsController
         combo_resp.setItems(this.observableFilterMap.get("ri"));
         combo_rommer.setItems(this.observableFilterMap.get("rommer"));
         combo_baseline.setItems(new SortedList<String>(this.observableFilterMap.get("baseline"), Collator.getInstance()));
+        combo_build.setItems(this.observableFilterMap.get("build"));
 
     }
 
@@ -290,6 +293,7 @@ public class RequirementsController
     {
         // Define event change handlers for filtering combo boxes
         attachChangeListenerComboBox(combo_baseline);
+        attachChangeListenerComboBox(combo_build);
         attachChangeListenerComboBox(combo_scicr);
 
         attachChangeListenerComboBox(combo_resp);
@@ -340,6 +344,7 @@ public class RequirementsController
     private void setCombosToEmptyValues()
     {
         combo_baseline.setValue("");
+        combo_build.setValue("");
         combo_scicr.setValue("");
 
         combo_resp.setValue("");
@@ -569,6 +574,7 @@ public class RequirementsController
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
         newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
+        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem(), "build"));
         newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "scicr"));
         newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
         newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
@@ -604,7 +610,7 @@ public class RequirementsController
     public void updateJTableWithFilteredReqData()
     {
         // If filters are all empty, then load full results set into JTable
-        if(areFiltersAllEmpty(RequirementsModel.filters) == true)
+        if(RequirementsModel.filters == null || areFiltersAllEmpty(RequirementsModel.filters) == true)
         {
             fillTable();
         }
@@ -1253,6 +1259,8 @@ public class RequirementsController
         tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));
         tableColumn_rommer.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("rommer")));
         tableColumn_program.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("program")));
+        tableColumn_build.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("build")));
+
     }
 
     /**
@@ -1275,6 +1283,7 @@ public class RequirementsController
         tableColumn_doorsID.setCellValueFactory(new PropertyValueFactory<>("doorsID"));
         tableColumn_paragraph.setCellValueFactory(new PropertyValueFactory<>("paragraph"));
         tableColumn_baseline.setCellValueFactory(new PropertyValueFactory<>("baseline"));
+        tableColumn_build.setCellValueFactory(new PropertyValueFactory<>("build"));
         tableColumn_scicr.setCellValueFactory(new PropertyValueFactory<>("scicr"));
         tableColumn_capability.setCellValueFactory(new PropertyValueFactory<>("capability"));
         tableColumn_add.setCellValueFactory(new PropertyValueFactory<>("add"));
@@ -1287,6 +1296,7 @@ public class RequirementsController
         tableColumn_ri.setCellValueFactory(new PropertyValueFactory<>("ri"));
         tableColumn_rommer.setCellValueFactory(new PropertyValueFactory<>("rommer"));
         tableColumn_program.setCellValueFactory(new PropertyValueFactory<>("program"));
+
 
 
         /**
@@ -1571,6 +1581,26 @@ public class RequirementsController
             catch(Exception e)
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
+                alert.showAndWait();
+
+                // Refresh the table.
+                table_requirements.refresh();
+            }
+        });
+
+        /*  Build Column  */
+        tableColumn_build.setOnEditCommit(t -> {
+            try
+            {
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+
+                // Grab the new value enter into the cell.
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue());
+                saveRowEditChanges();
+            }
+            catch(Exception e)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Build.", ButtonType.OK);
                 alert.showAndWait();
 
                 // Refresh the table.

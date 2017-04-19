@@ -84,7 +84,8 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
                     rs.getDouble("integration"),
                     rs.getString("ri"),
                     rs.getString("rommer"),
-                    rs.getString("program")
+                    rs.getString("program"),
+                    rs.getString("build")
                 );
 
             String timestamp = rs.getDate("date_archived").toString();
@@ -107,8 +108,8 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
         String insertQuery =    "INSERT INTO RequirementsData_Archive ([Req_ID], [date_archived], [csc], [csu], [doors_id], [paragraph], " +
                                                                         "[baseline], [scicr], [capability], [add], " +
                                                                         "[change], [delete], [design], [code], [unitTest], " +
-                                                                        "[integration], [ri], [rommer], [program])" +
-                                                                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                                                        "[integration], [ri], [rommer], [program], [build])" +
+                                                                        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -132,6 +133,8 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
         st.setString(17, row.getRi());
         st.setString(18, row.getRommer());
         st.setString(19, row.getProgram());
+        st.setString(20, row.getBuild());
+
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
@@ -145,8 +148,8 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
         String insertQuery =    "INSERT INTO RequirementsData ([csc], [csu], [doors_id], [paragraph], " +
                 "[baseline], [scicr], [capability], [add], " +
                 "[change], [delete], [design], [code], [unitTest], " +
-                "[integration], [ri], [rommer], [program])" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "[integration], [ri], [rommer], [program], [build])" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -168,6 +171,7 @@ public class RequirementsArchive extends Archive<RequirementsRow> {
         st.setString(15, row.getRi());
         st.setString(16, row.getRommer());
         st.setString(17, row.getProgram());
+        st.setString(18, row.getBuild());
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();

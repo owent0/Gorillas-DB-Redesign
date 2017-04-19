@@ -120,4 +120,35 @@ public class LoginModel {
     public static boolean checkInputPassword(String inputPassword) throws SQLException {
         return passwordEncryptor.checkPassword(inputPassword, pullAdminPasswordFromDB());
     }
+
+    /**
+     * Writes and saves the initial admin password to the database. Takes the plain text password and
+     * converts it to a one way hash for security. Only needs to be used IF there is ever an error with the
+     * DBUsers DB table, where the password needs to be deleted.
+     */
+    public static void writeInitAdminPasswordToDB () {
+
+        String encryptedPassword = passwordEncryptor.encryptPassword("");
+
+        try {
+
+            // The query to insert the data from the fields.
+            String insertQuery = "UPDATE DBUsers SET [Code]=? WHERE [ID]= 1";
+
+            // Create a new statement.
+            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+
+            // Parse all of the information and stage for writing.
+            st.setString(1, encryptedPassword);
+
+            // Perform the update inside of the table of the database.
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, "There was an error with the SQL code: " + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+
+        }
+    }
 }

@@ -8,18 +8,12 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import com.itextpdf.text.Font;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
-import sun.reflect.generics.tree.Tree;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Team Gorillas
@@ -542,16 +536,15 @@ public class ReportGenerator
 
                 switch (groups.get(ii))
                 {
-                    case "SC/ICR":                  item = curr.getScicr(); break;
-                    case "CSC":                     item = curr.getCsc();   break;
-                    case "CSU":                     item = curr.getCsu();   break;
+                    case "SC/ICR":                  item = curr.getScicr();      break;
+                    case "CSC":                     item = curr.getCsc();        break;
+                    case "CSU":                     item = curr.getCsu();        break;
                     case "Capability":              item = curr.getCapability(); break;
-                    //case "Build":                   break;
-                    case "Responsible Individual":  item = curr.getRi(); break;
-                    //case "CPRS Function":           break;
-                    case "Baseline":                item = curr.getBaseline(); break;
-                    case "Paragraph/Figure":        item = curr.getParagraph(); break;
-                    case "Program":                 item = curr.getProgram(); break;
+                    case "Build":                   item = curr.getBuild();      break;
+                    case "Responsible Individual":  item = curr.getRi();         break;
+                    case "Baseline":                item = curr.getBaseline();   break;
+                    case "Paragraph/Figure":        item = curr.getParagraph();  break;
+                    case "Program":                 item = curr.getProgram();    break;
                     default:
                         break;
                 }
@@ -667,8 +660,15 @@ public class ReportGenerator
                     map.put(row.getCapability(), new ArrayList<>(tempList));
                     tempList.clear();
                 } break;
-            //case "Build":
-            // break;
+            case "Build":
+                for (RequirementsRow row : rows) {
+                    for (RequirementsRow r : rows) {
+                        if (row.getBuild().equals(r.getBuild()))
+                            tempList.add(r);
+                    }
+                    map.put(row.getBuild(), new ArrayList<>(tempList));
+                    tempList.clear();
+                } break;
             case "Responsible Individual":
                 for (RequirementsRow row : rows) {
                     for (RequirementsRow r : rows) {
@@ -678,8 +678,6 @@ public class ReportGenerator
                     map.put(row.getRi(), new ArrayList<>(tempList));
                     tempList.clear();
                 } break;
-            //case "CPRS Function":
-            // break;
             case "Baseline":
                 for (RequirementsRow row : rows) {
                     for (RequirementsRow r : rows) {

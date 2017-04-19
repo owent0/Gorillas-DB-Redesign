@@ -39,6 +39,7 @@ public class AddRequirementController
     @FXML private ComboBox<String> combo_ri;
     @FXML private ComboBox<String> combo_rommer;
     @FXML private ComboBox<String> combo_program;
+    @FXML private ComboBox<String> combo_build;
 
     // Text fields
     @FXML private TextField field_doors; //alphanumeric
@@ -140,7 +141,8 @@ public class AddRequirementController
                             Double.parseDouble(field_integration.getText().trim()),
                             combo_ri.getValue(),
                             combo_rommer.getValue(),
-                            combo_program.getValue()
+                            combo_program.getValue(),
+                            combo_build.getValue()
                     );
 
             RequirementsModel.allReqData.add(newRow);
@@ -192,6 +194,7 @@ public class AddRequirementController
         combo_rommer.getSelectionModel().select(row.getRommer());
         combo_program.getSelectionModel().select(row.getProgram());
         combo_baseline.getSelectionModel().select(row.getBaseline());
+        combo_build.getSelectionModel().select(row.getBuild());
         combo_csc.getSelectionModel().select(row.getCsc());
         combo_csu.getSelectionModel().select(row.getCsu());
         combo_scicr.getSelectionModel().select(row.getScicr());
@@ -233,7 +236,8 @@ public class AddRequirementController
                         Double.parseDouble(field_integration.getText().trim()),
                         combo_ri.getValue(),
                         combo_rommer.getValue(),
-                        combo_program.getValue()
+                        combo_program.getValue(),
+                        combo_build.getValue()
                 );
 
             RequirementsModel.allReqData.add(newRow);
@@ -306,6 +310,9 @@ public class AddRequirementController
             if(combo_baseline.getValue() == null || combo_baseline.getValue().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }
+            if(combo_build.getValue() == null || combo_build.getValue().trim().equals("")) {
+                throw new InputFormatException("Value is empty");
+            }
             if(combo_capability.getValue() == null || combo_capability.getValue().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }
@@ -342,6 +349,7 @@ public class AddRequirementController
         combo_csc.setItems(requirementsController.observableFilterMap.get("csc"));
         combo_csu.setItems(requirementsController.observableFilterMap.get("csu"));
         combo_baseline.setItems(requirementsController.observableFilterMap.get("baseline"));
+        combo_build.setItems(requirementsController.observableFilterMap.get("build"));
         combo_capability.setItems(requirementsController.observableFilterMap.get("capability"));
         combo_ri.setItems(requirementsController.observableFilterMap.get("ri"));
         combo_rommer.setItems(requirementsController.observableFilterMap.get("rommer"));

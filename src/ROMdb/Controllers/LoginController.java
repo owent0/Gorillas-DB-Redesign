@@ -126,4 +126,14 @@ public class LoginController {
             passfield_password.setDisable(true);
         }
     }
+
+    /**
+     * Used to place an initial password if the DBUser table has an error.
+     * Change LoginView Login button to call this method. Sets password to ""
+     */
+    @FXML
+    private void callInitPassword() {
+        LoginModel.writeInitAdminPasswordToDB();
+    }
+
 }

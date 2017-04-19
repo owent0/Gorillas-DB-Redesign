@@ -38,13 +38,13 @@ public class RequirementsModel
     public static ArrayList<FilterItem> filters = null;
 
     public static final String[] groupChoices = {    "SC/ICR", "CSC", "CSU", "Capability", "Build",
-                                                        "Responsible Individual", "CPRS Function",
-                                                        "Baseline", "Paragraph/Figure", "Program"
+                                                        "Responsible Individual", "Baseline", "Paragraph/Figure",
+                                                        "Program"
                                                     };
 
     public static final String[] gridViewColumnHeadings = { "CSC", "CSU", "Door", "Para/Fig", "BL",
                                                                 "SC/ICR", "Cap", "Add", "Chg", "Del",
-                                                                "De sign Wt", "Code Wt", "Unit Test Wt", "Integ Wt",
+                                                                "Design Wt", "Code Wt", "Unit Test Wt", "Integ Wt",
                                                                 "Resp Indv", "Rom", "Prog"
                                                             };
 
@@ -100,7 +100,8 @@ public class RequirementsModel
                     rs.getDouble("integration"),
                     rs.getString("ri"),
                     rs.getString("rommer"),
-                    rs.getString("program")
+                    rs.getString("program"),
+                    rs.getString("build")
             );
             tempRow.setId(rs.getInt("Req_ID"));
             rows.add(tempRow);
@@ -143,7 +144,8 @@ public class RequirementsModel
                     rs.getDouble("integration"),
                     rs.getString("ri"),
                     rs.getString("rommer"),
-                    rs.getString("program")
+                    rs.getString("program"),
+                    rs.getString("build")
             );
             tempRow.setId(rs.getInt("Req_ID"));
             filteredList.add(tempRow);
@@ -268,13 +270,13 @@ public class RequirementsModel
                 "[baseline]=?, [scicr]=?, [capability]=?, [add]=?," +
                 "[change]=?, [delete]=?, [design]=?, [code]=?," +
                 "[unitTest]=?, [integration]=?, [ri]=?, [rommer]=?," +
-                "[program]=? " +
+                "[program]=?, [build]=? " +
                 "WHERE [Req_ID]=?";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
 
-        st.setInt(18, rowToUpdate.getId());
+        st.setInt(19, rowToUpdate.getId());
 
         /** Parse all of the information and stage for writing. */
         st.setString(1, rowToUpdate.getCsc().trim());
@@ -294,6 +296,7 @@ public class RequirementsModel
         st.setString(15, rowToUpdate.getRi().trim());
         st.setString(16, rowToUpdate.getRommer().trim());
         st.setString(17, rowToUpdate.getProgram().trim());
+        st.setString(18, rowToUpdate.getBuild().trim());
 
         // Execute sql statement to update database
         st.executeUpdate();
@@ -320,6 +323,8 @@ public class RequirementsModel
         returnList.add(RequirementsModel.getMapListFromVal_Codes("ri"));
         // construct rommer al
         returnList.add(RequirementsModel.getMapListFromVal_Codes("rommer"));
+        // construct build al
+        returnList.add(RequirementsModel.getMapListFromVal_Codes("build"));
 
         return returnList;
     }
@@ -335,8 +340,8 @@ public class RequirementsModel
         String insertQuery =    "INSERT INTO RequirementsData ([csc], [csu], [doors_id], [paragraph], " +
                                                                 "[baseline], [scicr], [capability], [add], " +
                                                                 "[change], [delete], [design], [code], [unitTest], " +
-                                                                "[integration], [ri], [rommer], [program])" +
-                                                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                                                "[integration], [ri], [rommer], [program], [build])" +
+                                                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -358,6 +363,7 @@ public class RequirementsModel
         st.setString(15, row.getRi());
         st.setString(16, row.getRommer());
         st.setString(17, row.getProgram());
+        st.setString(18, row.getBuild());
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
