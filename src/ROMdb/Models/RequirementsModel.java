@@ -42,7 +42,7 @@ public class RequirementsModel
                                                         "Program"
                                                     };
 
-    public static final String[] gridViewColumnHeadings = { "CSC", "CSU", "Door", "Para/Fig", "BL",
+    public static final String[] gridViewColumnHeadings = { "CSC", "CSU", "Door", "Par/Fig", "Build", "BL",
                                                                 "SC/ICR", "Cap", "Add", "Chg", "Del",
                                                                 "Design Wt", "Code Wt", "Unit Test Wt", "Integ Wt",
                                                                 "Resp Indv", "Rom", "Prog"

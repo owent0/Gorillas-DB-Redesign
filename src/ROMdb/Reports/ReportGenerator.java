@@ -69,7 +69,12 @@ public class ReportGenerator
         document.close();
     }
 
-
+    /**
+     *
+     * @param numColumns
+     * @param columnHeadings
+     * @return
+     */
     private static PdfPTable createColHeadingsForTable(int numColumns, String[] columnHeadings)
     {
         PdfPTable tableForColHeadings = new PdfPTable(numColumns);
@@ -86,6 +91,29 @@ public class ReportGenerator
         return tableForColHeadings;
     }
 
+    private static PdfPTable createSubTotalsDDR(double add, double change, double delete)
+    {
+        PdfPTable tableForSubTotals = new PdfPTable(3);
+        tableForSubTotals.setWidthPercentage(100);
+
+        PdfPCell table_cell = new PdfPCell( new Phrase(String.valueOf(add), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table_cell.setBorder(Rectangle.NO_BORDER);
+        tableForSubTotals.addCell(table_cell);
+
+        table_cell = new PdfPCell( new Phrase(String.valueOf(change), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table_cell.setBorder(Rectangle.NO_BORDER);
+        tableForSubTotals.addCell(table_cell);
+
+        table_cell = new PdfPCell( new Phrase(String.valueOf(delete), BOLD_HEADERS));
+        table_cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table_cell.setBorder(Rectangle.NO_BORDER);
+        tableForSubTotals.addCell(table_cell);
+
+        return tableForSubTotals;
+    }
+
     /**
      *
      * @param document
@@ -94,6 +122,11 @@ public class ReportGenerator
      */
     private static Document populateReportFieldsFromListView(Document document) throws DocumentException
     {
+        // used to keep track of respective fields in gridView for Subtotals
+        double add = 0.0;
+        double change = 0.0;
+        double delete = 0.0;
+
         // create table w/constant # columns in PDF to represent cols from grid view (which comes from ReqData table)
         int numCols = RequirementsModel.gridViewColumnHeadings.length;
         PdfPTable ddrReportTable = new PdfPTable(numCols);
@@ -158,6 +191,12 @@ public class ReportGenerator
             table_cell.setBorder(Rectangle.NO_BORDER);
             ddrReportTable.addCell(table_cell);
 
+            String build = currRowInGridView.getBuild();
+            table_cell = new PdfPCell( new Phrase(build, BOLD_HEADERS));
+            table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table_cell.setBorder(Rectangle.NO_BORDER);
+            ddrReportTable.addCell(table_cell);
+
             String baseline = currRowInGridView.getBaseline();
             table_cell = new PdfPCell( new Phrase(baseline, BOLD_HEADERS));
             table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -176,19 +215,22 @@ public class ReportGenerator
             table_cell.setBorder(Rectangle.NO_BORDER);
             ddrReportTable.addCell(table_cell);
 
-            String numAdded = String.valueOf(currRowInGridView.getAdd());
+            add += currRowInGridView.getAdd();
+            String numAdded = String.valueOf(add);
             table_cell = new PdfPCell( new Phrase(numAdded, BOLD_HEADERS));
             table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table_cell.setBorder(Rectangle.NO_BORDER);
             ddrReportTable.addCell(table_cell);
 
-            String numChanged = String.valueOf(currRowInGridView.getChange());
+            change += currRowInGridView.getChange();
+            String numChanged = String.valueOf(change);
             table_cell = new PdfPCell( new Phrase(numChanged, BOLD_HEADERS));
             table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table_cell.setBorder(Rectangle.NO_BORDER);
             ddrReportTable.addCell(table_cell);
 
-            String numDeleted = String.valueOf(currRowInGridView.getDelete());
+            delete += currRowInGridView.getDelete();
+            String numDeleted = String.valueOf(delete);
             table_cell = new PdfPCell( new Phrase(numDeleted, BOLD_HEADERS));
             table_cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table_cell.setBorder(Rectangle.NO_BORDER);
@@ -237,7 +279,17 @@ public class ReportGenerator
             ddrReportTable.addCell(table_cell);
 
         }
+
+        // add the column names for the DDR report to the DDR report table
+        PdfPTable ddrReportTableForSubTotals = createSubTotalsDDR(add, change, delete);
+
         document.add(ddrReportTable);
+
+        document.add(defaultSeparator());
+
+        // add the table (w/just the col headings) to the report
+        document.add(ddrReportTableForSubTotals);
+
         return document;
     }
 
@@ -747,6 +799,7 @@ public class ReportGenerator
      * broken down into partitions based on the first group choice they choose.
      * @param doc The document to add the subtotal section to.
      * @param partition The group of rows that will be part of this subtotal section.
+     * @param isSlocs whether or not the report is Slocs (uses Add/Chg/Del)
      * @return The document with the added subtotal section.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
