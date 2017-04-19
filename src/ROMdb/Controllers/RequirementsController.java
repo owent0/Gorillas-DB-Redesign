@@ -490,6 +490,9 @@ public class RequirementsController
     }
 
 
+    /**
+     * To deprecate.
+     */
     @FXML
     private void addNewRowWithDefaultsToJTable()
     {
@@ -537,13 +540,6 @@ public class RequirementsController
         RequirementsRow row = (RequirementsRow) table_requirements.getItems().get(currentRow);
 
         return row;
-    }
-
-
-    @FXML
-    private void pressSave()
-    {
-
     }
 
     /**
@@ -629,6 +625,9 @@ public class RequirementsController
     }
 
 
+    /**
+     * Performs the archive function when the user presses the archive button.
+     */
     @FXML
     private void archiveSelected()
     {
@@ -656,6 +655,9 @@ public class RequirementsController
 
 
     /********** BEGIN COMPLETE TAB FUNCTIONALITY **************/
+    /**
+     * Occupy combo boxes in the complete tab.
+     */
     private void occupyComboBoxes()
     {
         for(RequirementsRow row : RequirementsModel.allReqData)
@@ -977,115 +979,14 @@ public class RequirementsController
 
     }
 
-    /*
-    private Paragraph addHeadertoPDF()
-    {
-        Paragraph headerContent = new Paragraph();
-        headerContent.add(new Paragraph("DDR Requirements Traceability Report - F100-S2"));
-
-        return headerContent;
-    }
-
-    private PdfPTable addDataContentToPDF() throws Exception
-    {
-        ResultSet rs = RequirementsModel.getReqDataForDDRpdf();
-
-        // create table w/18 columns in PDF to model ReqData table
-        PdfPTable ddr_report_table = new PdfPTable(18);
-
-        // create a cell Object in PDF
-        PdfPCell table_cell;
-
-        // headers for table
-        table_cell = new PdfPCell(new Paragraph());
-
-        // Retrieve data from ResultSet rs
-        // each iteration is retrieving data from a row
-        while (rs.next())
-        {
-            String req_id = rs.getString("Req_ID");
-            table_cell=new PdfPCell(new Phrase(req_id));
-            ddr_report_table.addCell(table_cell);
-
-            String csc = rs.getString("csc");
-            table_cell=new PdfPCell(new Phrase(csc));
-            ddr_report_table.addCell(table_cell);
-
-            String csu = rs.getString("csu");
-            table_cell=new PdfPCell(new Phrase(csu));
-            ddr_report_table.addCell(table_cell);
-
-            String doors_id = rs.getString("doors_id");
-            table_cell=new PdfPCell(new Phrase(doors_id));
-            ddr_report_table.addCell(table_cell);
-
-            String paragraph = rs.getString("paragraph");
-            table_cell=new PdfPCell(new Phrase(paragraph));
-            ddr_report_table.addCell(table_cell);
-
-            String baseline = rs.getString("baseline");
-            table_cell=new PdfPCell(new Phrase(baseline));
-            ddr_report_table.addCell(table_cell);
-
-            String scicr = rs.getString("scicr");
-            table_cell=new PdfPCell(new Phrase(scicr));
-            ddr_report_table.addCell(table_cell);
-
-            String capability = rs.getString("capability");
-            table_cell=new PdfPCell(new Phrase(capability));
-            ddr_report_table.addCell(table_cell);
-
-            String add = rs.getString("add");
-            table_cell=new PdfPCell(new Phrase(add));
-            ddr_report_table.addCell(table_cell);
-
-            String change = rs.getString("change");
-            table_cell=new PdfPCell(new Phrase(change));
-            ddr_report_table.addCell(table_cell);
-
-            String delete = rs.getString("delete");
-            table_cell=new PdfPCell(new Phrase(delete));
-            ddr_report_table.addCell(table_cell);
-
-            String design = rs.getString("design");
-            table_cell=new PdfPCell(new Phrase(design));
-            ddr_report_table.addCell(table_cell);
-
-            String code = rs.getString("code");
-            table_cell=new PdfPCell(new Phrase(code));
-            ddr_report_table.addCell(table_cell);
-
-            String unitTest = rs.getString("unitTest");
-            table_cell=new PdfPCell(new Phrase(unitTest));
-            ddr_report_table.addCell(table_cell);
-
-            String integration = rs.getString("integration");
-            table_cell=new PdfPCell(new Phrase(integration));
-            ddr_report_table.addCell(table_cell);
-
-            String ri = rs.getString("ri");
-            table_cell=new PdfPCell(new Phrase(ri));
-            ddr_report_table.addCell(table_cell);
-
-            String rommer = rs.getString("rommer");
-            table_cell=new PdfPCell(new Phrase(rommer));
-            ddr_report_table.addCell(table_cell);
-
-            String program = rs.getString("program");
-            table_cell=new PdfPCell(new Phrase(program));
-            ddr_report_table.addCell(table_cell);
-        } // end while
-
-        rs.close();
-        return ddr_report_table;
-    }
-    */
-
     /**************** END DDR TAB FUNCTIONALITY *************************/
 
 
     /**************** Begin GROUPS TAB FUNCTIONALITY ********************/
 
+    /**
+     * Fills the list views in the group reports tab.
+     */
     private void fillListView()
     {
         this.groupChoices.addAll(RequirementsModel.groupChoices);
@@ -1094,8 +995,12 @@ public class RequirementsController
         this.listview_choices.setItems(groupChoices);
     }
 
+    /**
+     * Creates the toggle group for the radio button.
+     */
     private void createRadioButtonToggleGroup()
     {
+        /* The toggle group creates a relation ship between radio buttons. */
         ToggleGroup group = new ToggleGroup();
 
         this.radio_groupOne.setToggleGroup(group);
@@ -1106,6 +1011,10 @@ public class RequirementsController
         this.radio_groupSix.setToggleGroup(group);
     }
 
+    /**
+     * Figure out which radio button is selected for the group size.
+     * @return The integer size of the group selected.
+     */
     private int getCurrSelectLimit()
     {
         /* Used to retrieve toggle group. Radio button chosen randomly to achieve this. */
@@ -1127,16 +1036,21 @@ public class RequirementsController
         return limit;
     }
 
+    /**
+     * Add an item from the selection list view to the choice list view.
+     */
     @FXML
     private void addGroupItem()
     {
         String selected = listview_choices.getSelectionModel().getSelectedItem();
 
+        /* If nothing is selected. */
         if (selected == null)
             return;
 
         int limit = this.getCurrSelectLimit();
 
+        /* If you can pick more items still. */
         if (currSelectCount < limit)
         {
             this.groupChoices.remove(selected);
@@ -1145,6 +1059,9 @@ public class RequirementsController
         }
     }
 
+    /**
+     * Remove a group item from the current selected group items.
+     */
     @FXML
     private void removeGroupItem()
     {
@@ -1153,11 +1070,19 @@ public class RequirementsController
         if (selected == null)
             return;
 
+        /* Updates choices list. */
         this.groupChoices.add(selected);
+
+        /* Updates selection list. */
         this.groupSelection.remove(selected);
+
+        /* Decrement the number of choices the user has left. */
         this.currSelectCount--;
     }
 
+    /**
+     * Clears the selection list view when clear button pressed.
+     */
     @FXML
     private void clearGroupItem()
     {
@@ -1167,6 +1092,9 @@ public class RequirementsController
         this.currSelectCount = 0;
     }
 
+    /**
+     * When the user generates the SLOCs Add/Chg/Del Report.
+     */
     @FXML
     private void pressSLOCSButton()
     {
@@ -1188,6 +1116,9 @@ public class RequirementsController
         }
     }
 
+    /**
+     * When the user generates the D/C/T/I report.
+     */
     @FXML
     private void pressDCTIButton()
     {
