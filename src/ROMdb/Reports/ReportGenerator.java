@@ -29,20 +29,6 @@ public class ReportGenerator
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-
-    public static void main(String[] args) throws FileNotFoundException, DocumentException
-    {
-        ArrayList<String> groups = new ArrayList<>();
-        groups.add("Heading 1");
-        groups.add("Heading 2");
-        groups.add("Heading 3");
-        groups.add("Heading 4");
-
-        // ReportGenerator.generateDDR(false);
-        ReportGenerator.generateSLOCS(groups);
-
-    }
-
     /**
      *
      * @param isLandscape
@@ -268,13 +254,23 @@ public class ReportGenerator
     }
     */
 
+    /**
+     * Creates the DCTI Report and allows the user to save it to a location
+     * on the disk.
+     * @param groups The groups chosen to include on the report.
+     * @throws FileNotFoundException If the file path cannot be located.
+     * @throws DocumentException If the document is open or cannot be written to.
+     */
     public static void generateDCTI(ArrayList<String> groups) throws FileNotFoundException, DocumentException
     {
+        /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
 
+        /* Instantiate document and its location. */
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DCTIStatus.pdf"));
 
+        /* Change to landscape if there are more than four group selections. */
         if (groups.size() >= 4)
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
 
@@ -299,46 +295,52 @@ public class ReportGenerator
 
         /* Get the items to place onto the report. */
         ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
-        //HashMap<String, ArrayList<RequirementsRow>> categories = sortByWhat(rows, groups.get(0));
 
-        //ArrayList<RequirementsRow> partition = new ArrayList<>();
-
-
+        /* Let's sort based on the first group chosen. */
         TreeMap<String, ArrayList<RequirementsRow>> partitions = sortByWhat(rows, groups.get(0));
 
+        /* For each list associated in the hash map. */
         for (String key : partitions.keySet())
         {
-            document = addMasterTable(document, groups, partitions.get(key), false);
+            /* Add the partion table. */
+            document = addPartitionTable(document, groups, partitions.get(key), false);
 
             /* Add subtotal section */
             document = addSubtotalSection(document, partitions.get(key), groups.size(), false);
         }
 
-
-        /*document = addMasterTable(document, groups, rows);
-
-            *//* Add subtotal section *//*
-        document = addSubtotalSection(document, rows, groups.size());*/
-
+        /* Done writing to PDF. */
         document.close();
     }
 
+    /**
+     * Creates the column headers at the top of the document.
+     * @param doc The document to write to.
+     * @param groups The groups to include as the headers.
+     * @return The document with the headers attached.
+     * @throws DocumentException If the document is open or cannot be written to.
+     */
     private static Document createDCTIColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
     {
+        /* Outer table will consist of group headers on left and sub total headers on right. */
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
         outerTable.setWidthPercentage(100f);
 
+        /* The left table with the group headers. */
         PdfPTable leftTable = new PdfPTable(groups.size());
         leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
         leftTable.setWidthPercentage(100f);
 
+        /* The right table with design, code, unit test and integ weight. */
         PdfPTable rightTable = new PdfPTable(4);
         rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.setWidthPercentage(100f);
 
+        /* Set the width of the table based on the orientation of the document. */
         outerTable.setWidths( (groups.size() < 4) ? new int[]{60, 35} : new int[]{40, 15} );
 
+        /* Create the headers for the groups. */
         int size = groups.size();
         for (int i = 0; i < size; i++)
         {
@@ -347,6 +349,7 @@ public class ReportGenerator
             leftTable.addCell(newCell);
         }
 
+        /* Create the headers for the sub totals. */
         PdfPCell newCell = createTextCell("Design");
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
@@ -363,10 +366,7 @@ public class ReportGenerator
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
 
-        /*newCell = createTextCell("Total");
-        newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        rightTable.addCell(newCell);*/
-
+        /* Nest the left and right tables into the outer table. */
         outerTable.addCell( createNestedTableCell(leftTable) );
         outerTable.addCell( createNestedTableCell(rightTable) );
         doc.add(outerTable);
@@ -383,11 +383,14 @@ public class ReportGenerator
     public static void generateSLOCS(ArrayList<String> groups)
                                                     throws FileNotFoundException, DocumentException
     {
+        /* Get the directory path. */
         String path = fileHandler.getPathWithFileChooser();
 
+        /* Instantiate the new document with the path chosen. */
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCSAddChgDel.pdf"));
 
+        /* Change to landscape view if group size is four or larger. */
         if (groups.size() >= 4)
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
 
@@ -412,26 +415,19 @@ public class ReportGenerator
 
         /* Get the items to place onto the report. */
         ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
-        //HashMap<String, ArrayList<RequirementsRow>> categories = sortByWhat(rows, groups.get(0));
 
-        //ArrayList<RequirementsRow> partition = new ArrayList<>();
-
-
+        /* Let's sort based on the first group element chosen. */
         TreeMap<String, ArrayList<RequirementsRow>> partitions = sortByWhat(rows, groups.get(0));
 
+        /* For each key in the hash map. */
         for (String key : partitions.keySet())
         {
-            document = addMasterTable(document, groups, partitions.get(key), true);
+            /* The partition is the group of rows associated with the key. */
+            document = addPartitionTable(document, groups, partitions.get(key), true);
 
             /* Add subtotal section */
             document = addSubtotalSection(document, partitions.get(key), groups.size(), true);
         }
-
-
-        /*document = addMasterTable(document, groups, rows);
-
-            *//* Add subtotal section *//*
-        document = addSubtotalSection(document, rows, groups.size());*/
 
         document.close();
     }
@@ -446,20 +442,25 @@ public class ReportGenerator
      */
     private static Document createSLOCColumnNames(Document doc, ArrayList<String> groups) throws DocumentException
     {
+        /* Outer table will consist of group headers on left and sub total headers on right. */
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
         outerTable.setWidthPercentage(100f);
 
+        /* The left table with the group headers. */
         PdfPTable leftTable = new PdfPTable(groups.size());
         leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
         leftTable.setWidthPercentage(100f);
 
+        /* The right table with add, chg, del, total */
         PdfPTable rightTable = new PdfPTable(4);
         rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.setWidthPercentage(100f);
 
+        /* Set the width of the table based on the orientation of the document. */
         outerTable.setWidths( (groups.size() < 4) ? new int[]{60, 35} : new int[]{40, 15} );
 
+        /* Create the headers for the groups. */
         int size = groups.size();
         for (int i = 0; i < size; i++)
         {
@@ -468,7 +469,7 @@ public class ReportGenerator
             leftTable.addCell(newCell);
         }
 
-
+        /* The right table with add, chg, del and total. */
         PdfPCell newCell = createTextCell("Add");
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
@@ -485,6 +486,7 @@ public class ReportGenerator
         newCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         rightTable.addCell(newCell);
 
+        /* Nest the right and left table into the two cells in he outer table. */
         outerTable.addCell( createNestedTableCell(leftTable) );
         outerTable.addCell( createNestedTableCell(rightTable) );
         doc.add(outerTable);
@@ -503,12 +505,24 @@ public class ReportGenerator
         return new Chunk(ls);
     }
 
-
-    private static Document addMasterTable(Document doc, ArrayList<String> groups,  ArrayList<RequirementsRow> rows, boolean isSlocs) throws DocumentException
+    /**
+     * This will add a new table for each partition created based on the first group element chosen.
+     * @param doc The document to write to.
+     * @param groups The group of elements to inlude in the report.
+     * @param rows The rows to include in this partition.
+     * @param isSlocs Used to determine the right hand headers.
+     * @return The document that was written to.
+     * @throws DocumentException If the document is open or cannot be written to.
+     */
+    private static Document addPartitionTable(Document doc, ArrayList<String> groups,  ArrayList<RequirementsRow> rows, boolean isSlocs) throws DocumentException
     {
+        /* Get the size of the group elements chosen. */
         int groupSize = groups.size();
+
+        /* The number of rows for this partition. */
         int rowCount = rows.size();
 
+        /* The outer table will have the groups on the left and subtotals on the right. */
         PdfPTable masterTable = new PdfPTable(2);
         masterTable.setWidthPercentage(100f);
         masterTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -519,21 +533,22 @@ public class ReportGenerator
         partitionTable.setWidthPercentage(100f);
         partitionTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 
+        /* This will consist of the subtotal elements. */
         PdfPTable subTable = new PdfPTable(4);
         subTable.setWidthPercentage(100f);
         subTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-
-
+        /* For each row within this partition. */
         for (int i = 0; i < rowCount; i++)
         {
             RequirementsRow curr = rows.get(i);
 
-
+            /* For each group element chosen. */
             for (int ii = 0; ii < groupSize; ii++)
             {
                 String item = "";
 
+                /* We must determine which groups were chosen. */
                 switch (groups.get(ii))
                 {
                     case "SC/ICR":                  item = curr.getScicr();      break;
@@ -549,19 +564,23 @@ public class ReportGenerator
                         break;
                 }
 
+                /* Add the cell to the left table. */
                 PdfPCell newCell = createTextCell(item);
                 newCell.setBorder(Rectangle.NO_BORDER);
                 newCell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 partitionTable.addCell(newCell);
             }
 
-            if (isSlocs)
+
+            if (isSlocs)    /* If it is a SLOCs report we will use add, chg, del and total. */
             {
+                /* Get the values for add, change, delete and total. */
                 double add = rows.get(i).getAdd();
                 double chg = rows.get(i).getChange();
                 double del = rows.get(i).getDelete();
                 double tot = add + chg + del;
 
+                /* Add these values to cells and the cells to the table. */
                 PdfPCell tempCell = new PdfPCell(createTextCell(Double.toString(add)));
                 tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 subTable.addCell(tempCell);
@@ -578,13 +597,15 @@ public class ReportGenerator
                 tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 subTable.addCell(tempCell);
             }
-            else
+            else    /* If not SLOCS, then it's a D/C/T/I report that uses design, code, unit, integ weights. */
             {
+                /* Get the values for design, code, unit test and integration weight. */
                 double design = rows.get(i).getDesignWeight();
                 double code = rows.get(i).getCodeWeight();
                 double unit = rows.get(i).getUnitTestWeight();
                 double integ = rows.get(i).getIntegrationWeight();
 
+                /* Add these values to cells and then to the right table. */
                 PdfPCell tempCell = new PdfPCell(createTextCell(Double.toString(design)));
                 tempCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 subTable.addCell(tempCell);
@@ -603,6 +624,7 @@ public class ReportGenerator
             }
         }
 
+        /* Add the left and right tables to the outer table. */
         PdfPCell left = createNestedTableCell(partitionTable);
         PdfPCell right = createNestedTableCell(subTable);
         //left.setBorder(Rectangle.NO_BORDER);
@@ -617,17 +639,25 @@ public class ReportGenerator
         return doc;
     }
 
+    /**
+     * Determines how the elements in the report will be sorted based on the first group element chosen.
+     * @param rows The rows to include in the report.
+     * @param sortByThis The element to sort by.
+     * @return A TreeMap containing the sorted data.
+     */
     private static TreeMap<String, ArrayList<RequirementsRow>> sortByWhat(ArrayList<RequirementsRow> rows, String sortByThis)
     {
         TreeMap<String, ArrayList<RequirementsRow>> map = new TreeMap<>();
         ArrayList<RequirementsRow> tempList = new ArrayList<>();
 
+        /* We must break the rows into partitions based on the first group element
+        * chosen by the user. These partitions are used to write to the document. */
         switch (sortByThis)
         {
             case "SC/ICR":
-                for (RequirementsRow row : rows) {
-                    for (RequirementsRow r : rows) {
-                        if (row.getScicr().equals(r.getScicr()))
+                for (RequirementsRow row : rows) {                      /* For each row "row". */
+                    for (RequirementsRow r : rows) {                    /* Compare each row "r" to the current. */
+                        if (row.getScicr().equals(r.getScicr()))        /* If current val is equal to "row" then they belong in partion together. */
                             tempList.add(r);
                     }
                     map.put(row.getScicr(), new ArrayList<>(tempList));
@@ -726,6 +756,7 @@ public class ReportGenerator
         LineSeparator ls = new LineSeparator(1f, 105f, BaseColor.BLACK, Element.ALIGN_CENTER, -10);
         doc.add(new Chunk((ls)));
 
+        /* Outer table with have rows on left and subtotals on right. */
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setWidthPercentage(100f);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -736,17 +767,17 @@ public class ReportGenerator
         leftTable.setWidthPercentage(100f);
         leftTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 
+        /* Consists of the subtotals. */
         PdfPTable rightTable = new PdfPTable(4);
         rightTable.setWidthPercentage(100f);
         rightTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
-
+        /* The word subtotal next to the subtotals. */
         PdfPCell subCell = createTextCell("Subtotal");
         subCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         outerTable.addCell(subCell);
 
-
-
+        /* Grab the subtotals. */
         double[] subs = calculateSubtotal(partition, isSlocs);
 
         PdfPCell table_cell = new PdfPCell( new Phrase(Double.toString(subs[0]), BOLD_HEADERS));
@@ -790,7 +821,7 @@ public class ReportGenerator
         {
             RequirementsRow curr = partition.get(i);
 
-            if (isSLOCS)
+            if (isSLOCS)    /* If it is a SLOCs report. */
             {
                 /* Total is add, change and deleted added together.                     */
                 double total = curr.getAdd() + curr.getChange() + curr.getDelete();
@@ -799,16 +830,14 @@ public class ReportGenerator
                 subs[2] += curr.getDelete();                        /* Delete subtotal  */
                 subs[3] += total;                                   /* Total subtotal   */
             }
-            else
+            else            /* If it is a D/C/T/I report. */
             {
-                /* Total is add, change and deleted added together.                     */
                 //double total = curr.getAdd() + curr.getChange() + curr.getDelete();
                 subs[0] += curr.getDesignWeight();                  /* Design subtotal      */
                 subs[1] += curr.getCodeWeight();                    /* Code subtotal        */
                 subs[2] += curr.getUnitTestWeight();                /* Unit Test subtotal   */
                 subs[3] += curr.getIntegrationWeight();             /* Integ. subtotal      */
             }
-
         }
 
         return subs;

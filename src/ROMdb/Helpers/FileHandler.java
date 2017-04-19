@@ -126,6 +126,11 @@ public class FileHandler {
         return (selectedFile == null) ? null : selectedFile;
     }
 
+    /**
+     * Use a file chooser to retrieve a path so that a file can be saved
+     * to that specific location.
+     * @return The directory path.
+     */
     public String getPathWithFileChooser()
     {
         JFileChooser chooser = new JFileChooser();
