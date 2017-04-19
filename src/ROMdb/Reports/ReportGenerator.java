@@ -412,7 +412,6 @@ public class ReportGenerator
         /* Column headings */
         document = createSLOCColumnNames(document, groups);
 
-
         /* Get the items to place onto the report. */
         ArrayList<RequirementsRow> rows = new ArrayList<>(RequirementsModel.currentFilteredList);
 

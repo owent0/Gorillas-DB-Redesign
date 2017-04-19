@@ -1,5 +1,6 @@
 package ROMdb.Helpers;
 
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import javax.swing.*;
@@ -133,15 +134,10 @@ public class FileHandler {
      */
     public String getPathWithFileChooser()
     {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Select location to save file.");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        chooser.showDialog(null, "Save");
-
-        String dir = chooser.getSelectedFile().getAbsolutePath();
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose location to save report. ");
+        File selectedDirectory = chooser.showDialog(null);
+        String dir = selectedDirectory.getAbsolutePath();
 
         return dir;
     }
