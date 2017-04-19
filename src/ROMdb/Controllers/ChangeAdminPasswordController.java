@@ -22,14 +22,19 @@ public class ChangeAdminPasswordController {
     @FXML
     private void changeAdminPassword() {
 
+        /* Calls the changeAdminPassword for the LoginModel where the password encryptor is located */
         LoginModel.changeAdminPassword(passwordField_currentPass.getText(), passwordField_newPass.getText(), passwordField_confirmPass.getText());
 
         if(LoginModel.passMatches) {
+
+            /* If the passwords matched and the password was changed, the scene closes */
             closeScene();
         } else {
-           passwordField_currentPass.clear();
-           passwordField_newPass.clear();
-           passwordField_confirmPass.clear();
+
+            /* Clears the password fields, allowing the user to try again if the passwords didn't match */
+            passwordField_currentPass.clear();
+            passwordField_newPass.clear();
+            passwordField_confirmPass.clear();
         }
 
     }

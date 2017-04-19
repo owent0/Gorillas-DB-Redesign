@@ -73,15 +73,22 @@ public class LoginModel {
 
         String pass = "";
 
+        // Pulls the code column from the database table.
+        // Since there is only one there is pulls the stored password.
         while(rs.next()){
             pass = rs.getString("Code");
         }
 
+        // Returns the one-way hashed password stored in the database table.
         return pass;
     }
 
     /**
      * Changes the current admin password to a new one.
+     *
+     * Checks to see if the user has the correct current password and the new password
+     * was entered correctly twice. If so the new password is written to the database. If not
+     * the user is informed that one of the passwords was wrong or did not match and to try again.
      *
      * @param oldPassword the current admin password to make sure the user is allowed to change the password
      * @param newAdminPassword the desired new admin password plain text
