@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <left>
       <VBox alignment="TOP_CENTER">
          <children>
@@ -74,6 +74,7 @@
             <Menu fx:id="menuItem_edit" mnemonicParsing="false" text="Edit">
                <items>
                   <MenuItem fx:id="menuItem_createBaseline" disable="true" mnemonicParsing="false" onAction="#addBaselineFromMenuBar" text="Create Baseline" />
+                  <MenuItem fx:id="menuItem_addItem" disable="true" mnemonicParsing="false" onAction="#viewAddItemMenu" text="Add Item" />
                   <MenuItem fx:id="menuItem_changeDatabasePath" mnemonicParsing="false" onAction="#changeDatabasePath" text="Change File Path" />
                   <MenuItem fx:id="menuItem_changeAdminPassword" disable="true" mnemonicParsing="false" onAction="#viewChangeAdminPassword" text="Change Admin Password" />
                </items>

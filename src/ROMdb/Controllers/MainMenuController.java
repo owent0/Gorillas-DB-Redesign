@@ -50,6 +50,7 @@ public class MainMenuController
     @FXML private Button button_viewArchive;
     @FXML private MenuItem menuItem_createBaseline;
     @FXML private MenuItem menuItem_changeAdminPassword;
+    @FXML private MenuItem menuItem_addItem;
     @FXML private ComboBox<String> combo_baseline;
 
     /**
@@ -220,9 +221,11 @@ public class MainMenuController
         button_viewArchive.setDisable(false);
         combo_baseline.setDisable(false);
 
+
         if(LoginModel.isAdmin == true){
             menuItem_createBaseline.setDisable(false);
             menuItem_changeAdminPassword.setDisable(false);
+            menuItem_addItem.setDisable(false);
         }
     }
 
@@ -238,6 +241,7 @@ public class MainMenuController
         combo_baseline.setDisable(true);
         menuItem_createBaseline.setDisable(true);
         menuItem_changeAdminPassword.setDisable(true);
+        menuItem_addItem.setDisable(true);
 
     }
 
@@ -254,6 +258,19 @@ public class MainMenuController
         Stage stage = new Stage();
 
         stage.setTitle("Changing Password");
+        stage.setScene(new Scene(root));
+        //stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
+    public void viewAddItemMenu() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddItemsView.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        stage.setTitle("Add New Item");
         stage.setScene(new Scene(root));
         //stage.setResizable(false);
         stage.show();
