@@ -26,6 +26,9 @@ public class AddSCICRController {
     @FXML private Button button_cancel;
 
 
+    /**
+     * Initializes the controller and called on each load.
+     */
     @FXML
     public void initialize()
     {
@@ -94,6 +97,9 @@ public class AddSCICRController {
         stage.close();
     }
 
+    /**
+     * Updates a currently selected baseline.
+     */
     @FXML
     private void updateCurrentBaseline() {
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();

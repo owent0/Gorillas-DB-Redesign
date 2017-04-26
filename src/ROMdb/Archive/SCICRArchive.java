@@ -14,21 +14,36 @@ import java.sql.Statement;
 
 
 /**
+ * Archive for the SC/ICR data.
+ *
  * Created by Anthony Orio on 4/6/2017.
  */
 public class SCICRArchive extends  Archive<SCICRRow>
 {
+    /* The list of SCICRRows in the archive. */
     private ObservableList<SCICRRow> rows = FXCollections.observableArrayList();
 
-    public SCICRArchive() {
-        try {
+    /**
+     * The SCICRArchive constructor.
+     */
+    public SCICRArchive()
+    {
+        try
+        {
             this.fillRows();
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch rows.", ButtonType.OK);
             alert.showAndWait();
         }
     }
 
+    /**
+     * This method is deprecated.
+     * @param row The object to store into the records list.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
     @Override
     public void addRecord(SCICRRow row) throws SQLException
     {
@@ -36,6 +51,13 @@ public class SCICRArchive extends  Archive<SCICRRow>
         this.deleteFromDatabase(row.getNumber(), "SCICRData");
     }
 
+    /**
+     * Adds a list of selected records to the database. A list of rows
+     * can have 1 to n many rows to insert into the database.
+     *
+     * @param list The list of objects to append to the current list.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
     @Override
     public void addListOfRecords(ObservableList<SCICRRow> list) throws SQLException {
         for(SCICRRow row : list)
@@ -45,6 +67,13 @@ public class SCICRArchive extends  Archive<SCICRRow>
         }
     }
 
+    /**
+     * Removes a list of records from the archive and places them back into the
+     * SCICRData table that contains all non-archived SCICRRows.
+     *
+     * @param list The list to bring back from the archive.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
     @Override
     public void removeListOfRecords(ObservableList<SCICRRow> list) throws SQLException {
         for(SCICRRow row : list)
@@ -54,6 +83,10 @@ public class SCICRArchive extends  Archive<SCICRRow>
         }
     }
 
+    /**
+     * Fill the archive table view in the GUI with the current archived
+     * @throws SQLException If the SQL query could not complete properly.
+     */
     @Override
     public void fillRows() throws SQLException {
         // Initialize rows list.
@@ -86,6 +119,13 @@ public class SCICRArchive extends  Archive<SCICRRow>
         }
     }
 
+    /**
+     * Moves a single SCICRRow object from the database table called
+     * SCICRData_Archive and places it back into memory.
+     *
+     * @param row The SCICRRow to place back into memory.
+     * @throws SQLException If the SQL query could not complete properly.
+     */
     private void moveFromArchive(SCICRRow row) throws SQLException
     {
         // The query to insert the data from the fields.
@@ -107,6 +147,13 @@ public class SCICRArchive extends  Archive<SCICRRow>
         this.rows.remove(row);
     }
 
+    /**
+     * Method that will move a single row to the archive table in the database
+     * called SCICRData_Archive.
+     *
+     * @param row The SCICRRow that will have its data written to the database.
+     * @throws SQLException If the SQL query could not complete properly.
+     */
     private void moveToArchive(SCICRRow row) throws SQLException
     {
         /* Let's get todays date. */
@@ -134,6 +181,14 @@ public class SCICRArchive extends  Archive<SCICRRow>
         this.rows.add(row);
     }
 
+    /**
+     * Deletes a row from the database when the user decides to add or remove
+     * a row from and to memory.
+     *
+     * @param number The number to search for.
+     * @param table The table to search in.
+     * @throws SQLException If the SQL query could not be complete properly.
+     */
     private void deleteFromDatabase(String number, String table) throws SQLException {
         // Set up statement for deleting from database.
         PreparedStatement st = Main.conn.prepareStatement("DELETE FROM " + table + " WHERE [Number] = ?");
@@ -145,6 +200,10 @@ public class SCICRArchive extends  Archive<SCICRRow>
         st.executeUpdate();
     }
 
+    /**
+     * Getter for the list of rows currently in memory in the archive.
+     * @return The ObservableList of rows.
+     */
     public ObservableList<SCICRRow> getRows()
     {
         return this.rows;

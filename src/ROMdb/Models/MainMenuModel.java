@@ -5,7 +5,6 @@ import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.SCICRController;
 import ROMdb.Driver.Main;
-import ROMdb.Helpers.MapList;
 import ROMdb.Helpers.QueryBuilder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
@@ -17,7 +16,6 @@ import javafx.scene.control.ButtonType;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 

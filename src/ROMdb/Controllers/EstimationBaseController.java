@@ -49,6 +49,9 @@ public class EstimationBaseController {
         LoginModel.estimationBaseController = this;
     }
 
+    /**
+     * Disables the weights when the user is not an admin.
+     */
     public void disableWeights()
     {
         this.field_designWeight.setDisable(true);
@@ -57,6 +60,9 @@ public class EstimationBaseController {
         this.field_unitTestingWeight.setDisable(true);
     }
 
+    /**
+     * Enables the weights when the user is an admin.
+     */
     public void enableWeights()
     {
         this.field_designWeight.setDisable(false);
@@ -100,7 +106,9 @@ public class EstimationBaseController {
         field_staffDay.setText(EstimationBaseModel.calculateStaffDay(field_staffMonth.getText()));
     }
 
-
+    /**
+     * Filles the text fields in the estimation base with the data from the database.
+     */
     public void fillTextFieldsFromDB() {
         try
         {
@@ -127,41 +135,5 @@ public class EstimationBaseController {
             alert.showAndWait();
         }
     }
-
-    /**
-     * This method will take the information from the database table
-     * "basicrom" and display it inside the correct text field when
-     * the user chooses the baseline from the drop down menu. This information
-     * can then be updated if desired.
-     */
-    /*@FXML
-    private void fillTextFieldsFromDB()
-    {
-
-        try
-        {
-            ArrayList<String> values = EstimationBaseModel.fillTextFieldsFromDB(combo_estimateBaseline.getSelectionModel().getSelectedItem());
-
-            field_staffDay.setText(values.get(0));
-            field_staffMonth.setText(values.get(1));
-            field_cprs.setText(values.get(2));
-            field_defaultSlocs.setText(values.get(3));
-            field_cpddDocument.setText(values.get(4));
-            field_cpddDate.setText(values.get(5));
-            field_budgetUpgrade.setText(values.get(6));
-            field_budgetMaint.setText(values.get(7));
-            field_ddrCwtSlocs.setText(values.get(8));
-            field_integrationWeight.setText(values.get(9));
-            field_unitTestingWeight.setText(values.get(10));
-            field_codeWeight.setText(values.get(11));
-            field_designWeight.setText(values.get(12));
-
-        }
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }*/
 }
 

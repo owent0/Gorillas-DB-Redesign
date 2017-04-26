@@ -109,6 +109,11 @@ public class SCICRModel {
         st.executeUpdate();
     }
 
+    /**
+     * Archives a list of SCICRRows into the SCICRData_Archive table in the database.
+     * @param rows The list of rows to archive.
+     * @throws SQLException If the SQL Query could not complete successfully.
+     */
     public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
     {
         archive.addListOfRecords(rows);
