@@ -17,7 +17,8 @@ public enum InputType
     EMPTY_STRING("^$", "Empty String"),
     INT("\\d+", "Integer"),
     POS_NEG_NUM("[-+]?\\d*\\.?\\d+", "Positive or Negative Number"),
-    WHITE_SPACE("^\\s*$", "White Space");
+    WHITE_SPACE("^\\s*$", "White Space"),
+    COMPLEX_PASSWORD("(?=^.{6,15}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\\s).*$", "Complex Password");
 
     // NOTE: Use DOUBLE pattern type when trying to match any number (with decimal place or not)
 
