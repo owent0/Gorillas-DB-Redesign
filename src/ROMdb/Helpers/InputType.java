@@ -11,7 +11,7 @@ public enum InputType
      */
     ALPHA("^[a-zA-Z]*$", "Alpha"),
     ALPHA_SPACE("^[a-zA-Z\\s]*$", "Alpha Space"),
-    ALPHA_NUMERIC("^[a-zA-Z0-9]*$", "Alpha Numeric"),
+    ALPHA_NUMERIC("^[a-zA-Z0-9\\.\\-]*$", "Alpha Numeric"),
     ALPHA_NUMERIC_SPACE("^[a-zA-Z0-9\\s]*$", "Alpha Numeric Space"),
     DOUBLE("\\d+(\\.\\d{1,25})?", "Double"),
     EMPTY_STRING("^$", "Empty String"),
