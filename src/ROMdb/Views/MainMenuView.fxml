@@ -15,7 +15,7 @@
 
 <BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <left>
-      <VBox alignment="TOP_CENTER">
+      <VBox alignment="TOP_CENTER" style="-fx-background-color: lightgrey;">
          <children>
             <Button fx:id="button_SCICR" disable="true" maxHeight="-Infinity" mnemonicParsing="false" onAction="#viewMainScIcr" prefHeight="25.0" prefWidth="135.0" text="SC/ICR" textAlignment="CENTER">
                <VBox.margin>
@@ -83,10 +83,10 @@
       </MenuBar>
    </top>
    <bottom>
-      <Pane prefHeight="15.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="15.0" style="-fx-background-color: lightgrey;" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <StackPane fx:id="requirementsStackPane" BorderPane.alignment="CENTER_LEFT">
+      <StackPane fx:id="requirementsStackPane" style="-fx-border-style: solid; -fx-border-color: grey;" BorderPane.alignment="CENTER_LEFT">
          <children>
             <StackPane fx:id="loginStackPane">
                <children>
@@ -109,9 +109,12 @@
                </children>
             </StackPane>
          </children>
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin>
       </StackPane>
    </center>
    <right>
-      <Pane prefHeight="200.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="200.0" prefWidth="15.0" style="-fx-background-color: lightgrey;" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>
