@@ -22,12 +22,12 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <TextField fx:id="field_newItem" prefHeight="25.0" prefWidth="135.0">
+                  <TextField fx:id="field_newItem" onAction="#addNewItem" prefHeight="25.0" prefWidth="135.0">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="button_saveVal" mnemonicParsing="false" text="Save" />
+                  <Button fx:id="button_saveVal" mnemonicParsing="false" onAction="#addNewItem" text="Save" />
                </children>
             </HBox>
          </center>

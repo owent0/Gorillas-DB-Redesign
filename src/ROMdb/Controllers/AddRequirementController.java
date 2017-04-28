@@ -273,7 +273,7 @@ public class AddRequirementController
                 throw new InputFormatException("Value is empty");
             }
 
-            InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC);
+            InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
             if(field_paragraph.getText().trim() == null || field_paragraph.getText().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }

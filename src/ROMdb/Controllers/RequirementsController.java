@@ -1488,7 +1488,7 @@ public class RequirementsController
         tableColumn_paragraph.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_PERIOD);
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setParagraph(t.getNewValue());

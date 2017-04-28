@@ -13,6 +13,7 @@ public enum InputType
     ALPHA_SPACE("^[a-zA-Z\\s]*$", "Alpha Space"),
     ALPHA_NUMERIC("^[a-zA-Z0-9]*$", "Alpha Numeric"),
     ALPHA_NUMERIC_SPACE("^[a-zA-Z0-9\\s]*$", "Alpha Numeric Space"),
+    ALPHA_NUMERIC_PERIOD("^[a-zA-Z0-9.]*$", "Alpha Numeric With Period"),
     DOUBLE("\\d+(\\.\\d{1,25})?", "Double"),
     EMPTY_STRING("^$", "Empty String"),
     INT("\\d+", "Integer"),
