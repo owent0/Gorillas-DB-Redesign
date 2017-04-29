@@ -6,10 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Observable;
 
 /**
  * The controller that will produce the handshake between the
@@ -39,6 +37,12 @@ public class AddItemsController
     @FXML private Button button_down;
     @FXML private Button button_delete;
 
+    /**
+     * This method will execute each time the window loads.
+     * Will fill combo boxes, fill hash map, and fill the
+     * observable lists. fillHashMap will create a connection
+     * to the database.
+     */
     @FXML
     public void initialize()
     {
@@ -54,15 +58,24 @@ public class AddItemsController
         this.fillObservableLists();
     }
 
+    /**
+     * This method will fill the combo boxes with the val types.
+     */
     private void fillComboBox()
     {
+        /* Grab the list of values from the model and place into observable list. */
         ObservableList vals = FXCollections.observableList(
                         new ArrayList<>(Arrays.asList(AddItemsModel.getValTypes()))
         );
 
+        /* Set the combo box with these items as a sorted list. */
         combo_itemType.setItems(new SortedList(vals));
     }
 
+    /**
+     * Each val type will have it's own observable list. These items are
+     * retrieved from the models hash map.
+     */
     private void fillObservableLists()
     {
         capabilityList = FXCollections.observableArrayList(AddItemsModel.getMap().get("capability"));
@@ -74,11 +87,15 @@ public class AddItemsController
         buildList = FXCollections.observableArrayList(AddItemsModel.getMap().get("build"));
     }
 
+    /**
+     * Each val type selected will have a list of current items
+     * within that val type. This method will switch the list view
+     * items with the currently selected val type.
+     */
     @FXML
     public void switchListItems()
     {
-        ObservableList<String> list;
-
+        /* Figure out which val type is selected in the combo box and set list view. */
         String selectedVal = combo_itemType.getSelectionModel().getSelectedItem();
         switch (selectedVal)
         {
@@ -93,14 +110,25 @@ public class AddItemsController
         }
     }
 
+    /**
+     * Adds a new item to the currently selected val type in the combo box.
+     * The new item will be placed into the hash map in the model, as well
+     * as the observable list in this class so that it can update in real
+     * time.
+     */
     @FXML
     public void addNewItem()
     {
+        /* Retrieve the new item name from the field. */
         String newItem = field_newItem.getText();
+
+        /* We must lower case the combo box item so that we can use it as a key to the map. */
         String valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
 
+        /* Add the item to the hash map. */
         AddItemsModel.getMap().get(valType).add(newItem);
 
+        /* Add to appropriate observable list. */
         switch (valType)
         {
             case "capability":  capabilityList.add(newItem);break;

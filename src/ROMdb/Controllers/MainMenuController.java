@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
@@ -158,6 +159,11 @@ public class MainMenuController
         Parent root = loader.load();
         Stage stage = new Stage();
 
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_baseline.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Baseline Creation");
         stage.setScene(new Scene(root, 375, 255));
         stage.setResizable(false);
@@ -173,6 +179,11 @@ public class MainMenuController
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/ArchiveWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_baseline.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
 
         stage.setTitle("Archive");
         stage.setScene(new Scene(root));
@@ -203,7 +214,7 @@ public class MainMenuController
             LoginModel.isLoggedIn = false;
 
             LoginModel.mainMenuController.disableMenuButtons();
-            LoginModel.estimationBaseController.disableWeights();
+            LoginModel.estimationBaseController.disableComponents();
             MainMenuModel.loginController.logoutSuccess();
 
         }
@@ -257,6 +268,11 @@ public class MainMenuController
         Parent root = loader.load();
         Stage stage = new Stage();
 
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_baseline.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Changing Password");
         stage.setScene(new Scene(root));
         //stage.setResizable(false);
@@ -269,6 +285,11 @@ public class MainMenuController
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddItemsView.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_baseline.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
 
         stage.setTitle("Add New Item");
         stage.setScene(new Scene(root));

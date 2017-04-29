@@ -23,6 +23,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
@@ -464,10 +465,18 @@ public class RequirementsController
         Parent root = loader.load();
         Stage stage = new Stage();
 
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) table_requirements.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Requirement Creation");
         stage.setScene(new Scene(root));
+        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
+
+
     }
 
     /**
@@ -481,6 +490,12 @@ public class RequirementsController
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddRequirementWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) table_requirements.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Requirement Creation");
         stage.setScene(new Scene(root));
         AddRequirementController controller = loader.<AddRequirementController>getController();

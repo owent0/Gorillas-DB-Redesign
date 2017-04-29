@@ -57,14 +57,14 @@ public class LoginController {
         try {
 
             if(combo_username.getSelectionModel().getSelectedItem().equals("User")){
-
+                LoginModel.estimationBaseController.disableComponents();
                 LoginModel.isAdmin = false;
                 loginSuccess();
 
             } else if(combo_username.getSelectionModel().getSelectedItem().equals("Admin") && LoginModel.checkInputPassword(passfield_password.getText())) {
 
                 LoginModel.isAdmin = true;
-                LoginModel.estimationBaseController.enableWeights();
+                LoginModel.estimationBaseController.enableComponents();
                 loginSuccess();
 
             } else {
