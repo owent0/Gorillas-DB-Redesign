@@ -31,7 +31,7 @@ public class InputValidator
     {
         if(!inputString.matches(it.getPattern()))
         {
-            throw new InputFormatException("The password entered must be 6-15 characters in length, contain at least one lowercase letter, one uppercase letter, one number and one symbol.");
+            throw new InputFormatException("The password entered must be 6-15 characters in length, contain at least one lowercase letter, one uppercase letter, one number and one symbol(#?!@$%^&*-).");
         }
     }
 
