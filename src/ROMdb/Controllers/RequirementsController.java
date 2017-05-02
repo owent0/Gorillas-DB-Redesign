@@ -234,6 +234,20 @@ public class RequirementsController
     }
 
     /**
+     * Updates the Baseline Combo Box on the Main tab to the currently selected baseline in the main menu
+     */
+    @FXML
+    private void updateComboBaseline() {
+
+        if(MainMenuModel.getSelectedBaseline() != null){
+            combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+        } else {
+            combo_baseline.getSelectionModel().clearSelection();
+        }
+
+    }
+
+    /**
      * This method will take each combo box in the main tab and fill them with the data from
      * the database.
      */
