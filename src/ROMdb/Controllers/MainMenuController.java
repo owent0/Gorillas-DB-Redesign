@@ -75,6 +75,7 @@ public class MainMenuController
         MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
         MainMenuModel.estimationBaseController.fillTextFieldsFromDB();
         MainMenuModel.sCICRController.switchTableData();
+        requirementsController.updateFilterByBaseline();
     }
 
     /**
@@ -102,7 +103,6 @@ public class MainMenuController
         requirementsStackPane.setVisible(true);
         scicrStackPane.setVisible(false);
         loginStackPane.setVisible(false);
-        requirementsController.updateFilterByBaseline();
     }
 
     /**
