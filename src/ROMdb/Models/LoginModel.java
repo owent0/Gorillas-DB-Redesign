@@ -150,7 +150,7 @@ public class LoginModel {
      */
     public static void writeInitAdminPasswordToDB () {
 
-        String encryptedPassword = passwordEncryptor.encryptPassword("");
+        String encryptedPassword = passwordEncryptor.encryptPassword("Admin123");
 
         try {
 
@@ -172,5 +172,45 @@ public class LoginModel {
             alert.showAndWait();
 
         }
+    }
+
+    /**
+     * Gets the stored master password
+     *
+     * @return the one-way hashed master password that is stored in the database
+     * @throws SQLException the SQL code was not able to pull the password from the table correctly
+     */
+    public static String pullMasterPasswordFromDB() throws SQLException {
+
+        // Create query to grab all rows.
+        String query = "SELECT Code FROM DBUsers WHERE UserName = 'Master'";
+
+        // Create the statement to send.
+        Statement st = Main.conn.createStatement();
+
+        // Return the result set from this query.
+        ResultSet rs = st.executeQuery(query);
+
+        String pass = "";
+
+        // Pulls the code column from the database table.
+        // Since there is only one there is pulls the stored password.
+        while(rs.next()){
+            pass = rs.getString("Code");
+        }
+
+        // Returns the one-way hashed password stored in the database table.
+        return pass;
+    }
+
+    /**
+     * Checks to see if the currently input password matches the stored master password
+     *
+     * @param inputPassword the plain text password being checked against the stored password
+     * @return true if the input password matches the stored password, false if they do no match
+     * @throws SQLException if the SQL code messes up pulling the stored admin password
+     */
+    public static boolean checkInputMasterPassword(String inputPassword) throws SQLException {
+        return passwordEncryptor.checkPassword(inputPassword, pullMasterPasswordFromDB());
     }
 }

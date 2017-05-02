@@ -5,8 +5,15 @@ import ROMdb.Models.MainMenuModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 /**
@@ -22,6 +29,8 @@ public class LoginController {
     @FXML private PasswordField passfield_password;
     @FXML private Label label_loginmessage;
     @FXML private Button button_login;
+    @FXML private Hyperlink hyperlink_forgotPassword;
+    private int loginAttempts = 0;
 
     /**
      * Initializes the login view components
@@ -69,9 +78,16 @@ public class LoginController {
 
             } else {
 
-                label_loginmessage.setTextFill(Color.web("#ff0000"));
-                label_loginmessage.setText("Invalid Username or Password!");
-                passfield_password.clear();
+                if(loginAttempts >= 5){
+                    label_loginmessage.setVisible(false);
+                    hyperlink_forgotPassword.setVisible(true);
+                    loginAttempts++;
+                } else {
+                    label_loginmessage.setTextFill(Color.web("#ff0000"));
+                    label_loginmessage.setText("Invalid Username or Password!");
+                    loginAttempts++;
+                    passfield_password.clear();
+                }
 
             }
 
@@ -91,11 +107,14 @@ public class LoginController {
     private void loginSuccess() {
 
         LoginModel.isLoggedIn = true;
+        hyperlink_forgotPassword.setVisible(false);
         label_loginmessage.setTextFill(Color.web("#000000"));
         label_loginmessage.setText("Welcome! You are now logged in as: " + combo_username.getSelectionModel().getSelectedItem().toString());
+        label_loginmessage.setVisible(true);
         combo_username.setVisible(false);
         passfield_password.setVisible(false);
         button_login.setVisible(false);
+        loginAttempts = 0;
 
         LoginModel.mainMenuController.enableMenuButtons();
 
@@ -135,6 +154,26 @@ public class LoginController {
     @FXML
     private void callInitPassword() {
         LoginModel.writeInitAdminPasswordToDB();
+    }
+
+    @FXML
+    private void forgotPasswordClicked() throws IOException {
+
+        hyperlink_forgotPassword.setVisible(false);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/EnterMasterPasswordView.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_username.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
+        stage.setTitle("Master Password");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 
 }
