@@ -35,6 +35,8 @@ public class MainMenuController
     // The loader object for FXML.
     public FXMLLoader loader;
 
+    public static RequirementsController requirementsController;
+
     @FXML private AnchorPane anchor_estimation;
     @FXML private AnchorPane anchor_requirements;
     @FXML private AnchorPane anchor_mainScIcr;
@@ -100,6 +102,7 @@ public class MainMenuController
         requirementsStackPane.setVisible(true);
         scicrStackPane.setVisible(false);
         loginStackPane.setVisible(false);
+        requirementsController.updateFilterByBaseline();
     }
 
     /**

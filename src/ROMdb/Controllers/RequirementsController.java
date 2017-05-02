@@ -176,6 +176,9 @@ public class RequirementsController
     @FXML
     public void initialize()
     {
+
+        MainMenuController.requirementsController = this;
+
         // Create the factories for the GUI components.
         this.createFactories();
 
@@ -237,12 +240,13 @@ public class RequirementsController
      * Updates the Baseline Combo Box on the Main tab to the currently selected baseline in the main menu
      */
     @FXML
-    private void updateComboBaseline() {
+    public void updateFilterByBaseline() {
 
-        if(MainMenuModel.getSelectedBaseline() != null){
+        if(MainMenuModel.getSelectedBaseline() != null && MainMenuModel.getSelectedBaseline() != "Baseline"){
             combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
         } else {
-            combo_baseline.getSelectionModel().clearSelection();
+            combo_baseline.setValue("");
+            //combo_baseline.getSelectionModel().clearSelection();
         }
 
     }

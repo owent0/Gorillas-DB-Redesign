@@ -25,7 +25,7 @@
          <top>
             <TabPane prefHeight="170.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                <tabs>
-                  <Tab fx:id="tabPane_main" onSelectionChanged="#updateComboBaseline" text="Main">
+                  <Tab fx:id="tabPane_main" text="Main">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
