@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddRequirementController">
    <children>
       <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -152,7 +152,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="# Changed:">
+                        <Label minWidth="130.0" text="# Changed:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -169,7 +169,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label minWidth="120.0" text="# Deleted:">
+                        <Label minWidth="130.0" text="# Deleted:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -185,7 +185,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Design Weight:">
+                        <Label minWidth="130.0" text="Design Completion:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -201,7 +201,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Code Weight:">
+                        <Label minWidth="130.0" text="Code Completion:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -217,7 +217,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Unit Test Weight:">
+                        <Label minWidth="130.0" text="Unit Test Completion:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -233,7 +233,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Integration Weight:">
+                        <Label minWidth="130.0" text="Integration Completion:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -249,7 +249,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Responsible Ind:">
+                        <Label minWidth="130.0" text="Responsible Ind:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -262,7 +262,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Rommer:">
+                        <Label minWidth="130.0" text="Rommer:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -275,7 +275,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="120.0" text="Program:">
+                        <Label minWidth="130.0" text="Program:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
@@ -313,8 +313,14 @@
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </VBox>
          </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </HBox>
    </children>
 </StackPane>

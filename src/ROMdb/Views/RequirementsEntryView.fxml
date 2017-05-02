@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -651,10 +651,10 @@
                   <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Added" />
                   <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Changed" />
                   <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Deleted" />
-                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Design Weight" />
-                  <TableColumn fx:id="tableColumn_codeWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Code Weight" />
-                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Unit Test Weight" />
-                  <TableColumn fx:id="tableColumn_integrationWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Integration Weight" />
+                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Design Completion" />
+                  <TableColumn fx:id="tableColumn_codeWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Code Completion" />
+                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Unit Test Completion" />
+                  <TableColumn fx:id="tableColumn_integrationWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Integration Completion" />
                   <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Responsible Individual" />
                   <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Rommer" />
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Program" />
