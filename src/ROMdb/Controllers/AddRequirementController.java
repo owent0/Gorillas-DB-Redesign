@@ -267,8 +267,8 @@ public class AddRequirementController
      */
     private void errorChecking() throws InputFormatException{
 
-            // The value is alpha numeric only with no spaces.
-            InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC);
+            // The value is alpha numeric, periods and dashes with no spaces.
+            InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
             if(field_doors.getText().trim() == null || field_doors.getText().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }

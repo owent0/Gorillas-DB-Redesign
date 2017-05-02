@@ -1,5 +1,6 @@
 package ROMdb.Controllers;
 
+import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Models.LoginModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

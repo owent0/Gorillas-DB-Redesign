@@ -4,6 +4,9 @@ import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.MainMenuController;
 import ROMdb.Driver.Main;
+import ROMdb.Exceptions.InputFormatException;
+import ROMdb.Helpers.InputType;
+import ROMdb.Helpers.InputValidator;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -99,14 +102,20 @@ public class LoginModel {
 
         try {
 
+            InputValidator.checkPasswordPatternMatch(newAdminPassword, InputType.COMPLEX_PASSWORD);
+
             if(checkInputPassword(oldPassword) && newAdminPassword.equals(confirmNewPassword)) {
+
                 passMatches = true;
                 writeAdminPasswordToDB(newAdminPassword);
+
             } else {
+
                 passMatches = false;
 
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Old or New Passwords do not match!", ButtonType.OK);
                 alert.showAndWait();
+
             }
 
         } catch (SQLException e) {
@@ -114,6 +123,12 @@ public class LoginModel {
             Alert alert = new Alert(Alert.AlertType.ERROR, "There was an error with the SQL code: " + e.getMessage(), ButtonType.OK);
             alert.showAndWait();
 
+        } catch (InputFormatException e) {
+
+            passMatches = false;
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
