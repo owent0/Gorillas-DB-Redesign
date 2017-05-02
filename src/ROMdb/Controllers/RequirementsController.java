@@ -448,9 +448,20 @@ public class RequirementsController
             }
         });
 
+        MenuItem archiveItem = new MenuItem("Archive Selected Row(s)");
+        archiveItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                    archiveSelected();
+            }
+        });
+
         // Add MenuItem to ContextMenu
         cm.getItems().addAll(addItem);
         cm.getItems().addAll(copyItem);
+        cm.getItems().addAll(archiveItem);
 
         return cm;
     }

@@ -136,15 +136,7 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="button_archive" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#archiveSelected" prefHeight="25.0" prefWidth="90.0" text="Archive">
-                                                         <VBox.margin>
-                                                            <Insets bottom="5.0" />
-                                                         </VBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </Button>
-                                                      <Button fx:id="button_clear" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#pressClear" prefHeight="25.0" prefWidth="90.0" text="Clear Filters">
+                                                      <Button fx:id="button_clear" alignment="CENTER" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#pressClear" prefHeight="25.0" prefWidth="90.0" text="Clear Filters">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
