@@ -429,6 +429,52 @@
                         </BorderPane>
                      </content>
                   </Tab>
+                  <Tab text="Hdr/Ftr">
+                     <content>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="65.0" text="Header:">
+                                             <font>
+                                                <Font name="Times New Roman" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="textField_header" maxWidth="600.0" minHeight="25.0" minWidth="400.0" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="Times New Roman" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0">
+                                       <children>
+                                          <Label minWidth="65.0" text="Footer:">
+                                             <font>
+                                                <Font name="Times New Roman" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="textField_footer" maxWidth="600.0" minHeight="25.0" minWidth="400.0" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="Times New Roman" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                     </content>
+                  </Tab>
                   <Tab text="DDR">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
@@ -556,7 +602,7 @@
                </tabs>
             </TabPane>
          </top>
-         <center>
+         <right>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="1000.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="95.0" text="CSC" />
@@ -579,7 +625,7 @@
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Program" />
                </columns>
             </TableView>
-         </center>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
