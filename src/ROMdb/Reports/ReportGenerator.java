@@ -12,7 +12,9 @@ import com.itextpdf.text.Font;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeMap;
 
 /**
@@ -41,9 +43,11 @@ public class ReportGenerator
         /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
 
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+
         /* Instantiate document and its location. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DDRReq.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
 
         /* Change to landscape if there are more than four group selections. */
         if (isLandscape)
@@ -320,9 +324,11 @@ public class ReportGenerator
         /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
 
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+
         /* Instantiate document and its location. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DCTIStatus.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DCTIStatus_" + timeStamp + ".pdf"));
 
         /* Change to landscape if there are more than four group selections. */
         if (groups.size() >= 4)
@@ -440,9 +446,11 @@ public class ReportGenerator
         /* Get the directory path. */
         String path = fileHandler.getPathWithFileChooser();
 
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+
         /* Instantiate the new document with the path chosen. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCSAddChgDel.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCSAddChgDel_" + timeStamp + ".pdf"));
 
         /* Change to landscape view if group size is four or larger. */
         if (groups.size() >= 4)
