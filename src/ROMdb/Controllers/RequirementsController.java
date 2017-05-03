@@ -130,13 +130,6 @@ public class RequirementsController
     /* End Paragraphs Tab Components */
 
     /* Group Reports Tab Components */
-    @FXML private RadioButton radio_groupOne;
-    @FXML private RadioButton radio_groupTwo;
-    @FXML private RadioButton radio_groupThree;
-    @FXML private RadioButton radio_groupFour;
-    @FXML private RadioButton radio_groupFive;
-    @FXML private RadioButton radio_groupSix;
-
     @FXML private Button button_add;
     @FXML private Button button_remove;
     @FXML private Button button_clearChoices;
@@ -229,7 +222,6 @@ public class RequirementsController
 
         /* Group Reports initial */
         this.fillListView();
-        this.createRadioButtonToggleGroup();
         /* ---------------------------------- */
 
         /* The current filtered list should be the as allReqData initially. */
@@ -1039,46 +1031,7 @@ public class RequirementsController
         this.listview_choices.setItems(groupChoices);
     }
 
-    /**
-     * Creates the toggle group for the radio button.
-     */
-    private void createRadioButtonToggleGroup()
-    {
-        /* The toggle group creates a relation ship between radio buttons. */
-        ToggleGroup group = new ToggleGroup();
 
-        this.radio_groupOne.setToggleGroup(group);
-        this.radio_groupTwo.setToggleGroup(group);
-        this.radio_groupThree.setToggleGroup(group);
-        this.radio_groupFour.setToggleGroup(group);
-        this.radio_groupFive.setToggleGroup(group);
-        this.radio_groupSix.setToggleGroup(group);
-    }
-
-    /**
-     * Figure out which radio button is selected for the group size.
-     * @return The integer size of the group selected.
-     */
-    private int getCurrSelectLimit()
-    {
-        /* Used to retrieve toggle group. Radio button chosen randomly to achieve this. */
-        ToggleGroup group = this.radio_groupOne.getToggleGroup();
-        RadioButton currSelected = (RadioButton) group.getSelectedToggle();
-
-        int limit = 0;
-        switch (currSelected.getText())
-        {
-            case "One":     limit = 1; break;
-            case "Two":     limit = 2; break;
-            case "Three":   limit = 3; break;
-            case "Four":    limit = 4; break;
-            case "Five":    limit = 5; break;
-            case "Six":     limit = 6; break;
-            default:        break;
-        }
-
-        return limit;
-    }
 
     /**
      * Add an item from the selection list view to the choice list view.
@@ -1092,7 +1045,7 @@ public class RequirementsController
         if (selected == null)
             return;
 
-        int limit = this.getCurrSelectLimit();
+        int limit = 6;
 
         /* If you can pick more items still. */
         if (currSelectCount < limit)

@@ -26,8 +26,8 @@ public class ReportGenerator
 {
     private static final FileHandler fileHandler = new FileHandler();
 
-    private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
-    private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
 
 
     /**

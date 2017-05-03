@@ -5,13 +5,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -491,77 +489,6 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="141.0" prefWidth="296.0">
-                                       <children>
-                                          <TitledPane collapsible="false" text="Group Size">
-                                             <content>
-                                                <VBox>
-                                                   <children>
-                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                         <children>
-                                                            <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" selected="true" text="One">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Two">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Three">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                         <children>
-                                                            <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupFive" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupSix" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                         </children>
-                                                      </HBox>
-                                                   </children>
-                                                </VBox>
-                                             </content>
-                                             <VBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Times New Roman" size="13.0" />
-                                             </font>
-                                          </TitledPane>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </VBox>
                                     <VBox prefHeight="131.0" prefWidth="503.0">
                                        <children>
                                           <HBox alignment="CENTER" prefHeight="141.0" prefWidth="168.0">
@@ -569,7 +496,7 @@
                                                 <ListView fx:id="listview_choices" prefHeight="141.0" prefWidth="220.0" />
                                                 <VBox alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="button_add" minWidth="47.0" mnemonicParsing="false" onAction="#addGroupItem" text="&gt;">
+                                                      <Button fx:id="button_add" minWidth="47.0" mnemonicParsing="false" onAction="#addGroupItem" text="→">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
@@ -577,7 +504,7 @@
                                                             <Font name="Times New Roman" size="13.0" />
                                                          </font>
                                                       </Button>
-                                                      <Button fx:id="button_remove" minWidth="47.0" mnemonicParsing="false" onAction="#removeGroupItem" text="&lt;">
+                                                      <Button fx:id="button_remove" minWidth="47.0" mnemonicParsing="false" onAction="#removeGroupItem" text="←">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
