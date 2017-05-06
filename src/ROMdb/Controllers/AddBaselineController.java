@@ -12,6 +12,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.stage.Stage;
+import net.ucanaccess.jdbc.UcanaccessSQLException;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 /**
@@ -42,6 +45,7 @@ public class AddBaselineController {
         list_baselineList.setTooltip(listViewTooltip);
 
         // Allow the list to be editable.
+        // If someone wants to be able to edit baseline values, they would need to set this value to true
         list_baselineList.setEditable(false);
 
         // Make each list row an editable field.
@@ -51,6 +55,11 @@ public class AddBaselineController {
         list_baselineList.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>() {
             @Override
             public void handle(ListView.EditEvent<String> t) {
+
+                // If someone would want to be able to change baseline values they need to put code here to do so
+                // The code below is not functional:
+
+                /*
                 // Grab the initial string value.
                 String oldBaseline = list_baselineList.getSelectionModel().getSelectedItem();
 
@@ -76,6 +85,7 @@ public class AddBaselineController {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
                     alert.showAndWait();
                 }
+                */
             }
         });
     }
@@ -92,6 +102,7 @@ public class AddBaselineController {
 
         try
         {
+            // NOTE: AddBaselineModel.writeBaselineEditToDB is not implemented
             AddBaselineModel.writeBaselineEditToDB(oldBaseline, newBaseline);
         }
         catch (Exception e)
@@ -102,20 +113,13 @@ public class AddBaselineController {
     }
 
     /**
-     * Writing the baseline to the baseline table in MS Access
+     * Writing new baseline to the baseline table in MS Access
      * @throws Exception If it fails.
      */
     @FXML
     public void writeBaseline() throws Exception {
 
         String baselineToAdd = field_addBaseline.getText().trim();
-
-        // If baseline is already in existence.
-        if(SCICRModel.getMap().containsKey(baselineToAdd)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Baseline already exists", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
 
         // If entry field is blank.
         try
@@ -141,8 +145,26 @@ public class AddBaselineController {
             return;
         }
 
-        try {
+        try
+        {
             AddBaselineModel.writeBaseline(baselineToAdd);
+            // Add the new baseline to the main model baseline map.
+            MainMenuModel.baselines.add(baselineToAdd);
+            MainMenuModel.setSelectedBaseline(baselineToAdd);
+        }
+        catch (UcanaccessSQLException ucae)
+        {
+            if(ucae.getCause() instanceof  SQLIntegrityConstraintViolationException)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add baseline to database." +
+                        "\nBaseline value would not be unique.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add baseline to database.", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
         catch (Exception e)
         {
@@ -150,7 +172,6 @@ public class AddBaselineController {
             alert.showAndWait();
         }
     }
-
 
     /**
      * Closes the adding a baseline view

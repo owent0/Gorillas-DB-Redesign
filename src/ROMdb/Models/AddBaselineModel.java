@@ -27,9 +27,12 @@ public class AddBaselineModel {
      */
     public static void writeBaselineEditToDB(String oldBaseline, String newBaseline) throws SQLException {
 
+        // This method is not written correctly. It will need to be rewritten.
 
+        /*
         // The query to insert the data from the fields.
-        String insertQuery =    "UPDATE baseline SET [baseline]=? WHERE [baseline]=? ";
+
+        //String insertQuery =    "UPDATE Baseline SET [baseline]=? WHERE [baseline]=? ";
 
         // Create a new statement.
         PreparedStatement st = Main.conn.prepareStatement(insertQuery);
@@ -43,60 +46,40 @@ public class AddBaselineModel {
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
+        */
 
     }
 
     /**
-     * Writing the baseline to the baseline table in MS Access
+     * Writing a new baseline to the baseline table in MS Access
      * @param  baseline The baseline to write to the database.
      * @throws Exception If it fails.
      */
     public static void writeBaseline(String baseline) throws Exception {
 
-        baseline = baseline.trim();
-
-        // Add the new baseline to the map.
-        MainMenuModel.baselines.add(baseline);
-        //System.out.println("Adding new baseline " + MainMenuModel.getBaselines().add(baseline));
-
-        MainMenuModel.setSelectedBaseline(baseline);
-
-        // The query to insert the data from the fields.
-        String insertQuery =    "INSERT INTO baseline ([baseline]) VALUES (?)";
+        String insertBaselineQuery = "INSERT INTO Baseline ([baseline_desc], [cprs], [slocs_per_day], " +
+                "[slocs_per_month], [slocs_default], [slocs_ddr_cwt], [cpdd_document], [cpdd_date], [budget_upgrade], " +
+                "[budget_maintenance], [design_weight], [code_weight], [integration_weight], [unit_test_weight]) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        PreparedStatement st = Main.newconn.prepareStatement(insertBaselineQuery);
 
-        /** Parse all of the information and stage for writing. */
+        // Estimation base default data
         st.setString(1, baseline);
-
-        // Perform the update inside of the table of the database.
-        st.executeUpdate();
-
-        ObservableList<SCICRRow> temp = FXCollections.observableArrayList();
-        SCICRModel.getMap().put(baseline, temp);
-
-        // The query to insert the data from the fields.
-        insertQuery =    "INSERT INTO basicrom ([slocspermanday], [slocspermanmonth], [cprs], [IntergrationWeight],"
-                + "[UnitTestWeight], [CodeWeight], [DefaultSLOCS], [DesignWeight], [CPDDDocument], [CPDDDate], [Budget Upgrade], "
-                + "[Budget Maintenance], [DDR/CWT SLOCS], [baseline]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        st = Main.conn.prepareStatement(insertQuery);
-
-        st.setString(1, "0.0");
-        st.setString(2, "0.0");
-        st.setString(3, "0.0");
-        st.setString(4, "0.0");
-        st.setString(5, "0.0");
-        st.setString(6, "0.0");
-        st.setString(7, "0.0");
-        st.setString(8, "0.0");
-        st.setString(9, "0.0");
-        st.setString(10, "0.0");
-        st.setString(11, "0.0");
-        st.setString(12, "0.0");
-        st.setString(13, "0.0");
-        st.setString(14, baseline);
+        st.setString(2, "WS-xxxx");
+        st.setDouble(3, 17.21);
+        st.setDouble(4, 360);
+        st.setDouble(5, 100.00);
+        st.setDouble(6, 125.00);
+        st.setString(7, "WS-xxxxx");
+        st.setString(8, "");
+        st.setDouble(9, 0.0);
+        st.setDouble(10, 0.0);
+        st.setDouble(11, 30.0);
+        st.setDouble(12, 30.0);
+        st.setDouble(13, 25.0);
+        st.setDouble(14, 15.0);
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();

@@ -57,7 +57,7 @@ public class EstimationBaseController {
      */
     public void enableComponents()
     {
-        field_staffDay.setDisable(false);
+        field_staffDay.setDisable(true);
         field_staffMonth.setDisable(false);
         field_cprs.setDisable(false);
         field_integrationWeight.setDisable(false);
@@ -139,21 +139,22 @@ public class EstimationBaseController {
     public void fillTextFieldsFromDB() {
         try
         {
-            ArrayList<String> values = EstimationBaseModel.fillTextFieldsFromDB(MainMenuModel.getSelectedBaseline());
+            String selectedBaseline = MainMenuModel.getSelectedBaseline();
+            ArrayList<String> values = EstimationBaseModel.fillTextFieldsFromDB(selectedBaseline);
 
-            field_staffDay.setText(values.get(0));
-            field_staffMonth.setText(values.get(1));
-            field_cprs.setText(values.get(2));
+            field_cprs.setText(values.get(0));
+            field_staffDay.setText(values.get(1));
+            field_staffMonth.setText(values.get(2));
             field_defaultSlocs.setText(values.get(3));
-            field_cpddDocument.setText(values.get(4));
-            field_cpddDate.setText(values.get(5));
-            field_budgetUpgrade.setText(values.get(6));
-            field_budgetMaint.setText(values.get(7));
-            field_ddrCwtSlocs.setText(values.get(8));
-            field_integrationWeight.setText(values.get(9));
-            field_unitTestingWeight.setText(values.get(10));
-            field_codeWeight.setText(values.get(11));
-            field_designWeight.setText(values.get(12));
+            field_ddrCwtSlocs.setText(values.get(4));
+            field_cpddDocument.setText(values.get(5));
+            field_cpddDate.setText(values.get(6));
+            field_budgetUpgrade.setText(values.get(7));
+            field_budgetMaint.setText(values.get(8));
+            field_designWeight.setText(values.get(9));
+            field_codeWeight.setText(values.get(10));
+            field_integrationWeight.setText(values.get(11));
+            field_unitTestingWeight.setText(values.get(12));
 
         }
         catch (Exception e)

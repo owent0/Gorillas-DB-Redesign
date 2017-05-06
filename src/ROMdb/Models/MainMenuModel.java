@@ -79,17 +79,17 @@ public class MainMenuModel
         try
         {
             // Grab all the baselines.
-            String query = "SELECT * FROM baseline";
+            String query = "SELECT baseline_desc FROM Baseline";
 
             // Create the statement.
-            Statement st = Main.conn.createStatement();
+            Statement st = Main.newconn.createStatement();
 
             // Get the result set from the query.
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) // Retrieve data from ResultSet
             {
-                baselines.add(rs.getString("baseline")); //4th column of Table
+                baselines.add(rs.getString("baseline_desc")); //4th column of Table
             }
         }
         catch (Exception e)

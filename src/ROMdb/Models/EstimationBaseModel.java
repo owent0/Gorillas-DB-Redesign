@@ -140,11 +140,14 @@ public class EstimationBaseModel {
         }
 
         // CPDD Date check
+        // can be blank
+        /*
         if (date == null || date.trim().equals(""))
         {
             error += "CPDD Date\n";
             errorExists = true;
         }
+        */
 
         // CPRS# check
         if (cprs == null || cprs.trim().equals(""))
@@ -256,46 +259,36 @@ public class EstimationBaseModel {
                                     String defaultSlocs, String design, String upgrade, String maint,
                                     String ddr, String document, String date, String cprs) throws SQLException
     {
-            // The currently selected baseline from the drop down.
-            //String baseline = baseline.getSelectionModel().getSelectedItem();
+        // The currently selected baseline from the drop down.
+        //String baseline = baseline.getSelectionModel().getSelectedItem();
 
-            // The query to insert the data from the fields.
-            String insertQuery =    "UPDATE basicrom SET [slocspermanday]=?, [slocspermanmonth]=?, [cprs]=?, [IntergrationWeight]=?, "
-                    + "[UnitTestWeight]=?, [CodeWeight]=?, [DefaultSLOCS]=?, [DesignWeight]=?, [CPDDDocument]=?, [CPDDDate]=?, [Budget Upgrade]=?, "
-                    + "[Budget Maintenance]=?, [DDR/CWT SLOCS]=? WHERE [baseline]=?";
+        // The query to insert the data from the fields.
+        String insertQuery = "UPDATE Baseline SET [cprs]=?, [slocs_per_day]=?, [slocs_per_month]=?, " +
+                "[slocs_default]=?, [slocs_ddr_cwt]=?, [cpdd_document]=?, [cpdd_date]=?, [budget_upgrade]=?, " +
+                "[budget_maintenance]=?, [design_weight]=?, [code_weight]=?, [integration_weight]=?, " +
+                "[unit_test_weight]=? WHERE [baseline_desc]=?";
 
-            // Create a new statement.
-            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        // Create a new statement.
+        PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
-            /** Parse all of the information and stage for writing. */
-            st.setString(1, staffDay);
-            st.setString(2, staffMonth);
-            st.setString(3, cprs);
-            st.setString(7, defaultSlocs);
-            st.setString(9, document);
-            st.setString(10, date);
-            st.setString(11, upgrade);
-            st.setString(12, maint);
-            st.setString(13, ddr);
-            st.setString(14, baseline);
+        /** Parse all of the information and stage for writing. */
+        st.setString(1, cprs);
+        st.setString(2, staffDay);
+        st.setString(3, staffMonth);
+        st.setString(4, defaultSlocs);
+        st.setString(5, ddr);
+        st.setString(6, document);
+        st.setString(7, date);
+        st.setString(8, upgrade);
+        st.setString(9, maint);
+        st.setString(10, design);
+        st.setString(11, code);
+        st.setString(12, integration);
+        st.setString(13, testing);
+        st.setString(14, baseline);
 
-
-            /** The weights needs to be divided since they are percentages in database. */
-            st.setString(4, Double.toString(
-                    (Double.parseDouble(integration) / 100)));
-
-            st.setString(5, Double.toString(
-                    (Double.parseDouble(testing) / 100)));
-
-            st.setString(6, Double.toString(
-                    (Double.parseDouble(code) / 100)));
-
-            st.setString(8, Double.toString(
-                    (Double.parseDouble(design) / 100)));
-
-
-            // Perform the update inside of the table of the database.
-            st.executeUpdate();
+        // Perform the update inside of the table of the database.
+        st.executeUpdate();
     }
 
     /**
@@ -312,38 +305,33 @@ public class EstimationBaseModel {
         //updateCurrentBaseline();
         ArrayList<String> valuesFromDB = new ArrayList<>();
             // Create query
-            String query = "SELECT * FROM basicrom";
+            String query = "SELECT * FROM Baseline WHERE baseline_desc=?";
 
             // Create the statement to send.
-            Statement st = Main.conn.createStatement();
+            PreparedStatement st = Main.newconn.prepareStatement(query);
+
+            st.setString(1, baseline);
 
             // Return the result set from this query.
-            ResultSet rs = st.executeQuery(query);
+            ResultSet rs = st.executeQuery();
 
             while (rs.next()) // Retrieve data from ResultSet
             {
-                if( rs.getString(3).equals(baseline) )
-                {
+                /** Write all of the information into the correct text field. */
 
-                    /** Write all of the information into the correct text field. */
-                    valuesFromDB.add(rs.getString     ("slocspermanday"));
-                    valuesFromDB.add(rs.getString   ("slocspermanmonth"));
-                    valuesFromDB.add(rs.getString         ("cprs"));
-                    valuesFromDB.add(rs.getString ("DefaultSLOCS"));
-                    valuesFromDB.add(rs.getString ("CPDDDocument"));
-                    valuesFromDB.add(rs.getString     ("CPDDDate"));
-                    valuesFromDB.add(rs.getString("Budget Upgrade"));
-                    valuesFromDB.add(rs.getString  ("Budget Maintenance"));
-                    valuesFromDB.add(rs.getString  ("DDR/CWT SLOCS"));
-
-                    /** These numbers are percentages in the table and must be multiplied by 100. */
-                    valuesFromDB.add(Double.toString(Double.parseDouble(rs.getString("IntergrationWeight")) * 100));
-                    valuesFromDB.add(Double.toString(Double.parseDouble(rs.getString("UnitTestWeight")) * 100));
-                    valuesFromDB.add(Double.toString(Double.parseDouble(rs.getString("CodeWeight")) * 100));
-                    valuesFromDB.add(Double.toString(Double.parseDouble(rs.getString("DesignWeight")) * 100));
-
-                    break;
-                }
+                valuesFromDB.add(rs.getString("cprs"));
+                valuesFromDB.add(rs.getString("slocs_per_day"));
+                valuesFromDB.add(rs.getString("slocs_per_month"));
+                valuesFromDB.add(rs.getString("slocs_default"));
+                valuesFromDB.add(rs.getString("slocs_ddr_cwt"));
+                valuesFromDB.add(rs.getString("cpdd_document"));
+                valuesFromDB.add(rs.getString("cpdd_date"));
+                valuesFromDB.add(rs.getString("budget_upgrade"));
+                valuesFromDB.add(rs.getString("budget_maintenance"));
+                valuesFromDB.add(rs.getString("design_weight"));
+                valuesFromDB.add(rs.getString("code_weight"));
+                valuesFromDB.add(rs.getString("integration_weight"));
+                valuesFromDB.add(rs.getString("unit_test_weight"));
             }
         return valuesFromDB;
     }
