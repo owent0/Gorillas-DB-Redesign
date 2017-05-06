@@ -18,6 +18,8 @@ public class EstimationBaseController {
 
     @FXML private ComboBox<String> combo_estimateBaseline;
 
+    @FXML private Button button_estimateSubmit;
+
     @FXML private TextField field_staffDay;
     @FXML private TextField field_staffMonth;
     @FXML private TextField field_cprs;
@@ -50,26 +52,51 @@ public class EstimationBaseController {
     }
 
     /**
-     * Disables the weights when the user is not an admin.
+     * Enable all of the components inside of the estimation base
+     * when the user is an admin.
      */
-    public void disableWeights()
+    public void enableComponents()
     {
-        this.field_designWeight.setDisable(true);
-        this.field_codeWeight.setDisable(true);
-        this.field_integrationWeight.setDisable(true);
-        this.field_unitTestingWeight.setDisable(true);
+        field_staffDay.setDisable(false);
+        field_staffMonth.setDisable(false);
+        field_cprs.setDisable(false);
+        field_integrationWeight.setDisable(false);
+        field_unitTestingWeight.setDisable(false);
+        field_codeWeight.setDisable(false);
+        field_defaultSlocs.setDisable(false);
+        field_designWeight.setDisable(false);
+        field_cpddDocument.setDisable(false);
+        field_cpddDate.setDisable(false);
+        field_budgetUpgrade.setDisable(false);
+        field_budgetMaint.setDisable(false);
+        field_ddrCwtSlocs.setDisable(false);
+
+        button_estimateSubmit.setDisable(false);
     }
 
     /**
-     * Enables the weights when the user is an admin.
+     * Disable all of the components in estimation base
+     * when the user is not admin.
      */
-    public void enableWeights()
+    public void disableComponents()
     {
-        this.field_designWeight.setDisable(false);
-        this.field_codeWeight.setDisable(false);
-        this.field_integrationWeight.setDisable(false);
-        this.field_unitTestingWeight.setDisable(false);
+        field_staffDay.setDisable(true);
+        field_staffMonth.setDisable(true);
+        field_cprs.setDisable(true);
+        field_integrationWeight.setDisable(true);
+        field_unitTestingWeight.setDisable(true);
+        field_codeWeight.setDisable(true);
+        field_defaultSlocs.setDisable(true);
+        field_designWeight.setDisable(true);
+        field_cpddDocument.setDisable(true);
+        field_cpddDate.setDisable(true);
+        field_budgetUpgrade.setDisable(true);
+        field_budgetMaint.setDisable(true);
+        field_ddrCwtSlocs.setDisable(true);
+
+        button_estimateSubmit.setDisable(true);
     }
+
 
     /**
      * This method will evaluate each text field and ensure that

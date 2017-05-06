@@ -22,6 +22,20 @@ public class InputValidator
     }
 
     /**
+     * Checks to see if the password pattern is a match.
+     * @param inputString the string to check the pattern against.
+     * @param it the input type.
+     * @throws InputFormatException If input is not correct.
+     */
+    public static void checkPasswordPatternMatch(String inputString, InputType it) throws InputFormatException
+    {
+        if(!inputString.matches(it.getPattern()))
+        {
+            throw new InputFormatException("The password entered must be 6-15 characters in length, contain at least one lowercase letter, one uppercase letter, one number and one symbol(#?!@$%^&*-).");
+        }
+    }
+
+    /**
      * Checks to see if the string is empty
      * @param inputString the string to check
      * @param it the input type

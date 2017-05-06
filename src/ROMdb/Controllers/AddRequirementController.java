@@ -267,13 +267,13 @@ public class AddRequirementController
      */
     private void errorChecking() throws InputFormatException{
 
-            // The value is alpha numeric only with no spaces.
-            InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC);
+            // The value is alpha numeric, periods and dashes with no spaces.
+            InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
             if(field_doors.getText().trim() == null || field_doors.getText().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }
 
-            InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC);
+            InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
             if(field_paragraph.getText().trim() == null || field_paragraph.getText().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }
@@ -285,25 +285,25 @@ public class AddRequirementController
             //Checking to see if the weights are either empty or the right input type.
             if (!InputValidator.checkEmptyString(field_design.getText().trim(), InputType.EMPTY_STRING)) {
                 if (Double.parseDouble(field_design.getText().trim()) < 0 || Double.parseDouble(field_design.getText().trim()) > 100) {
-                    throw new InputFormatException("The design weight is not within 0-100");
+                    throw new InputFormatException("The design completion is not within 0-100");
                 }
             }
 
             if (!InputValidator.checkEmptyString(field_code.getText().trim(), InputType.EMPTY_STRING)) {
                 if (Double.parseDouble(field_code.getText().trim()) < 0 || Double.parseDouble(field_code.getText().trim()) > 100) {
-                    throw new InputFormatException("The code weight is not within 0-100");
+                    throw new InputFormatException("The code completion is not within 0-100");
                 }
             }
 
             if (!InputValidator.checkEmptyString(field_unitTest.getText().trim(), InputType.EMPTY_STRING)) {
                 if (Double.parseDouble(field_unitTest.getText().trim()) < 0 || Double.parseDouble(field_unitTest.getText().trim()) > 100) {
-                    throw new InputFormatException("The unit test weight is not within 0-100");
+                    throw new InputFormatException("The unit test completion is not within 0-100");
                 }
             }
 
             if (!InputValidator.checkEmptyString(field_integration.getText().trim(), InputType.EMPTY_STRING)) {
                 if (Double.parseDouble(field_integration.getText().trim()) < 0 || Double.parseDouble(field_integration.getText().trim()) > 100) {
-                    throw new InputFormatException("The integration weight is not within 0-100");
+                    throw new InputFormatException("The integration completion is not within 0-100");
                 }
             }
 

@@ -5,13 +5,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -19,13 +17,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <TabPane prefHeight="170.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                <tabs>
-                  <Tab text="Main">
+                  <Tab fx:id="tabPane_main" text="Main">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
                            <center>
@@ -136,15 +134,7 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="button_archive" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#archiveSelected" prefHeight="25.0" prefWidth="90.0" text="Archive">
-                                                         <VBox.margin>
-                                                            <Insets bottom="5.0" />
-                                                         </VBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </Button>
-                                                      <Button fx:id="button_clear" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#pressClear" prefHeight="25.0" prefWidth="90.0" text="Clear Filters">
+                                                      <Button fx:id="button_clear" alignment="CENTER" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#pressClear" prefHeight="25.0" prefWidth="90.0" text="Clear Filters">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
@@ -439,6 +429,52 @@
                         </BorderPane>
                      </content>
                   </Tab>
+                  <Tab text="Hdr/Ftr">
+                     <content>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label minWidth="65.0" text="Header:">
+                                             <font>
+                                                <Font name="Times New Roman" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="field_header" maxWidth="600.0" minHeight="25.0" minWidth="400.0" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="Times New Roman" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0">
+                                       <children>
+                                          <Label minWidth="65.0" text="Footer:">
+                                             <font>
+                                                <Font name="Times New Roman" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="field_footer" maxWidth="600.0" minHeight="25.0" minWidth="400.0" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="Times New Roman" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                     </content>
+                  </Tab>
                   <Tab text="DDR">
                      <content>
                         <BorderPane prefHeight="150.0" prefWidth="1000.0">
@@ -499,77 +535,6 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="141.0" prefWidth="296.0">
-                                       <children>
-                                          <TitledPane collapsible="false" text="Group Size">
-                                             <content>
-                                                <VBox>
-                                                   <children>
-                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                         <children>
-                                                            <RadioButton fx:id="radio_groupOne" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" selected="true" text="One">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupTwo" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Two">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupThree" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Three">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                         <children>
-                                                            <RadioButton fx:id="radio_groupFour" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Four">
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupFive" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Five">
-                                                               <HBox.margin>
-                                                                  <Insets right="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="radio_groupSix" minWidth="55.0" mnemonicParsing="false" onAction="#clearGroupItem" text="Six">
-                                                               <font>
-                                                                  <Font name="Times New Roman" size="13.0" />
-                                                               </font>
-                                                            </RadioButton>
-                                                         </children>
-                                                      </HBox>
-                                                   </children>
-                                                </VBox>
-                                             </content>
-                                             <VBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </VBox.margin>
-                                             <font>
-                                                <Font name="Times New Roman" size="13.0" />
-                                             </font>
-                                          </TitledPane>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </VBox>
                                     <VBox prefHeight="131.0" prefWidth="503.0">
                                        <children>
                                           <HBox alignment="CENTER" prefHeight="141.0" prefWidth="168.0">
@@ -577,7 +542,7 @@
                                                 <ListView fx:id="listview_choices" prefHeight="141.0" prefWidth="220.0" />
                                                 <VBox alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="button_add" minWidth="47.0" mnemonicParsing="false" onAction="#addGroupItem" text="&gt;">
+                                                      <Button fx:id="button_add" minWidth="47.0" mnemonicParsing="false" onAction="#addGroupItem" text="→">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
@@ -585,7 +550,7 @@
                                                             <Font name="Times New Roman" size="13.0" />
                                                          </font>
                                                       </Button>
-                                                      <Button fx:id="button_remove" minWidth="47.0" mnemonicParsing="false" onAction="#removeGroupItem" text="&lt;">
+                                                      <Button fx:id="button_remove" minWidth="47.0" mnemonicParsing="false" onAction="#removeGroupItem" text="←">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
@@ -637,7 +602,7 @@
                </tabs>
             </TabPane>
          </top>
-         <center>
+         <right>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="1000.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="95.0" text="CSC" />
@@ -651,16 +616,16 @@
                   <TableColumn fx:id="tableColumn_add" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Added" />
                   <TableColumn fx:id="tableColumn_change" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Changed" />
                   <TableColumn fx:id="tableColumn_delete" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="# Deleted" />
-                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Design Weight" />
-                  <TableColumn fx:id="tableColumn_codeWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Code Weight" />
-                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Unit Test Weight" />
-                  <TableColumn fx:id="tableColumn_integrationWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Integration Weight" />
+                  <TableColumn fx:id="tableColumn_designWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Design Completion" />
+                  <TableColumn fx:id="tableColumn_codeWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Code Completion" />
+                  <TableColumn fx:id="tableColumn_unitTestWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Unit Test Completion" />
+                  <TableColumn fx:id="tableColumn_integrationWeight" minWidth="0.0" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Integration Completion" />
                   <TableColumn fx:id="tableColumn_ri" onEditCommit="#saveRowEditChanges" prefWidth="140.0" text="Responsible Individual" />
                   <TableColumn fx:id="tableColumn_rommer" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Rommer" />
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Program" />
                </columns>
             </TableView>
-         </center>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>

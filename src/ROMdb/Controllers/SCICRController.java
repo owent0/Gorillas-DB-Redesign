@@ -18,6 +18,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -247,6 +248,11 @@ public class SCICRController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddSCICRWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) combo_ScIcrBaseline.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
 
         stage.setTitle("SC/ICR Creation");
         stage.setScene(new Scene(root, 325, 255));

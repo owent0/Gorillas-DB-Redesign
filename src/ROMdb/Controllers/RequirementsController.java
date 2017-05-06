@@ -23,6 +23,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
@@ -92,8 +93,8 @@ public class RequirementsController
     /* End complete tab components                          */
 
     /* Header / Footer Tab Components */
-    //@FXML private TextField field_header;
-    //@FXML private TextField field_footer;
+    @FXML private TextField field_header;
+    @FXML private TextField field_footer;
     /* End Header / Footer Tab Components */
 
     /* DDR Tab Components */
@@ -129,13 +130,6 @@ public class RequirementsController
     /* End Paragraphs Tab Components */
 
     /* Group Reports Tab Components */
-    @FXML private RadioButton radio_groupOne;
-    @FXML private RadioButton radio_groupTwo;
-    @FXML private RadioButton radio_groupThree;
-    @FXML private RadioButton radio_groupFour;
-    @FXML private RadioButton radio_groupFive;
-    @FXML private RadioButton radio_groupSix;
-
     @FXML private Button button_add;
     @FXML private Button button_remove;
     @FXML private Button button_clearChoices;
@@ -175,6 +169,9 @@ public class RequirementsController
     @FXML
     public void initialize()
     {
+
+        MainMenuController.requirementsController = this;
+
         // Create the factories for the GUI components.
         this.createFactories();
 
@@ -225,11 +222,25 @@ public class RequirementsController
 
         /* Group Reports initial */
         this.fillListView();
-        this.createRadioButtonToggleGroup();
         /* ---------------------------------- */
 
         /* The current filtered list should be the as allReqData initially. */
         RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
+    }
+
+    /**
+     * Updates the Baseline Combo Box on the Main tab to the currently selected baseline in the main menu
+     */
+    @FXML
+    public void updateFilterByBaseline() {
+
+        if(MainMenuModel.getSelectedBaseline() != null && MainMenuModel.getSelectedBaseline() != "Baseline"){
+            combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+        } else {
+            combo_baseline.setValue("");
+            //combo_baseline.getSelectionModel().clearSelection();
+        }
+
     }
 
     /**
@@ -447,9 +458,20 @@ public class RequirementsController
             }
         });
 
+        MenuItem archiveItem = new MenuItem("Archive Selected Row(s)");
+        archiveItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                    archiveSelected();
+            }
+        });
+
         // Add MenuItem to ContextMenu
         cm.getItems().addAll(addItem);
         cm.getItems().addAll(copyItem);
+        cm.getItems().addAll(archiveItem);
 
         return cm;
     }
@@ -464,10 +486,18 @@ public class RequirementsController
         Parent root = loader.load();
         Stage stage = new Stage();
 
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) table_requirements.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Requirement Creation");
         stage.setScene(new Scene(root));
+        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
+
+
     }
 
     /**
@@ -481,6 +511,12 @@ public class RequirementsController
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/AddRequirementWindow.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
+
+        /* Focus on this current window to prevent clicking on windows behind it. */
+        Stage owner = (Stage) table_requirements.getScene().getWindow();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
         stage.setTitle("Requirement Creation");
         stage.setScene(new Scene(root));
         AddRequirementController controller = loader.<AddRequirementController>getController();
@@ -654,7 +690,7 @@ public class RequirementsController
     }
 
 
-    /********** BEGIN COMPLETE TAB FUNCTIONALITY **************/
+    /********** BEGIN % COMPLETE TAB FUNCTIONALITY **************/
     /**
      * Occupy combo boxes in the complete tab.
      */
@@ -916,7 +952,19 @@ public class RequirementsController
         }
     }
 
-    /**************** END COMPLETE TAB FUNCTIONALITY *************************/
+    /**************** END % COMPLETE TAB FUNCTIONALITY ***********************/
+
+    /**************** BEGIN HDR/FTR TAB FUNCTIONALITY ***********************/
+
+    private String getHeader() {
+        return field_header.getText();
+    }
+
+    private String getFooter() {
+        return field_footer.getText();
+    }
+
+    /***************** END HDR/FTR TAB FUNCTIONALITY ************************/
 
     /**************** BEGIN DDR TAB (TAB 9)FUNCTIONALITY ********************/
 
@@ -927,10 +975,14 @@ public class RequirementsController
     @FXML
     private void generateDDRPortraitPDF()
     {
+
+        String header = getHeader();
+        String footer = getFooter();
+
         try
         {
-            ReportGenerator.generateDDR(false);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq.pdf\"",
+            ReportGenerator.generateDDR(false, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq_Date_Time.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
@@ -962,10 +1014,13 @@ public class RequirementsController
     @FXML
     private void generateDDRLandscapePDF()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try
         {
-            ReportGenerator.generateDDR(true);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape.pdf\"",
+            ReportGenerator.generateDDR(true, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape_Date_Time.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
@@ -995,46 +1050,7 @@ public class RequirementsController
         this.listview_choices.setItems(groupChoices);
     }
 
-    /**
-     * Creates the toggle group for the radio button.
-     */
-    private void createRadioButtonToggleGroup()
-    {
-        /* The toggle group creates a relation ship between radio buttons. */
-        ToggleGroup group = new ToggleGroup();
 
-        this.radio_groupOne.setToggleGroup(group);
-        this.radio_groupTwo.setToggleGroup(group);
-        this.radio_groupThree.setToggleGroup(group);
-        this.radio_groupFour.setToggleGroup(group);
-        this.radio_groupFive.setToggleGroup(group);
-        this.radio_groupSix.setToggleGroup(group);
-    }
-
-    /**
-     * Figure out which radio button is selected for the group size.
-     * @return The integer size of the group selected.
-     */
-    private int getCurrSelectLimit()
-    {
-        /* Used to retrieve toggle group. Radio button chosen randomly to achieve this. */
-        ToggleGroup group = this.radio_groupOne.getToggleGroup();
-        RadioButton currSelected = (RadioButton) group.getSelectedToggle();
-
-        int limit = 0;
-        switch (currSelected.getText())
-        {
-            case "One":     limit = 1; break;
-            case "Two":     limit = 2; break;
-            case "Three":   limit = 3; break;
-            case "Four":    limit = 4; break;
-            case "Five":    limit = 5; break;
-            case "Six":     limit = 6; break;
-            default:        break;
-        }
-
-        return limit;
-    }
 
     /**
      * Add an item from the selection list view to the choice list view.
@@ -1048,7 +1064,7 @@ public class RequirementsController
         if (selected == null)
             return;
 
-        int limit = this.getCurrSelectLimit();
+        int limit = 6;
 
         /* If you can pick more items still. */
         if (currSelectCount < limit)
@@ -1098,6 +1114,9 @@ public class RequirementsController
     @FXML
     private void pressSLOCSButton()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try {
             ArrayList groups = new ArrayList(listview_selections.getItems());
 
@@ -1107,7 +1126,7 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateSLOCS(groups);
+                ReportGenerator.generateSLOCS(groups, header, footer);
         }
         catch (Exception e)
         {
@@ -1122,6 +1141,9 @@ public class RequirementsController
     @FXML
     private void pressDCTIButton()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try {
             ArrayList groups = new ArrayList(listview_selections.getItems());
 
@@ -1131,7 +1153,7 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateDCTI(groups);
+                ReportGenerator.generateDCTI(groups, header, footer);
         }
         catch (Exception e)
         {
@@ -1488,7 +1510,7 @@ public class RequirementsController
         tableColumn_paragraph.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_PERIOD);
 
                 // Grab the new value enter into the cell.
                 (t.getTableView().getItems().get(t.getTablePosition().getRow())).setParagraph(t.getNewValue());

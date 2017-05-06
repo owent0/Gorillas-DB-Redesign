@@ -22,13 +22,19 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <TextField fx:id="field_newItem" prefHeight="25.0" prefWidth="135.0">
+                  <TextField fx:id="field_newItem" onAction="#addNewItem" prefHeight="25.0" prefWidth="135.0">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="button_saveVal" mnemonicParsing="false" text="Save" />
+                  <Button fx:id="button_saveVal" mnemonicParsing="false" onAction="#addNewItem" text="Save">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
                </children>
+               <BorderPane.margin>
+                  <Insets left="15.0" />
+               </BorderPane.margin>
             </HBox>
          </center>
          <top>
@@ -51,6 +57,9 @@
                      </font>
                   </Label>
                </children>
+               <BorderPane.margin>
+                  <Insets left="15.0" />
+               </BorderPane.margin>
             </HBox>
          </top>
       </BorderPane>
@@ -84,6 +93,9 @@
                </children>
             </VBox>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </BorderPane.margin>
       </HBox>
    </bottom>
 </BorderPane>
