@@ -126,7 +126,7 @@ public class AddItemsController
 
         /* We must lower case the combo box item so that we can use it as a key to the map. */
         String valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
-
+        int order = AddItemsModel.getMap().get(valType).size() + 1;
 
         try {
             /* Add the item to the hash map. */
@@ -145,7 +145,7 @@ public class AddItemsController
                 default:                                        break;
             }
 
-            AddItemsModel.writeItemToDb(valType, newItem);
+            AddItemsModel.writeItemToDb(valType, newItem, order);
         }
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,

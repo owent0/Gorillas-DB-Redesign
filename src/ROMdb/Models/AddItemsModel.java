@@ -50,9 +50,6 @@ public class AddItemsModel
         }
     }
 
-
-
-
     public static String[] getValTypes()
     {
         return valTypes;
@@ -63,7 +60,7 @@ public class AddItemsModel
         return map;
     }
 
-    public static void writeItemToDb(String type, String value) throws SQLException {
+    public static void writeItemToDb(String type, String value, int order) throws SQLException {
 
         /* Create query */
         String query = "INSERT INTO Val_Codes ([Field_Name], [Field_Value], [Order_Id]) VALUES (?, ?, ?)";
@@ -74,7 +71,7 @@ public class AddItemsModel
         /** Parse all of the information and stage for writing. */
         st.setString(1, type);
         st.setString(2, value);
-        st.setString(3, Integer.toString(0));
+        st.setString(3, Integer.toString(order));
         // Perform the update inside of the table of the database.
         st.executeUpdate();
     }
