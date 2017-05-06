@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -125,20 +127,30 @@ public class AddItemsController
         /* We must lower case the combo box item so that we can use it as a key to the map. */
         String valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
 
-        /* Add the item to the hash map. */
-        AddItemsModel.getMap().get(valType).add(newItem);
 
-        /* Add to appropriate observable list. */
-        switch (valType)
-        {
-            case "capability":  capabilityList.add(newItem);break;
-            case "csc":         cscList.add(newItem);       break;
-            case "csu":         csuList.add(newItem);       break;
-            case "program":     programList.add(newItem);   break;
-            case "ri":          riList.add(newItem);        break;
-            case "rommer":      rommerList.add(newItem);    break;
-            case "build":       buildList.add(newItem);     break;
-            default:                                        break;
+        try {
+            /* Add the item to the hash map. */
+            AddItemsModel.getMap().get(valType).add(newItem);
+
+            /* Add to appropriate observable list. */
+            switch (valType)
+            {
+                case "capability":  capabilityList.add(newItem);break;
+                case "csc":         cscList.add(newItem);       break;
+                case "csu":         csuList.add(newItem);       break;
+                case "program":     programList.add(newItem);   break;
+                case "ri":          riList.add(newItem);        break;
+                case "rommer":      rommerList.add(newItem);    break;
+                case "build":       buildList.add(newItem);     break;
+                default:                                        break;
+            }
+
+            AddItemsModel.writeItemToDb(valType, newItem);
+        }
+        catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not insert " + newItem + " into " + valType, ButtonType.OK);
+            alert.showAndWait();
         }
     }
 }

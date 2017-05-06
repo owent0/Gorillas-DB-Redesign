@@ -2,6 +2,7 @@ package ROMdb.Models;
 
 import ROMdb.Driver.Main;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,5 +63,20 @@ public class AddItemsModel
         return map;
     }
 
+    public static void writeItemToDb(String type, String value) throws SQLException {
+
+        /* Create query */
+        String query = "INSERT INTO Val_Codes ([Field_Name], [Field_Value], [Order_Id]) VALUES (?, ?, ?)";
+
+        // Create a new statement.
+        PreparedStatement st = Main.conn.prepareStatement(query);
+
+        /** Parse all of the information and stage for writing. */
+        st.setString(1, type);
+        st.setString(2, value);
+        st.setString(3, Integer.toString(0));
+        // Perform the update inside of the table of the database.
+        st.executeUpdate();
+    }
 
 }
