@@ -12,6 +12,8 @@ import com.itextpdf.text.Font;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class ReportGenerator
 
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
+    private static final Font HDR_FTR = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
 
 
     /**
@@ -38,7 +41,7 @@ public class ReportGenerator
      * @throws FileNotFoundException When the file cannot be located.
      * @throws DocumentException If the document is open or cannot be written to.
      */
-    public static void generateDDR(boolean isLandscape) throws FileNotFoundException, DocumentException
+    public static void generateDDR(boolean isLandscape, String header, String footer) throws IOException, DocumentException
     {
         /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
@@ -65,6 +68,9 @@ public class ReportGenerator
         title.add(new Chunk("DDR Requirements Traceability Report\n\n", BOLD_TITLE));
         document.add(title);
 
+        /* Adds a header to the report if there is one */
+        addReportHeader(document, header);
+
         /* Line separate */
         document.add( defaultSeparator() );
 
@@ -89,9 +95,19 @@ public class ReportGenerator
             *//* Add subtotal section *//*
             document = addSubtotalSection(document, partitions.get(key), groups.size(), false);
         }
-*/
+        */
+
         /* Done writing to PDF. */
         document.close();
+
+//        PdfReader reader = new PdfReader(path + "/DDRReq_" + timeStamp + ".pdf");
+//        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
+//        PdfContentByte under = null;
+//        int totalPages = reader.getNumberOfPages();
+//        for(int page = 1; page <= totalPages; page++) {
+//            under = stamper.getUnderContent(page);
+//            String pageXofY = String.format("Page %d of %d", page, totalPages)
+//        }
     }
 
     /**
@@ -319,7 +335,7 @@ public class ReportGenerator
      * @throws FileNotFoundException If the file path cannot be located.
      * @throws DocumentException If the document is open or cannot be written to.
      */
-    public static void generateDCTI(ArrayList<String> groups) throws FileNotFoundException, DocumentException
+    public static void generateDCTI(ArrayList<String> groups, String header, String footer) throws FileNotFoundException, DocumentException
     {
         /* Use a file chooser to find the path. */
         String path = fileHandler.getPathWithFileChooser();
@@ -345,6 +361,9 @@ public class ReportGenerator
         title.setAlignment(Element.ALIGN_CENTER);
         title.add(new Chunk("D/C/T/I Status\n\n", BOLD_TITLE));
         document.add(title);
+
+        /* Adds a header to the report if there is one */
+        addReportHeader(document, header);
 
         /* Line separate */
         document.add( defaultSeparator() );
@@ -440,7 +459,7 @@ public class ReportGenerator
      * @throws FileNotFoundException If the file cannot be located and written to.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    public static void generateSLOCS(ArrayList<String> groups)
+    public static void generateSLOCS(ArrayList<String> groups, String header, String footer)
                                                     throws FileNotFoundException, DocumentException
     {
         /* Get the directory path. */
@@ -467,6 +486,9 @@ public class ReportGenerator
         title.setAlignment(Element.ALIGN_CENTER);
         title.add(new Chunk("Add/Chg/Del SLOC's Summary\n\n", BOLD_TITLE));
         document.add(title);
+
+        /* Adds a header to the report if there is one */
+        addReportHeader(document, header);
 
         /* Line separate */
         document.add( defaultSeparator() );
@@ -553,6 +575,44 @@ public class ReportGenerator
         doc.add(outerTable);
 
         return doc;
+    }
+
+    /**
+     * Generates the Header for the report
+     */
+    private static void addReportHeader(Document doc, String header) {
+        if(!header.trim().isEmpty()){
+
+            /* Create Report Header */
+            Paragraph reportHeader = new Paragraph();
+            reportHeader.setAlignment(Element.ALIGN_CENTER);
+            reportHeader.add(new Chunk(header, HDR_FTR));
+            try {
+                doc.add(reportHeader);
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Generates the Footer for the report
+     */
+    private static void addReportFooter(Document doc, String footer, String timestamp) {
+        if(!footer.trim().isEmpty()){
+
+            /* Create Report Footer */
+            Paragraph reportFooter = new Paragraph();
+            reportFooter.setAlignment(Element.ALIGN_CENTER);
+            reportFooter.add(new Chunk(timestamp, HDR_FTR));
+            reportFooter.add(new Chunk(footer, HDR_FTR));
+            reportFooter.add(new Chunk("Page X of Y", HDR_FTR));
+            try {
+                doc.add(reportFooter);
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

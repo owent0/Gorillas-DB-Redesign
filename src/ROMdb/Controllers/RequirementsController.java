@@ -93,8 +93,8 @@ public class RequirementsController
     /* End complete tab components                          */
 
     /* Header / Footer Tab Components */
-    //@FXML private TextField field_header;
-    //@FXML private TextField field_footer;
+    @FXML private TextField field_header;
+    @FXML private TextField field_footer;
     /* End Header / Footer Tab Components */
 
     /* DDR Tab Components */
@@ -690,7 +690,7 @@ public class RequirementsController
     }
 
 
-    /********** BEGIN COMPLETE TAB FUNCTIONALITY **************/
+    /********** BEGIN % COMPLETE TAB FUNCTIONALITY **************/
     /**
      * Occupy combo boxes in the complete tab.
      */
@@ -952,7 +952,19 @@ public class RequirementsController
         }
     }
 
-    /**************** END COMPLETE TAB FUNCTIONALITY *************************/
+    /**************** END % COMPLETE TAB FUNCTIONALITY ***********************/
+
+    /**************** BEGIN HDR/FTR TAB FUNCTIONALITY ***********************/
+
+    private String getHeader() {
+        return field_header.getText();
+    }
+
+    private String getFooter() {
+        return field_footer.getText();
+    }
+
+    /***************** END HDR/FTR TAB FUNCTIONALITY ************************/
 
     /**************** BEGIN DDR TAB (TAB 9)FUNCTIONALITY ********************/
 
@@ -963,10 +975,14 @@ public class RequirementsController
     @FXML
     private void generateDDRPortraitPDF()
     {
+
+        String header = getHeader();
+        String footer = getFooter();
+
         try
         {
-            ReportGenerator.generateDDR(false);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq.pdf\"",
+            ReportGenerator.generateDDR(false, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq_Date_Time.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
@@ -998,10 +1014,13 @@ public class RequirementsController
     @FXML
     private void generateDDRLandscapePDF()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try
         {
-            ReportGenerator.generateDDR(true);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape.pdf\"",
+            ReportGenerator.generateDDR(true, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape_Date_Time.pdf\"",
                     ButtonType.OK);
             alert.showAndWait();
         }
@@ -1095,6 +1114,9 @@ public class RequirementsController
     @FXML
     private void pressSLOCSButton()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try {
             ArrayList groups = new ArrayList(listview_selections.getItems());
 
@@ -1104,7 +1126,7 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateSLOCS(groups);
+                ReportGenerator.generateSLOCS(groups, header, footer);
         }
         catch (Exception e)
         {
@@ -1119,6 +1141,9 @@ public class RequirementsController
     @FXML
     private void pressDCTIButton()
     {
+        String header = getHeader();
+        String footer = getFooter();
+
         try {
             ArrayList groups = new ArrayList(listview_selections.getItems());
 
@@ -1128,7 +1153,7 @@ public class RequirementsController
                 alert.showAndWait();
             }
             else
-                ReportGenerator.generateDCTI(groups);
+                ReportGenerator.generateDCTI(groups, header, footer);
         }
         catch (Exception e)
         {
