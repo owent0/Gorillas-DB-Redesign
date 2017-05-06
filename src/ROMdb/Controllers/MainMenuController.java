@@ -234,12 +234,11 @@ public class MainMenuController
         button_requirementsEntry.setDisable(false);
         button_viewArchive.setDisable(false);
         combo_baseline.setDisable(false);
-
+        menuItem_addItem.setDisable(false);
 
         if(LoginModel.isAdmin == true){
             menuItem_createBaseline.setDisable(false);
             menuItem_changeAdminPassword.setDisable(false);
-            menuItem_addItem.setDisable(false);
         }
     }
 
