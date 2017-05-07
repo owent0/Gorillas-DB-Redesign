@@ -15,8 +15,8 @@ import java.util.HashMap;
 /**
  * Created by Anthony Orio on 3/27/2017.
  */
-public class SCICRModel {
-
+public class SCICRModel
+{
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
@@ -27,20 +27,23 @@ public class SCICRModel {
      * Fills the table with the data from the database.
      * @throws SQLException If the query statement could not successfully complete.
      */
-    public static void fillTable() throws SQLException {
-
+    public static void fillTable() throws SQLException
+    {
         // For each baseline.
         ObservableList<String> baselines = MainMenuModel.getBaselines();
-        for( String baseline : baselines) {
+        for( String baseline : baselines)
+        {
+            // get baseline_id the corresponds to the baseline_desc
+            int baselineId = MainMenuModel.getBaselineLookupMap().get(baseline);
 
             // Initialize rows list.
             ObservableList rows = FXCollections.observableArrayList();
 
             // Create query to grab all rows.
-            String query = "SELECT * FROM SCICRData";
+            String query = "SELECT * FROM SCICR";
 
             // Create the statement to send.
-            Statement st = Main.conn.createStatement();
+            Statement st = Main.newconn.createStatement();
 
             // Return the result set from this query.
             ResultSet rs = st.executeQuery(query);
@@ -48,16 +51,16 @@ public class SCICRModel {
             while (rs.next()) { // Retrieve data from ResultSet
 
                 // We need to add a "All" feature to show all baselines.
-                if( rs.getString("Baseline").equals(baseline) ) {
+                if( rs.getString("baseline_id").equals(Integer.toString(baselineId)))
+                {
                     SCICRRow temp = new SCICRRow(
-                            rs.getString("Type"),
-                            rs.getString("Number"),
-                            rs.getString("Title"),
-                            rs.getString("Build"),
-                            rs.getString("Baseline")
-
+                            rs.getString("type"),
+                            rs.getString("number"),
+                            rs.getString("title"),
+                            rs.getString("build_val_code_id"),
+                            baseline
                     );
-                    temp.setID(rs.getInt("SCICR_ID"));
+                    temp.setID(rs.getInt("scicr_id"));
                     rows.add(temp);
                 }
             }
@@ -73,39 +76,27 @@ public class SCICRModel {
      */
     public static void updateChanges(SCICRRow rowToUpdate) throws SQLException {
 
-            // The query to insert the data from the fields.
-            String insertQuery = "UPDATE SCICRData SET [Type]=?, [Number]=?, [Title]=?, [Build]=?, [Baseline]=? WHERE [SCICR_ID]=?";
+        // The query to insert the data from the fields.
+        String insertQuery = "UPDATE SCICR SET [type]=?, [number]=?, [title]=?, [build_val_code_id]=?, [baseline_id]=? WHERE [scicr_id]=?";
 
-            // Create a new statement.
-            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        // Create a new statement.
+        PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
-            st.setInt(6, rowToUpdate.getId());
+        st.setInt(6, rowToUpdate.getId());
 
-            /** Parse all of the information and stage for writing. */
-            st.setString(1, rowToUpdate.getType().trim());
-            st.setString(2, rowToUpdate.getNumber().trim());
-            st.setString(3, rowToUpdate.getTitle().trim());
-            st.setString(4, rowToUpdate.getBuild().trim());
-            st.setString(5, rowToUpdate.getBaseline().trim());
+        /** Parse all of the information and stage for writing. */
+        st.setString(1, rowToUpdate.getType().trim());
+        st.setString(2, rowToUpdate.getNumber().trim());
+        st.setString(3, rowToUpdate.getTitle().trim());
+        st.setString(4, rowToUpdate.getBuild().trim());
 
-            // Perform the update inside of the table of the database.
-            st.executeUpdate();
-    }
+        String baselineDesc = rowToUpdate.getBaseline().trim();
+        // get baseline_id the corresponds to the baseline_desc
+        int baselineId = MainMenuModel.getBaselineLookupMap().get(baselineDesc);
 
-    /**
-     * Deletes the selected row from the database.
-     * @param rowKey the primary key to search for in the table.
-     * @throws SQLException If the query statement could not successfully complete.
-     */
-    public static void deleteRowFromDatabase(String rowKey) throws SQLException {
+        st.setInt(5, baselineId);
 
-        // Set up statement for deleting from database.
-        PreparedStatement st = Main.conn.prepareStatement("DELETE FROM SCICRData WHERE Number = ?");
-
-        // Uses the primary key to locate in table.
-        st.setString(1,rowKey);
-
-        // Perform the query.
+        // Perform the update inside of the table of the database.
         st.executeUpdate();
     }
 

@@ -135,7 +135,19 @@ public class QueryBuilder
 
         query = selectPart + fromPart + wherePart + orderByPart;
 
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        // TODO REMOVE THIS REALLY BAD LINE OF CODE
+        PreparedStatement st = null;
+        if(tableName.equalsIgnoreCase("scicr"))
+        {
+            st = Main.newconn.prepareStatement(query);
+        }
+        else
+        {
+            st = Main.conn.prepareStatement(query);
+        }
+        // THE LINE SHOULD BE:
+        // PreparedStatement st = Main.conn.prepareStatement(query);
+        //////////////////////////////////
 
         // replace question marks (?) with actual arguments
         int argNum = 1;

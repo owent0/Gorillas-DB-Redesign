@@ -141,13 +141,6 @@ public class EstimationBaseModel {
 
         // CPDD Date check
         // can be blank
-        /*
-        if (date == null || date.trim().equals(""))
-        {
-            error += "CPDD Date\n";
-            errorExists = true;
-        }
-        */
 
         // CPRS# check
         if (cprs == null || cprs.trim().equals(""))

@@ -6,6 +6,7 @@ import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.SCICRController;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.QueryBuilder;
+import ROMdb.Helpers.FilterItem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by derek on 3/25/2017.
@@ -29,9 +31,43 @@ public class MainMenuModel
     public static LoginController loginController;
     public static ChangeAdminPasswordController changeAdminPasswordController;
 
-    public static ObservableStringValue selectedBaseline = new SimpleStringProperty("Baseline");
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
+    public static ObservableStringValue selectedBaseline = new SimpleStringProperty(baselines.get(0));
     public static ObservableList<String> scicrs = fetchSCICRsFromDB();
+
+    private static HashMap<String, Integer> baselineLookupMap;
+
+    /**
+     * Pulls latest baseline data from the database before returning a reference to the baselineLookupMap
+     * This map is used throughout the program when it is neccessary to determine the baseline_id of a particular
+     * baseline when you only have the baseline_desc on hand.
+     * returns null if there is a problem
+     * @return
+     */
+    public static HashMap<String, Integer> getBaselineLookupMap()
+    {
+        String baselineDataQuery = "SELECT [baseline_desc], [baseline_id] FROM Baseline";
+        try
+        {
+            Statement st = Main.newconn.createStatement();
+            ResultSet rs = st.executeQuery(baselineDataQuery);
+            MainMenuModel.baselineLookupMap = new HashMap<String, Integer>();
+            while (rs.next()) // Retrieve data from ResultSet
+            {
+                MainMenuModel.baselineLookupMap.put(rs.getString("baseline_desc"),
+                        Integer.parseInt(rs.getString("baseline_id")));
+            }
+            return MainMenuModel.baselineLookupMap;
+        }
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not retrieve baselines from database... Please contact program admin",
+                    ButtonType.OK);
+            alert.showAndWait();
+        }
+        return null;
+    }
 
     /**
      * Get the observable list that contains all the baselines for the program
@@ -79,7 +115,7 @@ public class MainMenuModel
         try
         {
             // Grab all the baselines.
-            String query = "SELECT baseline_desc FROM Baseline";
+            String query = "SELECT baseline_desc FROM Baseline ORDER BY baseline_id asc";
 
             // Create the statement.
             Statement st = Main.newconn.createStatement();
@@ -111,10 +147,17 @@ public class MainMenuModel
     {
         try
         {
+            String baselineDesc = MainMenuModel.selectedBaseline.getValue();
+            // get baseline_id the corresponds to the baseline_desc
+            int baselineId = MainMenuModel.getBaselineLookupMap().get(baselineDesc);
+
+            ArrayList<FilterItem> filterList = new ArrayList<FilterItem>();
+            filterList.add(new FilterItem(Integer.toString(baselineId), "baseline_id"));
+
             // construct scicr al
-            String scicr_ColumnLabel = "Number";
+            String scicr_ColumnLabel = "number";
             ArrayList<String> scicr_ArrayList = new ArrayList<String>();
-            PreparedStatement scicr_Statement = QueryBuilder.buildSelectOrderByQuery("SCICRData", scicr_ColumnLabel, scicr_ColumnLabel, "asc");
+            PreparedStatement scicr_Statement = QueryBuilder.buildSelectWhereOrderByQuery("SCICR", scicr_ColumnLabel, filterList, false, scicr_ColumnLabel, "asc");
             ResultSet scicr_ResultSet = scicr_Statement.executeQuery();
             while(scicr_ResultSet.next())
             {

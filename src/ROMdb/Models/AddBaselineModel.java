@@ -12,43 +12,9 @@ import java.sql.SQLException;
 /**
  * Created by Anthony Orio on 3/28/2017.
  */
-public class AddBaselineModel {
+public class AddBaselineModel
+{
     public static MainMenuController mainMenuController;
-
-
-    /**
-     *
-     * Updating a baseline that is already in the baseline table in MS Access
-     * Precondition: newBaseline is validated already
-     *
-     * @param oldBaseline the current baseline in the baseline table
-     * @param newBaseline the new value for the baseline in the baseline table
-     * @throws SQLException If the query could not successfully complete.
-     */
-    public static void writeBaselineEditToDB(String oldBaseline, String newBaseline) throws SQLException {
-
-        // This method is not written correctly. It will need to be rewritten.
-
-        /*
-        // The query to insert the data from the fields.
-
-        //String insertQuery =    "UPDATE Baseline SET [baseline]=? WHERE [baseline]=? ";
-
-        // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
-
-        // This will search for the column name.
-        st.setString(2, oldBaseline);
-
-        // Parse all of the information and stage for writing.
-        st.setString(1, newBaseline);
-
-
-        // Perform the update inside of the table of the database.
-        st.executeUpdate();
-        */
-
-    }
 
     /**
      * Writing a new baseline to the baseline table in MS Access

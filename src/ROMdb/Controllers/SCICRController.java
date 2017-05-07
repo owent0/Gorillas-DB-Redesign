@@ -228,10 +228,13 @@ public class SCICRController {
     @FXML
     private void fillTable() {
 
-        try {
+        try
+        {
             SCICRModel.fillTable();
 
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
             alert.showAndWait();
         }
@@ -260,8 +263,6 @@ public class SCICRController {
         stage.show();
     }
 
-
-
     /**
      * Saves any changes to a specific cell within the table view.
      */
@@ -281,59 +282,12 @@ public class SCICRController {
         updateChanges(temp);
     }
 
-
-    /**
-     * Deletes a selected row from the table view and the database.
-     */
-    @FXML
-    // TODO THIS METHOD WILL BE CALLED VIA ADMIN FUNCTION
-    private void removeRow() {
-
-        try {
-
-            // Attempt to grab the cell that is selected.
-            TablePosition selectedCell = (TablePosition) table_ScIcr.getSelectionModel().getSelectedCells().get(0);
-
-            // Get the row number of that cell.
-            int currentRow = selectedCell.getRow();
-
-            // Get the SCICRRow object that is the candidate to delete.
-            SCICRRow rowToDelete = (SCICRRow) table_ScIcr.getItems().get(currentRow);
-
-            // Get the baseline from rowToDelete to use as a key in the hash map.
-            String baseline = rowToDelete.getBaseline();
-
-            // Remove the row from the observable list keyed by the baseline.
-            SCICRModel.getMap().get(baseline).remove(rowToDelete);
-
-            // Method call to delete from database.
-            deleteRowFromDatabase(rowToDelete.getNumber());
-
-        } catch(IndexOutOfBoundsException e) {
-            return;
-        }
-    }
-
-    /**
-     * Deletes the selected row from the database.
-     * @param rowKey the primary key to search for in the table.
-     */
-    private void deleteRowFromDatabase(String rowKey) {
-        try {
-            SCICRModel.deleteRowFromDatabase(rowKey);
-
-        } catch(SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not delete entry from database.", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
     /**
      * Updates the database with any of the changes made.
      * @param rowToUpdate the row to update.
      */
-    private void updateChanges(SCICRRow rowToUpdate) {
-
+    private void updateChanges(SCICRRow rowToUpdate)
+    {
         try
         {
             SCICRModel.updateChanges(rowToUpdate);

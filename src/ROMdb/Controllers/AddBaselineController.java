@@ -52,64 +52,14 @@ public class AddBaselineController {
         list_baselineList.setCellFactory(TextFieldListCell.forListView());
 
         // This is the action taken when user presses enter upon changing the field in the list.
-        list_baselineList.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>() {
+        list_baselineList.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>()
+        {
             @Override
             public void handle(ListView.EditEvent<String> t) {
 
                 // If someone would want to be able to change baseline values they need to put code here to do so
-                // The code below is not functional:
-
-                /*
-                // Grab the initial string value.
-                String oldBaseline = list_baselineList.getSelectionModel().getSelectedItem();
-
-                try
-                {
-                    // validate newBaseline text
-                    InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC);
-
-                    InputValidator.checkPatternDoesNotMatch(t.getNewValue(), InputType.WHITE_SPACE);
-
-                    // Set the new string value.
-                    list_baselineList.getItems().set(t.getIndex(), t.getNewValue());
-
-                    // Grab the new string value.
-                    String newBaseline = list_baselineList.getSelectionModel().getSelectedItem().trim();
-
-                    // Call to write this new string the the database.
-                    writeBaselineEditToDB(oldBaseline, newBaseline);
-
-                }
-                catch(InputFormatException ife)
-                {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
-                    alert.showAndWait();
-                }
-                */
             }
         });
-    }
-
-
-    /**
-     * Updating a baseline that is already in the baseline table in MS Access
-     * Precondition: newBaseline is validated already
-     * @param oldBaseline the current baseline in the baseline table
-     * @param newBaseline the new value for the baseline in the baseline table
-     *
-     */
-    public void writeBaselineEditToDB(String oldBaseline, String newBaseline) {
-
-        try
-        {
-            // NOTE: AddBaselineModel.writeBaselineEditToDB is not implemented
-            AddBaselineModel.writeBaselineEditToDB(oldBaseline, newBaseline);
-        }
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot read database.\n" + e, ButtonType.OK);
-            alert.showAndWait();
-        }
     }
 
     /**

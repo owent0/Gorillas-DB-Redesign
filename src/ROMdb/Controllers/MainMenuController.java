@@ -18,8 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -55,6 +59,7 @@ public class MainMenuController
     @FXML private MenuItem menuItem_changeAdminPassword;
     @FXML private MenuItem menuItem_addItem;
     @FXML private ComboBox<String> combo_baseline;
+    @FXML private Label label_selectBaseline;
 
     /**
      * This method will be called upon creating this window.
@@ -63,6 +68,7 @@ public class MainMenuController
     public void initialize()
     {
         this.combo_baseline.setItems(new SortedList<String>(MainMenuModel.getBaselines(), Collator.getInstance()));
+        this.combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
         LoginModel.mainMenuController = this;
     }
 
@@ -85,6 +91,8 @@ public class MainMenuController
     @FXML
     public void viewEstimationBase()
     {
+        MainMenuModel.estimationBaseController.fillTextFieldsFromDB();
+
         estimationStackPane.setVisible(true);
         requirementsStackPane.setVisible(false);
         scicrStackPane.setVisible(false);
@@ -99,6 +107,8 @@ public class MainMenuController
     @FXML
     public void viewRequirementsEntry()
     {
+        requirementsController.updateFilterByBaseline();
+
         estimationStackPane.setVisible(false);
         requirementsStackPane.setVisible(true);
         scicrStackPane.setVisible(false);
@@ -112,6 +122,8 @@ public class MainMenuController
     @FXML
     public void viewMainScIcr()
     {
+        MainMenuModel.sCICRController.switchTableData();
+
         estimationStackPane.setVisible(false);
         requirementsStackPane.setVisible(false);
         scicrStackPane.setVisible(true);
@@ -234,7 +246,7 @@ public class MainMenuController
         button_requirementsEntry.setDisable(false);
         button_viewArchive.setDisable(false);
         combo_baseline.setDisable(false);
-
+        label_selectBaseline.setTextFill(Color.web("#000000"));
 
         if(LoginModel.isAdmin == true){
             menuItem_createBaseline.setDisable(false);
@@ -256,7 +268,7 @@ public class MainMenuController
         menuItem_createBaseline.setDisable(true);
         menuItem_changeAdminPassword.setDisable(true);
         menuItem_addItem.setDisable(true);
-
+        label_selectBaseline.setTextFill(Color.web("#b8b8b8"));
     }
 
     /**

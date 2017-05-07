@@ -12,7 +12,7 @@
          <font>
             <Font name="Times New Roman" size="13.0" />
          </font></TextField>
-      <Button fx:id="button_cancelNewBaseline" layoutX="284.0" layoutY="222.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="76.0" text="Cancel">
+      <Button fx:id="button_cancelNewBaseline" layoutX="284.0" layoutY="222.0" mnemonicParsing="false" onAction="#closeScene" prefHeight="25.0" prefWidth="76.0" text="Close">
          <font>
             <Font name="Times New Roman" size="13.0" />
          </font></Button>

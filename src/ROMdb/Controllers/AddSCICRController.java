@@ -7,12 +7,15 @@ import ROMdb.Models.SCICRModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import net.ucanaccess.jdbc.UcanaccessSQLException;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * Created by chris on 3/15/2017.
  */
-public class AddSCICRController {
-
+public class AddSCICRController
+{
     @FXML private TextField field_title;
     @FXML private TextField field_number;
     @FXML private TextField field_build;
@@ -56,13 +59,8 @@ public class AddSCICRController {
 
             // Get either SC or ICR as a string value
             // based on the combo box selection.
-            if(radio_icr.isSelected())
-            {
+            if(radio_icr.isSelected()) {
                 SCorICR = radio_icr.getText();
-            }
-            if(AddSCICRModel.isNumberUnique(field_number.getText(), baseline))
-            {
-                throw new Exception();
             }
 
             AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), field_build.getText());
@@ -80,6 +78,20 @@ public class AddSCICRController {
              *      for other windows and components, and we do that from the MainMenuModel class.
              */
             MainMenuModel.scicrs.add(newSCICR.getNumber());
+        }
+        catch (UcanaccessSQLException ucae)
+        {
+            if(ucae.getCause() instanceof SQLIntegrityConstraintViolationException)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add SCICR to database." +
+                        "\nSCICR number would not be unique for the current baseline.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add SCICR to database.", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
         catch (Exception e)
         {
@@ -101,7 +113,8 @@ public class AddSCICRController {
      * Updates a currently selected baseline.
      */
     @FXML
-    private void updateCurrentBaseline() {
+    private void updateCurrentBaseline()
+    {
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();
         MainMenuModel.setSelectedBaseline(baseline);
         combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());

@@ -354,7 +354,7 @@ public class RequirementsController
      */
     private void setCombosToEmptyValues()
     {
-        combo_baseline.setValue("");
+        // combo_baseline.setValue(""); // we always filter by baseline
         combo_build.setValue("");
         combo_scicr.setValue("");
 
