@@ -42,18 +42,27 @@ public class ReportGenerator
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
     private static final Font HDR_FTR = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
 
-    // fields for header/footer of a report
+    // Global fields needed for header/footer of a report
+    private static boolean isLandscape = false;
     private static String header = "";
     private static String footer = "";
 
     // inner class to add header and footer
     public static class HeaderFooterPageEvent extends PdfPageEventHelper
     {
-
         @Override
         public void onStartPage(PdfWriter writer, Document document)
         {
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 290, 820, 0);
+            if (!isLandscape)
+            {
+                // set header for Portrait
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 300, 820, 0);
+            }
+            else
+            {
+                // set header for Landscape
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 420, 570, 0);
+            }
 
         }
 
@@ -61,40 +70,38 @@ public class ReportGenerator
         public void onEndPage(PdfWriter writer, Document document)
         {
             String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 30, 20, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 290, 20, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
-        }
 
-        /*
-        @Override
-        public void onCloseDocument(PdfWriter writer, Document document)
-        {
-            try
+            if (!isLandscape)
             {
-                addPdfPageCounter(writer, "C:\\Users\\Jatin\\IdeaProjects\\Gorillas-DB-Redesign\\src\\ROMdb\\Reports\\DDRReq_2017.05.07_14.33.58.pdf");
+                // set footer for Portrait
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 300, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
             }
-            catch (Exception e)
+            else
             {
-                e.printStackTrace();
+                // set footer for Landscape
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 450, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
             }
         }
-        */
-
     }
 
 
     /**
      * Generates the DDR report for portrait/landscape, lets user choose where to save it
-     * @param isLandscape true if the DDR report is to be in Landscape format
+     * @param isPdfLandscape true if the DDR report is to be in Landscape format
      * @throws FileNotFoundException When the file cannot be located.
      * @throws DocumentException If the document is open or cannot be written to.
      */
-    public static String generateDDR(boolean isLandscape, String headerContent, String footerContent) throws IOException, DocumentException, InterruptedException
+    public static String generateDDR(boolean isPdfLandscape, String headerContent, String footerContent) throws IOException, DocumentException, InterruptedException
     {
+        isLandscape = isPdfLandscape;
+
         /* Use a file chooser to find the path. */
-        //String path = fileHandler.getPathWithFileChooser();
-        String path = Main.tempPDFDirectory.toString();
+        String path = fileHandler.getPathWithFileChooser();
+        // String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
@@ -121,7 +128,7 @@ public class ReportGenerator
             documentFilePath = path + "/DDRReqPort_" + timeStamp + ".pdf";
         }
 
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
+        // PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
         // call helper method to start the HeaderFooter event creation
         headerFooter(writer);
@@ -170,7 +177,7 @@ public class ReportGenerator
         /* Done writing to PDF. */
         document.close();
 
-        previewReport(documentFilePath);
+        // previewReport(documentFilePath);
 
         return fileName;
 
@@ -187,15 +194,6 @@ public class ReportGenerator
             e.printStackTrace();
         }*/
 
-
-//        PdfReader reader = new PdfReader(path + "/DDRReq_" + timeStamp + ".pdf");
-//        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
-//        PdfContentByte under = null;
-//        int totalPages = reader.getNumberOfPages();
-//        for(int page = 1; page <= totalPages; page++) {
-//            under = stamper.getUnderContent(page);
-//            String pageXofY = String.format("Page %d of %d", page, totalPages)
-//        }
     } // end generateDDR
 
     /**
@@ -367,6 +365,7 @@ public class ReportGenerator
      */
     public static Document writePartitions(Document doc, ArrayList<RequirementsRow> partition, boolean isLandscape) throws DocumentException
     {
+
         /* Outer table will consist of group headers on left and sub total headers on right. */
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -521,7 +520,7 @@ public class ReportGenerator
         /* Done writing to PDF. */
         document.close();
 
-        previewReport(documentFilePath);
+        // previewReport(documentFilePath);
     }
 
     /**
@@ -650,7 +649,7 @@ public class ReportGenerator
 
         document.close();
 
-        previewReport(documentFilePath);
+        // previewReport(documentFilePath);
     }
 
 
