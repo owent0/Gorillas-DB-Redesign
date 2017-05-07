@@ -100,8 +100,8 @@ public class ReportGenerator
         isLandscape = isPdfLandscape;
 
         /* Use a file chooser to find the path. */
-        String path = fileHandler.getPathWithFileChooser();
-        // String path = Main.tempPDFDirectory.toString();
+        // String path = fileHandler.getPathWithFileChooser();
+        String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
@@ -112,23 +112,29 @@ public class ReportGenerator
         Document document = new Document();
 
         // file name with timestamp
-        String fileName = "/DDRReq_" + timeStamp + ".pdf";
+        // String fileName = "/DDRReq_" + timeStamp + ".pdf";
 
-        String fullPathFileName = path + fileName;
+        // String fullPathFileName = path + fileName;
 
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fullPathFileName));
+        //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fullPathFileName));
+
         String documentFilePath = "";
+        String fileName = "";
 
         /* Change to landscape if there are more than four group selections. */
         if (isLandscape)
         {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
-            documentFilePath = path + "/DDRReqLand_" + timeStamp + ".pdf";
-        } else {
-            documentFilePath = path + "/DDRReqPort_" + timeStamp + ".pdf";
+            fileName = "/DDRReqLand_" + timeStamp + ".pdf";
+            documentFilePath = path + fileName;
+        }
+        else
+        {
+            fileName = "/DDRReqPort_" + timeStamp + ".pdf";
+            documentFilePath = path + fileName;
         }
 
-        // PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
         // call helper method to start the HeaderFooter event creation
         headerFooter(writer);
@@ -177,7 +183,7 @@ public class ReportGenerator
         /* Done writing to PDF. */
         document.close();
 
-        // previewReport(documentFilePath);
+        previewReport(documentFilePath);
 
         return fileName;
 
@@ -520,7 +526,7 @@ public class ReportGenerator
         /* Done writing to PDF. */
         document.close();
 
-        // previewReport(documentFilePath);
+        previewReport(documentFilePath);
     }
 
     /**
@@ -649,7 +655,7 @@ public class ReportGenerator
 
         document.close();
 
-        // previewReport(documentFilePath);
+        previewReport(documentFilePath);
     }
 
 
