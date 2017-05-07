@@ -982,9 +982,9 @@ public class RequirementsController
         try
         {
             String fileName = ReportGenerator.generateDDR(false, header, footer);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
-                    ButtonType.OK);
-            alert.showAndWait();
+            // Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
+            //        ButtonType.OK);
+            // alert.showAndWait();
         }
         catch (Exception e)
         {
@@ -1019,9 +1019,9 @@ public class RequirementsController
         try
         {
             String fileName = ReportGenerator.generateDDR(true, header, footer);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
-                    ButtonType.OK);
-            alert.showAndWait();
+            // Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
+            //        ButtonType.OK);
+            // alert.showAndWait();
         }
         catch (Exception e)
         {

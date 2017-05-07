@@ -51,39 +51,48 @@ public class ReportGenerator
     public static class HeaderFooterPageEvent extends PdfPageEventHelper
     {
         @Override
+        // this method gets called at the beginning of every page of the pdf document
         public void onStartPage(PdfWriter writer, Document document)
         {
-            if (!isLandscape)
+            // if header textbox isn't blank
+            if (!header.trim().isEmpty())
             {
-                // set header for Portrait
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 300, 820, 0);
+                if (!isLandscape)
+                {
+                    // set header for Portrait
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 300, 820, 0);
+                }
+                else
+                {
+                    // set header for Landscape
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 420, 570, 0);
+                }
             }
-            else
-            {
-                // set header for Landscape
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 420, 570, 0);
-            }
-
         }
 
         @Override
+        // this method gets called at the end of every page of the pdf document
         public void onEndPage(PdfWriter writer, Document document)
         {
             String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
-            if (!isLandscape)
+            // if footer textbox isn't blank
+            if (!footer.trim().isEmpty())
             {
-                // set footer for Portrait
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 300, 20, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
-            }
-            else
-            {
-                // set footer for Landscape
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 450, 20, 0);
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
+                if (!isLandscape)
+                {
+                    // set footer for Portrait
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 300, 20, 0);
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
+                }
+                else
+                {
+                    // set footer for Landscape
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 450, 20, 0);
+                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
+                }
             }
         }
     }
@@ -209,7 +218,7 @@ public class ReportGenerator
      * @throws IOException
      * @throws DocumentException
      */
-    public static void addPdfPageCounter(PdfWriter writer, String fullPathFileName) throws IOException, DocumentException
+ /*   public static void addPdfPageCounter(PdfWriter writer, String fullPathFileName) throws IOException, DocumentException
     {
         PdfReader reader = new PdfReader(fullPathFileName);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(fullPathFileName));
@@ -227,10 +236,10 @@ public class ReportGenerator
         reader.close();
         stamper.close();
     }
-
+*/
     /**
      * helper method to set an instance of inner class to the PdfWriter
-     * @param writer
+     * @param writer for the current document we are writing to
      */
     private static void headerFooter(PdfWriter writer)
     {
@@ -466,8 +475,11 @@ public class ReportGenerator
      * @throws FileNotFoundException If the file path cannot be located.
      * @throws DocumentException If the document is open or cannot be written to.
      */
-    public static void generateDCTI(ArrayList<String> groups, String header, String footer) throws FileNotFoundException, DocumentException
+    public static void generateDCTI(ArrayList<String> groups, String headerContent, String footerContent) throws FileNotFoundException, DocumentException
     {
+        header = headerContent;
+        footer = footerContent;
+
         /* Use a file chooser to find the path. */
         //String path = fileHandler.getPathWithFileChooser();
         String path = Main.tempPDFDirectory.toString();
@@ -596,9 +608,12 @@ public class ReportGenerator
      * @throws FileNotFoundException If the file cannot be located and written to.
      * @throws DocumentException If the document cannot be changed, possibly due to being open at the same time.
      */
-    public static void generateSLOCS(ArrayList<String> groups, String header, String footer)
+    public static void generateSLOCS(ArrayList<String> groups, String headerContent, String footerContent)
                                                     throws FileNotFoundException, DocumentException
     {
+        header = headerContent;
+        footer = footerContent;
+
         /* Get the directory path. */
         //String path = fileHandler.getPathWithFileChooser();
         String path = Main.tempPDFDirectory.toString();
