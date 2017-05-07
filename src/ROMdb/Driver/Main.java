@@ -11,6 +11,9 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.stage.*;
 import javax.swing.*;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -20,6 +23,8 @@ public class Main extends Application
     public static Connection conn = null;
     public static String dbPath = "jdbc:ucanaccess://";
     public static FileHandler fileHandler = new FileHandler();
+    public static Path tempPDFDirectory;
+
     /**
      * Main gateway.
      * @param args : command line arguments.
@@ -38,6 +43,12 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception
     {
         dbPath = dbPath + fileHandler.getFilePath();
+
+        // Creates a temporary directory to store generated reports in
+        // This directory is deleted upon the program closing
+        tempPDFDirectory = Files.createTempDirectory("TempReportPDFs");
+        File temp = tempPDFDirectory.toFile();
+        temp.deleteOnExit();
 
         try
         {

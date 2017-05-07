@@ -1,5 +1,6 @@
 package ROMdb.Reports;
 
+import ROMdb.Driver.Main;
 import ROMdb.Helpers.FileHandler;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
@@ -9,11 +10,11 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.Font;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.awt.*;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,17 +45,24 @@ public class ReportGenerator
     public static void generateDDR(boolean isLandscape, String header, String footer) throws IOException, DocumentException
     {
         /* Use a file chooser to find the path. */
-        String path = fileHandler.getPathWithFileChooser();
+        //String path = fileHandler.getPathWithFileChooser();
+        String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
         /* Instantiate document and its location. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
+        String documentFilePath = "";
 
         /* Change to landscape if there are more than four group selections. */
-        if (isLandscape)
+        if (isLandscape) {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+            documentFilePath = path + "/DDRReqLand_" + timeStamp + ".pdf";
+        } else {
+            documentFilePath = path + "/DDRReqPort_" + timeStamp + ".pdf";
+        }
+
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
          /* Beginning creating the document. */
         document.open();
@@ -100,14 +108,7 @@ public class ReportGenerator
         /* Done writing to PDF. */
         document.close();
 
-//        PdfReader reader = new PdfReader(path + "/DDRReq_" + timeStamp + ".pdf");
-//        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
-//        PdfContentByte under = null;
-//        int totalPages = reader.getNumberOfPages();
-//        for(int page = 1; page <= totalPages; page++) {
-//            under = stamper.getUnderContent(page);
-//            String pageXofY = String.format("Page %d of %d", page, totalPages)
-//        }
+        previewReport(documentFilePath);
     }
 
     /**
@@ -338,13 +339,15 @@ public class ReportGenerator
     public static void generateDCTI(ArrayList<String> groups, String header, String footer) throws FileNotFoundException, DocumentException
     {
         /* Use a file chooser to find the path. */
-        String path = fileHandler.getPathWithFileChooser();
+        //String path = fileHandler.getPathWithFileChooser();
+        String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
         /* Instantiate document and its location. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/DCTIStatus_" + timeStamp + ".pdf"));
+        String documentFilePath = path + "/DCTIStatus_" + timeStamp + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
         /* Change to landscape if there are more than four group selections. */
         if (groups.size() >= 4)
@@ -390,6 +393,8 @@ public class ReportGenerator
 
         /* Done writing to PDF. */
         document.close();
+
+        previewReport(documentFilePath);
     }
 
     /**
@@ -463,13 +468,15 @@ public class ReportGenerator
                                                     throws FileNotFoundException, DocumentException
     {
         /* Get the directory path. */
-        String path = fileHandler.getPathWithFileChooser();
+        //String path = fileHandler.getPathWithFileChooser();
+        String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
         /* Instantiate the new document with the path chosen. */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + "/SLOCSAddChgDel_" + timeStamp + ".pdf"));
+        String documentFilePath = path + "/SLOCSAddChgDel_" + timeStamp + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
         /* Change to landscape view if group size is four or larger. */
         if (groups.size() >= 4)
@@ -513,6 +520,8 @@ public class ReportGenerator
         }
 
         document.close();
+
+        previewReport(documentFilePath);
     }
 
 
@@ -1002,6 +1011,37 @@ public class ReportGenerator
         PdfPCell cell = new PdfPCell(ph);
 
         return cell;
+    }
+
+    /**
+     * Opens a report PDF so it can be viewed, saved and printed through the computers default PDF Reader.
+     * The report PDF is stored in a temp directory and is deleted when the program closes. The Report should be saved
+     * through the PDF reader it is opened with.
+     * @param filePath the file path of the file that is being opened and viewed in the system's default PDF Reader
+     */
+    private static void previewReport(String filePath) {
+
+        File reportPDF = new File(filePath);
+
+        // Deletes the temp PDF upon closing the program
+        reportPDF.deleteOnExit();
+
+        if(reportPDF.exists()){
+            if (Desktop.isDesktopSupported()){
+                try {
+                    Desktop.getDesktop().open(reportPDF);
+                } catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"There was an error opening: " + reportPDF.getName(), ButtonType.OK);
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Awt Desktop is not supported!", ButtonType.OK);
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"The file: " + reportPDF.getName() + " does not exist!", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 }
 
