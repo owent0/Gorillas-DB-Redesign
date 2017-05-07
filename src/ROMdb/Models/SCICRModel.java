@@ -40,7 +40,11 @@ public class SCICRModel
             ObservableList rows = FXCollections.observableArrayList();
 
             // Create query to grab all rows.
-            String query = "SELECT * FROM SCICR";
+            // String query = "SELECT * FROM SCICR";
+            String query = "SELECT [type], [number], [title], [baseline_id], [scicr_id], " +
+                    "[field_value] FROM SCICR " +
+                    "INNER JOIN ValCodes " +
+                    "ON SCICR.build_val_code_id = ValCodes.val_id";
 
             // Create the statement to send.
             Statement st = Main.newconn.createStatement();
@@ -57,7 +61,7 @@ public class SCICRModel
                             rs.getString("type"),
                             rs.getString("number"),
                             rs.getString("title"),
-                            rs.getString("build"),
+                            rs.getString("field_value"),
                             baseline
                     );
                     temp.setID(rs.getInt("scicr_id"));
@@ -74,10 +78,27 @@ public class SCICRModel
      * @param rowToUpdate the row to update.
      * @throws SQLException If the query could not successfully complete.
      */
-    public static void updateChanges(SCICRRow rowToUpdate) throws SQLException {
+    public static void updateChanges(SCICRRow rowToUpdate) throws Exception
+    {
+        // retrieve the val_code that corresponds to the build value we picked from the drop down
+        String buildValCodeQuery = "SELECT [val_id] FROM ValCodes WHERE [field_name]=? AND [field_value]=?";
+        PreparedStatement bst = Main.newconn.prepareStatement(buildValCodeQuery);
+        bst.setString(1, "build");
+        bst.setString(2, rowToUpdate.getBuild());
+        ResultSet rst = bst.executeQuery();
+        String valId = null;
+        while(rst.next())
+        {
+            valId = rst.getString("val_id");
+        }
+        if(valId == null)
+        {
+            throw new Exception("No val_id exists for this build");
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         // The query to insert the data from the fields.
-        String insertQuery = "UPDATE SCICR SET [type]=?, [number]=?, [title]=?, [build]=?, [baseline_id]=? WHERE [scicr_id]=?";
+        String insertQuery = "UPDATE SCICR SET [type]=?, [number]=?, [title]=?, [build_val_code_id]=?, [baseline_id]=? WHERE [scicr_id]=?";
 
         // Create a new statement.
         PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
@@ -88,7 +109,7 @@ public class SCICRModel
         st.setString(1, rowToUpdate.getType().trim());
         st.setString(2, rowToUpdate.getNumber().trim());
         st.setString(3, rowToUpdate.getTitle().trim());
-        st.setString(4, rowToUpdate.getBuild().trim());
+        st.setString(4, valId);
 
         String baselineDesc = rowToUpdate.getBaseline().trim();
         // get baseline_id the corresponds to the baseline_desc
@@ -135,5 +156,6 @@ public class SCICRModel
     public static void setMap(HashMap<String, ObservableList<SCICRRow>> map) {
         SCICRModel.map = map;
     }
+
 }
 

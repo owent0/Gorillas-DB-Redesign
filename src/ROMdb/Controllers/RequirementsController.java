@@ -179,7 +179,7 @@ public class RequirementsController
         this.createTableHandlers();
 
         // Fills the table view with the data.
-        this.fillTable();
+        //this.fillTable(); // this will be done with a filtered data set anyway
 
         // Initializes the combo boxes with empty values.
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
@@ -375,6 +375,8 @@ public class RequirementsController
     /**
      * Method called to fill the JTable with all ReqData at the load of the window
      */
+    // we never want to show all requirements data unfiltered
+    /*
     private void fillTable()
     {
         try
@@ -388,6 +390,7 @@ public class RequirementsController
             alert.showAndWait();
         }
     }
+    */
 
     /**
      * Creates the handler for being able to click on the table view
@@ -641,6 +644,7 @@ public class RequirementsController
      */
     public void updateJTableWithFilteredReqData()
     {
+        /*
         // If filters are all empty, then load full results set into JTable
         if(RequirementsModel.filters == null || areFiltersAllEmpty(RequirementsModel.filters) == true)
         {
@@ -648,6 +652,7 @@ public class RequirementsController
         }
         else
         {
+        */
             try
             {
                 table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
@@ -657,7 +662,7 @@ public class RequirementsController
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
                 alert.showAndWait();
             }
-        }
+        //}
     }
 
 

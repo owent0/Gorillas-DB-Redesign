@@ -18,11 +18,11 @@ public class AddSCICRController
 {
     @FXML private TextField field_title;
     @FXML private TextField field_number;
-    @FXML private TextField field_build;
 
     @FXML private RadioButton radio_sc;
     @FXML private RadioButton radio_icr;
 
+    @FXML private ComboBox<String> combo_build;
     @FXML private ComboBox<String> combo_baseline;
 
     @FXML private Button button_save;
@@ -35,7 +35,17 @@ public class AddSCICRController
     @FXML
     public void initialize()
     {
+        try
+        {
+          combo_build.setItems(AddSCICRModel.fetchBuildsFromValCodesTableInDB());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Build values could not be loaded." + e, ButtonType.OK);
+            alert.showAndWait();
 
+        }
         combo_baseline.setItems(MainMenuModel.getBaselines());
         combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
     }
@@ -53,6 +63,7 @@ public class AddSCICRController
 
         // The currently selected baseline from the drop down.
         String baseline = combo_baseline.getSelectionModel().getSelectedItem();
+        String build = combo_build.getSelectionModel().getSelectedItem();
         try
         {
             String SCorICR = "SC";
@@ -63,10 +74,10 @@ public class AddSCICRController
                 SCorICR = radio_icr.getText();
             }
 
-            AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), field_build.getText());
+            AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), build);
 
             // Prepare a new SCICRRow object to put into the list for the selected baseline.
-            newSCICR = new SCICRRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), field_build.getText().trim(), baseline);
+            newSCICR = new SCICRRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), build, baseline);
 
             // Close the scene.
             closeScene();

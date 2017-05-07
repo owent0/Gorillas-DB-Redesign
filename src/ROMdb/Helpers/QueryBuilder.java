@@ -137,7 +137,7 @@ public class QueryBuilder
 
         // TODO REMOVE THIS REALLY BAD LINE OF CODE
         PreparedStatement st = null;
-        if(tableName.equalsIgnoreCase("scicr"))
+        if(tableName.equalsIgnoreCase("scicr") || tableName.equalsIgnoreCase("valcodes"))
         {
             st = Main.newconn.prepareStatement(query);
         }

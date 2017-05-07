@@ -4,6 +4,7 @@ import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
 import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.AddSCICRModel;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.SCICRModel;
 import javafx.collections.FXCollections;
@@ -26,10 +27,8 @@ import java.sql.SQLException;
 /**
  * Created by Team Gorillas on 3/14/2017
  */
-public class SCICRController {
-
-
-
+public class SCICRController
+{
     @FXML private ComboBox<String> combo_ScIcrBaseline;
 
     @FXML private TableView table_ScIcr;
@@ -56,7 +55,17 @@ public class SCICRController {
         combo_ScIcrBaseline.setItems(MainMenuModel.getBaselines());
 
         // Call to create the factories.
-        this.createFactories();
+        try
+        {
+            this.createFactories();
+
+        }
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not build cell factories." +
+                    "\nBuild values could not be loaded from ValCodes table.", ButtonType.OK);
+            alert.showAndWait();
+        }
 
         // Call to fill the table view with the SC/ICR
         // entries in the database.
@@ -71,7 +80,7 @@ public class SCICRController {
      * making specific cells correlate to fields or combo box within
      * the table view.
      */
-    private void createFactories()
+    private void createFactories() throws Exception
     {
         /** This allows for the data for each row object to be stored in the cells.
          *  The String parameter of PropertyValueFactory is a reference to the
@@ -86,10 +95,11 @@ public class SCICRController {
 
         /** This sets the cell to use a combo box for selection. **/
         ObservableList choice = FXCollections.observableArrayList("SC","ICR");
+        ObservableList builds = AddSCICRModel.fetchBuildsFromValCodesTableInDB();
         tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(choice));
+        tableColumn_build.setCellFactory(ComboBoxTableCell.forTableColumn(builds));
 
         /** This allows for the cells to be editable like text fields by clicking. **/
-        tableColumn_build.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         tableColumn_title.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         tableColumn_number.setCellFactory(TextFieldTableCell.<String>forTableColumn());
 
@@ -122,26 +132,15 @@ public class SCICRController {
                     @Override
                     public void handle(CellEditEvent<SCICRRow, String> t)
                     {
-                        try
-                        {
-                            InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                        // InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
-                            // Grab the new value enter into the cell.
-                            ((SCICRRow) t.getTableView().getItems().get(
-                                   t.getTablePosition().getRow())
-                            ).setBuild(t.getNewValue().trim());
+                        // Grab the new value enter into the cell.
+                        ((SCICRRow) t.getTableView().getItems().get(
+                               t.getTablePosition().getRow())
+                        ).setBuild(t.getNewValue().trim());
 
-                            // Save it to the database.
-                            saveCellChange();
-                        }
-                        catch(InputFormatException ife)
-                        {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR Build.", ButtonType.OK);
-                            alert.showAndWait();
-
-                            // Refresh the table.
-                            table_ScIcr.refresh();
-                        }
+                        // Save it to the database.
+                        saveCellChange();
                     }
                 }
         );
