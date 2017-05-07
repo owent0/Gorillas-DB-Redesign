@@ -57,7 +57,7 @@ public class SCICRModel
                             rs.getString("type"),
                             rs.getString("number"),
                             rs.getString("title"),
-                            rs.getString("build_val_code_id"),
+                            rs.getString("build"),
                             baseline
                     );
                     temp.setID(rs.getInt("scicr_id"));
@@ -77,7 +77,7 @@ public class SCICRModel
     public static void updateChanges(SCICRRow rowToUpdate) throws SQLException {
 
         // The query to insert the data from the fields.
-        String insertQuery = "UPDATE SCICR SET [type]=?, [number]=?, [title]=?, [build_val_code_id]=?, [baseline_id]=? WHERE [scicr_id]=?";
+        String insertQuery = "UPDATE SCICR SET [type]=?, [number]=?, [title]=?, [build]=?, [baseline_id]=? WHERE [scicr_id]=?";
 
         // Create a new statement.
         PreparedStatement st = Main.newconn.prepareStatement(insertQuery);

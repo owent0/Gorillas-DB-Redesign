@@ -30,7 +30,7 @@ public class AddSCICRModel
         int baselineId = MainMenuModel.getBaselineLookupMap().get(baselineDesc);
 
         // The query to insert the data from the fields.
-        String insertQuery = "INSERT INTO SCICR ([number], [type], [title], [build_val_code_id], [baseline_id]) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO SCICR ([number], [type], [title], [build], [baseline_id]) VALUES (?, ?, ?, ?, ?)";
 
         // Create a new statement.
         PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
