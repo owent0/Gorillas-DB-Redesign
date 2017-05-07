@@ -10,20 +10,27 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.Font;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import javax.print.Doc;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.awt.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Team Gorillas
  * Created by Anthony Orio on 4/13/2017.
- * Last Modified by Jatin Bhakta on 4/19/2017
+ * Last Modified by Jatin Bhakta on 5/7/2017
  * The purpose of this class is to generate the reports using the
  * open source software iText.
  */
@@ -35,6 +42,47 @@ public class ReportGenerator
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
     private static final Font HDR_FTR = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
 
+    // fields for header/footer of a report
+    private static String header = "";
+    private static String footer = "";
+
+    // inner class to add header and footer
+    public static class HeaderFooterPageEvent extends PdfPageEventHelper
+    {
+
+        @Override
+        public void onStartPage(PdfWriter writer, Document document)
+        {
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(header), 290, 820, 0);
+
+        }
+
+        @Override
+        public void onEndPage(PdfWriter writer, Document document)
+        {
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 30, 20, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 290, 20, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
+        }
+
+        /*
+        @Override
+        public void onCloseDocument(PdfWriter writer, Document document)
+        {
+            try
+            {
+                addPdfPageCounter(writer, "C:\\Users\\Jatin\\IdeaProjects\\Gorillas-DB-Redesign\\src\\ROMdb\\Reports\\DDRReq_2017.05.07_14.33.58.pdf");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        */
+
+    }
+
 
     /**
      * Generates the DDR report for portrait/landscape, lets user choose where to save it
@@ -42,7 +90,7 @@ public class ReportGenerator
      * @throws FileNotFoundException When the file cannot be located.
      * @throws DocumentException If the document is open or cannot be written to.
      */
-    public static void generateDDR(boolean isLandscape, String header, String footer) throws IOException, DocumentException
+    public static String generateDDR(boolean isLandscape, String headerContent, String footerContent) throws IOException, DocumentException, InterruptedException
     {
         /* Use a file chooser to find the path. */
         //String path = fileHandler.getPathWithFileChooser();
@@ -50,12 +98,23 @@ public class ReportGenerator
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
 
+        header = headerContent;
+        footer = footerContent;
+
         /* Instantiate document and its location. */
         Document document = new Document();
+
+        // file name with timestamp
+        String fileName = "/DDRReq_" + timeStamp + ".pdf";
+
+        String fullPathFileName = path + fileName;
+
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fullPathFileName));
         String documentFilePath = "";
 
         /* Change to landscape if there are more than four group selections. */
-        if (isLandscape) {
+        if (isLandscape)
+        {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
             documentFilePath = path + "/DDRReqLand_" + timeStamp + ".pdf";
         } else {
@@ -64,10 +123,16 @@ public class ReportGenerator
 
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(documentFilePath));
 
+        // call helper method to start the HeaderFooter event creation
+        headerFooter(writer);
+
          /* Beginning creating the document. */
         document.open();
 
         /* Line separator */
+        document.add( defaultSeparator() );
+
+        /* Line separate */
         document.add( defaultSeparator() );
 
         /* Create title */
@@ -75,9 +140,6 @@ public class ReportGenerator
         title.setAlignment(Element.ALIGN_CENTER);
         title.add(new Chunk("DDR Requirements Traceability Report\n\n", BOLD_TITLE));
         document.add(title);
-
-        /* Adds a header to the report if there is one */
-        addReportHeader(document, header);
 
         /* Line separate */
         document.add( defaultSeparator() );
@@ -109,6 +171,69 @@ public class ReportGenerator
         document.close();
 
         previewReport(documentFilePath);
+
+        return fileName;
+
+/*        TimeUnit.SECONDS.sleep(4);
+        System.out.println("waited 4 secs");
+
+        try
+        {
+            // read pdf created to add "Page X of Y" in the footer
+            addPdfPageCounter(writer, fullPathFileName);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }*/
+
+
+//        PdfReader reader = new PdfReader(path + "/DDRReq_" + timeStamp + ".pdf");
+//        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(path + "/DDRReq_" + timeStamp + ".pdf"));
+//        PdfContentByte under = null;
+//        int totalPages = reader.getNumberOfPages();
+//        for(int page = 1; page <= totalPages; page++) {
+//            under = stamper.getUnderContent(page);
+//            String pageXofY = String.format("Page %d of %d", page, totalPages)
+//        }
+    } // end generateDDR
+
+    /**
+     * read the pdf just created to find out how many pages there are then add the "Page X of Y" at the bottom right corner
+     * @param writer the PdfWriter that we are using to write to the document
+     * @param fullPathFileName full path destination and filename of file just created
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public static void addPdfPageCounter(PdfWriter writer, String fullPathFileName) throws IOException, DocumentException
+    {
+        PdfReader reader = new PdfReader(fullPathFileName);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(fullPathFileName));
+        PdfContentByte under = null;
+        int totalPages = reader.getNumberOfPages();
+
+        System.out.println("totalPages" + totalPages);
+        for (int page = 1; page <= totalPages; page++)
+        {
+            under = stamper.getUnderContent(page);
+            String pageXofY = String.format("Page %d of %d", page, totalPages);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(pageXofY), 550, 30, 0);
+        }
+
+        reader.close();
+        stamper.close();
+    }
+
+    /**
+     * helper method to set an instance of inner class to the PdfWriter
+     * @param writer
+     */
+    private static void headerFooter(PdfWriter writer)
+    {
+        HeaderFooterPageEvent event = new HeaderFooterPageEvent();
+        writer.setBoxSize("art", new Rectangle(36, 54, 559, 788));
+        writer.setPageEvent(event);
+
     }
 
     /**
@@ -351,7 +476,12 @@ public class ReportGenerator
 
         /* Change to landscape if there are more than four group selections. */
         if (groups.size() >= 4)
+        {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+        }
+
+        // call helper method to start the HeaderFooter event creation
+        headerFooter(writer);
 
          /* Beginning creating the document. */
         document.open();
@@ -364,9 +494,6 @@ public class ReportGenerator
         title.setAlignment(Element.ALIGN_CENTER);
         title.add(new Chunk("D/C/T/I Status\n\n", BOLD_TITLE));
         document.add(title);
-
-        /* Adds a header to the report if there is one */
-        addReportHeader(document, header);
 
         /* Line separate */
         document.add( defaultSeparator() );
@@ -480,7 +607,12 @@ public class ReportGenerator
 
         /* Change to landscape view if group size is four or larger. */
         if (groups.size() >= 4)
+        {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+        }
+
+        // call helper method to start the HeaderFooter event creation
+        headerFooter(writer);
 
         /* Beginning creating the document. */
         document.open();
@@ -493,9 +625,6 @@ public class ReportGenerator
         title.setAlignment(Element.ALIGN_CENTER);
         title.add(new Chunk("Add/Chg/Del SLOC's Summary\n\n", BOLD_TITLE));
         document.add(title);
-
-        /* Adds a header to the report if there is one */
-        addReportHeader(document, header);
 
         /* Line separate */
         document.add( defaultSeparator() );
@@ -586,43 +715,52 @@ public class ReportGenerator
         return doc;
     }
 
+
     /**
      * Generates the Header for the report
-     */
-    private static void addReportHeader(Document doc, String header) {
-        if(!header.trim().isEmpty()){
-
-            /* Create Report Header */
+     *//*
+    private static void addReportHeader(Document doc, String header)
+    {
+        if (!header.trim().isEmpty())
+        {
+            *//* Create Report Header *//*
             Paragraph reportHeader = new Paragraph();
             reportHeader.setAlignment(Element.ALIGN_CENTER);
             reportHeader.add(new Chunk(header, HDR_FTR));
-            try {
+            try
+            {
                 doc.add(reportHeader);
-            } catch (DocumentException e) {
+            }
+            catch (DocumentException e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    /**
+    *//**
      * Generates the Footer for the report
-     */
-    private static void addReportFooter(Document doc, String footer, String timestamp) {
-        if(!footer.trim().isEmpty()){
-
-            /* Create Report Footer */
+     *//*
+    private static void addReportFooter(Document doc, String footer, String timestamp)
+    {
+        if (!footer.trim().isEmpty())
+        {
+            *//* Create Report Footer *//*
             Paragraph reportFooter = new Paragraph();
             reportFooter.setAlignment(Element.ALIGN_CENTER);
             reportFooter.add(new Chunk(timestamp, HDR_FTR));
             reportFooter.add(new Chunk(footer, HDR_FTR));
             reportFooter.add(new Chunk("Page X of Y", HDR_FTR));
-            try {
+            try
+            {
                 doc.add(reportFooter);
-            } catch (DocumentException e) {
+            }
+            catch (DocumentException e)
+            {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     /**
      * Adds a line separator that was chosen to be considered "default".
@@ -1019,7 +1157,8 @@ public class ReportGenerator
      * through the PDF reader it is opened with.
      * @param filePath the file path of the file that is being opened and viewed in the system's default PDF Reader
      */
-    private static void previewReport(String filePath) {
+    private static void previewReport(String filePath)
+    {
 
         File reportPDF = new File(filePath);
 

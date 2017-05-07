@@ -981,11 +981,14 @@ public class RequirementsController
 
         try
         {
-            ReportGenerator.generateDDR(false, header, footer);
+            String fileName = ReportGenerator.generateDDR(false, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
+                    ButtonType.OK);
+            alert.showAndWait();
         }
         catch (Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait. Please close DDRReq.pdf",
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait.",
                     ButtonType.OK);
             alert.showAndWait();
         }
@@ -1015,11 +1018,14 @@ public class RequirementsController
 
         try
         {
-            ReportGenerator.generateDDR(true, header, footer);
+            String fileName = ReportGenerator.generateDDR(true, header, footer);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
+                    ButtonType.OK);
+            alert.showAndWait();
         }
         catch (Exception e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape. Please close DDRLandscape.pdf",
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape.",
                     ButtonType.OK);
             alert.showAndWait();
         }
