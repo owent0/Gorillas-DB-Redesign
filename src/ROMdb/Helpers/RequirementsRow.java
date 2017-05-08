@@ -91,6 +91,13 @@ public class RequirementsRow {
         this.rommer =  new SimpleStringProperty(rommer);
         this.program =  new SimpleStringProperty(program);
         this.build = new SimpleStringProperty(build);
+
+        this.csc_val_code_id = "";
+        this.csu_val_code_id = "";
+        this.capability_val_code_id = "";
+        this.responsible_individual_val_code_id = "";
+        this.rommer_val_code_id = "";
+        this.program_val_code_id = "";
     }
 
     /**
@@ -205,5 +212,60 @@ public class RequirementsRow {
                 codeWeight + "\n" + unitTestWeight + "\n" + integrationWeight + "\n" + add + "\n" + change +
                 "\n" + delete + "\n" + ri + "\n" + rommer + "\n" + program + "\n" + capability + "\n" + scicr +
                 "\n" + paragraph + "\n" + doorsID;
+    }
+
+    private String csc_val_code_id;
+    private String csu_val_code_id;
+    private String capability_val_code_id;
+    private String responsible_individual_val_code_id;
+    private String rommer_val_code_id;
+    private String program_val_code_id;
+
+    public String getCsc_val_code_id() {
+        return csc_val_code_id;
+    }
+
+    public void setCsc_val_code_id(String csc_val_code_id) {
+        this.csc_val_code_id = csc_val_code_id;
+    }
+
+    public String getCsu_val_code_id() {
+        return csu_val_code_id;
+    }
+
+    public void setCsu_val_code_id(String csu_val_code_id) {
+        this.csu_val_code_id = csu_val_code_id;
+    }
+
+    public String getCapability_val_code_id() {
+        return capability_val_code_id;
+    }
+
+    public void setCapability_val_code_id(String capability_val_code_id) {
+        this.capability_val_code_id = capability_val_code_id;
+    }
+
+    public String getResponsible_individual_val_code_id() {
+        return responsible_individual_val_code_id;
+    }
+
+    public void setResponsible_individual_val_code_id(String responsible_individual_val_code_id) {
+        this.responsible_individual_val_code_id = responsible_individual_val_code_id;
+    }
+
+    public String getRommer_val_code_id() {
+        return rommer_val_code_id;
+    }
+
+    public void setRommer_val_code_id(String rommer_val_code_id) {
+        this.rommer_val_code_id = rommer_val_code_id;
+    }
+
+    public String getProgram_val_code_id() {
+        return program_val_code_id;
+    }
+
+    public void setProgram_val_code_id(String program_val_code_id) {
+        this.program_val_code_id = program_val_code_id;
     }
 }

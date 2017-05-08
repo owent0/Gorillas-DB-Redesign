@@ -113,6 +113,12 @@ public class RequirementsModel
                     vclmap.get(rs.getInt("build_val_code_id"))
             );
             tempRow.setId(rs.getInt("requirement_id"));
+            tempRow.setCsc_val_code_id(rs.getString("csc_val_code_id"));
+            tempRow.setCsu_val_code_id(rs.getString("csu_val_code_id"));
+            tempRow.setCapability_val_code_id(rs.getString("capability_val_code_id"));
+            tempRow.setResponsible_individual_val_code_id(rs.getString("responsible_individual_val_code_id"));
+            tempRow.setRommer_val_code_id(rs.getString("rommer_val_code_id"));
+            tempRow.setProgram_val_code_id(rs.getString("program_val_code_id"));
             filteredList.add(tempRow);
         }
         currentFilteredList = filteredList;
@@ -230,38 +236,35 @@ public class RequirementsModel
     public static void updateRowInDB(RequirementsRow rowToUpdate) throws SQLException
     {
         // The query to insert the data from the fields.
-        String insertQuery = "UPDATE RequirementsData SET" +
-                "[csc]=?, [csu]=?, [doors_id]=?, [paragraph]=?," +
-                "[baseline]=?, [scicr]=?, [capability]=?, [add]=?," +
-                "[change]=?, [delete]=?, [design]=?, [code]=?," +
-                "[unitTest]=?, [integration]=?, [ri]=?, [rommer]=?," +
-                "[program]=?, [build]=? " +
-                "WHERE [Req_ID]=?";
+        String updateQuery = "UPDATE Requirement SET " +
+                "[csc_val_code_id]=?, [csu_val_code_id]=?, [doors_id]=?, [paragraph]=?, " +
+                "[capability_val_code_id]=?, [num_lines_added]=?, " +
+                "[num_lines_changed]=?, [num_lines_deleted]=?, [design_percentage]=?, " +
+                "[code_percentage]=?, [unit_test_percentage]=?, [integration_percentage]=?, " +
+                "[responsible_individual_val_code_id]=?, [rommer_val_code_id]=?, [program_val_code_id]=? " +
+                "WHERE [requirement_id]=?";
 
         // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
-
-        st.setInt(19, rowToUpdate.getId());
+        PreparedStatement st = Main.newconn.prepareStatement(updateQuery);
 
         /** Parse all of the information and stage for writing. */
-        st.setString(1, rowToUpdate.getCsc().trim());
-        st.setString(2, rowToUpdate.getCsu().trim());
+        st.setString(1, rowToUpdate.getCsc_val_code_id());
+        st.setString(2, rowToUpdate.getCsu_val_code_id());
         st.setString(3, rowToUpdate.getDoorsID().trim());
         st.setString(4, rowToUpdate.getParagraph().trim());
-        st.setString(5, rowToUpdate.getBaseline().trim());
-        st.setString(6, rowToUpdate.getScicr().trim());
-        st.setString(7, rowToUpdate.getCapability().trim());
-        st.setDouble(8, rowToUpdate.getAdd());
-        st.setDouble(9, rowToUpdate.getChange());
-        st.setDouble(10, rowToUpdate.getDelete());
-        st.setDouble(11, rowToUpdate.getDesignWeight());
-        st.setDouble(12, rowToUpdate.getCodeWeight());
-        st.setDouble(13, rowToUpdate.getUnitTestWeight());
-        st.setDouble(14, rowToUpdate.getIntegrationWeight());
-        st.setString(15, rowToUpdate.getRi().trim());
-        st.setString(16, rowToUpdate.getRommer().trim());
-        st.setString(17, rowToUpdate.getProgram().trim());
-        st.setString(18, rowToUpdate.getBuild().trim());
+        st.setString(5, rowToUpdate.getCapability_val_code_id());
+        st.setDouble(6, rowToUpdate.getAdd());
+        st.setDouble(7, rowToUpdate.getChange());
+        st.setDouble(8, rowToUpdate.getDelete());
+        st.setDouble(9, rowToUpdate.getDesignWeight());
+        st.setDouble(10, rowToUpdate.getCodeWeight());
+        st.setDouble(11, rowToUpdate.getUnitTestWeight());
+        st.setDouble(12, rowToUpdate.getIntegrationWeight());
+        st.setString(13, rowToUpdate.getResponsible_individual_val_code_id());
+        st.setString(14, rowToUpdate.getRommer_val_code_id());
+        st.setString(15, rowToUpdate.getProgram_val_code_id());
+
+        st.setInt(16, rowToUpdate.getId());
 
         // Execute sql statement to update database
         st.executeUpdate();
@@ -300,9 +303,10 @@ public class RequirementsModel
      * @param row The row that will have its data written into the table.
      * @throws SQLException If the query could not complete successfully.
      */
-    public static void insertNewReqRow(RequirementsRow row) throws SQLException {
+    public static void insertNewReqRow(RequirementsRow row) throws SQLException
+    {
         // The query to insert the data from the fields.
-        String insertQuery =    "INSERT INTO RequirementsData ([csc], [csu], [doors_id], [paragraph], " +
+        String insertQuery = "INSERT INTO Requirement ([csc], [csu], [doors_id], [paragraph], " +
                                                                 "[baseline], [scicr], [capability], [add], " +
                                                                 "[change], [delete], [design], [code], [unitTest], " +
                                                                 "[integration], [ri], [rommer], [program], [build])" +

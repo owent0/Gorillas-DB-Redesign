@@ -1257,7 +1257,7 @@ public class RequirementsController
         setCellFactoryToComboBoxWithComboItem(tableColumn_ri, observableFilterMap.get("ri"));
         setCellFactoryToComboBoxWithComboItem(tableColumn_rommer, observableFilterMap.get("rommer"));
         setCellFactoryToComboBoxWithComboItem(tableColumn_program, observableFilterMap.get("program"));
-        setCellFactoryToComboBoxWithComboItem(tableColumn_build, observableFilterMap.get("build"));
+        //setCellFactoryToComboBoxWithComboItem(tableColumn_build, observableFilterMap.get("build"));
     }
 
     /**
@@ -1488,7 +1488,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc_val_code_id(t.getNewValue().getId());
 
                 // Save the change to the cell to the database.
                 // This method is located in this class.
@@ -1512,7 +1513,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1565,6 +1567,8 @@ public class RequirementsController
         });
 
         /*  Baseline Column  */
+        // unused - we dont want people to be able to change the baseline value
+        /*
         tableColumn_baseline.setOnEditCommit(t -> {
             try
             {
@@ -1584,8 +1588,11 @@ public class RequirementsController
                 table_requirements.refresh();
             }
         });
+        */
 
         /*  Build Column  */
+        // unused - we dont let people change the baseline value
+        /*
         tableColumn_build.setOnEditCommit(t -> {
             try
             {
@@ -1604,8 +1611,11 @@ public class RequirementsController
                 table_requirements.refresh();
             }
         });
+        */
 
         /*  SC/ICR Column  */
+        // unused - we dont let people change the scicr column
+        /*
         tableColumn_scicr.setOnEditCommit(t -> {
             try
             {
@@ -1624,6 +1634,7 @@ public class RequirementsController
                 table_requirements.refresh();
             }
         });
+        */
 
         /*  Capability Column  */
         tableColumn_capability.setOnEditCommit(t -> {
@@ -1632,7 +1643,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1799,7 +1811,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setResponsible_individual_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1819,7 +1832,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1839,7 +1853,8 @@ public class RequirementsController
                 //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue().getId());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
