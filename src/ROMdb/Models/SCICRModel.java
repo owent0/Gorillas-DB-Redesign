@@ -1,6 +1,6 @@
 package ROMdb.Models;
 
-import ROMdb.Archive.SCICRArchive;
+//import ROMdb.Archive.SCICRArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
@@ -20,7 +20,7 @@ public class SCICRModel
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
-    public static SCICRArchive archive = new SCICRArchive();
+    //public static SCICRArchive archive = new SCICRArchive();
 
 
     /**
@@ -121,24 +121,24 @@ public class SCICRModel
         st.executeUpdate();
     }
 
-    /**
-     * Archives a list of SCICRRows into the SCICRData_Archive table in the database.
-     * @param rows The list of rows to archive.
-     * @throws SQLException If the SQL Query could not complete successfully.
-     */
-    public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
-    {
-        archive.addListOfRecords(rows);
-
-        ArrayList<SCICRRow> list = new ArrayList<>(rows);
-
-        int size = list.size();
-        for(int i = 0; i < size; i++)
-        {
-            SCICRRow temp = list.get(i);
-            map.get(MainMenuModel.getSelectedBaseline()).remove(temp);
-        }
-    }
+//    /**
+//     * Archives a list of SCICRRows into the SCICRData_Archive table in the database.
+//     * @param rows The list of rows to archive.
+//     * @throws SQLException If the SQL Query could not complete successfully.
+//     */
+//    public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
+//    {
+//        archive.addListOfRecords(rows);
+//
+//        ArrayList<SCICRRow> list = new ArrayList<>(rows);
+//
+//        int size = list.size();
+//        for(int i = 0; i < size; i++)
+//        {
+//            SCICRRow temp = list.get(i);
+//            map.get(MainMenuModel.getSelectedBaseline()).remove(temp);
+//        }
+//    }
 
 
     /**

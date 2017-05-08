@@ -1,6 +1,6 @@
 package ROMdb.Models;
 
-import ROMdb.Archive.RequirementsArchive;
+//import ROMdb.Archive.RequirementsArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.*;
 import javafx.collections.FXCollections;
@@ -22,7 +22,7 @@ import java.util.StringJoiner;
  */
 public class RequirementsModel
 {
-    public static RequirementsArchive archive = new RequirementsArchive();
+//    public static RequirementsArchive archive = new RequirementsArchive();
 
     public static ObservableList<String> filterSCICR;
 
@@ -47,25 +47,25 @@ public class RequirementsModel
                                                                 "Resp Indv", "Rom", "Prog"
                                                             };
 
-    /**
-     * Archives a list of RequirementRows into the RequirementsData_Archive table
-     * in the database.
-     * @param rows The rows to archive.
-     * @throws SQLException If the SQL query could not complete properly.
-     */
-    public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
-    {
-        archive.addListOfRecords(rows);
-
-        ArrayList<RequirementsRow> list = new ArrayList<>(rows);
-
-        int size = list.size();
-        for(int i = 0; i < size; i++)
-        {
-            RequirementsRow temp = list.get(i);
-            currentFilteredList.remove(temp);
-        }
-    }
+//    /**
+//     * Archives a list of RequirementRows into the RequirementsData_Archive table
+//     * in the database.
+//     * @param rows The rows to archive.
+//     * @throws SQLException If the SQL query could not complete properly.
+//     */
+//    public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
+//    {
+//        archive.addListOfRecords(rows);
+//
+//        ArrayList<RequirementsRow> list = new ArrayList<>(rows);
+//
+//        int size = list.size();
+//        for(int i = 0; i < size; i++)
+//        {
+//            RequirementsRow temp = list.get(i);
+//            currentFilteredList.remove(temp);
+//        }
+//    }
 
     /**
      * This method will return an observable list contain all of the
