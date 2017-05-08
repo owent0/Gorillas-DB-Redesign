@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
+<AnchorPane fx:id="anchor_requirements" maxHeight="5000.0" maxWidth="5000.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.RequirementsController">
    <children>
       <BorderPane maxHeight="5000.0" maxWidth="5000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -33,26 +33,6 @@
                                        <children>
                                           <HBox alignment="CENTER" prefHeight="55.0" prefWidth="970.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <VBox alignment="CENTER">
-                                                   <children>
-                                                      <Label prefHeight="17.0" prefWidth="52.0" text="Baseline:" visible="false">
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                         <font>
-                                                            <Font name="Times New Roman" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <ComboBox fx:id="combo_baseline" maxWidth="250.0" prefHeight="25.0" prefWidth="150.0" visible="false">
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </ComboBox>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" right="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
                                                 <VBox alignment="CENTER">
                                                    <children>
                                                       <Label text="Build:">
@@ -127,6 +107,26 @@
                                                             <Font name="Times New Roman" size="13.0" />
                                                          </font>
                                                       </TextField>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="65.0" prefWidth="0.0">
+                                                   <children>
+                                                      <Label text="Baseline:" visible="false">
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                         <font>
+                                                            <Font name="Times New Roman" size="13.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <ComboBox fx:id="combo_baseline" visible="false">
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </ComboBox>
                                                    </children>
                                                    <HBox.margin>
                                                       <Insets left="5.0" right="5.0" />
@@ -602,7 +602,7 @@
                </tabs>
             </TabPane>
          </top>
-         <right>
+         <center>
             <TableView fx:id="table_requirements" editable="true" prefHeight="423.0" prefWidth="1000.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn fx:id="tableColumn_csc" onEditCommit="#saveRowEditChanges" prefWidth="95.0" text="CSC" />
@@ -625,7 +625,7 @@
                   <TableColumn fx:id="tableColumn_program" onEditCommit="#saveRowEditChanges" prefWidth="120.0" text="Program" />
                </columns>
             </TableView>
-         </right>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>
