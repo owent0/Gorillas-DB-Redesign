@@ -127,7 +127,13 @@ public class AddBaselineController {
      * Closes the adding a baseline view
      */
     @FXML
-    private void closeScene() {
+    private void closeScene()
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "For your changes to take effect please restart the program", ButtonType.OK);
+        alert.showAndWait();
+        System.exit(1);
+
         Stage stage = (Stage) button_cancelNewBaseline.getScene().getWindow();
         stage.close();
     }

@@ -197,6 +197,7 @@ public class RequirementsController
 
         if(MainMenuModel.getSelectedBaseline() != null && MainMenuModel.getSelectedBaseline() != "Baseline"){
             combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+            updateSCICR();
             pressClear();
         } else {
             combo_baseline.setValue("");

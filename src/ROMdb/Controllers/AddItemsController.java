@@ -137,7 +137,6 @@ public class AddItemsController
             valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
 
             int order = AddItemsModel.getMap().get(valType).size() + 1;
-            System.out.println("Val Type: " + valType);
             AddItemsModel.writeItemToDb(valType, newItem, order);
             field_newItem.clear();
 
