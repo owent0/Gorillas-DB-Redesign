@@ -304,33 +304,31 @@ public class RequirementsModel
     public static void insertNewReqRow(RequirementsRow row) throws SQLException
     {
         // The query to insert the data from the fields.
-        String insertQuery = "INSERT INTO Requirement ([csc], [csu], [doors_id], [paragraph], " +
-                                                                "[baseline], [scicr], [capability], [add], " +
-                                                                "[change], [delete], [design], [code], [unitTest], " +
-                                                                "[integration], [ri], [rommer], [program], [build])" +
-                                                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Requirement ([scicr_id], [csc_val_code_id], [csu_val_code_id], [doors_id], " +
+                "[paragraph], [capability_val_code_id], [num_lines_added], [num_lines_changed], [num_lines_deleted], " +
+                "[design_percentage], [code_percentage], [unit_test_percentage], [integration_percentage], " +
+                "[responsible_individual_val_code_id], [rommer_val_code_id], [program_val_code_id])" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
         PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
-        st.setString(1, row.getCsc().trim());
-        st.setString(2, row.getCsu().trim());
-        st.setString(3, row.getDoorsID().trim());
-        st.setString(4, row.getParagraph().trim());
-        st.setString(5, row.getBaseline().trim());
-        st.setString(6, row.getScicr().trim());
-        st.setString(7, row.getCapability().trim());
-        st.setDouble(8, row.getAdd());
-        st.setDouble(9, row.getChange());
-        st.setDouble(10, row.getDelete());
-        st.setDouble(11, row.getDesignWeight());
-        st.setDouble(12, row.getCodeWeight());
-        st.setDouble(13, row.getUnitTestWeight());
-        st.setDouble(14, row.getIntegrationWeight());
-        st.setString(15, row.getRi());
-        st.setString(16, row.getRommer());
-        st.setString(17, row.getProgram());
-        st.setString(18, row.getBuild());
+        st.setString(1, row.getScicr_id());
+        st.setString(2, row.getCsc_val_code_id());
+        st.setString(3, row.getCsu_val_code_id());
+        st.setString(4, row.getDoorsID().trim());
+        st.setString(5, row.getParagraph().trim());
+        st.setString(6, row.getCapability_val_code_id());
+        st.setDouble(7, row.getAdd());
+        st.setDouble(8, row.getChange());
+        st.setDouble(9, row.getDelete());
+        st.setDouble(10, row.getDesignWeight());
+        st.setDouble(11, row.getCodeWeight());
+        st.setDouble(12, row.getUnitTestWeight());
+        st.setDouble(13, row.getIntegrationWeight());
+        st.setString(14, row.getResponsible_individual_val_code_id());
+        st.setString(15, row.getRommer_val_code_id());
+        st.setString(16, row.getProgram_val_code_id());
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();

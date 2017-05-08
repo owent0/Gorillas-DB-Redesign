@@ -27,6 +27,14 @@ public class ComboItem
         return this.value;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public String toString()
     {

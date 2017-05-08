@@ -1,10 +1,8 @@
 package ROMdb.Controllers;
 
+import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;
-import ROMdb.Helpers.InputType;
-import ROMdb.Helpers.InputValidator;
-import ROMdb.Helpers.RequirementsRow;
-import ROMdb.Helpers.SCICRRow;
+import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import ROMdb.Models.SCICRModel;
@@ -14,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -31,15 +31,14 @@ public class AddRequirementController
     public static RequirementsController requirementsController;
 
     // Combo boxes
-    @FXML private ComboBox<String> combo_csc;
-    @FXML private ComboBox<String> combo_csu;
+    @FXML private ComboBox<ComboItem> combo_csc;
+    @FXML private ComboBox<ComboItem> combo_csu;
     @FXML private ComboBox<String> combo_baseline;
-    @FXML private ComboBox<String> combo_scicr;
-    @FXML private ComboBox<String> combo_capability;
-    @FXML private ComboBox<String> combo_ri;
-    @FXML private ComboBox<String> combo_rommer;
-    @FXML private ComboBox<String> combo_program;
-    @FXML private ComboBox<String> combo_build;
+    @FXML private ComboBox<ComboItem> combo_scicr;
+    @FXML private ComboBox<ComboItem> combo_capability;
+    @FXML private ComboBox<ComboItem> combo_ri;
+    @FXML private ComboBox<ComboItem> combo_rommer;
+    @FXML private ComboBox<ComboItem> combo_program;
 
     // Text fields
     @FXML private TextField field_doors; //alphanumeric
@@ -51,10 +50,12 @@ public class AddRequirementController
     @FXML private TextField field_code; //double 0-100
     @FXML private TextField field_unitTest; //double 0-100
     @FXML private TextField field_integration; //double 0-100
+    @FXML private TextField field_build;
 
     // Button
     @FXML private Button button_save;
 
+    private ComboItem build;
 
     /**
      * This method will activate each time the window is created.
@@ -82,7 +83,7 @@ public class AddRequirementController
     private void changeSCICRToSelectedBaseline()
     {
         // Set up a new observable list.
-        ObservableList<String> scicrs = FXCollections.observableArrayList();
+        ObservableList<ComboItem> scicrs = FXCollections.observableArrayList();
 
         // Set the currently selected baseline to this baseline.
         MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
@@ -101,7 +102,7 @@ public class AddRequirementController
         // Fill the temp list with the SC/ICR number.
         for(SCICRRow r : rows)
         {
-            scicrs.add(r.getNumber());
+            scicrs.add(new ComboItem(Integer.toString(r.getId()), r.getNumber()));
         }
 
         // Set the items.
@@ -124,13 +125,13 @@ public class AddRequirementController
             // Build new row object.
             RequirementsRow newRow = new RequirementsRow
                     (
-                            combo_csc.getValue(),
-                            combo_csu.getValue(),
+                            combo_csc.getValue().getValue(),
+                            combo_csu.getValue().getValue(),
                             field_doors.getText().trim(),
                             field_paragraph.getText().trim(),
                             combo_baseline.getValue(),
-                            combo_scicr.getValue(),
-                            combo_capability.getValue(),
+                            combo_scicr.getValue().getId(),
+                            combo_capability.getValue().getValue(),
                             Double.parseDouble(field_added.getText().trim()),
                             Double.parseDouble(field_changed.getText().trim()),
                             Double.parseDouble(field_deleted.getText().trim()),
@@ -138,13 +139,20 @@ public class AddRequirementController
                             Double.parseDouble(field_code.getText().trim()),
                             Double.parseDouble(field_unitTest.getText().trim()),
                             Double.parseDouble(field_integration.getText().trim()),
-                            combo_ri.getValue(),
-                            combo_rommer.getValue(),
-                            combo_program.getValue(),
-                            combo_build.getValue()
+                            combo_ri.getValue().getValue(),
+                            combo_rommer.getValue().getValue(),
+                            combo_program.getValue().getValue(),
+                            build.getValue()
                     );
+            newRow.setCsc_val_code_id(combo_csc.getValue().getId());
+            newRow.setCsu_val_code_id(combo_csu.getValue().getId());
+            newRow.setCapability_val_code_id(combo_capability.getValue().getId());
+            newRow.setResponsible_individual_val_code_id(combo_ri.getValue().getId());
+            newRow.setRommer_val_code_id(combo_rommer.getValue().getId());
+            newRow.setProgram_val_code_id(combo_program.getValue().getId());
+            newRow.setScicr_id(combo_scicr.getValue().getId());
 
-            RequirementsModel.allReqData.add(newRow);
+            //RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
             requirementsController.updateJTableWithFilteredReqData();
 
@@ -158,9 +166,9 @@ public class AddRequirementController
             field_unitTest.setText("");
             field_integration.setText("");
             combo_ri.getSelectionModel().clearSelection();
-            combo_baseline.getSelectionModel().select("Baseline");
         }
-        catch(InputFormatException e) {
+        catch(InputFormatException e)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Ensure that the fields contain the correct values. Some fields can only contain numbers or alpha numeric characters.", ButtonType.OK);
             alert.showAndWait();
@@ -189,16 +197,6 @@ public class AddRequirementController
         field_unitTest.setText(Double.toString(row.getUnitTestWeight()));
         field_integration.setText(Double.toString(row.getIntegrationWeight()));
 
-        combo_capability.getSelectionModel().select(row.getCapability());
-        combo_rommer.getSelectionModel().select(row.getRommer());
-        combo_program.getSelectionModel().select(row.getProgram());
-        combo_baseline.getSelectionModel().select(row.getBaseline());
-        combo_build.getSelectionModel().select(row.getBuild());
-        combo_csc.getSelectionModel().select(row.getCsc());
-        combo_csu.getSelectionModel().select(row.getCsu());
-        combo_scicr.getSelectionModel().select(row.getScicr());
-        combo_ri.getSelectionModel().select(row.getRi());
-
         // Only display the SC/ICR's associated with the selected baseline.
         this.changeSCICRToSelectedBaseline();
     }
@@ -217,29 +215,38 @@ public class AddRequirementController
             this.errorChecking();
 
             // Build new row object.
-            RequirementsRow newRow = new RequirementsRow
-                (
-                        combo_csc.getValue(),
-                        combo_csu.getValue(),
-                        field_doors.getText().trim(),
-                        field_paragraph.getText().trim(),
-                        combo_baseline.getValue(),
-                        combo_scicr.getValue(),
-                        combo_capability.getValue(),
-                        Double.parseDouble(field_added.getText().trim()),
-                        Double.parseDouble(field_changed.getText().trim()),
-                        Double.parseDouble(field_deleted.getText().trim()),
-                        Double.parseDouble(field_design.getText().trim()),
-                        Double.parseDouble(field_code.getText().trim()),
-                        Double.parseDouble(field_unitTest.getText().trim()),
-                        Double.parseDouble(field_integration.getText().trim()),
-                        combo_ri.getValue(),
-                        combo_rommer.getValue(),
-                        combo_program.getValue(),
-                        combo_build.getValue()
-                );
 
-            RequirementsModel.allReqData.add(newRow);
+            // Build new row object.
+            RequirementsRow newRow = new RequirementsRow
+                    (
+                            combo_csc.getValue().getValue(),
+                            combo_csu.getValue().getValue(),
+                            field_doors.getText().trim(),
+                            field_paragraph.getText().trim(),
+                            combo_baseline.getValue(),
+                            combo_scicr.getValue().getValue(),
+                            combo_capability.getValue().getValue(),
+                            Double.parseDouble(field_added.getText().trim()),
+                            Double.parseDouble(field_changed.getText().trim()),
+                            Double.parseDouble(field_deleted.getText().trim()),
+                            Double.parseDouble(field_design.getText().trim()),
+                            Double.parseDouble(field_code.getText().trim()),
+                            Double.parseDouble(field_unitTest.getText().trim()),
+                            Double.parseDouble(field_integration.getText().trim()),
+                            combo_ri.getValue().getValue(),
+                            combo_rommer.getValue().getValue(),
+                            combo_program.getValue().getValue(),
+                            build.getValue()
+                    );
+            newRow.setCsc_val_code_id(combo_csc.getValue().getId());
+            newRow.setCsu_val_code_id(combo_csu.getValue().getId());
+            newRow.setCapability_val_code_id(combo_capability.getValue().getId());
+            newRow.setResponsible_individual_val_code_id(combo_ri.getValue().getId());
+            newRow.setRommer_val_code_id(combo_rommer.getValue().getId());
+            newRow.setProgram_val_code_id(combo_program.getValue().getId());
+            newRow.setScicr_id(combo_scicr.getValue().getId());
+
+            //RequirementsModel.allReqData.add(newRow);
             RequirementsModel.insertNewReqRow(newRow);
             requirementsController.updateJTableWithFilteredReqData();
 
@@ -250,12 +257,12 @@ public class AddRequirementController
                     "Ensure that the fields contain the correct values. Some fields can only contain numbers or alpha numeric characters.", ButtonType.OK);
             alert.showAndWait();
         }
+
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not write new entry to database.", ButtonType.OK);
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -306,31 +313,7 @@ public class AddRequirementController
                 }
             }
 
-            if(combo_baseline.getValue() == null || combo_baseline.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_build.getValue() == null || combo_build.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_capability.getValue() == null || combo_capability.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_csc.getValue() == null || combo_csc.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_csu.getValue() == null || combo_csu.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_program.getValue() == null || combo_program.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_ri.getValue() == null || combo_ri.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_rommer.getValue() == null || combo_rommer.getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
-            if(combo_scicr.getValue() == null || combo_scicr.getValue().trim().equals("")) {
+            if(combo_scicr.getValue().getValue() == null || combo_scicr.getValue().getValue().trim().equals("")) {
                 throw new InputFormatException("Value is empty");
             }
 
@@ -348,7 +331,6 @@ public class AddRequirementController
         combo_csc.setItems(requirementsController.observableFilterMap.get("csc"));
         combo_csu.setItems(requirementsController.observableFilterMap.get("csu"));
         combo_baseline.setItems(requirementsController.observableFilterMap.get("baseline"));
-        combo_build.setItems(requirementsController.observableFilterMap.get("build"));
         combo_capability.setItems(requirementsController.observableFilterMap.get("capability"));
         combo_ri.setItems(requirementsController.observableFilterMap.get("ri"));
         combo_rommer.setItems(requirementsController.observableFilterMap.get("rommer"));
@@ -363,5 +345,48 @@ public class AddRequirementController
     {
         Stage stage = (Stage) button_save.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void updateBuildField()
+    {
+        try
+        {
+            if(combo_scicr.getValue() == null)
+            {
+                field_build.setText("");
+                build = new ComboItem("", "");
+            }
+            else
+            {
+                String buildIdQuery = "SELECT [build_val_code_id] FROM SCICR WHERE [scicr_id]=?";
+                PreparedStatement st = Main.newconn.prepareStatement(buildIdQuery);
+                st.setString(1, combo_scicr.getValue().getId());
+                ResultSet rs = st.executeQuery();
+                String buildId = "";
+                while(rs.next())
+                {
+                    buildId = rs.getString("build_val_code_id");
+                }
+
+                String buildTextQuery = "SELECT [field_value] FROM ValCodes WHERE [val_id]=?";
+                PreparedStatement pst = Main.newconn.prepareStatement(buildTextQuery);
+                pst.setString(1, buildId);
+                ResultSet rss = pst.executeQuery();
+                String buildText = "";
+                while(rss.next())
+                {
+                    buildText = rss.getString("field_value");
+                }
+                field_build.setText(buildText);
+                build = new ComboItem(buildId, buildText);
+            }
+        }
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not load the build field.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 }

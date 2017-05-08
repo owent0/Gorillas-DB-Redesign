@@ -98,6 +98,7 @@ public class RequirementsRow {
         this.responsible_individual_val_code_id = "";
         this.rommer_val_code_id = "";
         this.program_val_code_id = "";
+        this.scicr_id = "";
     }
 
     /**
@@ -220,6 +221,7 @@ public class RequirementsRow {
     private String responsible_individual_val_code_id;
     private String rommer_val_code_id;
     private String program_val_code_id;
+    private String scicr_id;
 
     public String getCsc_val_code_id() {
         return csc_val_code_id;
@@ -267,5 +269,13 @@ public class RequirementsRow {
 
     public void setProgram_val_code_id(String program_val_code_id) {
         this.program_val_code_id = program_val_code_id;
+    }
+
+    public String getScicr_id() {
+        return scicr_id;
+    }
+
+    public void setScicr_id(String scicr_id) {
+        this.scicr_id = scicr_id;
     }
 }
