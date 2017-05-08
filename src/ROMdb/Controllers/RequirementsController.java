@@ -144,14 +144,14 @@ public class RequirementsController
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_csc;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_csu;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_csc;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_csu;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_doorsID;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_paragraph;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_baseline;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_build;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_build;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_scicr;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_capability;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_capability;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_add;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_change;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_delete;
@@ -159,9 +159,9 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_codeWeight;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_unitTestWeight;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_integrationWeight;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_ri;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_rommer;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_ri;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_rommer;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_program;
 
 
     /**
@@ -1210,6 +1210,8 @@ public class RequirementsController
      * @param tc The table column to use.
      * @param list The list to associate witht he column.
      */
+    // we dont use this
+    /*
     private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc, ObservableList<String> list)
     {
         tc.setCellFactory(col ->
@@ -1222,7 +1224,6 @@ public class RequirementsController
                         cell.setItem(list.get(i));
                     }
 
-
                     // Makes these combo boxes editable, as in you can type into them.
                     //cell.setComboBoxEditable(true);
 
@@ -1230,21 +1231,33 @@ public class RequirementsController
                 }
         );
     }
+    */
+
+    /**
+     * Method sets the table column to be a combobox on click
+     * It uses a special anon class to be able to be used with a ComboItem
+     * @param col
+     * @param ol
+     */
+    private void setCellFactoryToComboBoxWithComboItem(TableColumn<RequirementsRow, ComboItem> col,
+                                                       ObservableList<ComboItem> ol)
+    {
+        col.setCellFactory(ComboBoxTableCell.forTableColumn(ol));
+    }
 
     /**
      * Sets the appropriate column cells to a combo box cell.
      */
     private void setColumnCells()
     {
-        tableColumn_csc.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csc")));
-        tableColumn_csu.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csu")));
-        tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
-        tableColumn_capability.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("capability")));
-        tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));
-        tableColumn_rommer.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("rommer")));
-        tableColumn_program.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("program")));
-        tableColumn_build.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("build")));
-
+        setCellFactoryToComboBoxWithComboItem(tableColumn_csc, observableFilterMap.get("csc"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_csu, observableFilterMap.get("csu"));
+        //tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_capability, observableFilterMap.get("capability"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_ri, observableFilterMap.get("ri"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_rommer, observableFilterMap.get("rommer"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_program, observableFilterMap.get("program"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_build, observableFilterMap.get("build"));
     }
 
     /**
@@ -1472,10 +1485,10 @@ public class RequirementsController
         tableColumn_csc.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue().getId());
 
                 // Save the change to the cell to the database.
                 // This method is located in this class.
@@ -1496,10 +1509,10 @@ public class RequirementsController
         tableColumn_csu.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1576,10 +1589,10 @@ public class RequirementsController
         tableColumn_build.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1616,10 +1629,10 @@ public class RequirementsController
         tableColumn_capability.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1783,10 +1796,10 @@ public class RequirementsController
         tableColumn_ri.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1803,10 +1816,10 @@ public class RequirementsController
         tableColumn_rommer.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1823,10 +1836,10 @@ public class RequirementsController
         tableColumn_program.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
