@@ -168,15 +168,27 @@ public class AddRequirementController
             field_integration.setText("");
             combo_ri.getSelectionModel().clearSelection();
         }
-        catch(InputFormatException e)
-        {
+        catch(InputFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Ensure that the fields contain the correct values. Some fields can only contain numbers or alpha numeric characters.", ButtonType.OK);
+
+            /* Focus on this current window to prevent clicking on windows behind it. */
+            Stage owner = (Stage) combo_baseline.getScene().getWindow();
+            alert.initOwner(owner);
+            alert.initModality(Modality.WINDOW_MODAL);
+
             alert.showAndWait();
         }
+
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not write new entry to database.", ButtonType.OK);
+
+            /* Focus on this current window to prevent clicking on windows behind it. */
+            Stage owner = (Stage) combo_baseline.getScene().getWindow();
+            alert.initOwner(owner);
+            alert.initModality(Modality.WINDOW_MODAL);
+
             alert.showAndWait();
         }
     }
@@ -286,53 +298,74 @@ public class AddRequirementController
      */
     private void errorChecking() throws InputFormatException{
 
-            // The value is alpha numeric, periods and dashes with no spaces.
-            InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
-            if(field_doors.getText().trim() == null || field_doors.getText().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
+        // The value is alpha numeric, periods and dashes with no spaces.
+        InputValidator.checkPatternMatch(field_doors.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
+        if(field_doors.getText().trim() == null || field_doors.getText().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
+
+        InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
+        if(field_paragraph.getText().trim() == null || field_paragraph.getText().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
+
+        InputValidator.checkPatternMatch(field_added.getText().trim(), InputType.DOUBLE);
+        InputValidator.checkPatternMatch(field_changed.getText().trim(), InputType.DOUBLE);
+        InputValidator.checkPatternMatch(field_deleted.getText().trim(), InputType.DOUBLE);
+
+        //Checking to see if the weights are either empty or the right input type.
+        if (!InputValidator.checkEmptyString(field_design.getText().trim(), InputType.EMPTY_STRING)) {
+            if (Double.parseDouble(field_design.getText().trim()) < 0 || Double.parseDouble(field_design.getText().trim()) > 100) {
+                throw new InputFormatException("The design completion is not within 0-100");
             }
+        }
 
-            InputValidator.checkPatternMatch(field_paragraph.getText().trim(), InputType.ALPHA_NUMERIC_PERIOD);
-            if(field_paragraph.getText().trim() == null || field_paragraph.getText().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
+        if (!InputValidator.checkEmptyString(field_code.getText().trim(), InputType.EMPTY_STRING)) {
+            if (Double.parseDouble(field_code.getText().trim()) < 0 || Double.parseDouble(field_code.getText().trim()) > 100) {
+                throw new InputFormatException("The code completion is not within 0-100");
             }
+        }
 
-            InputValidator.checkPatternMatch(field_added.getText().trim(), InputType.DOUBLE);
-            InputValidator.checkPatternMatch(field_changed.getText().trim(), InputType.DOUBLE);
-            InputValidator.checkPatternMatch(field_deleted.getText().trim(), InputType.DOUBLE);
-
-            //Checking to see if the weights are either empty or the right input type.
-            if (!InputValidator.checkEmptyString(field_design.getText().trim(), InputType.EMPTY_STRING)) {
-                if (Double.parseDouble(field_design.getText().trim()) < 0 || Double.parseDouble(field_design.getText().trim()) > 100) {
-                    throw new InputFormatException("The design completion is not within 0-100");
-                }
+        if (!InputValidator.checkEmptyString(field_unitTest.getText().trim(), InputType.EMPTY_STRING)) {
+            if (Double.parseDouble(field_unitTest.getText().trim()) < 0 || Double.parseDouble(field_unitTest.getText().trim()) > 100) {
+                throw new InputFormatException("The unit test completion is not within 0-100");
             }
+        }
 
-            if (!InputValidator.checkEmptyString(field_code.getText().trim(), InputType.EMPTY_STRING)) {
-                if (Double.parseDouble(field_code.getText().trim()) < 0 || Double.parseDouble(field_code.getText().trim()) > 100) {
-                    throw new InputFormatException("The code completion is not within 0-100");
-                }
+        if (!InputValidator.checkEmptyString(field_integration.getText().trim(), InputType.EMPTY_STRING)) {
+            if (Double.parseDouble(field_integration.getText().trim()) < 0 || Double.parseDouble(field_integration.getText().trim()) > 100) {
+                throw new InputFormatException("The integration completion is not within 0-100");
             }
+        }
 
-            if (!InputValidator.checkEmptyString(field_unitTest.getText().trim(), InputType.EMPTY_STRING)) {
-                if (Double.parseDouble(field_unitTest.getText().trim()) < 0 || Double.parseDouble(field_unitTest.getText().trim()) > 100) {
-                    throw new InputFormatException("The unit test completion is not within 0-100");
-                }
-            }
+        if(combo_scicr.getValue() == null || combo_scicr.getValue().getValue() == null || combo_scicr.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
 
-            if (!InputValidator.checkEmptyString(field_integration.getText().trim(), InputType.EMPTY_STRING)) {
-                if (Double.parseDouble(field_integration.getText().trim()) < 0 || Double.parseDouble(field_integration.getText().trim()) > 100) {
-                    throw new InputFormatException("The integration completion is not within 0-100");
-                }
-            }
+        if(combo_program.getValue() == null || combo_program.getValue().getValue() == null || combo_program.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
 
-            if(combo_scicr.getValue().getValue() == null || combo_scicr.getValue().getValue().trim().equals("")) {
-                throw new InputFormatException("Value is empty");
-            }
+        if(combo_ri.getValue() == null || combo_ri.getValue().getValue() == null || combo_ri.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
 
+        if(combo_rommer.getValue() == null || combo_rommer.getValue().getValue() == null || combo_rommer.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
 
-            // The value contains no white space.
-            //InputValidator.checkPatternDoesNotMatch(inputString, InputType.WHITE_SPACE);
+        if(combo_capability.getValue() == null || combo_capability.getValue().getValue() == null || combo_capability.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
+
+        if(combo_csu.getValue() == null || combo_csu.getValue().getValue() == null || combo_csu.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
+
+        if(combo_csc.getValue() == null || combo_csc.getValue().getValue() == null || combo_csc.getValue().getValue().trim().equals("")) {
+            throw new InputFormatException("Value is empty");
+        }
+
     }
 
     /**
@@ -399,6 +432,12 @@ public class AddRequirementController
         {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not load the build field.", ButtonType.OK);
+
+            /* Focus on this current window to prevent clicking on windows behind it. */
+            Stage owner = (Stage) combo_baseline.getScene().getWindow();
+            alert.initOwner(owner);
+            alert.initModality(Modality.WINDOW_MODAL);
+
             alert.showAndWait();
         }
     }

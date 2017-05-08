@@ -549,6 +549,8 @@ public class RequirementsController
         //RequirementsModel.currentFilteredList.clear();
         RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
         //this.fillTable();
+        this.setCombosToEmptyValues();
+        RequirementsModel.currentFilteredList = RequirementsModel.allReqData;
     }
 
     /**

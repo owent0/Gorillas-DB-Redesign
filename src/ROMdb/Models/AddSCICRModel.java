@@ -25,7 +25,7 @@ public class AddSCICRModel
      * @param build the build of the SC/ICR
      * @throws Exception if there is an error with the input caused by error checking, or an SQL exception
      */
-    public static void saveSCICR(String baselineDesc, String type, String number, String title, String build) throws Exception
+    public static String saveSCICR(String baselineDesc, String type, String number, String title, String build) throws Exception
     {
         checkIfErrorsExist(baselineDesc, title, number, build);
 
@@ -64,6 +64,8 @@ public class AddSCICRModel
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
+
+        return Integer.toString(baselineId);
     }
 
     /**

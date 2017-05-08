@@ -1,5 +1,6 @@
 package ROMdb.Controllers;
 
+import ROMdb.Driver.Main;
 import ROMdb.Helpers.SCICRRow;
 import ROMdb.Models.AddSCICRModel;
 import ROMdb.Models.MainMenuModel;
@@ -9,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import net.ucanaccess.jdbc.UcanaccessSQLException;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
@@ -74,10 +77,22 @@ public class AddSCICRController
                 SCorICR = radio_icr.getText();
             }
 
-            AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), build);
+            String baselineId = AddSCICRModel.saveSCICR(baseline, SCorICR, field_number.getText(), field_title.getText(), build);
 
             // Prepare a new SCICRRow object to put into the list for the selected baseline.
             newSCICR = new SCICRRow(SCorICR, field_number.getText().trim(), field_title.getText().trim(), build, baseline);
+
+            String impromptuSql = "SELECT [scicr_id] FROM SCICR WHERE [number]=? AND [baseline_id]=?";
+            PreparedStatement ps = Main.newconn.prepareStatement(impromptuSql);
+            ps.setString(1, field_number.getText());
+            ps.setString(2, baselineId);
+            ResultSet rs = ps.executeQuery();
+            String id = "";
+            while(rs.next())
+            {
+                id = rs.getString("scicr_id");
+            }
+            newSCICR.setID(Integer.parseInt(id));
 
             // Close the scene.
             closeScene();
