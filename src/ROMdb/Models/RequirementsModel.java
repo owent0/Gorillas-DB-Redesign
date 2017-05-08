@@ -151,11 +151,11 @@ public class RequirementsModel
             // to the object in memory.
             switch(columnName)
             {
-                case "ri":
+                case "responsible_individual_val_code_id":
                     row.setRi(ci.getValue());
                     list.set(i, row);
                     break;
-                case "program":
+                case "program_val_code_id":
                     row.setProgram(ci.getValue());
                     list.set(i, row);
                     break;
