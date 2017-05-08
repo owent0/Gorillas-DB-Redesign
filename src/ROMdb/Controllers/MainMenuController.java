@@ -37,11 +37,6 @@ public class MainMenuController
 
     public static RequirementsController requirementsController;
 
-    @FXML private AnchorPane anchor_estimation;
-    @FXML private AnchorPane anchor_requirements;
-    @FXML private AnchorPane anchor_mainScIcr;
-
-    @FXML private StackPane mainStackPane;
     @FXML private StackPane estimationStackPane;
     @FXML private StackPane scicrStackPane;
     @FXML private StackPane requirementsStackPane;

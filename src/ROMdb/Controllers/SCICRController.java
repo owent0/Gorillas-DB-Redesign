@@ -40,8 +40,6 @@ public class SCICRController {
     @FXML private TableColumn tableColumn_title;
     @FXML private TableColumn tableColumn_build;
 
-    @FXML private Button button_archive;
-
     /**
      * Initialize this view.
      */

@@ -16,14 +16,9 @@ public class AddSCICRController {
     @FXML private TextField field_title;
     @FXML private TextField field_number;
     @FXML private TextField field_build;
-
-    @FXML private RadioButton radio_sc;
     @FXML private RadioButton radio_icr;
-
     @FXML private ComboBox<String> combo_baseline;
-
     @FXML private Button button_save;
-    @FXML private Button button_cancel;
 
 
     /**

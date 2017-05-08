@@ -175,5 +175,4 @@ public class LoginController {
         stage.setResizable(false);
         stage.show();
     }
-
 }

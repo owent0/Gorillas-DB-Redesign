@@ -13,8 +13,8 @@ import java.sql.SQLException;
  * Created by Anthony Orio on 3/28/2017.
  */
 public class AddBaselineModel {
-    public static MainMenuController mainMenuController;
 
+    public static MainMenuController mainMenuController;
 
     /**
      *

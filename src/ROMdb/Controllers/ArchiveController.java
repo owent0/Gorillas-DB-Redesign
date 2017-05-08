@@ -20,12 +20,9 @@ import java.util.ArrayList;
  */
 public class ArchiveController {
 
-    @FXML private TabPane tabPane_tabs;
-    @FXML private Tab tab_requirements;
     @FXML private Tab tab_scicr;
 
     @FXML private Button button_cancel;
-    @FXML private Button button_restore;
 
     @FXML private TableView<SCICRRow> table_scicrArchive;
     @FXML private TableView<RequirementsRow> table_requirementsArchive;

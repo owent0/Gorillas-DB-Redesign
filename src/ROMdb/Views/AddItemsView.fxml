@@ -6,96 +6,73 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddItemsController">
-   <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <center>
-            <HBox prefHeight="40.0" prefWidth="465.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ComboBox fx:id="combo_itemType" onAction="#switchListItems" prefHeight="25.0" prefWidth="135.0">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </ComboBox>
-                  <TextField fx:id="field_newItem" onAction="#addNewItem" prefHeight="25.0" prefWidth="135.0">
-                     <HBox.margin>
-                        <Insets left="5.0" right="5.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Button fx:id="button_saveVal" mnemonicParsing="false" onAction="#addNewItem" text="Save">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Button>
-               </children>
-               <BorderPane.margin>
-                  <Insets left="15.0" />
-               </BorderPane.margin>
-            </HBox>
-         </center>
-         <top>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="34.0" prefWidth="285.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" text="Value Type">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="45.0" right="90.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Times New Roman" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label text="New Value">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Times New Roman" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-               <BorderPane.margin>
-                  <Insets left="15.0" />
-               </BorderPane.margin>
-            </HBox>
-         </top>
-      </BorderPane>
-   </center>
-   <bottom>
-      <HBox prefHeight="233.0" prefWidth="465.0" BorderPane.alignment="CENTER">
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="304.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.AddItemsController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="382.0" prefWidth="345.0">
          <children>
-            <ListView fx:id="list_values" prefHeight="233.0" prefWidth="529.0" />
-            <VBox alignment="CENTER" prefHeight="233.0" prefWidth="274.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="button_up" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="↑">
-                     <font>
-                        <Font name="Times New Roman" size="12.0" />
-                     </font></Button>
-                  <Button fx:id="button_down" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="↓">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Times New Roman" size="12.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="button_delete" mnemonicParsing="false" text="Delete">
-                     <VBox.margin>
-                        <Insets top="55.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Times New Roman" size="12.0" />
-                     </font>
-                  </Button>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Item Type: ">
+                           <font>
+                              <Font name="Times New Roman" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ComboBox fx:id="combo_itemType" minWidth="120.0" onAction="#switchListItems" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="5.0" right="5.0" top="15.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="New Value: ">
+                           <font>
+                              <Font name="Times New Roman" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="field_newItem" minWidth="120.0" onAction="#addNewItem" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="5.0" right="5.0" top="15.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="29.0" prefWidth="47.0">
+                     <children>
+                        <Button fx:id="button_saveVal" minHeight="25.0" mnemonicParsing="false" onAction="#addNewItem" text="Save">
+                           <font>
+                              <Font name="Times New Roman" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </HBox.margin>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <ListView fx:id="list_values" prefHeight="250.0" prefWidth="300.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-         <BorderPane.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </BorderPane.margin>
-      </HBox>
-   </bottom>
-</BorderPane>
+      </VBox>
+   </children>
+</StackPane>

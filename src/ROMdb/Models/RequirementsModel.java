@@ -25,8 +25,6 @@ public class RequirementsModel
 {
     public static RequirementsArchive archive = new RequirementsArchive();
 
-    public static final String SKELETON_KEY = "Skeleton Key";
-
     // This list contains all the requirement rows objects in the table.
     public static ObservableList<RequirementsRow> allReqData;
 
