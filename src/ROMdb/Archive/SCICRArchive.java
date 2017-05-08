@@ -6,11 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import net.ucanaccess.jdbc.UcanaccessSQLException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -48,7 +48,7 @@ public class SCICRArchive extends  Archive<SCICRRow>
     public void addRecord(SCICRRow row) throws SQLException
     {
         this.moveToArchive(row);
-        this.deleteFromDatabase(row.getNumber(), "SCICRData");
+        this.deleteFromDatabase(Integer.toString(row.getId()), "SCICR");
     }
 
     /**
@@ -63,7 +63,7 @@ public class SCICRArchive extends  Archive<SCICRRow>
         for(SCICRRow row : list)
         {
             this.moveToArchive(row);
-            this.deleteFromDatabase(row.getNumber(), "SCICRData");
+            this.deleteFromDatabase(Integer.toString(row.getId()), "SCICR");
         }
     }
 
@@ -75,13 +75,27 @@ public class SCICRArchive extends  Archive<SCICRRow>
      * @throws SQLException If the SQL query cannot complete properly.
      */
     @Override
-    public void removeListOfRecords(ObservableList<SCICRRow> list) throws SQLException {
+    public void removeListOfRecords(ObservableList<SCICRRow> list) throws SQLException
+    {
         for(SCICRRow row : list)
         {
-            this.moveFromArchive(row);
-            this.deleteFromDatabase(row.getNumber(), "SCICRData_Archive");
+            try
+            {
+                this.moveFromArchive(row);
+                this.deleteFromDatabase(Integer.toString(row.getId()), "SCICR_Archive");
+            }
+            catch(UcanaccessSQLException ucae)
+            {
+                if(ucae.getCause() instanceof SQLIntegrityConstraintViolationException)
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't add SCICR to database." +
+                            "\nSCICR already exists.", ButtonType.OK);
+                    alert.showAndWait();
+                }
+            }
         }
     }
+
 
     /**
      * Fill the archive table view in the GUI with the current archived
@@ -93,10 +107,12 @@ public class SCICRArchive extends  Archive<SCICRRow>
         //ObservableList<SCICRRow> tempRows = FXCollections.observableArrayList();
 
         // Create query to grab all rows.
-        String query = "SELECT * FROM SCICRData_Archive";
+        String query = "SELECT [scicr_id], [date_archived], [type], [number], [title], [field_value], [baseline_desc] " +
+                "FROM SCICR_Archive INNER JOIN ValCodes ON SCICR_Archive.build_val_code_id = ValCodes.val_id INNER JOIN Baseline ON " +
+                "SCICR_Archive.baseline_id = Baseline.baseline_id";
 
         // Create the statement to send.
-        Statement st = Main.conn.createStatement();
+        Statement st = Main.newconn.createStatement();
 
         // Return the result set from this query.
         ResultSet rs = st.executeQuery(query);
@@ -104,15 +120,15 @@ public class SCICRArchive extends  Archive<SCICRRow>
         while (rs.next()) // Retrieve data from ResultSet
         {
             SCICRRow temp = new SCICRRow(
-                    rs.getString("Type"),
-                    rs.getString("Number"),
-                    rs.getString("Title"),
-                    rs.getString("Build"),
-                    rs.getString("Baseline")
+                    rs.getString("type"),
+                    rs.getString("number"),
+                    rs.getString("title"),
+                    rs.getString("field_value"),
+                    rs.getString("baseline_desc")
             );
             String timestamp = rs.getDate("date_archived").toString();
             temp.setTimestamp(timestamp);
-            temp.setID(rs.getInt("scicrData_id"));
+            temp.setID(rs.getInt("scicr_id"));
 
             //tempRows.add(temp);
             this.rows.add(temp);
@@ -128,24 +144,34 @@ public class SCICRArchive extends  Archive<SCICRRow>
      */
     private void moveFromArchive(SCICRRow row) throws SQLException
     {
+        String dataQuery = "SELECT * FROM SCICR_Archive WHERE [scicr_id]=?";
+        PreparedStatement dataQueryPS = Main.newconn.prepareStatement(dataQuery);
+        dataQueryPS.setString(1, Integer.toString(row.getId()));
+        ResultSet dataQueryRS = dataQueryPS.executeQuery();
+
         // The query to insert the data from the fields.
-        String query =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO SCICR ([scicr_id], [number], [type], [title], [build_val_code_id], " +
+                "[baseline_id]) VALUES (?, ?, ?, ?, ?, ?)";
 
         // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        PreparedStatement st = Main.newconn.prepareStatement(query);
 
-        /* Parse all of the information and stage for writing. */
-        st.setString(1, row.getNumber());
-        st.setString(2, row.getType());
-        st.setString(3, row.getTitle());
-        st.setString(4, row.getBuild());
-        st.setString(5, row.getBaseline());
+        while(dataQueryRS.next())
+        {
+            st.setString(1, dataQueryRS.getString("scicr_id"));
+            st.setString(2, dataQueryRS.getString("number"));
+            st.setString(3, dataQueryRS.getString("type"));
+            st.setString(4, dataQueryRS.getString("title"));
+            st.setString(5, dataQueryRS.getString("build_val_code_id"));
+            st.setString(6, dataQueryRS.getString("baseline_id"));
+        }
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
 
         this.rows.remove(row);
     }
+
 
     /**
      * Method that will move a single row to the archive table in the database
@@ -157,26 +183,34 @@ public class SCICRArchive extends  Archive<SCICRRow>
     private void moveToArchive(SCICRRow row) throws SQLException
     {
         /* Let's get todays date. */
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
-        row.setTimestamp(date.toString());
+        //long millis = System.currentTimeMillis();
+        //java.sql.Date date = new java.sql.Date(millis);
+        //row.setTimestamp(date.toString());
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+        row.setTimestamp(strDate);
 
-        String query = "INSERT INTO SCICRData_Archive ([scicrData_id], [date_archived], [type], [number], [title], [build], [baseline]) " +
-                "       VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String scicrId = Integer.toString(row.getId());
+        String getDBSCICRDataQuery = "SELECT * FROM SCICR WHERE [scicr_id]=?";
+        PreparedStatement st = Main.newconn.prepareStatement(getDBSCICRDataQuery);
+        st.setString(1, scicrId);
+        ResultSet rs = st.executeQuery();
 
-        // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(query);
-
-        /* Parse all of the information and stage for writing. */
-        st.setInt(1, row.getId());
-        st.setDate(2, date);
-        st.setString(3, row.getType());
-        st.setString(4, row.getNumber());
-        st.setString(5, row.getTitle());
-        st.setString(6, row.getBuild());
-        st.setString(7, row.getBaseline());
-
-        st.executeUpdate();
+        String archiveInsertQuery = "INSERT INTO SCICR_Archive ([scicr_id], [date_archived], [number], [type], " +
+                "[title], [build_val_code_id], [baseline_id]) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement newst = Main.newconn.prepareStatement(archiveInsertQuery);
+        while(rs.next())
+        {
+            newst.setString(1, rs.getString("scicr_id"));
+            newst.setString(2, row.getTimestamp());
+            newst.setString(3, rs.getString("number"));
+            newst.setString(4, rs.getString("type"));
+            newst.setString(5, rs.getString("title"));
+            newst.setString(6, rs.getString("build_val_code_id"));
+            newst.setString(7, rs.getString("baseline_id"));
+        }
+        newst.executeUpdate();
 
         this.rows.add(row);
     }
@@ -185,16 +219,18 @@ public class SCICRArchive extends  Archive<SCICRRow>
      * Deletes a row from the database when the user decides to add or remove
      * a row from and to memory.
      *
-     * @param number The number to search for.
+     * @param scicrId The id to search for.
      * @param table The table to search in.
      * @throws SQLException If the SQL query could not be complete properly.
      */
-    private void deleteFromDatabase(String number, String table) throws SQLException {
+    private void deleteFromDatabase(String scicrId, String table) throws SQLException {
+
+
         // Set up statement for deleting from database.
-        PreparedStatement st = Main.conn.prepareStatement("DELETE FROM " + table + " WHERE [Number] = ?");
+        PreparedStatement st = Main.newconn.prepareStatement("DELETE FROM " + table + " WHERE [scicr_id] = ?");
 
         // Uses the primary key to locate in table.
-        st.setString(1, number);
+        st.setString(1, scicrId);
 
         // Perform the query.
         st.executeUpdate();
