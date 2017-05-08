@@ -4,10 +4,6 @@ import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import ROMdb.Reports.ReportGenerator;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,26 +18,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
-//might need the ones commented out, leave for now. - Jatin
-//import sun.plugin.javascript.navig4.Document;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
 
 /**
  * Created by Team Gorillas
@@ -81,7 +69,7 @@ public class RequirementsController
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
 
-    @FXML private Button button_archive;
+//    @FXML private Button button_archive;
 
     /* Complete tab components                          */
     @FXML private TextField field_completeDesign;
@@ -99,43 +87,16 @@ public class RequirementsController
     /* End Header / Footer Tab Components */
 
     /* DDR Tab Components */
-    @FXML private Button button_tracePortrait;
-    @FXML private Button button_traceLandscape;
+//    @FXML private Button button_tracePortrait;
+//    @FXML private Button button_traceLandscape;
     /* End DDR Tab Components*/
 
-    /* Groups Tab Components*/
-    @FXML private Button button_groupsOneGroupSlocs;
-    @FXML private Button button_groupsOneGroupStatus;
-    @FXML private ComboBox<?> combo_groupsOne;
-    @FXML private Button button_groupsTwoGroupSlocs;
-    @FXML private Button button_groupsTwoGroupStatus;
-    @FXML private ComboBox<?> combo_groupsTwo;
-    @FXML private Button button_groupsThreeGroupSlocs;
-    @FXML private Button button_groupsThreeGroupStatus;
-    @FXML private ComboBox<?> combo_groupsThree;
-    @FXML private Button button_groupsFourGroupSlocs;
-    @FXML private Button button_groupsFourGroupStatus;
-    @FXML private ComboBox<?> combo_groupsFour;
-    /* End Groups Tab Components */
-
-    /* Paragraphs Tab Components */
-    @FXML private Button button_paragraphsFourGroupSlocs;
-    @FXML private Button button_paragraphsFourGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsFour;
-    @FXML private Button button_paragraphsFiveGroupSlocs;
-    @FXML private Button button_paragraphsFiveGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsFive;
-    @FXML private Button button_paragraphsSixGroupSlocs;
-    @FXML private Button button_paragraphsSixGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsSixr;
-    /* End Paragraphs Tab Components */
-
     /* Group Reports Tab Components */
-    @FXML private Button button_add;
-    @FXML private Button button_remove;
-    @FXML private Button button_clearChoices;
-    @FXML private Button button_SLOCs;
-    @FXML private Button button_status;
+//    @FXML private Button button_add;
+//    @FXML private Button button_remove;
+//    @FXML private Button button_clearChoices;
+//    @FXML private Button button_SLOCs;
+//    @FXML private Button button_status;
 
     @FXML private ListView<String> listview_choices;
     @FXML private ListView<String> listview_selections;
@@ -979,18 +940,11 @@ public class RequirementsController
         String header = getHeader();
         String footer = getFooter();
 
-        try
-        {
-            ReportGenerator.generateDDR(false, header, footer);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRReq_Date_Time.pdf\"",
+        try {
+            String fileName = ReportGenerator.generateDDR(false, header, footer);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait.",
                     ButtonType.OK);
-            alert.showAndWait();
-        }
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait. Please close DDRReq.pdf",
-                    ButtonType.OK);
-            // e.printStackTrace();
             alert.showAndWait();
         }
 
@@ -1019,16 +973,10 @@ public class RequirementsController
 
         try
         {
-            ReportGenerator.generateDDR(true, header, footer);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"DDRLandscape_Date_Time.pdf\"",
+            String fileName = ReportGenerator.generateDDR(true, header, footer);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape.",
                     ButtonType.OK);
-            alert.showAndWait();
-        }
-        catch (Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape. Please close DDRLandscape.pdf",
-                    ButtonType.OK);
-            // e.printStackTrace();
             alert.showAndWait();
         }
 
@@ -1152,8 +1100,9 @@ public class RequirementsController
                 Alert alert = new Alert(Alert.AlertType.ERROR, "There is group names selected.", ButtonType.OK);
                 alert.showAndWait();
             }
-            else
+            else {
                 ReportGenerator.generateDCTI(groups, header, footer);
+            }
         }
         catch (Exception e)
         {

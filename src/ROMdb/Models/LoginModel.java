@@ -1,7 +1,6 @@
 package ROMdb.Models;
 
 import ROMdb.Controllers.EstimationBaseController;
-import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.MainMenuController;
 import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;

@@ -249,11 +249,11 @@ public class MainMenuController
         button_viewArchive.setDisable(false);
         combo_baseline.setDisable(false);
         label_selectBaseline.setTextFill(Color.web("#000000"));
+        menuItem_addItem.setDisable(false);
 
         if(LoginModel.isAdmin == true){
             menuItem_createBaseline.setDisable(false);
             menuItem_changeAdminPassword.setDisable(false);
-            menuItem_addItem.setDisable(false);
         }
     }
 

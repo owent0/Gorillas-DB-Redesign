@@ -2,6 +2,7 @@ package ROMdb.Models;
 
 import ROMdb.Driver.Main;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -49,9 +50,6 @@ public class AddItemsModel
         }
     }
 
-
-
-
     public static String[] getValTypes()
     {
         return valTypes;
@@ -62,5 +60,50 @@ public class AddItemsModel
         return map;
     }
 
+    public static void writeItemToDb(String type, String value, int order) throws Exception {
+        // The query to insert the data from the fields.
+        boolean inDatabase = true;
+        String insertQuery =    "SELECT COUNT(*) as NUM_MATCHES FROM Val_Codes WHERE Field_Name = ? AND Field_Value = ?";
+
+        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+
+        st.setString(1, type);
+        st.setString(2, value);
+
+        int count = 0;
+        ResultSet rs = null;
+        try
+        {
+            rs = st.executeQuery();
+            while(rs.next())
+            {
+                count = rs.getInt(1);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        if (count == 0 && !value.trim().isEmpty()) {
+            /* Create query */
+            String query = "INSERT INTO Val_Codes ([Field_Name], [Field_Value], [Order_Id]) VALUES (?, ?, ?)";
+
+            // Create a new statement.
+            st = Main.conn.prepareStatement(query);
+
+            /** Parse all of the information and stage for writing. */
+            st.setString(1, type);
+            st.setString(2, value);
+            st.setString(3, Integer.toString(order));
+            // Perform the update inside of the table of the database.
+            st.executeUpdate();
+        }
+        else {
+            throw new Exception();
+        }
+
+
+    }
 
 }

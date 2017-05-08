@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,11 +33,6 @@ public class AddItemsController
     @FXML private TextField field_newItem;
 
     @FXML private ListView<String> list_values;
-
-    @FXML private Button button_saveVal;
-    @FXML private Button button_up;
-    @FXML private Button button_down;
-    @FXML private Button button_delete;
 
     /**
      * This method will execute each time the window loads.
@@ -124,21 +121,39 @@ public class AddItemsController
 
         /* We must lower case the combo box item so that we can use it as a key to the map. */
         String valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
+        int order = AddItemsModel.getMap().get(valType).size() + 1;
 
-        /* Add the item to the hash map. */
-        AddItemsModel.getMap().get(valType).add(newItem);
+        try {
 
-        /* Add to appropriate observable list. */
-        switch (valType)
-        {
-            case "capability":  capabilityList.add(newItem);break;
-            case "csc":         cscList.add(newItem);       break;
-            case "csu":         csuList.add(newItem);       break;
-            case "program":     programList.add(newItem);   break;
-            case "ri":          riList.add(newItem);        break;
-            case "rommer":      rommerList.add(newItem);    break;
-            case "build":       buildList.add(newItem);     break;
-            default:                                        break;
+            AddItemsModel.writeItemToDb(valType, newItem, order);
+
+            field_newItem.clear();
+
+            // Add to appropriate observable list.
+            switch (valType)
+            {
+                case "capability":  capabilityList.add(newItem);break;
+                case "csc":         cscList.add(newItem);       break;
+                case "csu":         csuList.add(newItem);       break;
+                case "program":     programList.add(newItem);   break;
+                case "ri":          riList.add(newItem);        break;
+                case "rommer":      rommerList.add(newItem);    break;
+                case "build":       buildList.add(newItem);     break;
+                default:                                        break;
+            }
+            /* Add the item to the hash map. */
+            AddItemsModel.getMap().get(valType).add(newItem);
         }
+        catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not insert " + newItem + " into " + valType, ButtonType.OK);
+            alert.showAndWait();
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "The item: " + newItem + " already exists!", ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 }
