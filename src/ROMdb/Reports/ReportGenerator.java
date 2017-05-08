@@ -74,25 +74,31 @@ public class ReportGenerator
         // this method gets called at the end of every page of the pdf document
         public void onEndPage(PdfWriter writer, Document document)
         {
-            String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+            String timeStamp = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").format(new Date());
 
-            // if footer textbox isn't blank
-            if (!footer.trim().isEmpty())
+            if (!isLandscape)
             {
-                if (!isLandscape)
+                // set footer for Portrait
+                if (!footer.trim().isEmpty())
                 {
-                    // set footer for Portrait
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    // include footer textbox content
                     ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 300, 20, 0);
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
                 }
-                else
+                // add timestamp and page number regardless of footer field
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
+            }
+            else
+            {
+                // set footer for Landscape
+                if (!footer.trim().isEmpty())
                 {
-                    // set footer for Landscape
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    // include footer textbox content
                     ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 450, 20, 0);
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
                 }
+                // add timestamp and page number regardless of footer field
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
             }
         }
     }
@@ -615,7 +621,7 @@ public class ReportGenerator
         footer = footerContent;
 
         /* Get the directory path. */
-        //String path = fileHandler.getPathWithFileChooser();
+        // String path = fileHandler.getPathWithFileChooser();
         String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
