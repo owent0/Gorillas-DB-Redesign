@@ -37,10 +37,10 @@ public class LoginModel {
         try {
 
             // The query to insert the data from the fields.
-            String insertQuery = "UPDATE DBUsers SET [Code]=? WHERE [ID]= 1";
+            String insertQuery = "UPDATE DBUsers SET [password_hash]=? WHERE [user_name]= 'Admin'";
 
             // Create a new statement.
-            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+            PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
             // Parse all of the information and stage for writing.
             st.setString(1, encryptedPassword);
@@ -65,10 +65,10 @@ public class LoginModel {
     public static String pullAdminPasswordFromDB() throws SQLException {
 
         // Create query to grab all rows.
-        String query = "SELECT Code FROM DBUsers WHERE UserName = 'Admin'";
+        String query = "SELECT password_hash FROM DBUsers WHERE user_name = 'Admin'";
 
         // Create the statement to send.
-        Statement st = Main.conn.createStatement();
+        Statement st = Main.newconn.createStatement();
 
         // Return the result set from this query.
         ResultSet rs = st.executeQuery(query);
@@ -78,7 +78,7 @@ public class LoginModel {
         // Pulls the code column from the database table.
         // Since there is only one there is pulls the stored password.
         while(rs.next()){
-            pass = rs.getString("Code");
+            pass = rs.getString("password_hash");
         }
 
         // Returns the one-way hashed password stored in the database table.
@@ -154,10 +154,10 @@ public class LoginModel {
         try {
 
             // The query to insert the data from the fields.
-            String insertQuery = "UPDATE DBUsers SET [Code]=? WHERE [ID]= 1";
+            String insertQuery = "UPDATE DBUsers SET [password_hash]=? WHERE [user_name]= 'Admin'";
 
             // Create a new statement.
-            PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+            PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
             // Parse all of the information and stage for writing.
             st.setString(1, encryptedPassword);
@@ -182,10 +182,10 @@ public class LoginModel {
     public static String pullMasterPasswordFromDB() throws SQLException {
 
         // Create query to grab all rows.
-        String query = "SELECT Code FROM DBUsers WHERE UserName = 'Master'";
+        String query = "SELECT password_hash FROM DBUsers WHERE user_name = 'Master'";
 
         // Create the statement to send.
-        Statement st = Main.conn.createStatement();
+        Statement st = Main.newconn.createStatement();
 
         // Return the result set from this query.
         ResultSet rs = st.executeQuery(query);
@@ -195,7 +195,7 @@ public class LoginModel {
         // Pulls the code column from the database table.
         // Since there is only one there is pulls the stored password.
         while(rs.next()){
-            pass = rs.getString("Code");
+            pass = rs.getString("password_hash");
         }
 
         // Returns the one-way hashed password stored in the database table.
