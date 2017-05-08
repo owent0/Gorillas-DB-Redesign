@@ -676,6 +676,9 @@ public class RequirementsController
     {
         try
         {
+            // TODO THESE ARE THE LINES OF CODE THAT UPDATE THE DROPDOWN WITH THE NEW SCICR VALUES
+            //this.observableFilterMap.put("scicr", MainMenuModel.scicrs);
+            //combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
             table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
         }
         catch(Exception e)
@@ -885,34 +888,6 @@ public class RequirementsController
             alert.showAndWait();
         }
     }
-
-    /*
-    @FXML
-    private void updateBuild() {
-        try {
-            //String oldBuild = this.getSelectedRow().getBuild();
-            //String build = combo_completeBuild.getValue().toString();
-            //RequirementsModel.updateTextColumnInDB("RequirementsData", "build", build);
-            *//*System.out.println("Old Build: " + oldBuild + "\n" + "New Build: " + build);
-            int count = 1;
-            for (RequirementsRow row : RequirementsModel.allReqData) {
-                if(row.getRi().equals(build)) {
-                    count++;
-                }
-            }
-            if(count == 1) {
-                int index = individuals.indexOf(oldBuild);
-                individuals.set(index, build);
-            }*//*
-
-            if(!individuals.contains(build)) { individuals.add(build); }
-        }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Build was unable to be updated.", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-    */
 
     /**
      * For updating the responsible individual column for all
@@ -1201,37 +1176,6 @@ public class RequirementsController
  *                      the change to the database.
  *
  */
-
-
-    /**
-     * Method sets the table column to be a combobox on edit
-     * The factory will set the referenced column to a specific component
-     * such as a text field or combo box in this case.
-     * @param tc The table column to use.
-     * @param list The list to associate witht he column.
-     */
-    // we dont use this
-    /*
-    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc, ObservableList<String> list)
-    {
-        tc.setCellFactory(col ->
-                {
-                    // Sets up the column of cells to be a combo box.
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-
-                    int size = list.size();
-                    for( int i = 0; i < size; i++ ) {
-                        cell.setItem(list.get(i));
-                    }
-
-                    // Makes these combo boxes editable, as in you can type into them.
-                    //cell.setComboBoxEditable(true);
-
-                    return cell;
-                }
-        );
-    }
-    */
 
     /**
      * Method sets the table column to be a combobox on click
@@ -1565,76 +1509,6 @@ public class RequirementsController
                 table_requirements.refresh();
             }
         });
-
-        /*  Baseline Column  */
-        // unused - we dont want people to be able to change the baseline value
-        /*
-        tableColumn_baseline.setOnEditCommit(t -> {
-            try
-            {
-                // TODO This column is disabled in the view because we don't ever want to change this field...
-                // So no actions will be done here?
-
-                // Grab the new value enter into the cell.
-                //(t.getTableView().getItems().get(t.getTablePosition().getRow())).setBaseline(t.getNewValue());
-                //saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-        */
-
-        /*  Build Column  */
-        // unused - we dont let people change the baseline value
-        /*
-        tableColumn_build.setOnEditCommit(t -> {
-            try
-            {
-                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
-
-                // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue().getId());
-                saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Build.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-        */
-
-        /*  SC/ICR Column  */
-        // unused - we dont let people change the scicr column
-        /*
-        tableColumn_scicr.setOnEditCommit(t -> {
-            try
-            {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
-
-                // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setScicr(t.getNewValue());
-                saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-        */
 
         /*  Capability Column  */
         tableColumn_capability.setOnEditCommit(t -> {

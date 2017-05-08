@@ -217,4 +217,9 @@ public class MainMenuModel
             return null;
         }
     }
+
+    public static void refreshSCICRsFromDB()
+    {
+        MainMenuModel.scicrs = fetchSCICRsFromDB();
+    }
 }
