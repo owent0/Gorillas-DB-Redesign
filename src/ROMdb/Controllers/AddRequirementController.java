@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
@@ -255,12 +256,24 @@ public class AddRequirementController
         catch(InputFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Ensure that the fields contain the correct values. Some fields can only contain numbers or alpha numeric characters.", ButtonType.OK);
+
+            /* Focus on this current window to prevent clicking on windows behind it. */
+            Stage owner = (Stage) combo_baseline.getScene().getWindow();
+            alert.initOwner(owner);
+            alert.initModality(Modality.WINDOW_MODAL);
+
             alert.showAndWait();
         }
 
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not write new entry to database.", ButtonType.OK);
+
+            /* Focus on this current window to prevent clicking on windows behind it. */
+            Stage owner = (Stage) combo_baseline.getScene().getWindow();
+            alert.initOwner(owner);
+            alert.initModality(Modality.WINDOW_MODAL);
+
             alert.showAndWait();
         }
     }
