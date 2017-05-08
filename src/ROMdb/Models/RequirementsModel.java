@@ -128,18 +128,11 @@ public class RequirementsModel
      * with the value textToWrite.
      * @param tableName The table to make the update to.
      * @param columnName The column to update in the table.
-     * @param textToWrite The text to write into the column.
+     * @param ci The text to write into the column.
      * @throws Exception If the input is invalid or SQL statement could not complete.
      */
-    public static void updateTextColumnInDB(String tableName, String columnName, String textToWrite) throws Exception
+    public static void updateTextColumnInDB(String tableName, String columnName, ComboItem ci) throws Exception
     {
-
-        // Check to make sure the input is not null or empty.
-        if(textToWrite == null || textToWrite.trim().equals(""))
-        {
-            throw new Exception("Invalid input.");
-        }
-
         ObservableList<RequirementsRow> list;
         if(!currentFilteredList.isEmpty()) {
             list = currentFilteredList;
@@ -149,7 +142,7 @@ public class RequirementsModel
 
         for(RequirementsRow row : list)
         {
-            PreparedStatement st = QueryBuilder.updateColumnText(tableName, columnName, textToWrite, row.getId());
+            PreparedStatement st = QueryBuilder.updateColumnText(tableName, columnName, ci.getId(), row.getId());
             st.executeUpdate();
             int i = list.indexOf(row);
 
@@ -159,11 +152,11 @@ public class RequirementsModel
             switch(columnName)
             {
                 case "ri":
-                    row.setRi(textToWrite);
+                    row.setRi(ci.getValue());
                     list.set(i, row);
                     break;
                 case "program":
-                    row.setProgram(textToWrite);
+                    row.setProgram(ci.getValue());
                     list.set(i, row);
                     break;
                 default:
@@ -204,19 +197,19 @@ public class RequirementsModel
             // to the object in memory.
             switch(columnName)
             {
-                case "design" :
+                case "design_percentage" :
                     row.setDesignWeight(value);
                     list.set(i, row);
                     break;
-                case "code":
+                case "code_percentage":
                     row.setCodeWeight(value);
                     list.set(i, row);
                     break;
-                case "unitTest":
+                case "unit_test_percentage":
                     row.setUnitTestWeight(value);
                     list.set(i, row);
                     break;
-                case "integration":
+                case "integration_percentage":
                     row.setIntegrationWeight(value);
                     list.set(i, row);
                     break;

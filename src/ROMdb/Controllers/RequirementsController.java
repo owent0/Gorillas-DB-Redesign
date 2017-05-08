@@ -361,26 +361,6 @@ public class RequirementsController
     }
 
     /**
-     * Method called to fill the JTable with all ReqData at the load of the window
-     */
-    // we never want to show all requirements data unfiltered
-    /*
-    private void fillTable()
-    {
-        try
-        {
-            RequirementsModel.refreshAllReqDataFromDB();
-            table_requirements.setItems(RequirementsModel.allReqData);
-        }
-        catch(Exception e)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fill table.", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-    */
-
-    /**
      * Creates the handler for being able to click on the table view
      * and perform an action such as right clicking to display a menu.
      */
@@ -415,9 +395,8 @@ public class RequirementsController
             @Override
             public void handle(ActionEvent event)
             {
-                addNewRowWithDefaultsToJTable();
-
-                try {
+                try
+                {
                     displayAddRequirementWindow();
                 } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could not display add requirements window.", ButtonType.OK);
@@ -439,7 +418,6 @@ public class RequirementsController
                     alert.showAndWait();
                 }
                 RequirementsRow currRow = getSelectedRow();
-                addNewRowWithDefaultsToJTable();
                 try {
                     displayAddRequirementWindowFromCopy(currRow);
                 } catch (IOException e) {
@@ -487,8 +465,6 @@ public class RequirementsController
         stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
-
-
     }
 
     /**
@@ -514,23 +490,6 @@ public class RequirementsController
         controller.setFieldsFromCopiedItem(currentRow);
         stage.setResizable(false);
         stage.show();
-    }
-
-
-    /**
-     * To deprecate.
-     */
-    @FXML
-    private void addNewRowWithDefaultsToJTable()
-    {
-        /*
-        RequirementsRow row = new RequirementsRow("","","","","","","",
-                0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-                "","",""
-        );
-        table_requirements.getItems().add(row);
-        */
-        // TODO - Replace with GUI interface
     }
 
     @FXML
@@ -683,6 +642,7 @@ public class RequirementsController
     /**
      * Occupy combo boxes in the complete tab.
      */
+    /*
     private void occupyComboBoxes()
     {
         for(RequirementsRow row : RequirementsModel.allReqData)
@@ -700,6 +660,7 @@ public class RequirementsController
         combo_completeRI.setItems(individuals);
         combo_completeProgram.setItems(programs);
     }
+    */
 
     /**
      * For updating the design column for all rows currently
@@ -723,7 +684,7 @@ public class RequirementsController
 
         try
         {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "design",
+            RequirementsModel.updateDoubleColumnInDB("Requirement", "design_percentage",
                     Double.parseDouble(field_completeDesign.getText()) );
 
             // clear the field once they've done the update
@@ -760,7 +721,7 @@ public class RequirementsController
 
         try
         {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData", "code",
+            RequirementsModel.updateDoubleColumnInDB("Requirement", "code_percentage",
                     Double.parseDouble(field_completeCode.getText()) );
 
             // clear the field once they've done the update
@@ -798,8 +759,8 @@ public class RequirementsController
 
         try
         {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData",
-                    "unitTest", Double.parseDouble(field_completeUnitTest.getText()) );
+            RequirementsModel.updateDoubleColumnInDB("Requirement",
+                    "unit_test_percentage", Double.parseDouble(field_completeUnitTest.getText()) );
 
             field_completeUnitTest.setText("");
 
@@ -835,8 +796,8 @@ public class RequirementsController
 
         try
         {
-            RequirementsModel.updateDoubleColumnInDB("RequirementsData",
-                    "integration", Double.parseDouble(field_completeIntegration.getText()) );
+            RequirementsModel.updateDoubleColumnInDB("Requirement",
+                    "integration_percentage", Double.parseDouble(field_completeIntegration.getText()) );
 
             field_completeIntegration.setText("");
 
@@ -872,9 +833,8 @@ public class RequirementsController
 
         try
         {
-            //String oldRi = this.getSelectedRow().getRi();
-            String ri = combo_completeRI.getValue().toString();
-            RequirementsModel.updateTextColumnInDB("RequirementsData", "ri", ri);
+            RequirementsModel.updateTextColumnInDB("Requirement", "responsible_individual_val_code_id", combo_completeRI.getValue());
+            updateJTableWithFilteredReqData();
         }
         catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Responsible individual was unable to be updated.", ButtonType.OK);
@@ -903,9 +863,8 @@ public class RequirementsController
 
         try
         {
-            //String oldProgram = this.getSelectedRow().getProgram();
-            String program = combo_completeProgram.getValue().toString();
-            RequirementsModel.updateTextColumnInDB("RequirementsData", "program", program) ;
+            RequirementsModel.updateTextColumnInDB("Requirement", "program_val_code_id", combo_completeProgram.getValue());
+            updateJTableWithFilteredReqData();
         }
         catch(Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Program was unable to be updated.", ButtonType.OK);
