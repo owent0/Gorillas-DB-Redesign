@@ -84,7 +84,7 @@ public class AddItemsModel
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         if (count == 0 && !value.trim().isEmpty()) {

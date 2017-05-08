@@ -172,7 +172,7 @@ public class MainMenuModel
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not load SCICRs into global observable list." +
                             "Program closing.", ButtonType.OK);

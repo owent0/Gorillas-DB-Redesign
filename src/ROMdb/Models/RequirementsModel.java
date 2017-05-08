@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringJoiner;
 
 /**
  * Created by Anthony Orio on 3/28/2017.
@@ -22,6 +23,8 @@ import java.util.HashMap;
 public class RequirementsModel
 {
     public static RequirementsArchive archive = new RequirementsArchive();
+
+    public static ObservableList<String> filterSCICR;
 
     // This list contains all the requirement rows objects in the table.
     public static ObservableList<RequirementsRow> allReqData;
@@ -123,6 +126,60 @@ public class RequirementsModel
         return filteredList;
     }
 
+    public static ObservableList getReqDataWithOnlyBaselineFilter() throws SQLException
+    {
+        ObservableList<RequirementsRow> filteredList = FXCollections.observableArrayList();
+
+        // Method call to QueryBuilder to build the query.
+        String selectSet = "[requirement_id], [csc_val_code_id], [csu_val_code_id], [doors_id], [paragraph], " +
+                "[capability_val_code_id], [num_lines_added], [num_lines_changed], [num_lines_deleted], " +
+                "[design_percentage], [code_percentage], [unit_test_percentage], [integration_percentage], " +
+                "[responsible_individual_val_code_id], [rommer_val_code_id], [program_val_code_id], [number], " +
+                "[build_val_code_id], [baseline_desc]";
+        String tableFrom = "Requirement INNER JOIN SCICR ON Requirement.scicr_id = SCICR.scicr_id INNER JOIN Baseline ON SCICR.baseline_id = Baseline.baseline_id";
+        ArrayList<FilterItem> baselineFilterList = new ArrayList<FilterItem>();
+        baselineFilterList.add(new FilterItem(MainMenuModel.getSelectedBaseline(), "baseline_desc"));
+        PreparedStatement st = QueryBuilder.buildSelectWhereQuery(tableFrom, selectSet, baselineFilterList, true);
+
+        ResultSet rs = st.executeQuery();
+
+        HashMap<Integer, String> vclmap = MainMenuModel.getValCodesLookuMap();
+
+        while (rs.next())
+        {
+            RequirementsRow tempRow = new RequirementsRow(
+                    vclmap.get(rs.getInt("csc_val_code_id")),
+                    vclmap.get(rs.getInt("csu_val_code_id")),
+                    rs.getString("doors_id"),
+                    rs.getString("paragraph"),
+                    rs.getString("baseline_desc"),
+                    rs.getString("number"),
+                    vclmap.get(rs.getInt("capability_val_code_id")),
+                    rs.getDouble("num_lines_added"),
+                    rs.getDouble("num_lines_changed"),
+                    rs.getDouble("num_lines_deleted"),
+                    rs.getDouble("design_percentage"),
+                    rs.getDouble("code_percentage"),
+                    rs.getDouble("unit_test_percentage"),
+                    rs.getDouble("integration_percentage"),
+                    vclmap.get(rs.getInt("responsible_individual_val_code_id")),
+                    vclmap.get(rs.getInt("rommer_val_code_id")),
+                    vclmap.get(rs.getInt("program_val_code_id")),
+                    vclmap.get(rs.getInt("build_val_code_id"))
+            );
+            tempRow.setId(rs.getInt("requirement_id"));
+            tempRow.setCsc_val_code_id(rs.getString("csc_val_code_id"));
+            tempRow.setCsu_val_code_id(rs.getString("csu_val_code_id"));
+            tempRow.setCapability_val_code_id(rs.getString("capability_val_code_id"));
+            tempRow.setResponsible_individual_val_code_id(rs.getString("responsible_individual_val_code_id"));
+            tempRow.setRommer_val_code_id(rs.getString("rommer_val_code_id"));
+            tempRow.setProgram_val_code_id(rs.getString("program_val_code_id"));
+            filteredList.add(tempRow);
+        }
+        allReqData = filteredList;
+        return filteredList;
+    }
+
     /**
      * Updates an entire column columnName within the database table tableName
      * with the value textToWrite.
@@ -134,7 +191,7 @@ public class RequirementsModel
     public static void updateTextColumnInDB(String tableName, String columnName, ComboItem ci) throws Exception
     {
         ObservableList<RequirementsRow> list;
-        if(!currentFilteredList.isEmpty()) {
+        if(currentFilteredList != null && !currentFilteredList.isEmpty()) {
             list = currentFilteredList;
         } else {
             list = allReqData;
@@ -176,11 +233,11 @@ public class RequirementsModel
     public static void updateDoubleColumnInDB(String tableName, String columnName, double value) throws Exception
     {
         if(value > 100 || value < 0) {
-            throw new Exception("Number not within range 0-100");
+            throw new NumberFormatException("Number not within range 0-100");
         }
 
         ObservableList<RequirementsRow> list;
-        if(!currentFilteredList.isEmpty()) {
+        if(currentFilteredList != null && !currentFilteredList.isEmpty()) {
             list = currentFilteredList;
         } else {
             list = allReqData;
@@ -286,6 +343,29 @@ public class RequirementsModel
         returnList.add(RequirementsModel.getMapListFromVal_Codes("build"));
 
         return returnList;
+    }
+
+    public static void updateSCICR() {
+        try
+        {
+            String baseline = MainMenuModel.getSelectedBaseline();
+            HashMap<String, Integer> lookupMap = MainMenuModel.getBaselineLookupMap();
+            int baselineId = lookupMap.get(baseline);
+            String query = "SELECT [number] FROM SCICR WHERE [baseline_id]=?";
+            PreparedStatement st = Main.newconn.prepareStatement(query);
+            st.setInt(1, baselineId);
+            ResultSet rs = st.executeQuery();
+            ArrayList<String> arr = new ArrayList<String>();
+            while(rs.next())
+            {
+                arr.add(rs.getString("number"));
+            }
+            RequirementsModel.filterSCICR = FXCollections.observableArrayList(arr);
+        }
+        catch(Exception e)
+        {
+            //e.printStackTrace();
+        }
     }
 
     /**

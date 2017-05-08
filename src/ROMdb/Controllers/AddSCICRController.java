@@ -41,7 +41,7 @@ public class AddSCICRController
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Build values could not be loaded." + e, ButtonType.OK);
             alert.showAndWait();
 

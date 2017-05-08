@@ -124,6 +124,8 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_rommer;
     @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_program;
 
+    public static boolean UPDATING_SCICR_VALUES = false;
+
 
     /**
      * This method will activate when the program loads.
@@ -165,7 +167,7 @@ public class RequirementsController
         catch(Exception e)
         {
             // Filters or combos could not be completed.
-            e.printStackTrace();
+            //e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not load filter values for combo boxes." +
                             "Program closing.", ButtonType.OK);
@@ -195,6 +197,7 @@ public class RequirementsController
 
         if(MainMenuModel.getSelectedBaseline() != null && MainMenuModel.getSelectedBaseline() != "Baseline"){
             combo_baseline.getSelectionModel().select(MainMenuModel.getSelectedBaseline());
+            pressClear();
         } else {
             combo_baseline.setValue("");
             //combo_baseline.getSelectionModel().clearSelection();
@@ -207,7 +210,7 @@ public class RequirementsController
      * the database.
      */
     private void occupyMainTabCombos() {
-        combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
+        combo_scicr.setItems(this.observableFilterMap.get("scicr"));
         combo_capability.setItems(this.observableFilterMap.get("capability"));
         combo_csc.setItems(this.observableFilterMap.get("csc"));
         combo_csu.setItems(this.observableFilterMap.get("csu"));
@@ -276,7 +279,13 @@ public class RequirementsController
         // Define event change handlers for filtering combo boxes
         attachChangeListenerComboBoxStr(combo_baseline);
         attachChangeListenerComboBoxCI(combo_build);
-        attachChangeListenerComboBoxStr(combo_scicr);
+        combo_scicr.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
+            if(!UPDATING_SCICR_VALUES)
+            {
+                sendFiltersToModel();
+                updateJTableWithFilteredReqData();
+            }}
+        );
 
         attachChangeListenerComboBoxCI(combo_resp);
         attachChangeListenerComboBoxCI(combo_csc);
@@ -580,12 +589,19 @@ public class RequirementsController
     {
         for(FilterItem fi : filters)
         {
-            if(!fi.getValue().matches(InputType.WHITE_SPACE.getPattern()))
+            if(!fi.getValue().matches(InputType.WHITE_SPACE.getPattern()) && !fi.getName().equalsIgnoreCase("baseline_desc"))
             {
                 return false;
             }
         }
         return true;
+    }
+
+    @FXML
+    public void updateSCICR()
+    {
+        RequirementsModel.updateSCICR();
+        combo_scicr.setItems(RequirementsModel.filterSCICR);
     }
 
     /**
@@ -594,17 +610,30 @@ public class RequirementsController
      */
     public void updateJTableWithFilteredReqData()
     {
-        try
+        // If filters are all empty, then load full results set into JTable
+        if(RequirementsModel.filters == null || areFiltersAllEmpty(RequirementsModel.filters) == true)
         {
-            // TODO THESE ARE THE LINES OF CODE THAT UPDATE THE DROPDOWN WITH THE NEW SCICR VALUES
-            //this.observableFilterMap.put("scicr", MainMenuModel.scicrs);
-            //combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
-            table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
+            try
+            {
+                table_requirements.setItems(RequirementsModel.getReqDataWithOnlyBaselineFilter());
+            }
+            catch(Exception e)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed in getReqDataWithOnlyBaselineFilter", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
-        catch(Exception e)
+        else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
-            alert.showAndWait();
+            try
+            {
+                table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
+            }
+            catch(Exception e)
+            {
+                //Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
+                //alert.showAndWait();
+            }
         }
     }
 
@@ -692,10 +721,15 @@ public class RequirementsController
 
             table_requirements.refresh();
         }
-        catch(Exception e) {
+        catch(NumberFormatException nfe)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
@@ -729,11 +763,15 @@ public class RequirementsController
 
             table_requirements.refresh();
         }
-        catch(Exception e)
+        catch(NumberFormatException nfe)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
@@ -766,11 +804,15 @@ public class RequirementsController
 
             table_requirements.refresh();
         }
-        catch(Exception e)
+        catch(NumberFormatException nfe)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
@@ -803,11 +845,15 @@ public class RequirementsController
 
             table_requirements.refresh();
         }
-        catch(Exception e)
+        catch(NumberFormatException nfe)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Input must be a number between 0 - 100.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
@@ -836,9 +882,14 @@ public class RequirementsController
             RequirementsModel.updateTextColumnInDB("Requirement", "responsible_individual_val_code_id", combo_completeRI.getValue());
             updateJTableWithFilteredReqData();
         }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Responsible individual was unable to be updated.", ButtonType.OK);
+        catch(SQLException se)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Responsible Individual was unable to be updated.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
@@ -866,9 +917,14 @@ public class RequirementsController
             RequirementsModel.updateTextColumnInDB("Requirement", "program_val_code_id", combo_completeProgram.getValue());
             updateJTableWithFilteredReqData();
         }
-        catch(Exception e) {
+        catch(SQLException se)
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Program was unable to be updated.", ButtonType.OK);
             alert.showAndWait();
+        }
+        catch(Exception e)
+        {
+
         }
     }
 
