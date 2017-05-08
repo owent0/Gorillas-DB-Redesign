@@ -54,7 +54,7 @@ public class Main extends Application
         try
         {
             this.conn = DriverManager.getConnection(Main.dbPath);
-            this.newconn = DriverManager.getConnection("jdbc:ucanaccess://E:\\derek\\Documents\\IntelliJ IDEA\\Projects\\Gorillas-DB-Redesign\\ROM_DB_V1.mdb");
+            this.newconn = DriverManager.getConnection("jdbc:ucanaccess://C:\\Users\\Tom\\IdeaProjects\\Gorillas-DB-Redesign\\ROM_DB_V1.mdb");
         }
         catch(Exception e)
         {

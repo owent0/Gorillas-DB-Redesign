@@ -1,6 +1,7 @@
 package ROMdb.Controllers;
 
 import ROMdb.Models.AddItemsModel;
+import ROMdb.Models.RequirementsModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -107,6 +108,16 @@ public class AddItemsController
         }
     }
 
+    @FXML
+    public void finish()
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "For your changes to take effect please restart the program", ButtonType.OK);
+        alert.showAndWait();
+        System.exit(1);
+    }
+
+
     /**
      * Adds a new item to the currently selected val type in the combo box.
      * The new item will be placed into the hash map in the model, as well
@@ -118,15 +129,16 @@ public class AddItemsController
     {
         /* Retrieve the new item name from the field. */
         String newItem = field_newItem.getText();
+        String valType = "";
 
-        /* We must lower case the combo box item so that we can use it as a key to the map. */
-        String valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
-        int order = AddItemsModel.getMap().get(valType).size() + 1;
 
         try {
+            /* We must lower case the combo box item so that we can use it as a key to the map. */
+            valType = combo_itemType.getSelectionModel().getSelectedItem().toLowerCase();
 
+            int order = AddItemsModel.getMap().get(valType).size() + 1;
+            System.out.println("Val Type: " + valType);
             AddItemsModel.writeItemToDb(valType, newItem, order);
-
             field_newItem.clear();
 
             // Add to appropriate observable list.
@@ -143,6 +155,7 @@ public class AddItemsController
             }
             /* Add the item to the hash map. */
             AddItemsModel.getMap().get(valType).add(newItem);
+
         }
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,

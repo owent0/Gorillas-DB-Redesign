@@ -1,5 +1,6 @@
 package ROMdb.Models;
 
+import ROMdb.Controllers.RequirementsController;
 import ROMdb.Driver.Main;
 
 import java.sql.PreparedStatement;
@@ -14,6 +15,8 @@ import java.util.HashMap;
  */
 public class AddItemsModel
 {
+    public static RequirementsController rqc;
+
     private static final String[] valTypes = {"Capability", "CSC", "CSU", "Program",
                                               "RI", "Rommer", "Build"};
 
@@ -22,10 +25,10 @@ public class AddItemsModel
     public static void fillHashMap() throws SQLException
     {
         /* Create query */
-        String query = "SELECT * FROM Val_Codes";
+        String query = "SELECT * FROM ValCodes";
 
         /* Create the statement to send. */
-        Statement st = Main.conn.createStatement();
+        Statement st = Main.newconn.createStatement();
 
         /* Traverse valTypes array. */
         for (int i = 0; i < valTypes.length; i++)
@@ -62,10 +65,9 @@ public class AddItemsModel
 
     public static void writeItemToDb(String type, String value, int order) throws Exception {
         // The query to insert the data from the fields.
-        boolean inDatabase = true;
-        String insertQuery =    "SELECT COUNT(*) as NUM_MATCHES FROM Val_Codes WHERE Field_Name = ? AND Field_Value = ?";
+        String insertQuery =    "SELECT COUNT(*) as NUM_MATCHES FROM ValCodes WHERE field_name = ? AND field_value = ?";
 
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
         st.setString(1, type);
         st.setString(2, value);
@@ -87,10 +89,10 @@ public class AddItemsModel
 
         if (count == 0 && !value.trim().isEmpty()) {
             /* Create query */
-            String query = "INSERT INTO Val_Codes ([Field_Name], [Field_Value], [Order_Id]) VALUES (?, ?, ?)";
+            String query = "INSERT INTO ValCodes ([field_name], [field_value], [order_id]) VALUES (?, ?, ?)";
 
             // Create a new statement.
-            st = Main.conn.prepareStatement(query);
+            st = Main.newconn.prepareStatement(query);
 
             /** Parse all of the information and stage for writing. */
             st.setString(1, type);
