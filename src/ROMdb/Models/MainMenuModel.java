@@ -33,7 +33,7 @@ public class MainMenuModel
     public static ChangeAdminPasswordController changeAdminPasswordController;
 
     public static ObservableList<String> baselines = fetchBaselinesFromDB();
-    public static ObservableStringValue selectedBaseline = new SimpleStringProperty(baselines.get(0));
+    public static ObservableStringValue selectedBaseline = baselines.isEmpty() ? new SimpleStringProperty() : new SimpleStringProperty(baselines.get(0));
     public static ObservableList<String> scicrs = fetchSCICRsFromDB();
 
     private static HashMap<String, Integer> baselineLookupMap;
