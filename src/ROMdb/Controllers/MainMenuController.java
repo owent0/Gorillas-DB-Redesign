@@ -320,7 +320,7 @@ public class MainMenuController
      */
     @FXML
     public void exitProgram() throws SQLException {
-        Main.conn.close();
+        Main.newconn.close();
         System.exit(0);
     }
 }
