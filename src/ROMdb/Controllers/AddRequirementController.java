@@ -54,7 +54,6 @@ public class AddRequirementController
 
     // Button
     @FXML private Button button_save;
-    @FXML private Button button_saveNew;
 
 
     /**

@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 public class EstimationBaseController {
 
-    @FXML private ComboBox<String> combo_estimateBaseline;
-
     @FXML private Button button_estimateSubmit;
 
     @FXML private TextField field_staffDay;
@@ -46,7 +44,6 @@ public class EstimationBaseController {
     @FXML
     public void initialize()
     {
-        //combo_estimateBaseline.setItems(MainMenuModel.getBaselines());
         MainMenuModel.estimationBaseController = this;
         LoginModel.estimationBaseController = this;
     }

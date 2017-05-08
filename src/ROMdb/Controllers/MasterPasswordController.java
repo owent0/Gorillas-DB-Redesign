@@ -16,11 +16,8 @@ import java.io.IOException;
  */
 public class MasterPasswordController {
 
-    @FXML private Label label_enterMasterPass;
     @FXML private PasswordField passField_masterPassword;
     @FXML private Button button_forgotConfirm;
-    @FXML private Button button_forgotCancel;
-
 
     /**
      * When the user enters the Master Password and clicks the confirm button the plain text master password is checked
@@ -62,11 +59,6 @@ public class MasterPasswordController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ROMdb/Views/ChangeAdminPasswordView.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
-
-//        /* Focus on this current window to prevent clicking on windows behind it. */
-//        Stage owner = (Stage) .getScene().getWindow();
-//        stage.initOwner(owner);
-//        stage.initModality(Modality.WINDOW_MODAL);
 
         stage.setTitle("Changing Password");
         stage.setScene(new Scene(root));

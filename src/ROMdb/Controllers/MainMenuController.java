@@ -77,8 +77,10 @@ public class MainMenuController
      * of the combobox in each menu.
      */
     @FXML
-    public void changeSelectedBaseline() {
+    public void changeSelectedBaseline()
+    {
         MainMenuModel.setSelectedBaseline(this.combo_baseline.getSelectionModel().getSelectedItem());
+        MainMenuModel.refreshSCICRsFromDB();
         MainMenuModel.estimationBaseController.fillTextFieldsFromDB();
         MainMenuModel.sCICRController.switchTableData();
         requirementsController.updateFilterByBaseline();

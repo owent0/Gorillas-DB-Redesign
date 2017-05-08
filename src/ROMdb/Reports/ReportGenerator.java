@@ -1,7 +1,6 @@
 package ROMdb.Reports;
 
 import ROMdb.Driver.Main;
-import ROMdb.Helpers.FileHandler;
 import ROMdb.Helpers.RequirementsRow;
 import ROMdb.Models.RequirementsModel;
 import com.itextpdf.text.*;
@@ -10,22 +9,18 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.Font;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import javax.print.Doc;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.awt.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Team Gorillas
@@ -36,11 +31,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class ReportGenerator
 {
-    private static final FileHandler fileHandler = new FileHandler();
+    // private static final FileHandler fileHandler = new FileHandler();
 
     private static final Font BOLD_TITLE = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
     private static final Font BOLD_HEADERS = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD);
-    private static final Font HDR_FTR = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
 
     // Global fields needed for header/footer of a report
     private static boolean isLandscape = false;
@@ -54,6 +48,7 @@ public class ReportGenerator
         // this method gets called at the beginning of every page of the pdf document
         public void onStartPage(PdfWriter writer, Document document)
         {
+
             // if header textbox isn't blank
             if (!header.trim().isEmpty())
             {
@@ -74,25 +69,31 @@ public class ReportGenerator
         // this method gets called at the end of every page of the pdf document
         public void onEndPage(PdfWriter writer, Document document)
         {
-            String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
+            String timeStamp = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").format(new Date());
 
-            // if footer textbox isn't blank
-            if (!footer.trim().isEmpty())
+            if (!isLandscape)
             {
-                if (!isLandscape)
+                // set footer for Portrait
+                if (!footer.trim().isEmpty())
                 {
-                    // set footer for Portrait
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    // include footer textbox content
                     ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 300, 20, 0);
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
                 }
-                else
+                // add timestamp and page number regardless of footer field
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 75, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 550, 20, 0);
+            }
+            else
+            {
+                // set footer for Landscape
+                if (!footer.trim().isEmpty())
                 {
-                    // set footer for Landscape
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 65, 20, 0);
+                    // include footer textbox content
                     ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(footer), 450, 20, 0);
-                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
                 }
+                // add timestamp and page number regardless of footer field
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(timeStamp), 75, 20, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Page " + document.getPageNumber()), 800, 20, 0);
             }
         }
     }
@@ -195,19 +196,6 @@ public class ReportGenerator
         previewReport(documentFilePath);
 
         return fileName;
-
-/*        TimeUnit.SECONDS.sleep(4);
-        System.out.println("waited 4 secs");
-
-        try
-        {
-            // read pdf created to add "Page X of Y" in the footer
-            addPdfPageCounter(writer, fullPathFileName);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }*/
 
     } // end generateDDR
 
@@ -331,6 +319,7 @@ public class ReportGenerator
      */
     public static Document addReqRows(Document doc, ArrayList<RequirementsRow> rows, boolean isLandscape) throws DocumentException
     {
+
         /* Outer table will consist of group headers on left and sub total headers on right. */
         PdfPTable outerTable = new PdfPTable(2);
         outerTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -495,6 +484,9 @@ public class ReportGenerator
         if (groups.size() >= 4)
         {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+            isLandscape = true;
+        } else {
+            isLandscape = false;
         }
 
         // call helper method to start the HeaderFooter event creation
@@ -615,7 +607,7 @@ public class ReportGenerator
         footer = footerContent;
 
         /* Get the directory path. */
-        //String path = fileHandler.getPathWithFileChooser();
+        // String path = fileHandler.getPathWithFileChooser();
         String path = Main.tempPDFDirectory.toString();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss").format(new Date());
@@ -629,6 +621,9 @@ public class ReportGenerator
         if (groups.size() >= 4)
         {
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+            isLandscape = true;
+        } else {
+            isLandscape = false;
         }
 
         // call helper method to start the HeaderFooter event creation
@@ -736,51 +731,51 @@ public class ReportGenerator
     }
 
 
-    /**
-     * Generates the Header for the report
-     *//*
-    private static void addReportHeader(Document doc, String header)
-    {
-        if (!header.trim().isEmpty())
-        {
-            *//* Create Report Header *//*
-            Paragraph reportHeader = new Paragraph();
-            reportHeader.setAlignment(Element.ALIGN_CENTER);
-            reportHeader.add(new Chunk(header, HDR_FTR));
-            try
-            {
-                doc.add(reportHeader);
-            }
-            catch (DocumentException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
+//    /**
+//     * Generates the Header for the report
+//     *//*
+//    private static void addReportHeader(Document doc, String header)
+//    {
+//        if (!header.trim().isEmpty())
+//        {
+//            *//* Create Report Header *//*
+//            Paragraph reportHeader = new Paragraph();
+//            reportHeader.setAlignment(Element.ALIGN_CENTER);
+//            reportHeader.add(new Chunk(header, HDR_FTR));
+//            try
+//            {
+//                doc.add(reportHeader);
+//            }
+//            catch (DocumentException e)
+//            {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    *//**
-     * Generates the Footer for the report
-     *//*
-    private static void addReportFooter(Document doc, String footer, String timestamp)
-    {
-        if (!footer.trim().isEmpty())
-        {
-            *//* Create Report Footer *//*
-            Paragraph reportFooter = new Paragraph();
-            reportFooter.setAlignment(Element.ALIGN_CENTER);
-            reportFooter.add(new Chunk(timestamp, HDR_FTR));
-            reportFooter.add(new Chunk(footer, HDR_FTR));
-            reportFooter.add(new Chunk("Page X of Y", HDR_FTR));
-            try
-            {
-                doc.add(reportFooter);
-            }
-            catch (DocumentException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }*/
+//    /**
+//     * Generates the Footer for the report
+//     */
+//    private static void addReportFooter(Document doc, String footer, String timestamp)
+//    {
+//        if (!footer.trim().isEmpty())
+//        {
+//            *//**//* Create Report Footer *//**//*
+//            Paragraph reportFooter = new Paragraph();
+//            reportFooter.setAlignment(Element.ALIGN_CENTER);
+//            reportFooter.add(new Chunk(timestamp, HDR_FTR));
+//            reportFooter.add(new Chunk(footer, HDR_FTR));
+//            reportFooter.add(new Chunk("Page X of Y", HDR_FTR));
+//            try
+//            {
+//                doc.add(reportFooter);
+//            }
+//            catch (DocumentException e)
+//            {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     /**
      * Adds a line separator that was chosen to be considered "default".

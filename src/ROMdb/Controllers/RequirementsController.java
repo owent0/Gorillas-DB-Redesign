@@ -4,10 +4,6 @@ import ROMdb.Helpers.*;
 import ROMdb.Models.MainMenuModel;
 import ROMdb.Models.RequirementsModel;
 import ROMdb.Reports.ReportGenerator;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,26 +18,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
-//might need the ones commented out, leave for now. - Jatin
-//import sun.plugin.javascript.navig4.Document;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
 
 /**
  * Created by Team Gorillas
@@ -69,18 +57,19 @@ public class RequirementsController
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
-    @FXML private ComboBox<String> combo_build;
-    @FXML private ComboBox<String> combo_resp;
-    @FXML private ComboBox<String> combo_csc;
-    @FXML private ComboBox<String> combo_csu;
-    @FXML private ComboBox<String> combo_capability;
-    @FXML private ComboBox<String> combo_program;
-    @FXML private ComboBox<String> combo_rommer;
+    @FXML private ComboBox<ComboItem> combo_build;
+    @FXML private ComboBox<ComboItem> combo_resp;
+    @FXML private ComboBox<ComboItem> combo_csc;
+    @FXML private ComboBox<ComboItem> combo_csu;
+    @FXML private ComboBox<ComboItem> combo_capability;
+    @FXML private ComboBox<ComboItem> combo_program;
+    @FXML private ComboBox<ComboItem> combo_rommer;
+    private final static int MAX_NUM_ROWS_VISIBLE_IN_COMBO_BOX = 10;
 
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
 
-    @FXML private Button button_archive;
+//    @FXML private Button button_archive;
 
     /* Complete tab components                          */
     @FXML private TextField field_completeDesign;
@@ -88,8 +77,8 @@ public class RequirementsController
     @FXML private TextField field_completeUnitTest;
     @FXML private TextField field_completeIntegration;
 
-    @FXML private ComboBox<String> combo_completeRI;
-    @FXML private ComboBox<String> combo_completeProgram;
+    @FXML private ComboBox<ComboItem> combo_completeRI;
+    @FXML private ComboBox<ComboItem> combo_completeProgram;
     /* End complete tab components                          */
 
     /* Header / Footer Tab Components */
@@ -98,43 +87,16 @@ public class RequirementsController
     /* End Header / Footer Tab Components */
 
     /* DDR Tab Components */
-    @FXML private Button button_tracePortrait;
-    @FXML private Button button_traceLandscape;
+//    @FXML private Button button_tracePortrait;
+//    @FXML private Button button_traceLandscape;
     /* End DDR Tab Components*/
 
-    /* Groups Tab Components*/
-    @FXML private Button button_groupsOneGroupSlocs;
-    @FXML private Button button_groupsOneGroupStatus;
-    @FXML private ComboBox<?> combo_groupsOne;
-    @FXML private Button button_groupsTwoGroupSlocs;
-    @FXML private Button button_groupsTwoGroupStatus;
-    @FXML private ComboBox<?> combo_groupsTwo;
-    @FXML private Button button_groupsThreeGroupSlocs;
-    @FXML private Button button_groupsThreeGroupStatus;
-    @FXML private ComboBox<?> combo_groupsThree;
-    @FXML private Button button_groupsFourGroupSlocs;
-    @FXML private Button button_groupsFourGroupStatus;
-    @FXML private ComboBox<?> combo_groupsFour;
-    /* End Groups Tab Components */
-
-    /* Paragraphs Tab Components */
-    @FXML private Button button_paragraphsFourGroupSlocs;
-    @FXML private Button button_paragraphsFourGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsFour;
-    @FXML private Button button_paragraphsFiveGroupSlocs;
-    @FXML private Button button_paragraphsFiveGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsFive;
-    @FXML private Button button_paragraphsSixGroupSlocs;
-    @FXML private Button button_paragraphsSixGroupStatus;
-    @FXML private ComboBox<?> combo_paragraphsSixr;
-    /* End Paragraphs Tab Components */
-
     /* Group Reports Tab Components */
-    @FXML private Button button_add;
-    @FXML private Button button_remove;
-    @FXML private Button button_clearChoices;
-    @FXML private Button button_SLOCs;
-    @FXML private Button button_status;
+//    @FXML private Button button_add;
+//    @FXML private Button button_remove;
+//    @FXML private Button button_clearChoices;
+//    @FXML private Button button_SLOCs;
+//    @FXML private Button button_status;
 
     @FXML private ListView<String> listview_choices;
     @FXML private ListView<String> listview_selections;
@@ -143,14 +105,14 @@ public class RequirementsController
 
     @FXML private TableView<RequirementsRow> table_requirements;
 
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_csc;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_csu;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_csc;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_csu;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_doorsID;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_paragraph;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_baseline;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_build;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_build;
     @FXML private TableColumn<RequirementsRow, String> tableColumn_scicr;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_capability;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_capability;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_add;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_change;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_delete;
@@ -158,9 +120,9 @@ public class RequirementsController
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_codeWeight;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_unitTestWeight;
     @FXML private TableColumn<RequirementsRow, Double> tableColumn_integrationWeight;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_ri;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_rommer;
-    @FXML private TableColumn<RequirementsRow, String> tableColumn_program;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_ri;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_rommer;
+    @FXML private TableColumn<RequirementsRow, ComboItem> tableColumn_program;
 
 
     /**
@@ -177,9 +139,6 @@ public class RequirementsController
 
         // Creates the handlers for the GUI components.
         this.createTableHandlers();
-
-        // Fills the table view with the data.
-        //this.fillTable(); // this will be done with a filtered data set anyway
 
         // Initializes the combo boxes with empty values.
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
@@ -258,6 +217,18 @@ public class RequirementsController
         combo_baseline.setItems(new SortedList<String>(this.observableFilterMap.get("baseline"), Collator.getInstance()));
         combo_build.setItems(this.observableFilterMap.get("build"));
 
+        int i = MAX_NUM_ROWS_VISIBLE_IN_COMBO_BOX;
+
+        combo_scicr.setVisibleRowCount(i);
+        combo_capability.setVisibleRowCount(i);
+        combo_csc.setVisibleRowCount(i);
+        combo_csu.setVisibleRowCount(i);
+        combo_program.setVisibleRowCount(i);
+        combo_resp.setVisibleRowCount(i);
+        combo_rommer.setVisibleRowCount(i);
+        combo_baseline.setVisibleRowCount(i);
+        combo_build.setVisibleRowCount(i);
+
     }
 
     /**
@@ -279,16 +250,16 @@ public class RequirementsController
     private void initializeObservableFilterLists() throws SQLException
     {
         // We need to grab all of the lists.
-        ArrayList<MapList<String>> listOfLists = RequirementsModel.getFilterListsData();
+        ArrayList<MapList<ComboItem>> listOfLists = RequirementsModel.getFilterListsData();
 
         // Create a hashmap.
         this.observableFilterMap = new HashMap<String, ObservableList>();
 
         // Fill the hashmap with a key and the list that should
         // associate with this key from the observableFilterMap.
-        for(MapList<String> fl : listOfLists)
+        for(MapList<ComboItem> fl : listOfLists)
         {
-            ObservableList<String> ol = FXCollections.observableArrayList(fl.getList());
+            ObservableList<ComboItem> ol = FXCollections.observableArrayList(fl.getList());
             this.observableFilterMap.put(fl.getName(), ol);
         }
 
@@ -303,16 +274,16 @@ public class RequirementsController
     private void createFilterHandlers()
     {
         // Define event change handlers for filtering combo boxes
-        attachChangeListenerComboBox(combo_baseline);
-        attachChangeListenerComboBox(combo_build);
-        attachChangeListenerComboBox(combo_scicr);
+        attachChangeListenerComboBoxStr(combo_baseline);
+        attachChangeListenerComboBoxCI(combo_build);
+        attachChangeListenerComboBoxStr(combo_scicr);
 
-        attachChangeListenerComboBox(combo_resp);
-        attachChangeListenerComboBox(combo_csc);
-        attachChangeListenerComboBox(combo_csu);
-        attachChangeListenerComboBox(combo_capability);
-        attachChangeListenerComboBox(combo_program);
-        attachChangeListenerComboBox(combo_rommer);
+        attachChangeListenerComboBoxCI(combo_resp);
+        attachChangeListenerComboBoxCI(combo_csc);
+        attachChangeListenerComboBoxCI(combo_csu);
+        attachChangeListenerComboBoxCI(combo_capability);
+        attachChangeListenerComboBoxCI(combo_program);
+        attachChangeListenerComboBoxCI(combo_rommer);
 
         // Define event change handlers for filtering text fields
         attachChangeListenerTextField(field_paragraph);
@@ -324,8 +295,25 @@ public class RequirementsController
      *      The changeListener refreshes the JTable according to the current state of the filters
      *      whenver the changed event is called.
      * @param cb The combobox to attach the change listener to.
+     *           This version is for the combo boxes that store ComboItems
      */
-    private void attachChangeListenerComboBox(ComboBox<String> cb)
+    private void attachChangeListenerComboBoxCI(ComboBox<ComboItem> cb)
+    {
+        cb.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
+                    sendFiltersToModel();
+                    updateJTableWithFilteredReqData();
+                }
+        );
+    }
+
+    /**
+     * Creates a ChangeListener object and assigns it to the comboBox passed in.
+     *      The changeListener refreshes the JTable according to the current state of the filters
+     *      whenver the changed event is called.
+     * @param cb The combobox to attach the change listener to.
+     *           This version is for the combo boxes that just store Strings
+     */
+    private void attachChangeListenerComboBoxStr(ComboBox<String> cb)
     {
         cb.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
                     sendFiltersToModel();
@@ -355,21 +343,21 @@ public class RequirementsController
     private void setCombosToEmptyValues()
     {
         // combo_baseline.setValue(""); // we always filter by baseline
-        combo_build.setValue("");
+        combo_build.setValue(new ComboItem("", ""));
         combo_scicr.setValue("");
 
-        combo_resp.setValue("");
-        combo_csc.setValue("");
-        combo_csu.setValue("");
-        combo_capability.setValue("");
-        combo_program.setValue("");
-        combo_rommer.setValue("");
+        combo_resp.setValue(new ComboItem("", ""));
+        combo_csc.setValue(new ComboItem("", ""));
+        combo_csu.setValue(new ComboItem("", ""));
+        combo_capability.setValue(new ComboItem("", ""));
+        combo_program.setValue(new ComboItem("", ""));
+        combo_rommer.setValue(new ComboItem("", ""));
 
         field_doors.setText("");
         field_paragraph.setText("");
 
-        combo_completeProgram.setValue("");
-        combo_completeRI.setValue("");
+        combo_completeProgram.setValue(new ComboItem("", ""));
+        combo_completeRI.setValue(new ComboItem("", ""));
     }
 
     /**
@@ -598,23 +586,26 @@ public class RequirementsController
      * Method collects all values from the filtering comboBoxes and textFields
      *      and compiles them in an arraylist as FilterItems (easier to manage)
      *      This arraylist is then sent to the model
+     *
+     *      The names of these filters needs to be identical to the columns of the database that we will be filtering by.
+     *      Otherwise the query will fail.
      */
     public void sendFiltersToModel()
     {
         // define a new list of filter criteria based on the current values of the filter boxes in the requirements view
         ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
 
-        newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
-        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu"));
+        newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem().getId(), "csc_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem().getId(), "csu_val_code_id"));
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
-        newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
-        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem(), "build"));
-        newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "scicr"));
-        newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
-        newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
-        newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
-        newListOfFilters.add(new FilterItem(combo_program.getSelectionModel().getSelectedItem(), "program"));
+        newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline_desc"));
+        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem().getId(), "build_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "number"));
+        newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem().getId(), "capability_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem().getId(), "responsible_individual_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem().getId(), "rommer_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_program.getSelectionModel().getSelectedItem().getId(), "program_val_code_id"));
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -644,25 +635,18 @@ public class RequirementsController
      */
     public void updateJTableWithFilteredReqData()
     {
-        /*
-        // If filters are all empty, then load full results set into JTable
-        if(RequirementsModel.filters == null || areFiltersAllEmpty(RequirementsModel.filters) == true)
+        try
         {
-            fillTable();
+            // TODO THESE ARE THE LINES OF CODE THAT UPDATE THE DROPDOWN WITH THE NEW SCICR VALUES
+            //this.observableFilterMap.put("scicr", MainMenuModel.scicrs);
+            //combo_scicr.setItems(new SortedList<String>(this.observableFilterMap.get("scicr"), Collator.getInstance()));
+            table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
         }
-        else
+        catch(Exception e)
         {
-        */
-            try
-            {
-                table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
-                alert.showAndWait();
-            }
-        //}
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
 
@@ -866,34 +850,6 @@ public class RequirementsController
         }
     }
 
-    /*
-    @FXML
-    private void updateBuild() {
-        try {
-            //String oldBuild = this.getSelectedRow().getBuild();
-            //String build = combo_completeBuild.getValue().toString();
-            //RequirementsModel.updateTextColumnInDB("RequirementsData", "build", build);
-            *//*System.out.println("Old Build: " + oldBuild + "\n" + "New Build: " + build);
-            int count = 1;
-            for (RequirementsRow row : RequirementsModel.allReqData) {
-                if(row.getRi().equals(build)) {
-                    count++;
-                }
-            }
-            if(count == 1) {
-                int index = individuals.indexOf(oldBuild);
-                individuals.set(index, build);
-            }*//*
-
-            if(!individuals.contains(build)) { individuals.add(build); }
-        }
-        catch(Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Build was unable to be updated.", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-    */
-
     /**
      * For updating the responsible individual column for all
      * rows currently selected.
@@ -984,15 +940,9 @@ public class RequirementsController
         String header = getHeader();
         String footer = getFooter();
 
-        try
-        {
+        try {
             String fileName = ReportGenerator.generateDDR(false, header, footer);
-            // Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
-            //        ButtonType.OK);
-            // alert.showAndWait();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Portrait.",
                     ButtonType.OK);
             alert.showAndWait();
@@ -1024,12 +974,7 @@ public class RequirementsController
         try
         {
             String fileName = ReportGenerator.generateDDR(true, header, footer);
-            // Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Your PDF report has been saved with the name \"" + fileName + "\"",
-            //        ButtonType.OK);
-            // alert.showAndWait();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Unable to generate DDR Report - Landscape.",
                     ButtonType.OK);
             alert.showAndWait();
@@ -1155,8 +1100,9 @@ public class RequirementsController
                 Alert alert = new Alert(Alert.AlertType.ERROR, "There is group names selected.", ButtonType.OK);
                 alert.showAndWait();
             }
-            else
+            else {
                 ReportGenerator.generateDCTI(groups, header, footer);
+            }
         }
         catch (Exception e)
         {
@@ -1180,33 +1126,16 @@ public class RequirementsController
  *
  */
 
-
     /**
-     * Method sets the table column to be a combobox on edit
-     * The factory will set the referenced column to a specific component
-     * such as a text field or combo box in this case.
-     * @param tc The table column to use.
-     * @param list The list to associate witht he column.
+     * Method sets the table column to be a combobox on click
+     * It uses a special anon class to be able to be used with a ComboItem
+     * @param col
+     * @param ol
      */
-    private void setColumnCellToComboBox(TableColumn<RequirementsRow, String> tc, ObservableList<String> list)
+    private void setCellFactoryToComboBoxWithComboItem(TableColumn<RequirementsRow, ComboItem> col,
+                                                       ObservableList<ComboItem> ol)
     {
-        tc.setCellFactory(col ->
-                {
-                    // Sets up the column of cells to be a combo box.
-                    ComboBoxTableCell<RequirementsRow, String> cell = new ComboBoxTableCell();
-
-                    int size = list.size();
-                    for( int i = 0; i < size; i++ ) {
-                        cell.setItem(list.get(i));
-                    }
-
-
-                    // Makes these combo boxes editable, as in you can type into them.
-                    //cell.setComboBoxEditable(true);
-
-                    return cell;
-                }
-        );
+        col.setCellFactory(ComboBoxTableCell.forTableColumn(ol));
     }
 
     /**
@@ -1214,15 +1143,14 @@ public class RequirementsController
      */
     private void setColumnCells()
     {
-        tableColumn_csc.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csc")));
-        tableColumn_csu.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("csu")));
-        tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
-        tableColumn_capability.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("capability")));
-        tableColumn_ri.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("ri")));
-        tableColumn_rommer.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("rommer")));
-        tableColumn_program.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("program")));
-        tableColumn_build.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("build")));
-
+        setCellFactoryToComboBoxWithComboItem(tableColumn_csc, observableFilterMap.get("csc"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_csu, observableFilterMap.get("csu"));
+        //tableColumn_scicr.setCellFactory(ComboBoxTableCell.forTableColumn(new DefaultStringConverter(), observableFilterMap.get("scicr")));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_capability, observableFilterMap.get("capability"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_ri, observableFilterMap.get("ri"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_rommer, observableFilterMap.get("rommer"));
+        setCellFactoryToComboBoxWithComboItem(tableColumn_program, observableFilterMap.get("program"));
+        //setCellFactoryToComboBoxWithComboItem(tableColumn_build, observableFilterMap.get("build"));
     }
 
     /**
@@ -1450,10 +1378,11 @@ public class RequirementsController
         tableColumn_csc.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsc_val_code_id(t.getNewValue().getId());
 
                 // Save the change to the cell to the database.
                 // This method is located in this class.
@@ -1474,10 +1403,11 @@ public class RequirementsController
         tableColumn_csu.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCsu_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1529,75 +1459,15 @@ public class RequirementsController
             }
         });
 
-        /*  Baseline Column  */
-        tableColumn_baseline.setOnEditCommit(t -> {
-            try
-            {
-                // TODO This column is disabled in the view because we don't ever want to change this field...
-                // So no actions will be done here?
-
-                // Grab the new value enter into the cell.
-                //(t.getTableView().getItems().get(t.getTablePosition().getRow())).setBaseline(t.getNewValue());
-                //saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Baseline.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-
-        /*  Build Column  */
-        tableColumn_build.setOnEditCommit(t -> {
-            try
-            {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
-
-                // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setBuild(t.getNewValue());
-                saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for Build.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-
-        /*  SC/ICR Column  */
-        tableColumn_scicr.setOnEditCommit(t -> {
-            try
-            {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
-
-                // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setScicr(t.getNewValue());
-                saveRowEditChanges();
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Input for SC/ICR.", ButtonType.OK);
-                alert.showAndWait();
-
-                // Refresh the table.
-                table_requirements.refresh();
-            }
-        });
-
         /*  Capability Column  */
         tableColumn_capability.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setCapability_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1761,10 +1631,11 @@ public class RequirementsController
         tableColumn_ri.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRi(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setResponsible_individual_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1781,10 +1652,11 @@ public class RequirementsController
         tableColumn_rommer.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setRommer_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)
@@ -1801,10 +1673,11 @@ public class RequirementsController
         tableColumn_program.setOnEditCommit(t -> {
             try
             {
-                InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
+                //InputValidator.checkPatternMatch(t.getNewValue(), InputType.ALPHA_NUMERIC_SPACE);
 
                 // Grab the new value enter into the cell.
-                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram(t.getNewValue().getValue());
+                (t.getTableView().getItems().get(t.getTablePosition().getRow())).setProgram_val_code_id(t.getNewValue().getId());
                 saveRowEditChanges();
             }
             catch(Exception e)

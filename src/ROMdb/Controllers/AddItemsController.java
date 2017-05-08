@@ -34,11 +34,6 @@ public class AddItemsController
 
     @FXML private ListView<String> list_values;
 
-    @FXML private Button button_saveVal;
-    @FXML private Button button_up;
-    @FXML private Button button_down;
-    @FXML private Button button_delete;
-
     /**
      * This method will execute each time the window loads.
      * Will fill combo boxes, fill hash map, and fill the
@@ -129,10 +124,12 @@ public class AddItemsController
         int order = AddItemsModel.getMap().get(valType).size() + 1;
 
         try {
-            /* Add the item to the hash map. */
-            AddItemsModel.getMap().get(valType).add(newItem);
 
-            /* Add to appropriate observable list. */
+            AddItemsModel.writeItemToDb(valType, newItem, order);
+
+            field_newItem.clear();
+
+            // Add to appropriate observable list.
             switch (valType)
             {
                 case "capability":  capabilityList.add(newItem);break;
@@ -144,13 +141,19 @@ public class AddItemsController
                 case "build":       buildList.add(newItem);     break;
                 default:                                        break;
             }
-
-            AddItemsModel.writeItemToDb(valType, newItem, order);
+            /* Add the item to the hash map. */
+            AddItemsModel.getMap().get(valType).add(newItem);
         }
         catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not insert " + newItem + " into " + valType, ButtonType.OK);
             alert.showAndWait();
         }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "The item: " + newItem + " already exists!", ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 }
