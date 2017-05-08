@@ -62,7 +62,8 @@ public class QueryBuilder
 
         query = selectPart + fromPart + wherePart;
 
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        PreparedStatement st = Main.newconn
+                .prepareStatement(query);
 
         // replace question marks (?) with actual arguments
         int argNum = 1;
@@ -135,19 +136,7 @@ public class QueryBuilder
 
         query = selectPart + fromPart + wherePart + orderByPart;
 
-        // TODO REMOVE THIS REALLY BAD LINE OF CODE
-        PreparedStatement st = null;
-        if(tableName.equalsIgnoreCase("scicr") || tableName.equalsIgnoreCase("valcodes"))
-        {
-            st = Main.newconn.prepareStatement(query);
-        }
-        else
-        {
-            st = Main.conn.prepareStatement(query);
-        }
-        // THE LINE SHOULD BE:
-        // PreparedStatement st = Main.conn.prepareStatement(query);
-        //////////////////////////////////
+        PreparedStatement st = Main.newconn.prepareStatement(query);
 
         // replace question marks (?) with actual arguments
         int argNum = 1;
@@ -199,7 +188,7 @@ public class QueryBuilder
 
         query = selectPart + fromPart + orderByPart;
 
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        PreparedStatement st = Main.newconn.prepareStatement(query);
 
         return st;
     }
@@ -215,9 +204,9 @@ public class QueryBuilder
      */
     public static PreparedStatement updateColumnText(String tableName, String columnName, String textToInsert, int rowID) throws SQLException {
         String query = "";
-        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [Req_ID] = ?";
+        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [requirement_id] = ?";
 
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        PreparedStatement st = Main.newconn.prepareStatement(query);
 
         st.setString(1, textToInsert);
         st.setInt(2, rowID);
@@ -237,9 +226,9 @@ public class QueryBuilder
     public static PreparedStatement updateColumnDouble(String tableName, String columnName, double valueToInsert, int rowID) throws SQLException
     {
         String query = "";
-        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [Req_ID] = ?";
+        query = "UPDATE " + tableName + " SET " + "[" + columnName + "]" + " = ? WHERE [requirement_id] = ?";
 
-        PreparedStatement st = Main.conn.prepareStatement(query);
+        PreparedStatement st = Main.newconn.prepareStatement(query);
 
         st.setDouble(1, valueToInsert);
         st.setInt(2, rowID);

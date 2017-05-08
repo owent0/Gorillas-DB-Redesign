@@ -69,13 +69,14 @@ public class RequirementsController
 
     @FXML private ComboBox<String> combo_baseline;
     @FXML private ComboBox<String> combo_scicr;
-    @FXML private ComboBox<String> combo_build;
-    @FXML private ComboBox<String> combo_resp;
-    @FXML private ComboBox<String> combo_csc;
-    @FXML private ComboBox<String> combo_csu;
-    @FXML private ComboBox<String> combo_capability;
-    @FXML private ComboBox<String> combo_program;
-    @FXML private ComboBox<String> combo_rommer;
+    @FXML private ComboBox<ComboItem> combo_build;
+    @FXML private ComboBox<ComboItem> combo_resp;
+    @FXML private ComboBox<ComboItem> combo_csc;
+    @FXML private ComboBox<ComboItem> combo_csu;
+    @FXML private ComboBox<ComboItem> combo_capability;
+    @FXML private ComboBox<ComboItem> combo_program;
+    @FXML private ComboBox<ComboItem> combo_rommer;
+    private final static int MAX_NUM_ROWS_VISIBLE_IN_COMBO_BOX = 10;
 
     @FXML private TextField field_paragraph;
     @FXML private TextField field_doors;
@@ -88,8 +89,8 @@ public class RequirementsController
     @FXML private TextField field_completeUnitTest;
     @FXML private TextField field_completeIntegration;
 
-    @FXML private ComboBox<String> combo_completeRI;
-    @FXML private ComboBox<String> combo_completeProgram;
+    @FXML private ComboBox<ComboItem> combo_completeRI;
+    @FXML private ComboBox<ComboItem> combo_completeProgram;
     /* End complete tab components                          */
 
     /* Header / Footer Tab Components */
@@ -178,9 +179,6 @@ public class RequirementsController
         // Creates the handlers for the GUI components.
         this.createTableHandlers();
 
-        // Fills the table view with the data.
-        //this.fillTable(); // this will be done with a filtered data set anyway
-
         // Initializes the combo boxes with empty values.
         this.setCombosToEmptyValues(); // THIS NEEDS TO COME BEFORE this.createFilterHandlers (or nullPointer exception)
 
@@ -258,6 +256,18 @@ public class RequirementsController
         combo_baseline.setItems(new SortedList<String>(this.observableFilterMap.get("baseline"), Collator.getInstance()));
         combo_build.setItems(this.observableFilterMap.get("build"));
 
+        int i = MAX_NUM_ROWS_VISIBLE_IN_COMBO_BOX;
+
+        combo_scicr.setVisibleRowCount(i);
+        combo_capability.setVisibleRowCount(i);
+        combo_csc.setVisibleRowCount(i);
+        combo_csu.setVisibleRowCount(i);
+        combo_program.setVisibleRowCount(i);
+        combo_resp.setVisibleRowCount(i);
+        combo_rommer.setVisibleRowCount(i);
+        combo_baseline.setVisibleRowCount(i);
+        combo_build.setVisibleRowCount(i);
+
     }
 
     /**
@@ -279,16 +289,16 @@ public class RequirementsController
     private void initializeObservableFilterLists() throws SQLException
     {
         // We need to grab all of the lists.
-        ArrayList<MapList<String>> listOfLists = RequirementsModel.getFilterListsData();
+        ArrayList<MapList<ComboItem>> listOfLists = RequirementsModel.getFilterListsData();
 
         // Create a hashmap.
         this.observableFilterMap = new HashMap<String, ObservableList>();
 
         // Fill the hashmap with a key and the list that should
         // associate with this key from the observableFilterMap.
-        for(MapList<String> fl : listOfLists)
+        for(MapList<ComboItem> fl : listOfLists)
         {
-            ObservableList<String> ol = FXCollections.observableArrayList(fl.getList());
+            ObservableList<ComboItem> ol = FXCollections.observableArrayList(fl.getList());
             this.observableFilterMap.put(fl.getName(), ol);
         }
 
@@ -303,16 +313,16 @@ public class RequirementsController
     private void createFilterHandlers()
     {
         // Define event change handlers for filtering combo boxes
-        attachChangeListenerComboBox(combo_baseline);
-        attachChangeListenerComboBox(combo_build);
-        attachChangeListenerComboBox(combo_scicr);
+        attachChangeListenerComboBoxStr(combo_baseline);
+        attachChangeListenerComboBoxCI(combo_build);
+        attachChangeListenerComboBoxStr(combo_scicr);
 
-        attachChangeListenerComboBox(combo_resp);
-        attachChangeListenerComboBox(combo_csc);
-        attachChangeListenerComboBox(combo_csu);
-        attachChangeListenerComboBox(combo_capability);
-        attachChangeListenerComboBox(combo_program);
-        attachChangeListenerComboBox(combo_rommer);
+        attachChangeListenerComboBoxCI(combo_resp);
+        attachChangeListenerComboBoxCI(combo_csc);
+        attachChangeListenerComboBoxCI(combo_csu);
+        attachChangeListenerComboBoxCI(combo_capability);
+        attachChangeListenerComboBoxCI(combo_program);
+        attachChangeListenerComboBoxCI(combo_rommer);
 
         // Define event change handlers for filtering text fields
         attachChangeListenerTextField(field_paragraph);
@@ -324,8 +334,25 @@ public class RequirementsController
      *      The changeListener refreshes the JTable according to the current state of the filters
      *      whenver the changed event is called.
      * @param cb The combobox to attach the change listener to.
+     *           This version is for the combo boxes that store ComboItems
      */
-    private void attachChangeListenerComboBox(ComboBox<String> cb)
+    private void attachChangeListenerComboBoxCI(ComboBox<ComboItem> cb)
+    {
+        cb.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
+                    sendFiltersToModel();
+                    updateJTableWithFilteredReqData();
+                }
+        );
+    }
+
+    /**
+     * Creates a ChangeListener object and assigns it to the comboBox passed in.
+     *      The changeListener refreshes the JTable according to the current state of the filters
+     *      whenver the changed event is called.
+     * @param cb The combobox to attach the change listener to.
+     *           This version is for the combo boxes that just store Strings
+     */
+    private void attachChangeListenerComboBoxStr(ComboBox<String> cb)
     {
         cb.valueProperty().addListener((ChangeListener)(arg, oldVal, newVal) -> {
                     sendFiltersToModel();
@@ -355,21 +382,21 @@ public class RequirementsController
     private void setCombosToEmptyValues()
     {
         // combo_baseline.setValue(""); // we always filter by baseline
-        combo_build.setValue("");
+        combo_build.setValue(new ComboItem("", ""));
         combo_scicr.setValue("");
 
-        combo_resp.setValue("");
-        combo_csc.setValue("");
-        combo_csu.setValue("");
-        combo_capability.setValue("");
-        combo_program.setValue("");
-        combo_rommer.setValue("");
+        combo_resp.setValue(new ComboItem("", ""));
+        combo_csc.setValue(new ComboItem("", ""));
+        combo_csu.setValue(new ComboItem("", ""));
+        combo_capability.setValue(new ComboItem("", ""));
+        combo_program.setValue(new ComboItem("", ""));
+        combo_rommer.setValue(new ComboItem("", ""));
 
         field_doors.setText("");
         field_paragraph.setText("");
 
-        combo_completeProgram.setValue("");
-        combo_completeRI.setValue("");
+        combo_completeProgram.setValue(new ComboItem("", ""));
+        combo_completeRI.setValue(new ComboItem("", ""));
     }
 
     /**
@@ -598,23 +625,26 @@ public class RequirementsController
      * Method collects all values from the filtering comboBoxes and textFields
      *      and compiles them in an arraylist as FilterItems (easier to manage)
      *      This arraylist is then sent to the model
+     *
+     *      The names of these filters needs to be identical to the columns of the database that we will be filtering by.
+     *      Otherwise the query will fail.
      */
     public void sendFiltersToModel()
     {
         // define a new list of filter criteria based on the current values of the filter boxes in the requirements view
         ArrayList<FilterItem> newListOfFilters = new ArrayList<FilterItem>();
 
-        newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem(), "csc"));
-        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem(), "csu"));
+        newListOfFilters.add(new FilterItem(combo_csc.getSelectionModel().getSelectedItem().getId(), "csc_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_csu.getSelectionModel().getSelectedItem().getId(), "csu_val_code_id"));
         newListOfFilters.add(new FilterItem(field_doors.getText(), "doors_id"));
         newListOfFilters.add(new FilterItem(field_paragraph.getText(), "paragraph"));
-        newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline"));
-        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem(), "build"));
-        newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "scicr"));
-        newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem(), "capability"));
-        newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem(), "ri"));
-        newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem(), "rommer"));
-        newListOfFilters.add(new FilterItem(combo_program.getSelectionModel().getSelectedItem(), "program"));
+        newListOfFilters.add(new FilterItem(combo_baseline.getSelectionModel().getSelectedItem(), "baseline_desc"));
+        newListOfFilters.add(new FilterItem(combo_build.getSelectionModel().getSelectedItem().getId(), "build_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_scicr.getSelectionModel().getSelectedItem(), "number"));
+        newListOfFilters.add(new FilterItem(combo_capability.getSelectionModel().getSelectedItem().getId(), "capability_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_resp.getSelectionModel().getSelectedItem().getId(), "responsible_individual_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_rommer.getSelectionModel().getSelectedItem().getId(), "rommer_val_code_id"));
+        newListOfFilters.add(new FilterItem(combo_program.getSelectionModel().getSelectedItem().getId(), "program_val_code_id"));
 
         // send these FilterItems to the model
         RequirementsModel.filters = newListOfFilters;
@@ -644,25 +674,15 @@ public class RequirementsController
      */
     public void updateJTableWithFilteredReqData()
     {
-        /*
-        // If filters are all empty, then load full results set into JTable
-        if(RequirementsModel.filters == null || areFiltersAllEmpty(RequirementsModel.filters) == true)
+        try
         {
-            fillTable();
+            table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
         }
-        else
+        catch(Exception e)
         {
-        */
-            try
-            {
-                table_requirements.setItems(RequirementsModel.getReqDataWithFilter());
-            }
-            catch(Exception e)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
-                alert.showAndWait();
-            }
-        //}
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not apply filter", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
 

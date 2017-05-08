@@ -5,6 +5,7 @@ import ROMdb.Controllers.EstimationBaseController;
 import ROMdb.Controllers.LoginController;
 import ROMdb.Controllers.SCICRController;
 import ROMdb.Driver.Main;
+import ROMdb.Helpers.ComboItem;
 import ROMdb.Helpers.QueryBuilder;
 import ROMdb.Helpers.FilterItem;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,6 +37,7 @@ public class MainMenuModel
     public static ObservableList<String> scicrs = fetchSCICRsFromDB();
 
     private static HashMap<String, Integer> baselineLookupMap;
+    private static HashMap<Integer, String> valCodesLookupMap = new HashMap<Integer, String>();
 
     /**
      * Pulls latest baseline data from the database before returning a reference to the baselineLookupMap
@@ -178,5 +180,41 @@ public class MainMenuModel
             System.exit(1);
         }
         return null; // should never return null
+    }
+
+    public static HashMap<Integer, String> getValCodesLookuMap()
+    {
+        try
+        {
+            /*
+            String countQuery = "SELECT COUNT(*) AS rowcount FROM ValCodes";
+            Statement countst = Main.newconn.createStatement();
+            ResultSet countrs = countst.executeQuery(countQuery);
+            int rowcount = 0;
+            while(countrs.next())
+            {
+                rowcount = countrs.getInt("rowcount");
+            }
+            */
+
+            //MainMenuModel.valCodesLookupMap = new HashMap<Integer, String>();
+
+            String query = "SELECT [val_id], [field_value] FROM ValCodes ORDER BY val_id ASC";
+            Statement st = Main.newconn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next())
+            {
+                MainMenuModel.valCodesLookupMap.put(Integer.parseInt(rs.getString("val_id")),
+                        rs.getString("field_value"));
+            }
+            return MainMenuModel.valCodesLookupMap;
+        }
+        catch(Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not load valcodes lookup array into memory from the database.", ButtonType.OK);
+            alert.showAndWait();
+            return null;
+        }
     }
 }
