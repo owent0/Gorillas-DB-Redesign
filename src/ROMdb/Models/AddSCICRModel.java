@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by Tom on 3/24/2017.
+ * Created by Gorillas on 3/24/2017.
  */
 public class AddSCICRModel
 {
