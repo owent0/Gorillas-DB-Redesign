@@ -73,6 +73,8 @@ public class RequirementsModel
      * Fills the table with the data from the database.
      * @throws SQLException If the query could not successfully complete.
      */
+    // we never want to grab all of the requirements data at once
+    /*
     public static void refreshAllReqDataFromDB() throws SQLException
     {
         // Initialize rows list.
@@ -114,6 +116,7 @@ public class RequirementsModel
         }
         RequirementsModel.allReqData = rows;
     }
+    */
 
     /**
      * This method will return an observable list contain all of the
@@ -416,10 +419,12 @@ public class RequirementsModel
      * @throws SQLException If the query could not successfully complete.
      * @return The result set.
      */
+    // we dont use this
+    /*
     public static ResultSet getReqDataForDDRpdf() throws SQLException
     {
-/*        // Initialize rows list.
-        ObservableList rows = FXCollections.observableArrayList();*/
+        // Initialize rows list.
+        ObservableList rows = FXCollections.observableArrayList();
 
         // Create query to grab all rows.
         String query = "SELECT * FROM RequirementsData";
@@ -430,7 +435,7 @@ public class RequirementsModel
         // Return the result set from this query.
         ResultSet rs = st.executeQuery(query);
         return rs;
-       /* while (rs.next()) { // Retrieve data from ResultSet
+        while (rs.next()) { // Retrieve data from ResultSet
 
             RequirementsRow tempRow = new RequirementsRow(
                     rs.getString("csc"),
@@ -454,7 +459,7 @@ public class RequirementsModel
             tempRow.setId(rs.getInt("Req_ID"));
             rows.add(tempRow);
         }
-        RequirementsModel.allReqData = rows;*/
+        RequirementsModel.allReqData = rows;
     } // end getReqDataForDDRpdf()
-
+    */
 }

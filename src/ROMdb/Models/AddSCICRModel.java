@@ -2,88 +2,68 @@ package ROMdb.Models;
 
 import ROMdb.Driver.Main;
 import ROMdb.Exceptions.InputFormatException;
-import ROMdb.Helpers.InputType;
-import ROMdb.Helpers.InputValidator;
+import ROMdb.Helpers.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by Tom on 3/24/2017.
  */
-public class AddSCICRModel {
-
+public class AddSCICRModel
+{
     /**
      * This method saves an SC/ICR to the database
-     * @param baseline the current baseline
+     * @param baselineDesc the current baseline
      * @param type the type, SC or ICR
      * @param number the number of the SC/ICR
      * @param title the title of the SC/ICR
      * @param build the build of the SC/ICR
      * @throws Exception if there is an error with the input caused by error checking, or an SQL exception
      */
-    public static void saveSCICR(String baseline, String type, String number, String title, String build) throws Exception {
+    public static void saveSCICR(String baselineDesc, String type, String number, String title, String build) throws Exception
+    {
+        checkIfErrorsExist(baselineDesc, title, number, build);
 
-        errorsExist(baseline, title, number, build);
+        // get baseline_id the corresponds to the baseline_desc
+        int baselineId = MainMenuModel.getBaselineLookupMap().get(baselineDesc);
+
+        // retrieve the val_code that corresponds to the build value we picked from the drop down
+        String buildValCodeQuery = "SELECT [val_id] FROM ValCodes WHERE [field_name]=? AND [field_value]=?";
+        PreparedStatement bst = Main.newconn.prepareStatement(buildValCodeQuery);
+        bst.setString(1, "build");
+        bst.setString(2, build);
+        ResultSet rst = bst.executeQuery();
+        String valId = null;
+        while(rst.next())
+        {
+            valId = rst.getString("val_id");
+        }
+        if(valId == null)
+        {
+            throw new Exception("No val_id exists for this build");
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         // The query to insert the data from the fields.
-        String insertQuery =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO SCICR ([number], [type], [title], [build_val_code_id], [baseline_id]) VALUES (?, ?, ?, ?, ?)";
 
         // Create a new statement.
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
+        PreparedStatement st = Main.newconn.prepareStatement(insertQuery);
 
         /* Parse all of the information and stage for writing. */
         st.setString(1, number.trim());
         st.setString(2, type.trim());
         st.setString(3, title.trim());
-        st.setString(4, build.trim());
-        st.setString(5, baseline.trim());
+        st.setString(4, valId);
+        st.setInt(5, baselineId);
 
         // Perform the update inside of the table of the database.
         st.executeUpdate();
-    }
-
-    /**
-     * Check to see if the number for an SC/ICR is unique
-     * @param number the number of the  SC/ICR
-     * @param baseline the baseline of the SC/ICR
-     * @return whether or not the number for an SC/ICR is unique
-     * @throws Exception when the number is not unique or there is an SQL error with the input or connecting to database
-     */
-    public static boolean isNumberUnique(String number, String baseline) throws Exception{
-        // The query to insert the data from the fields.
-        boolean inDatabase = true;
-        String insertQuery =    "SELECT COUNT(*) as NUM_MATCHES FROM SCICRData WHERE Number = ? AND Baseline = ?";
-
-        PreparedStatement st = Main.conn.prepareStatement(insertQuery);
-
-        st.setString(1, number.trim());
-        st.setString(2, baseline.trim());
-
-        int count = 0;
-        ResultSet rs = null;
-        try
-        {
-            rs = st.executeQuery();
-            while(rs.next())
-            {
-                count = rs.getInt(1);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            //...
-        }
-
-
-        if (count == 0) {
-            inDatabase = false;
-        }
-        return inDatabase;
     }
 
     /**
@@ -119,7 +99,7 @@ public class AddSCICRModel {
      * @param build The build to check.
      * @throws InputFormatException If the input for each parameter is not acceptable.
      */
-    public static void errorsExist(String baseline, String title, String number, String build) throws InputFormatException
+    public static void checkIfErrorsExist(String baseline, String title, String number, String build) throws InputFormatException
     {
         // Check that each field is valid to insert.
         if(!isValidInput(title)
@@ -129,10 +109,26 @@ public class AddSCICRModel {
             throw new InputFormatException("Input incorrect.");
         }
 
-
         if(baseline == null)
         {
             throw new InputFormatException("Blank field.");
         }
+    }
+
+    public static ObservableList<String> fetchBuildsFromValCodesTableInDB() throws Exception
+    {
+        ArrayList<String> buildArrayList = new ArrayList<String>();
+        ArrayList<FilterItem> filterItemArrayList = new ArrayList<FilterItem>();
+        filterItemArrayList.add(new FilterItem("build", "field_name"));
+        PreparedStatement st = QueryBuilder.buildSelectWhereOrderByQuery("ValCodes", "field_value", filterItemArrayList, false, "Order_Id", "asc");
+        ResultSet rs = st.executeQuery();
+        while(rs.next())
+        {
+            buildArrayList.add(rs.getString("field_value"));
+        }
+
+        ObservableList<String> ol = FXCollections.observableArrayList(buildArrayList);
+
+        return ol;
     }
 }

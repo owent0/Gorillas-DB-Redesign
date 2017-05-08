@@ -21,6 +21,7 @@ import java.sql.DriverManager;
 public class Main extends Application
 {
     public static Connection conn = null;
+    public static Connection newconn = null;
     public static String dbPath = "jdbc:ucanaccess://";
     public static FileHandler fileHandler = new FileHandler();
     public static Path tempPDFDirectory;
@@ -53,6 +54,7 @@ public class Main extends Application
         try
         {
             this.conn = DriverManager.getConnection(Main.dbPath);
+            this.newconn = DriverManager.getConnection("jdbc:ucanaccess://E:\\derek\\Documents\\IntelliJ IDEA\\Projects\\Gorillas-DB-Redesign\\ROM_DB_V1.mdb");
         }
         catch(Exception e)
         {

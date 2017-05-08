@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
+<BorderPane minHeight="0.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ROMdb.Controllers.MainMenuController">
    <left>
       <VBox alignment="TOP_CENTER" style="-fx-background-color: lightgrey;">
          <children>
@@ -46,6 +47,7 @@
                   <Font name="Times New Roman" size="13.0" />
                </font></Button>
             <Region minHeight="0.0" VBox.vgrow="SOMETIMES" />
+            <Label fx:id="label_selectBaseline" prefHeight="17.0" prefWidth="129.0" text="Select Baseline:" textFill="#b8b8b8" />
             <ComboBox fx:id="combo_baseline" disable="true" maxHeight="-Infinity" onAction="#changeSelectedBaseline" prefHeight="16.0" prefWidth="135.0" promptText="Select Baseline">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />

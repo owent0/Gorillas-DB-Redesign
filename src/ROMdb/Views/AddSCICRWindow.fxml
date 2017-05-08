@@ -50,10 +50,6 @@
          <font>
             <Font name="Times New Roman" size="13.0" />
          </font></TextField>
-      <TextField fx:id="field_build" layoutX="103.0" layoutY="130.0" prefHeight="25.0" prefWidth="185.0" promptText="Enter Build">
-         <font>
-            <Font name="Times New Roman" size="13.0" />
-         </font></TextField>
       <ComboBox fx:id="combo_baseline" layoutX="103.0" layoutY="165.0" onAction="#updateCurrentBaseline" prefHeight="25.0" prefWidth="185.0" promptText="Select Baseline" />
       <Button fx:id="button_save" layoutX="103.0" layoutY="200.0" mnemonicParsing="false" onAction="#saveSCICR" prefHeight="25.0" prefWidth="85.0" text="Save">
          <font>
@@ -63,5 +59,6 @@
          <font>
             <Font name="Times New Roman" size="13.0" />
          </font></Button>
+      <ComboBox fx:id="combo_build" layoutX="103.0" layoutY="130.0" prefHeight="25.0" prefWidth="185.0" promptText="Select Build" />
    </children>
 </AnchorPane>
