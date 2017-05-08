@@ -135,6 +135,7 @@ public class AddBaselineController {
         System.exit(1);
 
         Stage stage = (Stage) button_cancelNewBaseline.getScene().getWindow();
+
         stage.close();
     }
 }
