@@ -949,7 +949,7 @@ public class RequirementsController
 
 
     /**
-     * this method calls the one in the ReportGenerator and then brings up a confirmation / error popup
+     * this method calls the one in the ReportGenerator and then brings up an error popup if failed
      */
     @FXML
     private void generateDDRPortraitPDF()
@@ -981,7 +981,7 @@ public class RequirementsController
     } // end generateDDRPortraitPDF()
 
     /**
-     * this method calls the one in the ReportGenerator and then brings up a confirmation / error popup
+     * this method calls the one in the ReportGenerator and then brings up an error popup if failed
      */
     @FXML
     private void generateDDRLandscapePDF()
