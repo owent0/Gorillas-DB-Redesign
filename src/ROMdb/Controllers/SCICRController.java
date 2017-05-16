@@ -1,5 +1,6 @@
 package ROMdb.Controllers;
 
+import ROMdb.Archive.SCICRArchive;
 import ROMdb.Exceptions.InputFormatException;
 import ROMdb.Helpers.InputType;
 import ROMdb.Helpers.InputValidator;
@@ -296,31 +297,32 @@ public class SCICRController
         }
     }
 
-//    /**
-//     * Archives the selected SC/ICR rows in the table view.
-//     */
-//    @FXML
-//    private void archiveSelected()
-//    {
-//        ObservableList<SCICRRow> selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
-//
-//        selectedRows.get(0);
-//
-//        if(!selectedRows.isEmpty()) {
-//            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-//                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
-//            warningMsg.showAndWait();
-//
-//            if(warningMsg.getResult() == (ButtonType.NO)) {
-//                return;
-//            }
-//
-//            try {
-//                SCICRModel.archiveRows(selectedRows);
-//            } catch (SQLException s) {
-//                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
-//                warningMsg.showAndWait();
-//            }
-//        }
-//    }
+    /**
+     * Archives the selected SC/ICR rows in the table view.
+     */
+    @FXML
+    private void archiveSelected()
+    {
+        ObservableList<SCICRRow> selectedRows = table_ScIcr.getSelectionModel().getSelectedItems();
+
+        selectedRows.get(0);
+
+        if(!selectedRows.isEmpty()) {
+            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
+            warningMsg.showAndWait();
+
+            if(warningMsg.getResult() == (ButtonType.NO)) {
+                return;
+            }
+
+            try {
+                SCICRModel.archiveRows(selectedRows);
+            } catch (SQLException s) {
+                s.printStackTrace();
+                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
+                warningMsg.showAndWait();
+            }
+        }
+    }
 }

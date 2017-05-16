@@ -437,20 +437,20 @@ public class RequirementsController
             }
         });
 
-//        MenuItem archiveItem = new MenuItem("Archive Selected Row(s)");
-//        archiveItem.setOnAction(new EventHandler<ActionEvent>()
-//        {
-//            @Override
-//            public void handle(ActionEvent event)
-//            {
-//                    archiveSelected();
-//            }
-//        });
+        MenuItem archiveItem = new MenuItem("Archive Selected Row(s)");
+        archiveItem.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                    archiveSelected();
+            }
+        });
 
         // Add MenuItem to ContextMenu
         cm.getItems().addAll(addItem);
         cm.getItems().addAll(copyItem);
-//        cm.getItems().addAll(archiveItem);
+        cm.getItems().addAll(archiveItem);
 
         return cm;
     }
@@ -641,33 +641,33 @@ public class RequirementsController
     }
 
 
-//    /**
-//     * Performs the archive function when the user presses the archive button.
-//     */
-//    @FXML
-//    private void archiveSelected()
-//    {
-//        ObservableList<RequirementsRow> selectedRows = table_requirements.getSelectionModel().getSelectedItems();
-//
-//        selectedRows.get(0);
-//
-//        if(!selectedRows.isEmpty()) {
-//            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
-//                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
-//            warningMsg.showAndWait();
-//
-//            if(warningMsg.getResult() == (ButtonType.NO)) {
-//                return;
-//            }
-//
-//            try {
-//                RequirementsModel.archiveRows(selectedRows);
-//            } catch (SQLException s) {
-//                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
-//                warningMsg.showAndWait();
-//            }
-//        }
-//    }
+    /**
+     * Performs the archive function when the user presses the archive button.
+     */
+    @FXML
+    private void archiveSelected()
+    {
+        ObservableList<RequirementsRow> selectedRows = table_requirements.getSelectionModel().getSelectedItems();
+
+        selectedRows.get(0);
+
+        if(!selectedRows.isEmpty()) {
+            Alert warningMsg = new Alert(Alert.AlertType.WARNING,
+                    "Are you sure you want to archive this selection?", ButtonType.YES, ButtonType.NO);
+            warningMsg.showAndWait();
+
+            if(warningMsg.getResult() == (ButtonType.NO)) {
+                return;
+            }
+
+            try {
+                RequirementsModel.archiveRows(selectedRows);
+            } catch (SQLException s) {
+                warningMsg = new Alert(Alert.AlertType.WARNING, "Could not archive this entry.", ButtonType.OK);
+                warningMsg.showAndWait();
+            }
+        }
+    }
 
 
     /********** BEGIN % COMPLETE TAB FUNCTIONALITY **************/

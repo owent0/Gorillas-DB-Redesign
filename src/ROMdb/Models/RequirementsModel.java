@@ -1,6 +1,6 @@
 package ROMdb.Models;
 
-//import ROMdb.Archive.RequirementsArchive;
+import ROMdb.Archive.RequirementsArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.*;
 import javafx.collections.FXCollections;
@@ -22,7 +22,7 @@ import java.util.StringJoiner;
  */
 public class RequirementsModel
 {
-//    public static RequirementsArchive archive = new RequirementsArchive();
+    public static RequirementsArchive archive = new RequirementsArchive();
 
     public static ObservableList<String> filterSCICR;
 
@@ -47,25 +47,25 @@ public class RequirementsModel
                                                                 "Resp Indv", "Rom", "Prog"
                                                             };
 
-//    /**
-//     * Archives a list of RequirementRows into the RequirementsData_Archive table
-//     * in the database.
-//     * @param rows The rows to archive.
-//     * @throws SQLException If the SQL query could not complete properly.
-//     */
-//    public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
-//    {
-//        archive.addListOfRecords(rows);
-//
-//        ArrayList<RequirementsRow> list = new ArrayList<>(rows);
-//
-//        int size = list.size();
-//        for(int i = 0; i < size; i++)
-//        {
-//            RequirementsRow temp = list.get(i);
-//            currentFilteredList.remove(temp);
-//        }
-//    }
+    /**
+     * Archives a list of RequirementRows into the RequirementsData_Archive table
+     * in the database.
+     * @param rows The rows to archive.
+     * @throws SQLException If the SQL query could not complete properly.
+     */
+    public static void archiveRows(ObservableList<RequirementsRow> rows) throws SQLException
+    {
+        archive.addListOfRecords(rows);
+
+        ArrayList<RequirementsRow> list = new ArrayList<>(rows);
+
+        int size = list.size();
+        for(int i = 0; i < size; i++)
+        {
+            RequirementsRow temp = list.get(i);
+            currentFilteredList.remove(temp);
+        }
+    }
 
     /**
      * This method will return an observable list contain all of the
@@ -130,31 +130,33 @@ public class RequirementsModel
     {
         ObservableList<RequirementsRow> filteredList = FXCollections.observableArrayList();
 
-        // Method call to QueryBuilder to build the query.
-        String selectSet = "[requirement_id], [csc_val_code_id], [csu_val_code_id], [doors_id], [paragraph], " +
-                "[capability_val_code_id], [num_lines_added], [num_lines_changed], [num_lines_deleted], " +
-                "[design_percentage], [code_percentage], [unit_test_percentage], [integration_percentage], " +
-                "[responsible_individual_val_code_id], [rommer_val_code_id], [program_val_code_id], [number], " +
-                "[build_val_code_id], [baseline_desc]";
-        String tableFrom = "Requirement INNER JOIN SCICR ON Requirement.scicr_id = SCICR.scicr_id INNER JOIN Baseline ON SCICR.baseline_id = Baseline.baseline_id";
-        ArrayList<FilterItem> baselineFilterList = new ArrayList<FilterItem>();
-        baselineFilterList.add(new FilterItem(MainMenuModel.getSelectedBaseline(), "baseline_desc"));
-        PreparedStatement st = QueryBuilder.buildSelectWhereQuery(tableFrom, selectSet, baselineFilterList, true);
+        String query =  "SELECT [requirement_id], [baseline_id], [number], [build_val_code_id], [csc_val_code_id], " +
+                "[csu_val_code_id], [doors_id], [paragraph], [capability_val_code_id], " +
+                "[num_lines_added], [num_lines_changed], [num_lines_deleted], " +
+                "[design_percentage], [code_percentage], [unit_test_percentage] " +
+                "[integration_percentage], [responsible_individual_val_code_id], " +
+                "[rommer_val_code_id], [program_val_code_id], [date] " +
+                "FROM Requirement " +
+                "INNER JOIN SCICR ON Requirement.scicr_id = SCICR.scicr_id " +
+                "INNER JOIN Baseline ON SCICR.baseline_id = Baseline.baseline_id " +
+                "WHERE [archived] = 0";
 
-        ResultSet rs = st.executeQuery();
+        Statement st = Main.newconn.createStatement();
+        ResultSet rs = st.executeQuery(query);
 
-        HashMap<Integer, String> vclmap = MainMenuModel.getValCodesLookuMap();
+        while (rs.next()) {
+            String baseline = EstimationBaseModel.baselineByID.get(rs.getInt("baseline_id"));
+            String scicr = rs.getString("number");
+            String build = SCICRModel.valMapByID.get(rs.getInt("build_val_code_id"));
 
-        while (rs.next())
-        {
-            RequirementsRow tempRow = new RequirementsRow(
-                    vclmap.get(rs.getInt("csc_val_code_id")),
-                    vclmap.get(rs.getInt("csu_val_code_id")),
+            RequirementsRow temp = new RequirementsRow(
+                    SCICRModel.valMapByID.get(rs.getInt("csc_val_code_id")),
+                    SCICRModel.valMapByID.get(rs.getInt("csu_val_code_id")),
                     rs.getString("doors_id"),
                     rs.getString("paragraph"),
-                    rs.getString("baseline_desc"),
-                    rs.getString("number"),
-                    vclmap.get(rs.getInt("capability_val_code_id")),
+                    baseline,
+                    scicr,
+                    SCICRModel.valMapByID.get(rs.getInt("capability_val_code_id")),
                     rs.getDouble("num_lines_added"),
                     rs.getDouble("num_lines_changed"),
                     rs.getDouble("num_lines_deleted"),
@@ -162,22 +164,66 @@ public class RequirementsModel
                     rs.getDouble("code_percentage"),
                     rs.getDouble("unit_test_percentage"),
                     rs.getDouble("integration_percentage"),
-                    vclmap.get(rs.getInt("responsible_individual_val_code_id")),
-                    vclmap.get(rs.getInt("rommer_val_code_id")),
-                    vclmap.get(rs.getInt("program_val_code_id")),
-                    vclmap.get(rs.getInt("build_val_code_id"))
+                    SCICRModel.valMapByID.get(rs.getInt("responsible_individual_val_code_id")),
+                    SCICRModel.valMapByID.get(rs.getInt("rommer_val_code_id")),
+                    SCICRModel.valMapByID.get(rs.getInt("program_val_code_id")),
+                    build
             );
-            tempRow.setId(rs.getInt("requirement_id"));
-            tempRow.setCsc_val_code_id(rs.getString("csc_val_code_id"));
-            tempRow.setCsu_val_code_id(rs.getString("csu_val_code_id"));
-            tempRow.setCapability_val_code_id(rs.getString("capability_val_code_id"));
-            tempRow.setResponsible_individual_val_code_id(rs.getString("responsible_individual_val_code_id"));
-            tempRow.setRommer_val_code_id(rs.getString("rommer_val_code_id"));
-            tempRow.setProgram_val_code_id(rs.getString("program_val_code_id"));
-            filteredList.add(tempRow);
+            temp.setId(rs.getInt("requirement_id"));
+            filteredList.add(temp);
         }
         allReqData = filteredList;
         return filteredList;
+//        ObservableList<RequirementsRow> filteredList = FXCollections.observableArrayList();
+//
+//        // Method call to QueryBuilder to build the query.
+//        String selectSet = "[requirement_id], [csc_val_code_id], [csu_val_code_id], [doors_id], [paragraph], " +
+//                "[capability_val_code_id], [num_lines_added], [num_lines_changed], [num_lines_deleted], " +
+//                "[design_percentage], [code_percentage], [unit_test_percentage], [integration_percentage], " +
+//                "[responsible_individual_val_code_id], [rommer_val_code_id], [program_val_code_id], [number], " +
+//                "[build_val_code_id], [baseline_desc]";
+//        String tableFrom = "Requirement INNER JOIN SCICR ON Requirement.scicr_id = SCICR.scicr_id INNER JOIN Baseline ON SCICR.baseline_id = Baseline.baseline_id";
+//        ArrayList<FilterItem> baselineFilterList = new ArrayList<FilterItem>();
+//        baselineFilterList.add(new FilterItem(MainMenuModel.getSelectedBaseline(), "baseline_desc"));
+//        PreparedStatement st = QueryBuilder.buildSelectWhereQuery(tableFrom, selectSet, baselineFilterList, true);
+//
+//        ResultSet rs = st.executeQuery();
+//
+//        HashMap<Integer, String> vclmap = MainMenuModel.getValCodesLookuMap();
+//
+//        while (rs.next())
+//        {
+//            RequirementsRow tempRow = new RequirementsRow(
+//                    vclmap.get(rs.getInt("csc_val_code_id")),
+//                    vclmap.get(rs.getInt("csu_val_code_id")),
+//                    rs.getString("doors_id"),
+//                    rs.getString("paragraph"),
+//                    rs.getString("baseline_desc"),
+//                    rs.getString("number"),
+//                    vclmap.get(rs.getInt("capability_val_code_id")),
+//                    rs.getDouble("num_lines_added"),
+//                    rs.getDouble("num_lines_changed"),
+//                    rs.getDouble("num_lines_deleted"),
+//                    rs.getDouble("design_percentage"),
+//                    rs.getDouble("code_percentage"),
+//                    rs.getDouble("unit_test_percentage"),
+//                    rs.getDouble("integration_percentage"),
+//                    vclmap.get(rs.getInt("responsible_individual_val_code_id")),
+//                    vclmap.get(rs.getInt("rommer_val_code_id")),
+//                    vclmap.get(rs.getInt("program_val_code_id")),
+//                    vclmap.get(rs.getInt("build_val_code_id"))
+//            );
+//            tempRow.setId(rs.getInt("requirement_id"));
+//            tempRow.setCsc_val_code_id(rs.getString("csc_val_code_id"));
+//            tempRow.setCsu_val_code_id(rs.getString("csu_val_code_id"));
+//            tempRow.setCapability_val_code_id(rs.getString("capability_val_code_id"));
+//            tempRow.setResponsible_individual_val_code_id(rs.getString("responsible_individual_val_code_id"));
+//            tempRow.setRommer_val_code_id(rs.getString("rommer_val_code_id"));
+//            tempRow.setProgram_val_code_id(rs.getString("program_val_code_id"));
+//            filteredList.add(tempRow);
+//        }
+//        allReqData = filteredList;
+//        return filteredList;
     }
 
     /**

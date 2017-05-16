@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class SCICRRow {
 
     private int id;
+    private boolean isArchived = false;
     private SimpleStringProperty timestamp;
     private SimpleStringProperty type;
     private SimpleStringProperty number;
@@ -37,6 +38,22 @@ public class SCICRRow {
      */
     public void setID(int id) {
         this.id         = id;
+    }
+
+    /**
+     * Getter for isArchived.
+     * @return True if it is archived.
+     */
+    public boolean isArchive() {
+        return isArchived;
+    }
+
+    /**
+     * Setter for if it is archived or not.
+     * @param archive True if you want to archive it.
+     */
+    public void setArchive(boolean archive) {
+        isArchived = archive;
     }
 
     /**

@@ -1,124 +1,145 @@
-//package ROMdb.Archive;
-//
-//import ROMdb.Driver.Main;
-//import ROMdb.Helpers.SCICRRow;
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.ButtonType;
-//
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.sql.Statement;
-//
-//
-///**
-// * Archive for the SC/ICR data.
-// *
-// * Created by Anthony Orio on 4/6/2017.
-// */
-//public class SCICRArchive extends  Archive<SCICRRow>
-//{
-//    /* The list of SCICRRows in the archive. */
-//    private ObservableList<SCICRRow> rows = FXCollections.observableArrayList();
-//
-//    /**
-//     * The SCICRArchive constructor.
-//     */
-//    public SCICRArchive()
-//    {
-//        try
-//        {
-//            this.fillRows();
-//        }
-//        catch(Exception e)
-//        {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch rows.", ButtonType.OK);
-//            alert.showAndWait();
-//        }
-//    }
-//
-//    /**
-//     * This method is deprecated.
-//     * @param row The object to store into the records list.
-//     * @throws SQLException If the SQL query cannot complete properly.
-//     */
-//    @Override
-//    public void addRecord(SCICRRow row) throws SQLException
-//    {
-//        this.moveToArchive(row);
-//        this.deleteFromDatabase(row.getNumber(), "SCICRData");
-//    }
-//
-//    /**
-//     * Adds a list of selected records to the database. A list of rows
-//     * can have 1 to n many rows to insert into the database.
-//     *
-//     * @param list The list of objects to append to the current list.
-//     * @throws SQLException If the SQL query cannot complete properly.
-//     */
-//    @Override
-//    public void addListOfRecords(ObservableList<SCICRRow> list) throws SQLException {
-//        for(SCICRRow row : list)
-//        {
-//            this.moveToArchive(row);
-//            this.deleteFromDatabase(row.getNumber(), "SCICRData");
-//        }
-//    }
-//
-//    /**
-//     * Removes a list of records from the archive and places them back into the
-//     * SCICRData table that contains all non-archived SCICRRows.
-//     *
-//     * @param list The list to bring back from the archive.
-//     * @throws SQLException If the SQL query cannot complete properly.
-//     */
-//    @Override
-//    public void removeListOfRecords(ObservableList<SCICRRow> list) throws SQLException {
-//        for(SCICRRow row : list)
-//        {
-//            this.moveFromArchive(row);
-//            this.deleteFromDatabase(row.getNumber(), "SCICRData_Archive");
-//        }
-//    }
-//
-//    /**
-//     * Fill the archive table view in the GUI with the current archived
-//     * @throws SQLException If the SQL query could not complete properly.
-//     */
-//    @Override
-//    public void fillRows() throws SQLException {
-//        // Initialize rows list.
-//        //ObservableList<SCICRRow> tempRows = FXCollections.observableArrayList();
-//
-//        // Create query to grab all rows.
-//        String query = "SELECT * FROM SCICRData_Archive";
-//
-//        // Create the statement to send.
-//        Statement st = Main.conn.createStatement();
-//
-//        // Return the result set from this query.
-//        ResultSet rs = st.executeQuery(query);
-//
-//        while (rs.next()) // Retrieve data from ResultSet
-//        {
-//            SCICRRow temp = new SCICRRow(
-//                    rs.getString("Type"),
-//                    rs.getString("Number"),
-//                    rs.getString("Title"),
-//                    rs.getString("Build"),
-//                    rs.getString("Baseline")
-//            );
-//            String timestamp = rs.getDate("date_archived").toString();
-//            temp.setTimestamp(timestamp);
-//            temp.setID(rs.getInt("scicrData_id"));
-//
-//            //tempRows.add(temp);
-//            this.rows.add(temp);
-//        }
-//    }
-//
+package ROMdb.Archive;
+
+import ROMdb.Driver.Main;
+import ROMdb.Helpers.SCICRRow;
+import ROMdb.Models.EstimationBaseModel;
+import ROMdb.Models.SCICRModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+/**
+ * Archive for the SC/ICR data.
+ *
+ * Created by Anthony Orio on 4/6/2017.
+ */
+public class SCICRArchive extends  Archive<SCICRRow>
+{
+    /* The list of SCICRRows in the archive. */
+    private ObservableList<SCICRRow> rows = FXCollections.observableArrayList();
+
+    /**
+     * The SCICRArchive constructor.
+     */
+    public SCICRArchive() {
+        try {
+            this.fillRows();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not fetch rows.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * This method is deprecated.
+     *
+     * @param row The object to store into the records list.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
+    @Override
+    public void addRecord(SCICRRow row) throws SQLException {
+        //this.moveToArchive(row);
+        //this.deleteFromDatabase(row.getNumber(), "SCICRData");
+    }
+
+    /**
+     * Adds a list of selected records to the database. A list of rows
+     * can have 1 to n many rows to insert into the database.
+     *
+     * @param list The list of objects to append to the current list.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
+    @Override
+    public void addListOfRecords(ObservableList<SCICRRow> list) throws SQLException
+    {
+        String query = "UPDATE SCICR SET [archived] = ?, [date] = ? WHERE [scicr_id] = ?";
+        PreparedStatement st = Main.newconn.prepareStatement(query);
+
+        for (SCICRRow row : list)
+        {
+            /* Let's get todays date. */
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            row.setTimestamp(date.toString());
+
+            st.setInt(1, 1);
+            st.setDate(2, date);
+            st.setInt(3, row.getId());
+            rows.add(row);
+
+            st.executeUpdate();
+        }
+    }
+
+    /**
+     * Removes a list of records from the archive and places them back into the
+     * SCICRData table that contains all non-archived SCICRRows.
+     *
+     * @param list The list to bring back from the archive.
+     * @throws SQLException If the SQL query cannot complete properly.
+     */
+    @Override
+    public void removeListOfRecords(ObservableList<SCICRRow> list) throws SQLException
+    {
+        String query = "UPDATE SCICR SET [archived] = ? WHERE [scicr_id] = ?";
+        PreparedStatement st = Main.newconn.prepareStatement(query);
+
+        for (SCICRRow row : list) {
+            st.setInt(1, 0);
+            st.setInt(2, row.getId());
+            st.executeUpdate();
+
+            rows.remove(row);
+        }
+    }
+
+    /**
+     * Fill the archive table view in the GUI with the current archived
+     * @throws SQLException If the SQL query could not complete properly.
+     */
+    @Override
+    public void fillRows() throws SQLException
+    {
+        try {
+            EstimationBaseModel.fillBaselineIDMap();
+            SCICRModel.buildValCodeMap();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load archive table properly.", ButtonType.OK);
+            alert.showAndWait();
+        }
+
+        String query = "SELECT [scicr_id], [number], [type], [title], [build_val_code_id], [baseline_id], [date] " +
+                       "FROM SCICR " +
+                       "WHERE [archived] = 1";
+        Statement st = Main.newconn.createStatement();
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next())
+        {
+            SCICRRow temp = new SCICRRow(rs.getString("type"),
+                    rs.getString("number"),
+                    rs.getString("title"),
+                    SCICRModel.valMapByID.get(rs.getInt("build_val_code_id")),
+                    EstimationBaseModel.baselineByID.get(rs.getInt("baseline_id"))
+            );
+
+            String timestamp = rs.getDate("date").toString();
+            temp.setTimestamp(timestamp);
+            temp.setID(rs.getInt("scicr_id"));
+
+            this.rows.add(temp);
+        }
+    }
+
 //    /**
 //     * Moves a single SCICRRow object from the database table called
 //     * SCICRData_Archive and places it back into memory.
@@ -132,7 +153,7 @@
 //        String query =    "INSERT INTO SCICRData ([Number], [Type], [Title], [Build], [Baseline]) VALUES (?, ?, ?, ?, ?)";
 //
 //        // Create a new statement.
-//        PreparedStatement st = Main.conn.prepareStatement(query);
+//        PreparedStatement st = Main.newconn.prepareStatement(query);
 //
 //        /* Parse all of the information and stage for writing. */
 //        st.setString(1, row.getNumber());
@@ -165,7 +186,7 @@
 //                "       VALUES (?, ?, ?, ?, ?, ?, ?)";
 //
 //        // Create a new statement.
-//        PreparedStatement st = Main.conn.prepareStatement(query);
+//        PreparedStatement st = Main.newconn.prepareStatement(query);
 //
 //        /* Parse all of the information and stage for writing. */
 //        st.setInt(1, row.getId());
@@ -199,13 +220,13 @@
 //        // Perform the query.
 //        st.executeUpdate();
 //    }
-//
-//    /**
-//     * Getter for the list of rows currently in memory in the archive.
-//     * @return The ObservableList of rows.
-//     */
-//    public ObservableList<SCICRRow> getRows()
-//    {
-//        return this.rows;
-//    }
-//}
+
+    /**
+     * Getter for the list of rows currently in memory in the archive.
+     * @return The ObservableList of rows.
+     */
+    public ObservableList<SCICRRow> getRows()
+    {
+        return this.rows;
+    }
+}

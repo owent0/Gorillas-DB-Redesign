@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Anthony Orio on 3/27/2017.
@@ -18,6 +19,8 @@ public class EstimationBaseModel {
 
     // For calculating staff day.
     private static final double STAFF_MONTH_DIVISOR = 20.92;
+    public static HashMap<String, Integer> baselineByName = new HashMap<>();
+    public static HashMap<Integer, String> baselineByID = new HashMap<>();
 
     /**
      * This method will evaluate each text field and ensure that
@@ -327,5 +330,21 @@ public class EstimationBaseModel {
                 valuesFromDB.add(rs.getString("unit_test_weight"));
             }
         return valuesFromDB;
+    }
+
+    public static void fillBaselineIDMap() throws SQLException
+    {
+        String query = "SELECT [baseline_id], [baseline_desc] FROM Baseline";
+        PreparedStatement st = Main.newconn.prepareStatement(query);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next())
+        {
+            String desc = rs.getString("baseline_desc");
+            int id = rs.getInt("baseline_id");
+
+            baselineByName.put(desc, id);
+            baselineByID.put(id, desc);
+        }
     }
 }

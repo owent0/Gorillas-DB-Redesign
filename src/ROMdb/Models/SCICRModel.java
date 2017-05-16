@@ -1,10 +1,12 @@
 package ROMdb.Models;
 
-//import ROMdb.Archive.SCICRArchive;
+import ROMdb.Archive.SCICRArchive;
 import ROMdb.Driver.Main;
 import ROMdb.Helpers.SCICRRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,9 @@ public class SCICRModel
     // This map keeps track of the baselines and the SC/ICR objects
     // associated with that baseline.
     public static HashMap<String, ObservableList<SCICRRow>> map = new HashMap<>();
-    //public static SCICRArchive archive = new SCICRArchive();
+    public static HashMap<String, Integer> valMapByName = new HashMap<>();
+    public static HashMap<Integer, String> valMapByID = new HashMap<>();
+    public static SCICRArchive archive = new SCICRArchive();
 
 
     /**
@@ -31,7 +35,7 @@ public class SCICRModel
     {
         // For each baseline.
         ObservableList<String> baselines = MainMenuModel.getBaselines();
-        for( String baseline : baselines)
+        for (String baseline : baselines)
         {
             // get baseline_id the corresponds to the baseline_desc
             int baselineId = MainMenuModel.getBaselineLookupMap().get(baseline);
@@ -44,7 +48,8 @@ public class SCICRModel
             String query = "SELECT [type], [number], [title], [baseline_id], [scicr_id], " +
                     "[field_value] FROM SCICR " +
                     "INNER JOIN ValCodes " +
-                    "ON SCICR.build_val_code_id = ValCodes.val_id";
+                    "ON SCICR.build_val_code_id = ValCodes.val_id " +
+                    "WHERE [archived] = 0";
 
             // Create the statement to send.
             Statement st = Main.newconn.createStatement();
@@ -121,24 +126,24 @@ public class SCICRModel
         st.executeUpdate();
     }
 
-//    /**
-//     * Archives a list of SCICRRows into the SCICRData_Archive table in the database.
-//     * @param rows The list of rows to archive.
-//     * @throws SQLException If the SQL Query could not complete successfully.
-//     */
-//    public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
-//    {
-//        archive.addListOfRecords(rows);
-//
-//        ArrayList<SCICRRow> list = new ArrayList<>(rows);
-//
-//        int size = list.size();
-//        for(int i = 0; i < size; i++)
-//        {
-//            SCICRRow temp = list.get(i);
-//            map.get(MainMenuModel.getSelectedBaseline()).remove(temp);
-//        }
-//    }
+    /**
+     * Archives a list of SCICRRows into the SCICRData_Archive table in the database.
+     * @param rows The list of rows to archive.
+     * @throws SQLException If the SQL Query could not complete successfully.
+     */
+    public static void archiveRows(ObservableList<SCICRRow> rows) throws SQLException
+    {
+        archive.addListOfRecords(rows);
+
+        ArrayList<SCICRRow> list = new ArrayList<>(rows);
+
+        int size = list.size();
+        for(int i = 0; i < size; i++)
+        {
+            SCICRRow temp = list.get(i);
+            map.get(MainMenuModel.getSelectedBaseline()).remove(temp);
+        }
+    }
 
 
     /**
@@ -157,5 +162,28 @@ public class SCICRModel
         SCICRModel.map = map;
     }
 
+
+    public static void buildValCodeMap() throws SQLException
+    {
+
+        /* The query to insert the data from the fields. */
+        String query = "SELECT [val_id], [field_value] FROM ValCodes";
+
+        /* Create a new statement. */
+        PreparedStatement st = Main.newconn.prepareStatement(query);
+
+        /* Execute the query. */
+        ResultSet rs = st.executeQuery();
+
+        /* Loop through result set. */
+        while (rs.next())
+        {
+            String value = rs.getString("field_value");
+            int id = rs.getInt("val_id");
+
+            valMapByName.put(value, id);
+            valMapByID.put(id, value);
+        }
+    }
 }
 

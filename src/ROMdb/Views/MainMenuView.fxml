@@ -42,7 +42,7 @@
                   <Font name="Times New Roman" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="button_viewArchive" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="View Archive" visible="false">
+            <Button fx:id="button_viewArchive" disable="true" mnemonicParsing="false" onAction="#viewArchive" prefHeight="25.0" prefWidth="135.0" text="View Archive">
                <font>
                   <Font name="Times New Roman" size="13.0" />
                </font></Button>
