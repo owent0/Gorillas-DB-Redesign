@@ -41,7 +41,9 @@ public class ReportGenerator
     private static String header = "";
     private static String footer = "";
 
-    // inner class to add header and footer
+    /**
+     *     inner class to add header and footer
+      */
     public static class HeaderFooterPageEvent extends PdfPageEventHelper
     {
         @Override
